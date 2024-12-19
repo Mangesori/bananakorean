@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import BlogAuthor from "./BlogAuthor";
 import BlogCategories from "./BlogCategories";
 import RecentPosts from "./RecentPosts";
@@ -9,21 +9,14 @@ import BlogSearch from "./BlogSearch";
 
 const BlogsSidebar = () => {
   return (
-    <div className="flex flex-col">
-      {/* author details */}
-      <BlogAuthor />
-      {/* search input */}
+    <div className="space-y-30px">
       <BlogSearch />
-      {/* categories */}
+      <BlogAuthor />
       <BlogCategories />
-      {/* recent posts */}
       <RecentPosts />
-      {/* contact form */}
-      <BlogContactForm />
-      {/* tags */}
       <BlogTags />
-      {/* social area */}
       <BlogSocials />
+      <BlogContactForm />
     </div>
   );
 };
