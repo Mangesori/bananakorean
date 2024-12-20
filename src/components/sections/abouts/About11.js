@@ -3,11 +3,12 @@ import Image from "next/image";
 import aboutImage8 from "@/assets/images/about/about_8.png";
 import aboutImage14 from "@/assets/images/about/about_14.png";
 import aboutImage15 from "@/assets/images/about/about_15.png";
-import SectionName from "@/components/shared/section-names/SectionName";
+// import SectionName from "@/components/shared/section-names/SectionName";
 
 import HeadingSecondary from "@/components/shared/headings/HeadingSecondary";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import TiltWrapper from "@/components/shared/wrappers/TiltWrapper";
+
 const About11 = () => {
   return (
     <section>
@@ -28,7 +29,7 @@ const About11 = () => {
           </div>
           {/* about right */}
           <div data-aos="fade-up" className="2xl:ml-65px">
-            <SectionName>About Us</SectionName>
+            {/* <SectionName>About Us</SectionName> */}
             <HeadingSecondary>
               Welcome to the online Learning Center
             </HeadingSecondary>
