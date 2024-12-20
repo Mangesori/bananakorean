@@ -11,14 +11,9 @@ const QuizSettings = () => {
   const [questionCount, setQuestionCount] = useState(5);
 
   const handleStartQuiz = () => {
-    // topic 문자열 변환 (예: "은/는, 이에요/예요" -> "은/는-이에요/예요")
     const formattedTopic = topic?.replace(", ", "-");
-    console.log("Formatted topic:", formattedTopic); // 디버깅용
-
     router.push(
-      `/quiz/solve?topic=${encodeURIComponent(
-        formattedTopic
-      )}&questionType=${questionType}&questionCount=${questionCount}`
+      `/quiz/solve?topic=${encodeURIComponent(formattedTopic)}&questionType=${questionType}&questionCount=${questionCount}`
     );
   };
 

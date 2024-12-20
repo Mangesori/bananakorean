@@ -23,6 +23,9 @@ const QuizSolver = () => {
   const [quizData, setQuizData] = useState(null);
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
+  const [quizType, setQuizType] = useState(null);
+  const [level, setLevel] = useState(null);
+  const [questionCount, setQuestionCount] = useState(10);
 
   useEffect(() => {
     const topic = searchParams.get("topic");
@@ -33,17 +36,15 @@ const QuizSolver = () => {
       const decodedTopic = decodeURIComponent(topic);
       const quizSet = quizDataByTopic[decodedTopic];
       if (quizSet && quizSet.questions) {
-        // Shuffle all questions first
         const shuffledQuestions = shuffleArray(quizSet.questions);
-        // Then take the required number of questions
-        const selectedQuestions = shuffledQuestions.slice(
-          0,
-          Number(questionCount)
-        );
+        const selectedQuestions = shuffledQuestions.slice(0, Number(questionCount));
         setQuizData({ questions: selectedQuestions });
+        setQuizType(questionType);
+        setLevel(decodedTopic);
+        setQuestionCount(Number(questionCount));
       } else {
         console.error("Quiz data not found for topic:", decodedTopic);
-        router.push("/quiz/grammar"); // 오류 시 문법 퀴즈 페이지로 리다이렉트
+        router.push("/quiz/grammar");
       }
     } else {
       console.error("Missing required parameters");

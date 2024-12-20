@@ -3,7 +3,7 @@ import PageWrapper from "@/components/shared/wrappers/PageWrapper";
 import ThemeController from "@/components/shared/others/ThemeController";
 
 export const metadata = {
-  title: "Stage Selection | Edurock",
+  title: "Stage Selection",
   description: "Select quiz stage",
 };
 
