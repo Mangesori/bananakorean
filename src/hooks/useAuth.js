@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/utils/supabaseClient';
 import { useRouter } from 'next/navigation';
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const updateSessionState = async session => {
+  const updateSessionState = useCallback(async session => {
     try {
       if (session?.user) {
         const profile = await fetchUserProfile(session.user.id);
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       localStorage.removeItem('user');
     }
-  };
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }) => {
       mounted = false;
       subscription?.unsubscribe();
     };
-  }, [router]);
+  }, [router, updateSessionState]);
 
   const signOut = async () => {
     try {

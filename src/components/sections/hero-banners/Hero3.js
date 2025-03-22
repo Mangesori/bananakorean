@@ -1,5 +1,5 @@
-const { default: TiltWrapper } = require('@/components/shared/wrappers/TiltWrapper');
-const { default: Image } = require('next/image');
+import Image from 'next/image';
+import TiltWrapper from '@/components/shared/wrappers/TiltWrapper';
 import about10 from '@/assets/images/about/about_10.png';
 import AppleImage from '@/components/shared/animaited-images/AppleImage';
 import BalbImage from '@/components/shared/animaited-images/BalbImage';

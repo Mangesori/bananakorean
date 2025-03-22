@@ -11,6 +11,9 @@ import {
   useDroppable,
   useDraggable,
   DragOverlay,
+  DragEndEvent,
+  DragStartEvent,
+  UniqueIdentifier,
 } from '@dnd-kit/core';
 import Word from './component/Word';
 import Option from './component/Option';
@@ -129,7 +132,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
 
   const [questionItems, setQuestionItems] = useState<Item[]>([]);
   const [answerItems, setAnswerItems] = useState<Item[]>([]);
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [winReady, setwinReady] = useState(false);
 
@@ -156,12 +159,12 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
     useSensor(KeyboardSensor)
   );
 
-  const handleDragStart = (event: any) => {
+  const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id);
     setIsDragging(true);
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     setActiveId(null);
     setIsDragging(false);
 

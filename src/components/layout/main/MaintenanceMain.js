@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const {
   default: MaintenacePrimary,
 } = require('@/components/sections/maintenace/MaintenacePrimary');

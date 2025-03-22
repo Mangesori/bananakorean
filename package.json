@@ -25,6 +25,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
     "react-toastify": "^11.0.3",
+    "sharp": "^0.33.5",
     "sweetalert2": "^11.15.2",
     "swiper": "^11.1.1",
     "vanilla-tilt": "^1.8.1",
