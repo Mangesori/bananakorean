@@ -1,4 +1,4 @@
-import Countdown from "@/components/shared/countdown/Countdown";
+import Countdown from '@/components/shared/countdown/Countdown';
 
 const MaintenacePrimary = () => {
   return (
@@ -13,8 +13,7 @@ const MaintenacePrimary = () => {
             Under Maintenance
           </h1>
           <p className="text-contentColor dark:text-contentColor-dark">
-            {"We're"} currently under maintenance, if all goes as planned{" "}
-            {"we'll"} be back in
+            {"We're"} currently under maintenance, if all goes as planned {"we'll"} be back in
           </p>
         </div>
         {/* count down  */}

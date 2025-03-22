@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 const Blog = ({ blog }) => {
   const { title, image, pulishDate, id } = blog;
@@ -18,9 +18,7 @@ const Blog = ({ blog }) => {
         </div>
       </div>
       <div className="pt-30px pr-5 pb-10 pl-30px md:py-5 md:px-10 lg:pt-30px lg:pr-10px lg:pb-10 lg:pl-5 2xl:pt-30px 2xl:pr-5 2xl:pb-10 2xl:pl-30px">
-        <p className="text-base text-primaryColor uppercase font-bold mb-15px">
-          {pulishDate}
-        </p>
+        <p className="text-base text-primaryColor uppercase font-bold mb-15px">{pulishDate}</p>
         <h5>
           <Link
             href={`/blogs/${id}`}

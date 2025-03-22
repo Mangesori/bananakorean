@@ -1,6 +1,6 @@
-import AiImage from "@/components/shared/animaited-images/AiImage";
-import GlobImage from "@/components/shared/animaited-images/GlobImage";
-import HeroSlider4 from "@/components/shared/hero-banner/HeroSlider4";
+import AiImage from '@/components/shared/animaited-images/AiImage';
+import GlobImage from '@/components/shared/animaited-images/GlobImage';
+import HeroSlider4 from '@/components/shared/hero-banner/HeroSlider4';
 
 const Hero10 = () => {
   return (

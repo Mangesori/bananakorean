@@ -1,6 +1,6 @@
-import HeadingXl from "../headings/HeadingXl";
-import HreoName from "../section-names/HreoName";
-import ButtonPrimary from "../buttons/ButtonPrimary";
+import HeadingXl from '../headings/HeadingXl';
+import HreoName from '../section-names/HreoName';
+import ButtonPrimary from '../buttons/ButtonPrimary';
 
 const HeroSlide4 = ({ slide }) => {
   const { tag, title } = slide;

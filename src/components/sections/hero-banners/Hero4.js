@@ -1,12 +1,12 @@
-import AppleImage from "@/components/shared/animaited-images/AppleImage";
-import BalbImage from "@/components/shared/animaited-images/BalbImage";
-import BookImage from "@/components/shared/animaited-images/BookImage";
-import GlobImage from "@/components/shared/animaited-images/GlobImage";
-import TriangleImage from "@/components/shared/animaited-images/TriangleImage";
-import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
-import HeadingXl from "@/components/shared/headings/HeadingXl";
-import HeroSlider from "@/components/shared/hero-banner/HeroSlider";
-import SectionNameSecondary from "@/components/shared/section-names/SectionNameSecondary";
+import AppleImage from '@/components/shared/animaited-images/AppleImage';
+import BalbImage from '@/components/shared/animaited-images/BalbImage';
+import BookImage from '@/components/shared/animaited-images/BookImage';
+import GlobImage from '@/components/shared/animaited-images/GlobImage';
+import TriangleImage from '@/components/shared/animaited-images/TriangleImage';
+import ButtonPrimary from '@/components/shared/buttons/ButtonPrimary';
+import HeadingXl from '@/components/shared/headings/HeadingXl';
+import HeroSlider from '@/components/shared/hero-banner/HeroSlider';
+import SectionNameSecondary from '@/components/shared/section-names/SectionNameSecondary';
 
 const Hero4 = () => {
   return (
@@ -32,10 +32,8 @@ const Hero4 = () => {
               <div className="3xl:pr-135px">
                 <SectionNameSecondary>EDUCATION SOLUTION</SectionNameSecondary>
                 <HeadingXl>
-                  Ignite Your{" "}
-                  <span className="text-secondaryColor">Career</span> with
-                  Learning the Largest{" "}
-                  <span className="text-secondaryColor">Online</span> Platform.
+                  Ignite Your <span className="text-secondaryColor">Career</span> with Learning the
+                  Largest <span className="text-secondaryColor">Online</span> Platform.
                 </HeadingXl>
                 <p className="text-size-15 md:text-lg text-blackColor dark:text-blackColor-dark font-medium">
                   Lorem Ipsum is simply dummy text of the printing

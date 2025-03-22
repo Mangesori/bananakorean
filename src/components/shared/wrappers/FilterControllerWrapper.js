@@ -1,6 +1,6 @@
-"use client";
-import filter from "@/libs/filter";
-import { useEffect } from "react";
+'use client';
+import filter from '@/libs/filter';
+import { useEffect } from 'react';
 
 const FilterControllerWrapper = ({ children }) => {
   useEffect(() => {

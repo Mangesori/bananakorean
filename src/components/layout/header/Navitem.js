@@ -1,10 +1,10 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Navitem({ navItem, idx, children }) {
   const { name, path, dropdown, isRelative } = navItem;
 
   return (
-    <li key={idx} className={`nav-item group ${isRelative ? "relative" : ""}`}>
+    <li key={idx} className={`nav-item group ${isRelative ? 'relative' : ''}`}>
       <Link
         href={path}
         className={
@@ -31,7 +31,7 @@ export default function Navitem({ navItem, idx, children }) {
            * group-hover:text-primaryColor: 그룹 호버시 기본 색상으로 변경
            * dark:text-whiteColor: 다크모드에서 흰색 텍스트
            */
-          "px-5 lg:px-10px 2xl:px-15px 3xl:px-5 py-10 lg:py-5 2xl:py-30px 3xl:py-10 leading-sm 2xl:leading-lg text-base lg:text-sm 2xl:text-base font-semibold block group-hover:text-primaryColor dark:text-whiteColor"
+          'px-5 lg:px-10px 2xl:px-15px 3xl:px-5 py-10 lg:py-5 2xl:py-30px 3xl:py-10 leading-sm 2xl:leading-lg text-base lg:text-sm 2xl:text-base font-semibold block group-hover:text-primaryColor dark:text-whiteColor'
         }
       >
         {name} {dropdown && <i className="icofont-rounded-down"></i>}

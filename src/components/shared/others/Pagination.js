@@ -1,25 +1,18 @@
-"use client";
+'use client';
 
-import ButtonPagination from "../buttons/ButtonPagination";
+import ButtonPagination from '../buttons/ButtonPagination';
 
-const Pagination = ({
-  pages,
-  skip,
-  limit,
-  totalItems,
-  handlePagesnation,
-  currentPage,
-}) => {
+const Pagination = ({ pages, skip, limit, totalItems, handlePagesnation, currentPage }) => {
   return (
     <div>
       <ul className="flex items-center justify-center gap-15px mt-60px mb-30px">
         <li>
           <ButtonPagination
-            type={"prev"}
+            type={'prev'}
             skip={skip}
             limit={limit}
             handlePagesnation={handlePagesnation}
-            idx={"prev"}
+            idx={'prev'}
           />
         </li>
         {pages?.map((page, idx) => (
@@ -34,12 +27,12 @@ const Pagination = ({
         ))}
         <li>
           <ButtonPagination
-            type={"next"}
+            type={'next'}
             skip={skip}
             limit={limit}
             totalItems={totalItems}
             handlePagesnation={handlePagesnation}
-            idx={"next"}
+            idx={'next'}
           />
         </li>
       </ul>

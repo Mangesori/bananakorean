@@ -1,52 +1,52 @@
-"use client";
-import { Swiper, SwiperSlide } from "swiper/react";
+'use client';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import TestimonialSlide2 from "./TestimonialSlide2";
-import { Navigation } from "swiper/modules";
-import testimonialImage2 from "@/assets/images/testimonial/testi_2.png";
+import TestimonialSlide2 from './TestimonialSlide2';
+import { Navigation } from 'swiper/modules';
+import testimonialImage2 from '@/assets/images/testimonial/testi_2.png';
 const TestimonialsSlider2 = () => {
   const testimonials = [
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage2,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation and dislike men who are so beguiled and demorali ed by the of pleasure of the moment.Dislike men who are so beguiled and demoraliz worlds ed by the charms of pleasure of the moment. Lorem ipsum dolor sit amet, piscing elit.',
     },
   ];
   return (

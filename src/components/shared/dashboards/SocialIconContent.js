@@ -1,4 +1,4 @@
-import ButtonPrimary from "../buttons/ButtonPrimary";
+import ButtonPrimary from '../buttons/ButtonPrimary';
 
 const SocialIconContent = () => {
   return (
@@ -138,7 +138,7 @@ const SocialIconContent = () => {
       </div>
 
       <div className="mt-15px">
-        <ButtonPrimary type={"submit"}>Update Social</ButtonPrimary>
+        <ButtonPrimary type={'submit'}>Update Social</ButtonPrimary>
       </div>
     </form>
   );

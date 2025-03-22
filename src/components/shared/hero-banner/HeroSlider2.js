@@ -1,24 +1,24 @@
-"use client";
-import React, { useState } from "react";
-import { Navigation, Thumbs } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import HeroSlide2 from "./HeroSlide2";
-import universityImage1 from "@/assets/images/herobanner/university_1.jpg";
-import universityImage2 from "@/assets/images/herobanner/university_2.jpg";
-import universityImage3 from "@/assets/images/herobanner/university_3.jpg";
-import Image from "next/image";
+'use client';
+import React, { useState } from 'react';
+import { Navigation, Thumbs } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import HeroSlide2 from './HeroSlide2';
+import universityImage1 from '@/assets/images/herobanner/university_1.jpg';
+import universityImage2 from '@/assets/images/herobanner/university_2.jpg';
+import universityImage3 from '@/assets/images/herobanner/university_3.jpg';
+import Image from 'next/image';
 const HeroSlider2 = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const slides = [
     {
       title: (
         <>
-          World <span className="text-secondaryColor">Ranking</span> best{" "}
+          World <span className="text-secondaryColor">Ranking</span> best{' '}
           <br className="hidden 2xl:block" />
           University place.
         </>
       ),
-      tag: "EDUCATION SOLUTION",
+      tag: 'EDUCATION SOLUTION',
     },
     {
       title: (
@@ -27,7 +27,7 @@ const HeroSlider2 = () => {
           Bright future
         </>
       ),
-      tag: "Career Solution",
+      tag: 'Career Solution',
     },
     {
       title: (
@@ -36,7 +36,7 @@ const HeroSlider2 = () => {
           Degree with Edurock
         </>
       ),
-      tag: "Certificate Solution",
+      tag: 'Certificate Solution',
     },
   ];
 
@@ -65,16 +65,11 @@ const HeroSlider2 = () => {
         {thumbsImages.map((image, idx) => (
           <SwiperSlide
             className={`swiper-slide cursor-pointer max-w-150px rounded-lg2 ${
-              idx === 2 ? "" : "mr-10px"
+              idx === 2 ? '' : 'mr-10px'
             } `}
             key={idx}
           >
-            <Image
-              src={image}
-              alt=""
-              placeholder="blur"
-              className="w-full rounded-lg2"
-            />
+            <Image src={image} alt="" placeholder="blur" className="w-full rounded-lg2" />
           </SwiperSlide>
         ))}
       </Swiper>

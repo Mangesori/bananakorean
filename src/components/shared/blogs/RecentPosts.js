@@ -1,34 +1,34 @@
-import blogImage11 from "@/assets/images/blog/blog_11.png";
-import blogImage12 from "@/assets/images/blog/blog_12.png";
-import blogImage13 from "@/assets/images/blog/blog_13.png";
-import blogImage14 from "@/assets/images/blog/blog_14.png";
-import Image from "next/image";
-import Link from "next/link";
+import blogImage11 from '@/assets/images/blog/blog_11.png';
+import blogImage12 from '@/assets/images/blog/blog_12.png';
+import blogImage13 from '@/assets/images/blog/blog_13.png';
+import blogImage14 from '@/assets/images/blog/blog_14.png';
+import Image from 'next/image';
+import Link from 'next/link';
 const RecentPosts = () => {
   const posts = [
     {
       id: 1,
-      title: "Show at the University",
+      title: 'Show at the University',
       image: blogImage11,
-      date: "01 23 December 2024",
+      date: '01 23 December 2024',
     },
     {
       id: 2,
-      title: "Show at the University",
+      title: 'Show at the University',
       image: blogImage12,
-      date: "01 23 December 2024",
+      date: '01 23 December 2024',
     },
     {
       id: 3,
-      title: "Show at the University",
+      title: 'Show at the University',
       image: blogImage13,
-      date: "01 23 December 2024",
+      date: '01 23 December 2024',
     },
     {
       id: 4,
-      title: "Show at the University",
+      title: 'Show at the University',
       image: blogImage14,
-      date: "01 23 December 2024",
+      date: '01 23 December 2024',
     },
   ];
   return (

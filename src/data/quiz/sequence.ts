@@ -1,0 +1,100 @@
+import { KoreanQuestion } from '@/types/quiz';
+
+export const sequenceQuestions: KoreanQuestion[] = [
+  {
+    id: 1,
+    baseText: '밥을 먹기 전에 손을 씻어요.',
+    translation: 'Before eating, I wash my hands.',
+    hints: [
+      { content: 'before', hint: '기 전에' },
+      { content: 'eat', hint: '밥을 먹다' },
+      { content: 'wash', hint: '씻다' },
+      { content: 'hands', hint: '손' },
+    ],
+    items: [
+      { id: '1', content: '밥', combineWithNext: true },
+      { id: '2', content: '을', combineWithNext: false },
+      { id: '3', content: '먹기', combineWithNext: true },
+      { id: '4', content: '전', combineWithNext: true },
+      { id: '5', content: '에', combineWithNext: false },
+      { id: '6', content: '손', combineWithNext: true },
+      { id: '7', content: '을', combineWithNext: false },
+      { id: '8', content: '씻어요' },
+    ],
+  },
+  {
+    id: 2,
+    baseText: '공부한 후에 놀 거예요.',
+    translation: 'After studying, I will play.',
+    hints: [
+      { content: 'after', hint: '은 후에' },
+      { content: 'study', hint: '공부하다' },
+      { content: 'will play', hint: '놀 거예요' },
+    ],
+    items: [
+      { id: '1', content: '공부한', combineWithNext: true },
+      { id: '2', content: '후', combineWithNext: true },
+      { id: '3', content: '에', combineWithNext: false },
+      { id: '4', content: '놀', combineWithNext: true },
+      { id: '5', content: '거예요' },
+    ],
+  },
+  {
+    id: 3,
+    baseText: '잠을 자기 전에 이를 닦아요.',
+    translation: 'Before going to sleep, I brush my teeth.',
+    hints: [
+      { content: 'before', hint: '기 전에' },
+      { content: 'sleep', hint: '잠을 자다' },
+      { content: 'brush', hint: '닦다' },
+      { content: 'teeth', hint: '이' },
+    ],
+    items: [
+      { id: '1', content: '잠', combineWithNext: true },
+      { id: '2', content: '을', combineWithNext: false },
+      { id: '3', content: '자기', combineWithNext: true },
+      { id: '4', content: '전', combineWithNext: true },
+      { id: '5', content: '에', combineWithNext: false },
+      { id: '6', content: '이', combineWithNext: true },
+      { id: '7', content: '를', combineWithNext: false },
+      { id: '8', content: '닦아요' },
+    ],
+  },
+  {
+    id: 4,
+    baseText: '운동한 후에 샤워해요.',
+    translation: 'After exercising, I take a shower.',
+    hints: [
+      { content: 'after', hint: '은 후에' },
+      { content: 'exercise', hint: '운동하다' },
+      { content: 'take a shower', hint: '샤워하다' },
+    ],
+    items: [
+      { id: '1', content: '운동한', combineWithNext: true },
+      { id: '2', content: '후', combineWithNext: true },
+      { id: '3', content: '에', combineWithNext: false },
+      { id: '4', content: '샤워해요' },
+    ],
+  },
+  {
+    id: 5,
+    baseText: '한국에 가기 전에 한국어를 공부해요.',
+    translation: 'Before going to Korea, I study Korean.',
+    hints: [
+      { content: 'before', hint: '기 전에' },
+      { content: 'go to Korea', hint: '한국에 가다' },
+      { content: 'study', hint: '공부하다' },
+      { content: 'Korean', hint: '한국어' },
+    ],
+    items: [
+      { id: '1', content: '한국', combineWithNext: true },
+      { id: '2', content: '에', combineWithNext: false },
+      { id: '3', content: '가기', combineWithNext: true },
+      { id: '4', content: '전', combineWithNext: true },
+      { id: '5', content: '에', combineWithNext: false },
+      { id: '6', content: '한국어', combineWithNext: true },
+      { id: '7', content: '를', combineWithNext: false },
+      { id: '8', content: '공부해요' },
+    ],
+  },
+];

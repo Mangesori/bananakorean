@@ -1,11 +1,11 @@
-"use client";
-import BlogAuthor from "./BlogAuthor";
-import BlogCategories from "./BlogCategories";
-import RecentPosts from "./RecentPosts";
-import BlogContactForm from "./BlogContactForm";
-import BlogTags from "./BlogTags";
-import BlogSocials from "./BlogSocials";
-import BlogSearch from "./BlogSearch";
+'use client';
+import BlogAuthor from './BlogAuthor';
+import BlogCategories from './BlogCategories';
+import RecentPosts from './RecentPosts';
+import BlogContactForm from './BlogContactForm';
+import BlogTags from './BlogTags';
+import BlogSocials from './BlogSocials';
+import BlogSearch from './BlogSearch';
 
 const BlogsSidebar = () => {
   return (

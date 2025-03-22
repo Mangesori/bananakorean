@@ -1,22 +1,22 @@
-"use client";
-import HeadingPrimary from "@/components/shared/headings/HeadingPrimary";
-import Image from "next/image";
-import blogImage1 from "@/assets/images/blog/blog_1.png";
-import blogImage2 from "@/assets/images/blog/blog_2.png";
-import blogImage3 from "@/assets/images/blog/blog_3.png";
-import blogImage4 from "@/assets/images/blog/blog_4.png";
-import blogImage26 from "@/assets/images/blog/blog_26.jpg";
-import blogImage27 from "@/assets/images/blog/blog_27.jpg";
-import blogImage28 from "@/assets/images/blog/blog_28.jpg";
-import blogImage31 from "@/assets/images/blog/blog_31.jpg";
-import blogImage32 from "@/assets/images/blog/blog_32.jpg";
-import blogImage33 from "@/assets/images/blog/blog_33.jpg";
-import Link from "next/link";
-import allBlogs from "@/../public/fakedata/blogs.json";
-import useIsTrue from "@/hooks/useIsTrue";
+'use client';
+import HeadingPrimary from '@/components/shared/headings/HeadingPrimary';
+import Image from 'next/image';
+import blogImage1 from '@/assets/images/blog/blog_1.png';
+import blogImage2 from '@/assets/images/blog/blog_2.png';
+import blogImage3 from '@/assets/images/blog/blog_3.png';
+import blogImage4 from '@/assets/images/blog/blog_4.png';
+import blogImage26 from '@/assets/images/blog/blog_26.jpg';
+import blogImage27 from '@/assets/images/blog/blog_27.jpg';
+import blogImage28 from '@/assets/images/blog/blog_28.jpg';
+import blogImage31 from '@/assets/images/blog/blog_31.jpg';
+import blogImage32 from '@/assets/images/blog/blog_32.jpg';
+import blogImage33 from '@/assets/images/blog/blog_33.jpg';
+import Link from 'next/link';
+import allBlogs from '@/../public/fakedata/blogs.json';
+import useIsTrue from '@/hooks/useIsTrue';
 const Blogs = () => {
-  const isHome9 = useIsTrue("/home-9");
-  const isHome9Dark = useIsTrue("/home-9-dark");
+  const isHome9 = useIsTrue('/home-9');
+  const isHome9Dark = useIsTrue('/home-9-dark');
   const images = [
     isHome9 || isHome9Dark ? blogImage31 : blogImage1,
     isHome9 || isHome9Dark ? blogImage32 : blogImage3,
@@ -62,11 +62,7 @@ const Blogs = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-3">
                           <div className="w-11 h-11">
-                            <Image
-                              src={blogImage2}
-                              alt=""
-                              className="rounded-full"
-                            />
+                            <Image src={blogImage2} alt="" className="rounded-full" />
                           </div>
                           <div className="text-sm md:text-lg text-darkdeep5 dark:text-darkdeep5-dark">
                             By:
@@ -124,11 +120,7 @@ const Blogs = () => {
                   ({ id, title, date, image, month }, idx) =>
                     idx > 0 &&
                     idx < 3 && (
-                      <div
-                        key={idx}
-                        className="group shadow-blog"
-                        data-aos="fade-up"
-                      >
+                      <div key={idx} className="group shadow-blog" data-aos="fade-up">
                         <div className="overflow-hidden relative">
                           <Image
                             src={images[idx]}

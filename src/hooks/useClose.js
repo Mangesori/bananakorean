@@ -1,14 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
-import useCartOfLocalStorage from "./useCartOfLocalStorage";
+'use client';
+import { useEffect, useState } from 'react';
+import useCartOfLocalStorage from './useCartOfLocalStorage';
 
-const useClose = (cartItems) => {
+const useClose = cartItems => {
   const [currentItems, setCurrentItems] = useState(cartItems || []);
   const { addCartToLocalStorage } = useCartOfLocalStorage();
 
   useEffect(() => {
     if (cartItems === null) {
-      const newItems = JSON.parse(localStorage.getItem("cart"));
+      const newItems = JSON.parse(localStorage.getItem('cart'));
       setCurrentItems(newItems);
     } else {
       setCurrentItems(cartItems);

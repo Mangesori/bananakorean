@@ -1,13 +1,13 @@
-"use client";
-import allBlogs from "@/../public/fakedata/blogs";
-import blogImag6 from "@/assets/images/blog/blog_6.png";
-import blogImag7 from "@/assets/images/blog/blog_7.png";
-import blogImag8 from "@/assets/images/blog/blog_8.png";
-import blogImag9 from "@/assets/images/blog/blog_9.png";
-import BlogPrimary from "@/components/shared/blogs/BlogPrimary";
-import BlogsSidebar from "@/components/shared/blogs/BlogsSidebar";
-import Pagination from "@/components/shared/others/Pagination";
-import { useEffect, useRef, useState } from "react";
+'use client';
+import allBlogs from '@/../public/fakedata/blogs';
+import blogImag6 from '@/assets/images/blog/blog_6.png';
+import blogImag7 from '@/assets/images/blog/blog_7.png';
+import blogImag8 from '@/assets/images/blog/blog_8.png';
+import blogImag9 from '@/assets/images/blog/blog_9.png';
+import BlogPrimary from '@/components/shared/blogs/BlogPrimary';
+import BlogsSidebar from '@/components/shared/blogs/BlogsSidebar';
+import Pagination from '@/components/shared/others/Pagination';
+import { useEffect, useRef, useState } from 'react';
 const images = [
   blogImag6,
   blogImag7,
@@ -30,28 +30,26 @@ const BlogsPrimary = () => {
   const totalPages = Math.ceil(totalBlogs / limit);
   const paginationItems = [...Array(totalPages)];
 
-  const handlePagesnation = (id) => {
-    blogsRef.current.scrollIntoView({ behavior: "smooth" });
-    if (typeof id === "number") {
+  const handlePagesnation = id => {
+    blogsRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (typeof id === 'number') {
       setCurrentPage(id);
 
       setSkip(limit * id);
-    } else if (id === "prev") {
+    } else if (id === 'prev') {
       setCurrentPage(currentPage - 1);
       setSkip(skip - limit);
-    } else if (id === "next") {
+    } else if (id === 'next') {
       setCurrentPage(currentPage + 1);
       setSkip(skip + limit);
     }
   };
 
   useEffect(() => {
-    const blogs = [...allBlogs.slice(6, 10), ...allBlogs.slice(0, 6)]?.map(
-      (blog, idx) => ({
-        ...blog,
-        image: images[idx],
-      })
-    );
+    const blogs = [...allBlogs.slice(6, 10), ...allBlogs.slice(0, 6)]?.map((blog, idx) => ({
+      ...blog,
+      image: images[idx],
+    }));
     const blogsToShow = [...blogs].splice(skip, limit);
     setCurrentBlogs(blogsToShow);
   }, [skip, limit]);
@@ -64,7 +62,7 @@ const BlogsPrimary = () => {
           <div className="lg:col-start-1 lg:col-span-8 space-y-[35px]">
             {currentBlogs && (
               <>
-                {" "}
+                {' '}
                 {currentBlogs?.map((blog, idx) => (
                   <BlogPrimary blog={blog} idx={idx} key={idx} />
                 ))}

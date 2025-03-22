@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import PopupVideo from "../popup/PopupVideo";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import PopupVideo from '../popup/PopupVideo';
 
 const BlogPrimary = ({ blog, idx }) => {
   const { title, image, author, desc, id, date, month } = blog;
@@ -19,11 +19,11 @@ const BlogPrimary = ({ blog, idx }) => {
 
         {idx === 1 ? (
           <div className="absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center z-10">
-            {" "}
+            {' '}
             <PopupVideo />
           </div>
         ) : (
-          ""
+          ''
         )}
       </div>
       {/* blog content  */}
@@ -74,7 +74,7 @@ const BlogPrimary = ({ blog, idx }) => {
           <div className="text-primaryColor hover:text-secondaryColor space-y-1">
             <Link href="#">
               <i className="icofont-share bg-whitegrey1 dark:bg-whitegrey1-dark hover:text-whiteColor hover:bg-primaryColor w-8 h-7 leading-7 text-center inline-block rounded transition-all duration-300"></i>
-            </Link>{" "}
+            </Link>{' '}
             <Link href="#">
               <i className="icofont-heart bg-whitegrey1 dark:bg-whitegrey1-dark hover:text-whiteColor hover:bg-primaryColor w-8 h-7 leading-7 text-center inline-block rounded transition-all duration-300"></i>
             </Link>

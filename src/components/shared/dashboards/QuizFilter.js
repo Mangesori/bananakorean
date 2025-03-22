@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const QuizFilter = () => {
   return (
@@ -30,9 +30,7 @@ const QuizFilter = () => {
           <select className="bg-transparent text-darkBlue w-full p-13px focus:outline-none block appearance-none leading-1.5 relative z-20 focus:shadow-select rounded-md">
             <option defaultValue="Default">Default</option>
             <option defaultValue="Trending">Trending</option>
-            <option defaultValue="Price: low to high">
-              Price: low to high
-            </option>
+            <option defaultValue="Price: low to high">Price: low to high</option>
             <option defaultValue="Price: low to low">Price: low to low</option>
           </select>
           <i className="icofont-simple-down absolute top-1/2 right-3 -translate-y-1/2 block text-lg z-10"></i>

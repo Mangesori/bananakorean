@@ -1,24 +1,22 @@
 // style controllers
 
 const controllerStyle = (accordionController, isActive) => {
-  const rotateAbleLine = accordionController.querySelectorAll("span")[1];
+  const rotateAbleLine = accordionController.querySelectorAll('span')[1];
 
   if (rotateAbleLine) {
-    rotateAbleLine.style.transform = !isActive
-      ? "rotate(0deg)"
-      : "rotate(90deg)";
+    rotateAbleLine.style.transform = !isActive ? 'rotate(0deg)' : 'rotate(90deg)';
   }
 };
 
 // accordion hide and show
 const toggleAccordion = (accordion, isActive, currentIndex, index) => {
-  const parentContent = accordion.closest(".accordion-content");
-  const content = accordion.querySelector(".accordion-content");
-  const contentWrapper = accordion.querySelector(".content-wrapper");
+  const parentContent = accordion.closest('.accordion-content');
+  const content = accordion.querySelector('.accordion-content');
+  const contentWrapper = accordion.querySelector('.content-wrapper');
   const contentHeight = contentWrapper.offsetHeight;
 
   let contenStyleHeight = content.style.height;
-  if (contenStyleHeight === "auto") {
+  if (contenStyleHeight === 'auto') {
     content.style.height = `${contentHeight}px`;
   }
 
@@ -35,17 +33,15 @@ const toggleAccordion = (accordion, isActive, currentIndex, index) => {
 };
 
 // get accordion controller and listen click event
-const accordionController = (accordionContainer) => {
+const accordionController = accordionContainer => {
   const groupOfAccordion = [...accordionContainer.children];
 
   groupOfAccordion.forEach((accordion, idx) => {
-    const accordionController = accordion.querySelector(
-      ".accordion-controller"
-    );
-    const isInitialyActive = accordion.classList.contains("active");
+    const accordionController = accordion.querySelector('.accordion-controller');
+    const isInitialyActive = accordion.classList.contains('active');
 
     if (isInitialyActive) {
-      const contents = accordion.querySelector(".accordion-content");
+      const contents = accordion.querySelector('.accordion-content');
       const contentHeight = contents.children[idx].offsetHeight;
       if (contentHeight) {
         contents.style.height = `${contentHeight}px`;
@@ -53,32 +49,28 @@ const accordionController = (accordionContainer) => {
     }
 
     if (accordionController) {
-      accordionController.addEventListener("click", function () {
-        const currentAccordion = this.closest(".accordion");
+      accordionController.addEventListener('click', function () {
+        const currentAccordion = this.closest('.accordion');
 
-        const isActive = currentAccordion.classList.contains("active");
+        const isActive = currentAccordion.classList.contains('active');
         let waitForDblClick = setTimeout(() => {
           groupOfAccordion.forEach((accordion, idx1) => {
-            const isAccordionController = accordion.querySelector(
-              ".accordion-controller"
-            );
+            const isAccordionController = accordion.querySelector('.accordion-controller');
 
             if (isAccordionController) {
-              accordion.classList.remove("active");
-              const accordionController = accordion.querySelector(
-                ".accordion-controller"
-              );
+              accordion.classList.remove('active');
+              const accordionController = accordion.querySelector('.accordion-controller');
               controllerStyle(accordionController, true);
               toggleAccordion(accordion, true, idx, idx1);
             }
           });
           if (!isActive) {
-            currentAccordion.classList.add("active");
+            currentAccordion.classList.add('active');
             controllerStyle(accordionController, false);
             toggleAccordion(currentAccordion, false);
           }
         }, 10);
-        accordionController.addEventListener("dblclick", function () {
+        accordionController.addEventListener('dblclick', function () {
           clearTimeout(waitForDblClick);
         });
       });
@@ -86,12 +78,12 @@ const accordionController = (accordionContainer) => {
   });
 };
 const accordions = () => {
-  const accordionContainers = document.querySelectorAll(".accordion-container");
+  const accordionContainers = document.querySelectorAll('.accordion-container');
 
   if (!accordionContainers.length) {
     return;
   }
-  accordionContainers.forEach((accordionContainer) => {
+  accordionContainers.forEach(accordionContainer => {
     accordionController(accordionContainer);
   });
 };

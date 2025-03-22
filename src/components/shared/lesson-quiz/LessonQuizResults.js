@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 const LessonQuizResults = ({ allResults, table, isHeading }) => {
   const [results, setResults] = useState(allResults);
   //   handle delete
-  const handleDelete = (id) => {
+  const handleDelete = id => {
     const remainedResults = [...results]?.filter(({ id: id1 }) => id1 !== id);
     setResults(remainedResults);
   };
   return (
     <div>
       {!isHeading ? (
-        ""
+        ''
       ) : (
         <h4 className="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px">
           Quiz Result
@@ -27,27 +27,14 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
           <table className="w-full text-left text-nowrap">
             <thead className="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8">
               <tr>
-                <th className="px-5px py-10px md:px-5">
-                  {table === 2 ? "Assignments" : "Quiz"}
-                </th>
+                <th className="px-5px py-10px md:px-5">{table === 2 ? 'Assignments' : 'Quiz'}</th>
+                {table === 2 ? '' : <th className="px-5px py-10px md:px-5">Qus</th>}
+                <th className="px-5px py-10px md:px-5">{table === 2 ? 'Total Marks' : 'TM'}</th>
+                <th className="px-5px py-10px md:px-5"> {table === 2 ? 'Total Submit' : 'CA'}</th>
                 {table === 2 ? (
-                  ""
+                  ''
                 ) : (
-                  <th className="px-5px py-10px md:px-5">Qus</th>
-                )}
-                <th className="px-5px py-10px md:px-5">
-                  {table === 2 ? "Total Marks" : "TM"}
-                </th>
-                <th className="px-5px py-10px md:px-5">
-                  {" "}
-                  {table === 2 ? "Total Submit" : "CA"}
-                </th>
-                {table === 2 ? (
-                  ""
-                ) : (
-                  <th className="px-5px py-10px md:px-5">
-                    {table === 2 ? "Status" : "Result"}
-                  </th>
+                  <th className="px-5px py-10px md:px-5">{table === 2 ? 'Status' : 'Result'}</th>
                 )}
                 <th className="px-5px py-10px md:px-5"></th>
               </tr>
@@ -75,28 +62,23 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                   <tr
                     key={idx}
                     className={`leading-1.8 md:leading-1.8 ${
-                      idx % 2 === 0
-                        ? ""
-                        : "bg-lightGrey5 dark:bg-whiteColor-dark"
+                      idx % 2 === 0 ? '' : 'bg-lightGrey5 dark:bg-whiteColor-dark'
                     }`}
                   >
                     <th className="px-5px py-10px md:px-5 font-normal">
-                      {date ? <p>{date}</p> : ""}
+                      {date ? <p>{date}</p> : ''}
                       <span className="text-blackColor dark:text-blackColor-dark font-bold">
                         {title}
                       </span>
                       <p>
-                        {courseName ? "course: " : "Student: "}{" "}
-                        <a
-                          className="text-blackColor dark:text-blackColor-dark"
-                          href="#"
-                        >
+                        {courseName ? 'course: ' : 'Student: '}{' '}
+                        <a className="text-blackColor dark:text-blackColor-dark" href="#">
                           {studentName || courseName}
                         </a>
                       </p>
                     </th>
                     {table === 2 ? (
-                      ""
+                      ''
                     ) : (
                       <td className="px-5px py-10px md:px-5">
                         <p>{qus}</p>
@@ -109,19 +91,19 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                       <p>{totalSubmit || ca}</p>
                     </td>
                     {table === 2 ? (
-                      ""
+                      ''
                     ) : (
                       <td className="px-5px py-10px md:px-5">
                         <p className="text-xs">
                           <span
                             className={` ${
-                              status === "pass" || status === "running"
-                                ? "bg-greencolor2"
-                                : status === "time over"
-                                ? "bg-primaryColor"
-                                : status === "coming" || status === "processing"
-                                ? "bg-skycolor"
-                                : "bg-secondaryColor"
+                              status === 'pass' || status === 'running'
+                                ? 'bg-greencolor2'
+                                : status === 'time over'
+                                  ? 'bg-primaryColor'
+                                  : status === 'coming' || status === 'processing'
+                                    ? 'bg-skycolor'
+                                    : 'bg-secondaryColor'
                             } h-22px inline-block px-7px  leading-22px font-bold text-whiteColor rounded-md capitalize`}
                           >
                             {status}
@@ -135,7 +117,7 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                           className="flex items-center gap-1 text-sm font-bold text-whiteColor hover:text-primaryColor bg-primaryColor hover:bg-whiteColor dark:hover:bg-whiteColor-dark border border-primaryColor h-30px w-full px-14px leading-30px justify-center rounded-md my-5px"
                           href="#"
                         >
-                          {" "}
+                          {' '}
                           {isView ? (
                             <>
                               <i className="icofont-eye"></i>
@@ -163,9 +145,7 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                           )}
                         </a>
                         <button
-                          onClick={() =>
-                            isSubmit ? () => {} : handleDelete(id)
-                          }
+                          onClick={() => (isSubmit ? () => {} : handleDelete(id))}
                           className="flex items-center gap-1 text-sm font-bold text-whiteColor hover:text-secondaryColor bg-secondaryColor hover:bg-whiteColor dark:hover:bg-whiteColor-dark border border-secondaryColor h-30px w-full px-14px leading-30px justify-center rounded-md my-5px"
                         >
                           {isSubmit ? (
@@ -175,7 +155,7 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                             </>
                           ) : (
                             <>
-                              {" "}
+                              {' '}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="14"
@@ -207,7 +187,7 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                             Download
                           </a>
                         ) : (
-                          ""
+                          ''
                         )}
                       </div>
                     </td>

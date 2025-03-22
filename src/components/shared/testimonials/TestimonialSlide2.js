@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 const TestimonialSlide2 = ({ testimonial }) => {
   const { name, image, desig, desc } = testimonial;
@@ -14,12 +14,7 @@ const TestimonialSlide2 = ({ testimonial }) => {
 
       <div className="flex items-center pt-10">
         <div className="pr-18px">
-          <Image
-            src={image}
-            alt=""
-            className="w-18 h-78 rounded-full"
-            placeholder="blur"
-          />
+          <Image src={image} alt="" className="w-18 h-78 rounded-full" placeholder="blur" />
         </div>
         <div>
           <h4>

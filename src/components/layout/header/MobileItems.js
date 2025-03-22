@@ -1,28 +1,28 @@
-import React from "react";
-import AccordionContainer from "@/components/shared/containers/AccordionContainer";
-import MobileMenuItem from "./MobileItem";
+import React from 'react';
+import AccordionContainer from '@/components/shared/containers/AccordionContainer';
+import MobileMenuItem from './MobileItem';
 
 const MobileMenuItems = () => {
   const items = [
     {
       id: 1,
-      name: "Quiz",
-      path: "/quiz",
+      name: 'Quiz',
+      path: '/quiz',
     },
     {
       id: 2,
-      name: "Videos",
-      path: "/videos",
+      name: 'Videos',
+      path: '/videos',
     },
     {
       id: 3,
-      name: "Blog",
-      path: "/blog",
+      name: 'Blog',
+      path: '/blog',
     },
     {
       id: 5,
-      name: "Demos",
-      path: "/",
+      name: 'Demos',
+      path: '/',
     },
   ];
 

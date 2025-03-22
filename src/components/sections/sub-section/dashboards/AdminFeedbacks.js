@@ -1,10 +1,10 @@
-import HeadingDashboard from "@/components/shared/headings/HeadingDashboard";
-import Link from "next/link";
+import HeadingDashboard from '@/components/shared/headings/HeadingDashboard';
+import Link from 'next/link';
 
 const AdminFeedbacks = () => {
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5 max-h-137.5 overflow-auto">
-      <HeadingDashboard path={"/courses"}>Total Feedbacks</HeadingDashboard>
+      <HeadingDashboard path={'/courses'}>Total Feedbacks</HeadingDashboard>
       <div className="overflow-auto">
         <table className="w-full text-left text-nowrap">
           <thead className="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8">
@@ -24,11 +24,9 @@ const AdminFeedbacks = () => {
               </td>
               <td className="px-5px py-10px md:px-5">
                 <div className="text-primaryColor">
-                  {" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
+                  {' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -55,11 +53,9 @@ const AdminFeedbacks = () => {
               </td>
               <td className="px-5px py-10px md:px-5">
                 <div className="text-primaryColor">
-                  {" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
+                  {' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -86,11 +82,9 @@ const AdminFeedbacks = () => {
               </td>
               <td className="px-5px py-10px md:px-5">
                 <div className="text-primaryColor">
-                  {" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
+                  {' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -117,11 +111,9 @@ const AdminFeedbacks = () => {
               </td>
               <td className="px-5px py-10px md:px-5">
                 <div className="text-primaryColor">
-                  {" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
-                  <i className="icofont-star"></i>{" "}
+                  {' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
+                  <i className="icofont-star"></i> <i className="icofont-star"></i>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

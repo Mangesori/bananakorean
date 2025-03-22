@@ -1,4 +1,4 @@
-import AdminProfileDetalis from "@/components/sections/sub-section/dashboards/AdminProfileDetalis";
+import AdminProfileDetalis from '@/components/sections/sub-section/dashboards/AdminProfileDetalis';
 
 const AdminProfileMain = () => {
   return (

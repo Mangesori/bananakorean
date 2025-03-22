@@ -1,6 +1,6 @@
-import React from "react";
-import PieChartDashboard from "./PieChartDashboard";
-import LineChartDashboard from "./LineChartDashboard";
+import React from 'react';
+import PieChartDashboard from './PieChartDashboard';
+import LineChartDashboard from './LineChartDashboard';
 
 const ChartDashboard = () => {
   return (

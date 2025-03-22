@@ -7,17 +7,15 @@ const counterUp = () => {
     }
 
     setVars() {
-      this.number = this.el.querySelectorAll("[data-countup-number]");
+      this.number = this.el.querySelectorAll('[data-countup-number]');
       this.observerOptions = {
         root: null,
-        rootMargin: "0px 0px",
+        rootMargin: '0px 0px',
         threshold: 0,
       };
-      this.observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const end = parseFloat(
-            entry.target.dataset.countupNumber.replace(/,/g, "")
-          );
+      this.observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const end = parseFloat(entry.target.dataset.countupNumber.replace(/,/g, ''));
           const decimals = this.countDecimals(end);
           if (entry.isIntersecting) {
             this.iterateValue(entry.target, end, decimals);
@@ -28,7 +26,7 @@ const counterUp = () => {
 
     init() {
       if (this.number.length > 0) {
-        this.number.forEach((el) => {
+        this.number.forEach(el => {
           this.observer.observe(el);
         });
       }
@@ -39,7 +37,7 @@ const counterUp = () => {
       const duration = 2500;
       let startTimestamp = null;
 
-      const step = (timestamp) => {
+      const step = timestamp => {
         if (!startTimestamp) startTimestamp = timestamp;
         const elapsedPercent = (timestamp - startTimestamp) / duration;
         const easedProgress = Math.min(this.easeOutQuint(elapsedPercent), 1);
@@ -64,11 +62,11 @@ const counterUp = () => {
 
     countDecimals(val) {
       if (Math.floor(val) === val) return 0;
-      return val.toString().split(".")[1].length || 0;
+      return val.toString().split('.')[1].length || 0;
     }
 
     formatNumber(val, decimals) {
-      return val.toLocaleString("en-US", {
+      return val.toLocaleString('en-US', {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       });
@@ -80,14 +78,14 @@ const counterUp = () => {
   // You CAN use this pattern, but it's single purpose right now
   const dataModules = document.querySelectorAll('[data-module="countup"]');
 
-  dataModules.forEach((element) => {
-    element.dataset.module.split(" ").forEach(function () {
+  dataModules.forEach(element => {
+    element.dataset.module.split(' ').forEach(function () {
       new countUp(element);
     });
   });
 
-  const counters = document.querySelectorAll(".counter");
-  counters.forEach((counter) => {
+  const counters = document.querySelectorAll('.counter');
+  counters.forEach(counter => {
     new countUp(counter);
   });
 };

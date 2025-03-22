@@ -1,10 +1,10 @@
-import PageWrapper from "@/components/shared/wrappers/PageWrapper";
-import blogs from "@/../public/fakedata/blogs.json";
-import { notFound } from "next/navigation";
+import PageWrapper from '@/components/shared/wrappers/PageWrapper';
+import blogs from '@/../public/fakedata/blogs.json';
+import { notFound } from 'next/navigation';
 
 export const metadata = {
-  title: "Blog Details",
-  description: "Blog Details",
+  title: 'Blog Details',
+  description: 'Blog Details',
 };
 
 const Blog_Details_Dark = ({ params }) => {
@@ -15,8 +15,7 @@ const Blog_Details_Dark = ({ params }) => {
   }
   return (
     <PageWrapper>
-      <main className="is-dark">
-      </main>
+      <main className="is-dark"></main>
     </PageWrapper>
   );
 };

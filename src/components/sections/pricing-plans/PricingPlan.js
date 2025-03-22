@@ -1,5 +1,5 @@
-import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
-import Image from "next/image";
+import ButtonPrimary from '@/components/shared/buttons/ButtonPrimary';
+import Image from 'next/image';
 
 const PricingPlan = ({ plan }) => {
   const { name, image, price, moto, features } = plan;
@@ -19,11 +19,7 @@ const PricingPlan = ({ plan }) => {
             </span>
           </h6>
           <p className="text-blackColor dark:text-blackColor-dark">{moto}</p>
-          <Image
-            className="absolute top-0 right-0 -translate-y-30px"
-            src={image}
-            alt=""
-          />
+          <Image className="absolute top-0 right-0 -translate-y-30px" src={image} alt="" />
         </div>
         {/* plan feature */}
 
@@ -31,9 +27,9 @@ const PricingPlan = ({ plan }) => {
           <ul className="flex flex-col gap-y-30px mb-30px">
             {features.map(({ name, mark }, idx) => (
               <li key={idx}>
-                {mark === "mark" ? (
+                {mark === 'mark' ? (
                   <i className="icofont-check text-whiteColor bg-lightGrey6 px-1 py-3px mr-15px rounded-full text-xs"></i>
-                ) : mark === "mark-secondary" ? (
+                ) : mark === 'mark-secondary' ? (
                   <i className="icofont-check text-whiteColor bg-secondaryColor px-1 py-3px mr-15px rounded-full text-xs"></i>
                 ) : (
                   <i className="icofont-close text-whiteColor bg-lightGrey6 px-1 py-3px mr-15px rounded-full text-xs"></i>
@@ -47,11 +43,7 @@ const PricingPlan = ({ plan }) => {
         </div>
         {/* plan bottom */}
         <div>
-          <ButtonPrimary
-            type="button"
-            width="full"
-            color={name === "basic" ? "secondary" : null}
-          >
+          <ButtonPrimary type="button" width="full" color={name === 'basic' ? 'secondary' : null}>
             Get Started
           </ButtonPrimary>
           <p className="text-size-15 text-contentColor dark:text-contentColor-dark mt-6 text-center font-medium">

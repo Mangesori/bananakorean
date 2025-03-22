@@ -1,10 +1,10 @@
-import AppleImage from "@/components/shared/animaited-images/AppleImage";
-import BalbImage from "@/components/shared/animaited-images/BalbImage";
-import BookImage from "@/components/shared/animaited-images/BookImage";
-import GlobImage from "@/components/shared/animaited-images/GlobImage";
-import TriangleImage from "@/components/shared/animaited-images/TriangleImage";
-import HeroSlider2 from "@/components/shared/hero-banner/HeroSlider2";
-import React from "react";
+import AppleImage from '@/components/shared/animaited-images/AppleImage';
+import BalbImage from '@/components/shared/animaited-images/BalbImage';
+import BookImage from '@/components/shared/animaited-images/BookImage';
+import GlobImage from '@/components/shared/animaited-images/GlobImage';
+import TriangleImage from '@/components/shared/animaited-images/TriangleImage';
+import HeroSlider2 from '@/components/shared/hero-banner/HeroSlider2';
+import React from 'react';
 
 const Hero7 = () => {
   return (

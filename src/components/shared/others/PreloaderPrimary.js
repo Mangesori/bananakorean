@@ -1,4 +1,4 @@
-import Preloader from "./Preloader";
+import Preloader from './Preloader';
 
 const PreloaderPrimary = () => {
   return (

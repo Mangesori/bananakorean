@@ -1,9 +1,9 @@
-"use client";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import HeroSlide from "./HeroSlide";
-import { EffectCards, Pagination } from "swiper/modules";
-import getAllCourses from "@/libs/getAllCourses";
+'use client';
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import HeroSlide from './HeroSlide';
+import { EffectCards, Pagination } from 'swiper/modules';
+import getAllCourses from '@/libs/getAllCourses';
 const HeroSlider = () => {
   const courses = getAllCourses();
   const cards = courses.slice(0, 3);

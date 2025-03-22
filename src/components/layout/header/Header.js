@@ -1,16 +1,16 @@
-"use client";
-import React, { useEffect } from "react";
-import Navbar from "./Navbar";
-import MobileMenu from "./MobileMenu";
+'use client';
+import React, { useEffect } from 'react';
+import Navbar from './Navbar';
+import MobileMenu from './MobileMenu';
 
-import useIsTrue from "@/hooks/useIsTrue";
-import Aos from "aos";
-import stickyHeader from "@/libs/stickyHeader";
-import smoothScroll from "@/libs/smoothScroll";
+import useIsTrue from '@/hooks/useIsTrue';
+import Aos from 'aos';
+import stickyHeader from '@/libs/stickyHeader';
+import smoothScroll from '@/libs/smoothScroll';
 
 const Header = () => {
-  const isHome2 = useIsTrue("/home-2");
-  const isHome2Dark = useIsTrue("/home-2-dark");
+  const isHome2 = useIsTrue('/home-2');
+  const isHome2Dark = useIsTrue('/home-2-dark');
   useEffect(() => {
     stickyHeader();
     smoothScroll();
@@ -19,7 +19,7 @@ const Header = () => {
       offset: 1,
       duration: 1000,
       once: true,
-      easing: "ease",
+      easing: 'ease',
     });
   }, []);
   return (

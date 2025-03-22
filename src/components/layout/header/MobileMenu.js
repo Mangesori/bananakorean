@@ -1,8 +1,8 @@
-"use client";
-import MobileMenuItems from "./MobileItems";
-import MobileMenuSearch from "./MobileMenuSearch";
-import MobileMyAccount from "./MobileMyAccount";
-import MobileMenuClose from "@/components/shared/buttons/MobileMenuClose";
+'use client';
+import MobileMenuItems from './MobileItems';
+import MobileMenuSearch from './MobileMenuSearch';
+import MobileMyAccount from './MobileMyAccount';
+import MobileMenuClose from '@/components/shared/buttons/MobileMenuClose';
 
 const MobileMenu = () => {
   return (

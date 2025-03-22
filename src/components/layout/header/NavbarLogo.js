@@ -1,8 +1,7 @@
-import Image from "next/image";
-import React from "react";
-import pnglogo from "@/assets/images/logo/pnglogo.png";
-import svglogo from "@/assets/images/logo/svglogo.svg";
-import Link from "next/link";
+import Image from 'next/image';
+import React from 'react';
+import svglogo from '@/assets/images/logo/svglogo.svg';
+import Link from 'next/link';
 const NavbarLogo = () => {
   return (
     <div className="lg:col-start-1 lg:col-span-2">

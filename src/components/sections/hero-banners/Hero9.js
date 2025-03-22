@@ -1,4 +1,4 @@
-import Hero8 from "./Hero8";
+import Hero8 from './Hero8';
 
 const Hero9 = () => {
   return <Hero8 />;

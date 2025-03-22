@@ -1,29 +1,25 @@
-import { useWishlistContext } from "@/contexts/WshlistContext";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { useWishlistContext } from '@/contexts/WshlistContext';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 const HeroSlide = ({ card, idx }) => {
-  const { image, department, lesson, duration, price, insName, insImg, id } =
-    card;
+  const { image, department, lesson, duration, price, insName, insImg, id } = card;
   const { addProductToWishlist } = useWishlistContext();
   const depBgs = [
-    "bg-secondaryColor",
-    "bg-blue",
-    "bg-secondaryColor2",
-    "bg-greencolor2",
-    "bg-orange",
-    "bg-yellow",
+    'bg-secondaryColor',
+    'bg-blue',
+    'bg-secondaryColor2',
+    'bg-greencolor2',
+    'bg-orange',
+    'bg-yellow',
   ];
   return (
     <div>
       <div className="p-25px bg-whiteColor dark:bg-darkdeep3-dark  ">
         {/* card image */}
         <div className="relative mb-4">
-          <Link
-            href={`courses/${id}`}
-            className="w-full overflow-hidden rounded"
-          >
+          <Link href={`courses/${id}`} className="w-full overflow-hidden rounded">
             <Image
               src={image}
               alt=""
@@ -35,9 +31,7 @@ const HeroSlide = ({ card, idx }) => {
             <div>
               <p
                 className={`text-xs text-whiteColor px-4 py-[3px]  rounded font-semibold ${
-                  idx < depBgs.length
-                    ? depBgs[idx]
-                    : depBgs[Math.floor(Math.random() * 6)]
+                  idx < depBgs.length ? depBgs[idx] : depBgs[Math.floor(Math.random() * 6)]
                 }`}
               >
                 {department}
@@ -65,9 +59,7 @@ const HeroSlide = ({ card, idx }) => {
                 <i className="icofont-book-alt pr-5px text-primaryColor text-lg"></i>
               </div>
               <div>
-                <span className="text-sm text-black dark:text-blackColor-dark">
-                  {lesson}
-                </span>
+                <span className="text-sm text-black dark:text-blackColor-dark">{lesson}</span>
               </div>
             </div>
             <div className="flex items-center">
@@ -75,9 +67,7 @@ const HeroSlide = ({ card, idx }) => {
                 <i className="icofont-clock-time pr-5px text-primaryColor text-lg"></i>
               </div>
               <div>
-                <span className="text-sm text-black dark:text-blackColor-dark">
-                  {duration}
-                </span>
+                <span className="text-sm text-black dark:text-blackColor-dark">{duration}</span>
               </div>
             </div>
           </div>
@@ -88,19 +78,14 @@ const HeroSlide = ({ card, idx }) => {
             Figma to HTML
           </Link>
           <p className="text-contentColor dark:text-contentColor-dark mb-15px">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam,
-            libero!
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam, libero!
           </p>
           {/* price */}
           <div className="text-lg font-semibold text-primaryColor font-inter mb-4">
             ${price.toFixed(2)}
-            <del className="text-sm text-lightGrey4 font-semibold">
-              / $67.00
-            </del>
+            <del className="text-sm text-lightGrey4 font-semibold">/ $67.00</del>
             <span className="ml-6">
-              <del className="text-base font-semibold text-secondaryColor3">
-                Free
-              </del>
+              <del className="text-base font-semibold text-secondaryColor3">Free</del>
             </span>
           </div>
           {/* author and ratin */}
@@ -110,11 +95,7 @@ const HeroSlide = ({ card, idx }) => {
                 href={`instructors/${id}`}
                 className="text-base font-bold font-hind flex items-center hover:text-primaryColor dark:text-blackColor-dark dark:hover:text-primaryColor"
               >
-                <Image
-                  className="w-[30px] h-[30px] rounded-full mr-15px"
-                  src={insImg}
-                  alt=""
-                />
+                <Image className="w-[30px] h-[30px] rounded-full mr-15px" src={insImg} alt="" />
                 <span className="flex">{insName}</span>
               </Link>
             </div>

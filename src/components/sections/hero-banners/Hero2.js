@@ -1,25 +1,21 @@
-import Image from "next/image";
-import shapeImage2 from "@/assets/images/education/hero_shape2.png";
-import shapeImage3 from "@/assets/images/education/hero_shape3.png";
-import shapeImage4 from "@/assets/images/education/hero_shape4.png";
-import shapeImage5 from "@/assets/images/education/hero_shape5.png";
-import educationImage from "@/assets/images/education/education.png";
-import educationImage1 from "@/assets/images/education/education__1.png";
-import educationImage2 from "@/assets/images/education/education__2.png";
-import educationImage3 from "@/assets/images/education/education__3.png";
-import educationImage4 from "@/assets/images/education/education__4.png";
-import educationImage5 from "@/assets/images/education/education__5.png";
-import educationImage6 from "@/assets/images/education/education__6.png";
-import educationImage7 from "@/assets/images/education/education__7.png";
-import aboutImage16 from "@/assets/images/about/about_16.png";
-import TiltWrapper from "@/components/shared/wrappers/TiltWrapper";
-const {
-  default: HeadingLg,
-} = require("@/components/shared/headings/HeadingLg");
-const {
-  default: SectionName,
-} = require("@/components/shared/section-names/SectionName");
-const { default: Link } = require("next/link");
+import Image from 'next/image';
+import shapeImage2 from '@/assets/images/education/hero_shape2.png';
+import shapeImage3 from '@/assets/images/education/hero_shape3.png';
+import shapeImage4 from '@/assets/images/education/hero_shape4.png';
+import shapeImage5 from '@/assets/images/education/hero_shape5.png';
+import educationImage from '@/assets/images/education/education.png';
+import educationImage1 from '@/assets/images/education/education__1.png';
+import educationImage2 from '@/assets/images/education/education__2.png';
+import educationImage3 from '@/assets/images/education/education__3.png';
+import educationImage4 from '@/assets/images/education/education__4.png';
+import educationImage5 from '@/assets/images/education/education__5.png';
+import educationImage6 from '@/assets/images/education/education__6.png';
+import educationImage7 from '@/assets/images/education/education__7.png';
+import aboutImage16 from '@/assets/images/about/about_16.png';
+import TiltWrapper from '@/components/shared/wrappers/TiltWrapper';
+const { default: HeadingLg } = require('@/components/shared/headings/HeadingLg');
+const { default: SectionName } = require('@/components/shared/section-names/SectionName');
+const { default: Link } = require('next/link');
 
 const Hero2 = () => {
   return (
@@ -85,12 +81,7 @@ const Hero2 = () => {
                 <div className="tilt relative z-0">
                   {/* bannar image */}
                   <div className="flex flex-col items-center lg:items-end">
-                    <Image
-                      className="text-center"
-                      src={educationImage}
-                      alt=""
-                      placeholder="blur"
-                    />
+                    <Image className="text-center" src={educationImage} alt="" placeholder="blur" />
                     <Image
                       className="absolute left-0 bottom-[-93px] md:left-[30px] lg:left-0"
                       src={educationImage1}
@@ -158,9 +149,7 @@ const Hero2 = () => {
                     <div>
                       <p className="text-sm text-lightGrey3 mb-15px">
                         Join over
-                        <span className="text-blackColor dark:text-blackColor-dark">
-                          4000+
-                        </span>
+                        <span className="text-blackColor dark:text-blackColor-dark">4000+</span>
                         students
                       </p>
                     </div>

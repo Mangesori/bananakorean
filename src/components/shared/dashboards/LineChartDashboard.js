@@ -1,39 +1,38 @@
-"use client";
+'use client';
 
-import Chart from "chart.js/auto";
-import { useEffect, useRef } from "react";
+import Chart from 'chart.js/auto';
+import { useEffect, useRef } from 'react';
 
 const LineChartDashboard = () => {
   const lineChartRef = useRef(null);
+
   useEffect(() => {
-    const ctx = lineChartRef?.current;
+    const ctx = lineChartRef.current;
     if (ctx) {
       const myChart = new Chart(ctx, {
-        type: "line",
+        type: 'line',
         data: {
           labels: [
-            "Jan",
-            "Feb",
-            "Marc",
-            "April",
-            "May",
-            "Jun",
-            "July",
-            "Agust",
-            "Sept",
-            "Oct",
-            "Now",
-            "Dec",
+            'Jan',
+            'Feb',
+            'Marc',
+            'April',
+            'May',
+            'Jun',
+            'July',
+            'Agust',
+            'Sept',
+            'Oct',
+            'Now',
+            'Dec',
           ],
           datasets: [
             {
-              label: "#",
-              data: [
-                148, 100, 205, 110, 165, 145, 180, 156, 148, 220, 180, 245,
-              ],
+              label: '#',
+              data: [148, 100, 205, 110, 165, 145, 180, 156, 148, 220, 180, 245],
               tension: 0.4,
-              backgroundColor: "#5F2DED",
-              borderColor: "#5F2DED",
+              backgroundColor: '#5F2DED',
+              borderColor: '#5F2DED',
               borderWidth: 2,
             },
           ],
@@ -56,8 +55,13 @@ const LineChartDashboard = () => {
           },
         },
       });
+
+      return () => {
+        myChart.destroy();
+      };
     }
   }, []);
+
   return (
     <div className="w-full md:w-65%">
       <div className="md:px-5 py-10px md:py-0">

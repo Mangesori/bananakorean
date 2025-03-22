@@ -1,20 +1,20 @@
-"use client";
-import HeadingPrimaryXl from "@/components/shared/headings/HeadingPrimaryXl ";
-import SectionNameSecondary from "@/components/shared/section-names/SectionNameSecondary";
-import React from "react";
-import allBlogs from "@/../public/fakedata/blogs.json";
-import blogImage5 from "@/assets/images/blog/blog_5.png";
-import blogImage24 from "@/assets/images/blog/blog_24.png";
-import blogImage25 from "@/assets/images/blog/blog_25.png";
-import blogImage34 from "@/assets/images/blog/blog_34.jpg";
-import blogImage35 from "@/assets/images/blog/blog_35.jpg";
-import blogImage36 from "@/assets/images/blog/blog_36.jpg";
-import Blog from "@/components/shared/blogs/Blog";
-import Link from "next/link";
-import useIsTrue from "@/hooks/useIsTrue";
+'use client';
+import HeadingPrimaryXl from '@/components/shared/headings/HeadingPrimaryXl ';
+import SectionNameSecondary from '@/components/shared/section-names/SectionNameSecondary';
+import React from 'react';
+import allBlogs from '@/../public/fakedata/blogs.json';
+import blogImage5 from '@/assets/images/blog/blog_5.png';
+import blogImage24 from '@/assets/images/blog/blog_24.png';
+import blogImage25 from '@/assets/images/blog/blog_25.png';
+import blogImage34 from '@/assets/images/blog/blog_34.jpg';
+import blogImage35 from '@/assets/images/blog/blog_35.jpg';
+import blogImage36 from '@/assets/images/blog/blog_36.jpg';
+import Blog from '@/components/shared/blogs/Blog';
+import Link from 'next/link';
+import useIsTrue from '@/hooks/useIsTrue';
 const Blogs2 = () => {
-  const isHome10 = useIsTrue("/home-10");
-  const isHome10Dark = useIsTrue("/home-10-dark");
+  const isHome10 = useIsTrue('/home-10');
+  const isHome10Dark = useIsTrue('/home-10-dark');
   const blogs = allBlogs.slice(3, 6);
   const images =
     isHome10 || isHome10Dark

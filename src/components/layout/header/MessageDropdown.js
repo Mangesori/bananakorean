@@ -1,28 +1,70 @@
-import React, { useState } from "react";
-import Conversation from "@/components/shared/dashboards/Conversation";
-import CoversationPartner from "@/components/shared/dashboards/CoversationPartner";
-import useAuth from "@/hooks/useAuth"; // Assuming you have an auth hook
+import React, { useState, useEffect } from 'react';
+import Conversation from '@/components/shared/dashboards/Conversation';
+import ConversationPartner from '@/components/shared/dashboards/ConversationPartner';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/utils/supabaseClient';
 
 const MessageDropdown = ({ onClose }) => {
   const [selectedUser, setSelectedUser] = useState(null);
-  const { user } = useAuth(); // Implement auth hook to check user role
+  const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const isAdmin = user?.role === "admin";
+  useEffect(() => {
+    const getProfile = async () => {
+      if (!user) return;
 
-  const handleUserSelect = (user) => {
-    setSelectedUser(user);
-  };
+      try {
+        // 프로필 정보 가져오기
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (error) throw error;
+
+        // user 정보와 profile 정보 합치기
+        setCurrentUser({ ...user, ...profile });
+
+        // student인 경우 자동으로 admin과 연결
+        if (profile.role === 'student') {
+          const { data: admin } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('role', 'admin')
+            .limit(1)
+            .single();
+
+          if (admin) {
+            setSelectedUser(admin);
+          }
+        }
+      } catch (error) {
+        console.error('프로필 로딩 에러:', error);
+      }
+    };
+
+    getProfile();
+  }, [user]);
+
+  if (!currentUser) return null;
+
+  const isAdmin = currentUser?.role === 'admin';
 
   return (
     <div className="bg-white dark:bg-whiteColor-dark rounded-lg shadow-lg w-[400px] max-h-[700px] overflow-hidden">
       {isAdmin ? (
         selectedUser ? (
-          <Conversation onBack={() => setSelectedUser(null)} />
+          <Conversation
+            currentUser={currentUser}
+            otherUser={selectedUser}
+            onBack={() => setSelectedUser(null)}
+          />
         ) : (
-          <CoversationPartner onUserSelect={handleUserSelect} />
+          <ConversationPartner currentUser={currentUser} onUserSelect={setSelectedUser} />
         )
       ) : (
-        <Conversation />
+        <Conversation currentUser={currentUser} otherUser={selectedUser} />
       )}
     </div>
   );

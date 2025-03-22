@@ -1,70 +1,70 @@
-"use client";
-import React from "react";
-import testimonialImage1 from "@/assets/images/testimonial/testi_1.png";
-import { Swiper, SwiperSlide } from "swiper/react";
-import TestimonialSlide from "./TestimonialSlide";
-import { Navigation } from "swiper/modules";
+'use client';
+import React from 'react';
+import testimonialImage1 from '@/assets/images/testimonial/testi_1.png';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import TestimonialSlide from './TestimonialSlide';
+import { Navigation } from 'swiper/modules';
 const TestimonialsSlider = () => {
   const testimonials = [
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
     {
-      name: "Mirnsdo Jons",
+      name: 'Mirnsdo Jons',
       image: testimonialImage1,
-      desig: "Ui/Ux Designer",
-      desc: "The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ",
+      desig: 'Ui/Ux Designer',
+      desc: 'The other hand we denounce with righteou indg ation men who are so beguiled and demoraliz ed by the of the mo ment.Dislike men who are so beguiled and dems ed by the charms of pleas ure of the moment. Lorem ',
     },
   ];
   return (

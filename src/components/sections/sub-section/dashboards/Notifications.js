@@ -1,53 +1,53 @@
-import dashboardProdileImage from "@/assets/images/dashbord/profile.png";
-import dashboardLockImage from "@/assets/images/dashbord/lock.png";
-import dashboardVerifyImage from "@/assets/images/dashbord/verify.png";
-import dashboardSuccessImage from "@/assets/images/dashbord/success.png";
-import dashboardVideoImage from "@/assets/images/dashbord/video.png";
-import HeadingDashboard from "@/components/shared/headings/HeadingDashboard";
-import Image from "next/image";
-import Link from "next/link";
+import dashboardProdileImage from '@/assets/images/dashbord/profile.png';
+import dashboardLockImage from '@/assets/images/dashbord/lock.png';
+import dashboardVerifyImage from '@/assets/images/dashbord/verify.png';
+import dashboardSuccessImage from '@/assets/images/dashbord/success.png';
+import dashboardVideoImage from '@/assets/images/dashbord/video.png';
+import HeadingDashboard from '@/components/shared/headings/HeadingDashboard';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const Notifications = () => {
   const notifiacations = [
     {
       id: 1,
 
-      title: "latest resume has been updated!",
+      title: 'latest resume has been updated!',
       image: dashboardProdileImage,
-      pulishDate: "1 Hour Ago",
+      pulishDate: '1 Hour Ago',
     },
     {
       id: 2,
 
-      title: "Password has been changed 3 times",
+      title: 'Password has been changed 3 times',
       image: dashboardLockImage,
-      pulishDate: "2 Min Ago",
+      pulishDate: '2 Min Ago',
     },
     {
       id: 3,
 
-      title: "Successfully applied for a job Developer",
+      title: 'Successfully applied for a job Developer',
       image: dashboardVerifyImage,
-      pulishDate: "30 Min Ago",
+      pulishDate: '30 Min Ago',
     },
     {
       id: 4,
 
-      title: "Multi vendor course updated successfully",
+      title: 'Multi vendor course updated successfully',
       image: dashboardSuccessImage,
-      pulishDate: "3 Hour Ago",
+      pulishDate: '3 Hour Ago',
     },
     {
       id: 5,
 
-      title: "latest resume has been updated!",
+      title: 'latest resume has been updated!',
       image: dashboardVideoImage,
-      pulishDate: "1 Hour Ago",
+      pulishDate: '1 Hour Ago',
     },
   ];
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5 max-h-137.5 overflow-auto">
-      <HeadingDashboard path={"/courses"}>Notifications</HeadingDashboard>
+      <HeadingDashboard path={'/courses'}>Notifications</HeadingDashboard>
 
       {/* notification */}
       <ul>
@@ -56,8 +56,8 @@ const Notifications = () => {
             key={idx}
             className={`flex items-center flex-wrap  ${
               idx === notifiacations?.length - 1
-                ? "pt-15px"
-                : "py-15px border-b border-borderColor dark:border-borderColor-dark"
+                ? 'pt-15px'
+                : 'py-15px border-b border-borderColor dark:border-borderColor-dark'
             }`}
           >
             {/* avatar */}

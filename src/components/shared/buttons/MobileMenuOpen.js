@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import mobileMenu from "@/libs/mobileMenu";
-import { useEffect } from "react";
+import mobileMenu from '@/libs/mobileMenu';
+import { useEffect } from 'react';
 
 const MobileMenuOpen = () => {
   useEffect(() => {

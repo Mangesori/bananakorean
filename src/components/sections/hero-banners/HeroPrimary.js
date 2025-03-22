@@ -1,5 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 const HeroPrimary = ({ title, path }) => {
   return (
@@ -12,7 +12,10 @@ const HeroPrimary = ({ title, path }) => {
             </h1>
             <ul className="flex gap-1 justify-center">
               <li>
-                <Link href="/" className="text-lg text-blackColor2 dark:text-blackColor2-dark hover:text-primaryColor dark:hover:text-primaryColor">
+                <Link
+                  href="/"
+                  className="text-lg text-blackColor2 dark:text-blackColor2-dark hover:text-primaryColor dark:hover:text-primaryColor"
+                >
                   Home <i className="icofont-simple-right"></i>
                 </Link>
               </li>

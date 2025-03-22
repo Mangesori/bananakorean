@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import meetingsImage from "@/assets/images/zoom/details.jpg";
-import PopupVideo from "@/components/shared/popup/PopupVideo";
-import Link from "next/link";
+import meetingsImage from '@/assets/images/zoom/details.jpg';
+import PopupVideo from '@/components/shared/popup/PopupVideo';
+import Link from 'next/link';
 const ZoomMeetingsDetails = () => {
   return (
     <section>
@@ -19,39 +19,26 @@ const ZoomMeetingsDetails = () => {
             <div data-aos="fade-up">
               {/* meeting content */}
               <div className="space-y-5">
-                <p
-                  className="text-sm md:text-lg text-darkdeep4 !leading-30px"
-                  data-aos="fade-up"
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur vulputate vestibulum Phasellus rhoncus, dolor eget
-                  viverra pretium, dolor tellus aliquet nunc, vitae ultricies
-                  erat elit eu lacus. Vestibulum non justo consectetur, cursus
-                  ante, tincidunt sapien. Nulla quis diam sit amet turpis
-                  interdum accumsan quis nec enim. Vivamus faucibus ex sed nibh
-                  egestas elementum. Mauris et bibendum dui. Aenean consequat
-                  pulvinar luctus
+                <p className="text-sm md:text-lg text-darkdeep4 !leading-30px" data-aos="fade-up">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate
+                  vestibulum Phasellus rhoncus, dolor eget viverra pretium, dolor tellus aliquet
+                  nunc, vitae ultricies erat elit eu lacus. Vestibulum non justo consectetur, cursus
+                  ante, tincidunt sapien. Nulla quis diam sit amet turpis interdum accumsan quis nec
+                  enim. Vivamus faucibus ex sed nibh egestas elementum. Mauris et bibendum dui.
+                  Aenean consequat pulvinar luctus
                 </p>
-                <p
-                  className="text-sm md:text-lg text-darkdeep4 !leading-30px"
-                  data-aos="fade-up"
-                >
-                  We have covered many special events such as fireworks, fairs,
-                  parades, races, walks, awards ceremonies, fashion shows,
-                  sporting events, and even a memorial service.
+                <p className="text-sm md:text-lg text-darkdeep4 !leading-30px" data-aos="fade-up">
+                  We have covered many special events such as fireworks, fairs, parades, races,
+                  walks, awards ceremonies, fashion shows, sporting events, and even a memorial
+                  service.
                 </p>
-                <p
-                  className="text-sm md:text-lg text-darkdeep4 !leading-30px"
-                  data-aos="fade-up"
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur vulputate vestibulum Phasellus rhoncus, dolor eget
-                  viverra pretium, dolor tellus aliquet nunc, vitae ultricies
-                  erat elit eu lacus. Vestibulum non justo consectetur, cursus
-                  ante, tincidunt sapien. Nulla quis diam sit amet turpis
-                  interdum accumsan quis nec enim. Vivamus faucibus ex sed nibh
-                  egestas elementum. Mauris et bibendum dui. Aenean consequat
-                  pulvinar luctus.
+                <p className="text-sm md:text-lg text-darkdeep4 !leading-30px" data-aos="fade-up">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate
+                  vestibulum Phasellus rhoncus, dolor eget viverra pretium, dolor tellus aliquet
+                  nunc, vitae ultricies erat elit eu lacus. Vestibulum non justo consectetur, cursus
+                  ante, tincidunt sapien. Nulla quis diam sit amet turpis interdum accumsan quis nec
+                  enim. Vivamus faucibus ex sed nibh egestas elementum. Mauris et bibendum dui.
+                  Aenean consequat pulvinar luctus.
                 </p>
 
                 <h4
@@ -64,45 +51,40 @@ const ZoomMeetingsDetails = () => {
                   <li className="flex items-center group ">
                     <i className="icofont-check px-2 py-2 text-primaryColor bg-whitegrey3 bg-opacity-40 group-hover:bg-primaryColor group-hover:text-white group-hover:opacity-100 mr-15px dark:bg-whitegrey1-dark"></i>
                     <p className="text-sm lg:text-xs 2xl:text-sm font-medium leading-25px lg:leading-21px 2xl:leading-25px max-w-[508px] text-contentColor dark:text-contentColor-dark">
-                      Lorem Ipsum is simply dummying text of the printing
-                      andtypesetting industry most of the standard.
+                      Lorem Ipsum is simply dummying text of the printing andtypesetting industry
+                      most of the standard.
                     </p>
                   </li>
                   <li className="flex items-center group">
                     <i className="icofont-check px-2 py-2 text-primaryColor bg-whitegrey3 bg-opacity-40 group-hover:bg-primaryColor group-hover:text-white group-hover:opacity-100 mr-15px dark:bg-whitegrey1-dark"></i>
                     <p className="text-sm lg:text-xs 2xl:text-sm font-medium leading-25px lg:leading-21px 2xl:leading-25px max-w-[508px] text-contentColor dark:text-contentColor-dark">
-                      Lorem Ipsum is simply dummying text of the printing
-                      andtypesetting industry most of the standard.
+                      Lorem Ipsum is simply dummying text of the printing andtypesetting industry
+                      most of the standard.
                     </p>
                   </li>
                   <li className="flex items-center group">
                     <i className="icofont-check px-2 py-2 text-primaryColor bg-whitegrey3 bg-opacity-40 group-hover:bg-primaryColor group-hover:text-white group-hover:opacity-100 mr-15px dark:bg-whitegrey1-dark"></i>
                     <p className="text-sm lg:text-xs 2xl:text-sm font-medium leading-25px lg:leading-21px 2xl:leading-25px max-w-[508px] text-contentColor dark:text-contentColor-dark">
-                      Lorem Ipsum is simply dummying text of the printing
-                      andtypesetting industry most of the standard.
+                      Lorem Ipsum is simply dummying text of the printing andtypesetting industry
+                      most of the standard.
                     </p>
                   </li>
                   <li className="flex items-center group">
                     <i className="icofont-check px-2 py-2 text-primaryColor bg-whitegrey3 bg-opacity-40 group-hover:bg-primaryColor group-hover:text-white group-hover:opacity-100 mr-15px dark:bg-whitegrey1-dark"></i>
                     <p className="text-sm lg:text-xs 2xl:text-sm font-medium leading-25px lg:leading-21px 2xl:leading-25px max-w-[508px] text-contentColor dark:text-contentColor-dark">
-                      Lorem Ipsum is simply dummying text of the printing
-                      andtypesetting industry most of the standard.
+                      Lorem Ipsum is simply dummying text of the printing andtypesetting industry
+                      most of the standard.
                     </p>
                   </li>
                 </ul>
 
-                <p
-                  className="text-sm md:text-lg text-darkdeep4 !leading-30px"
-                  data-aos="fade-up"
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur vulputate vestibulum Phasellus rhoncus, dolor eget
-                  viverra pretium, dolor tellus aliquet nunc, vitae ultricies
-                  erat elit eu lacus. Vestibulum non justo consectetur, cursus
-                  ante, tincidunt sapien. Nulla quis diam sit amet turpis
-                  interdum accumsan quis nec enim. Vivamus faucibus ex sed nibh
-                  egestas elementum. Mauris et bibendum dui. Aenean consequat
-                  pulvinar luctus
+                <p className="text-sm md:text-lg text-darkdeep4 !leading-30px" data-aos="fade-up">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vulputate
+                  vestibulum Phasellus rhoncus, dolor eget viverra pretium, dolor tellus aliquet
+                  nunc, vitae ultricies erat elit eu lacus. Vestibulum non justo consectetur, cursus
+                  ante, tincidunt sapien. Nulla quis diam sit amet turpis interdum accumsan quis nec
+                  enim. Vivamus faucibus ex sed nibh egestas elementum. Mauris et bibendum dui.
+                  Aenean consequat pulvinar luctus
                 </p>
               </div>
             </div>
@@ -118,9 +100,7 @@ const ZoomMeetingsDetails = () => {
                 <div className="flex justify-between mb-50px">
                   <div className="text-size-21 font-bold text-primaryColor font-inter leading-25px">
                     $32.00
-                    <del className="text-sm text-lightGrey4 font-semibold">
-                      / $67.00
-                    </del>
+                    <del className="text-sm text-lightGrey4 font-semibold">/ $67.00</del>
                   </div>
                   <div>
                     <a

@@ -2,7 +2,7 @@ const HeadingPrimary = ({ children, text }) => {
   return (
     <h3
       className={`text-3xl md:text-[35px] lg:text-size-42 font-bold text-blackColor dark:text-blackColor-dark  ${
-        text === "center" ? "text-center" : ""
+        text === 'center' ? 'text-center' : ''
       }`}
       data-aos="fade-up"
     >

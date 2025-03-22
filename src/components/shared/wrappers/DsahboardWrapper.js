@@ -1,14 +1,7 @@
-"use client";
+'use client';
 
-import HeroDashboard from "@/components/sections/hero-banners/HeroDashboard";
-
-const DsahboardWrapper = ({ children }) => {
-  return (
-    <>
-      <HeroDashboard />
-      {children}
-    </>
-  );
+const DashboardWrapper = ({ children }) => {
+  return <div className="-mt-5">{children}</div>;
 };
 
-export default DsahboardWrapper;
+export default DashboardWrapper;

@@ -1,5 +1,5 @@
-import React from "react";
-import ButtonPrimary from "../buttons/ButtonPrimary";
+import React from 'react';
+import ButtonPrimary from '../buttons/ButtonPrimary';
 
 const PasswordContent = () => {
   return (
@@ -27,9 +27,7 @@ const PasswordContent = () => {
         </div>
 
         <div>
-          <label className="mb-3 block font-semibold">
-            Re-Type New Password
-          </label>
+          <label className="mb-3 block font-semibold">Re-Type New Password</label>
           <input
             type="password"
             placeholder="Re-Type New Password"
@@ -39,7 +37,7 @@ const PasswordContent = () => {
       </div>
 
       <div className="mt-15px">
-        <ButtonPrimary type={"submit"}>Update Password</ButtonPrimary>
+        <ButtonPrimary type={'submit'}>Update Password</ButtonPrimary>
       </div>
     </form>
   );

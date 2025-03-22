@@ -22,7 +22,7 @@ const GivenContent = () => {
               <div>
                 {/* review */}
                 <div className="text-primaryColor">
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -36,7 +36,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -50,7 +50,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -64,7 +64,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -78,7 +78,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -92,7 +92,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <span className="md:text-sm text-blackColor dark:text-blackColor-dark font-bold">
                     (9 Reviews)
                   </span>
@@ -107,7 +107,7 @@ const GivenContent = () => {
                   className="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8 relative before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300"
                   href="#"
                 >
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -129,7 +129,7 @@ const GivenContent = () => {
                   className="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8"
                   href="#"
                 >
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -154,16 +154,14 @@ const GivenContent = () => {
           </tr>
           <tr className="leading-1.8 md:leading-1.8 bg-lightGrey5 dark:bg-whiteColor-dark">
             <th className="px-5px py-10px md:px-5 font-normal">
-              <p className="text-blackColor dark:text-blackColor-dark">
-                Course: How to Web Design
-              </p>
+              <p className="text-blackColor dark:text-blackColor-dark">Course: How to Web Design</p>
             </th>
 
             <td className="px-5px py-10px md:px-5">
               <div>
                 {/* review */}
                 <div className="text-primaryColor">
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -177,7 +175,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -191,7 +189,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -205,7 +203,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -219,7 +217,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -233,7 +231,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <span className="md:text-sm text-blackColor dark:text-blackColor-dark font-bold">
                     (9 Reviews)
                   </span>
@@ -248,7 +246,7 @@ const GivenContent = () => {
                   className="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8 relative before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300"
                   href="#"
                 >
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -270,7 +268,7 @@ const GivenContent = () => {
                   className="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8"
                   href="#"
                 >
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -295,16 +293,14 @@ const GivenContent = () => {
           </tr>
           <tr className="leading-1.8 md:leading-1.8">
             <th className="px-5px py-10px md:px-5 font-normal">
-              <p className="text-blackColor dark:text-blackColor-dark">
-                Course: English
-              </p>
+              <p className="text-blackColor dark:text-blackColor-dark">Course: English</p>
             </th>
 
             <td className="px-5px py-10px md:px-5">
               <div>
                 {/* review */}
                 <div className="text-primaryColor">
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -318,7 +314,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -332,7 +328,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -346,7 +342,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -360,7 +356,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -374,7 +370,7 @@ const GivenContent = () => {
                     className="feather feather-star w-4 inline-block"
                   >
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>{" "}
+                  </svg>{' '}
                   <span className="md:text-sm text-blackColor dark:text-blackColor-dark font-bold">
                     (9 Reviews)
                   </span>
@@ -389,7 +385,7 @@ const GivenContent = () => {
                   className="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8 relative before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300"
                   href="#"
                 >
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -411,7 +407,7 @@ const GivenContent = () => {
                   className="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8"
                   href="#"
                 >
-                  {" "}
+                  {' '}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"

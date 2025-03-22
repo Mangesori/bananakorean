@@ -1,18 +1,18 @@
-import allBlogs from "@/../public/fakedata/blogs.json";
-import blogImage4 from "@/assets/images/blog/blog_4.png";
-import blogImage6 from "@/assets/images/blog/blog_6.png";
-import blogImage7 from "@/assets/images/blog/blog_7.png";
-import blogImage8 from "@/assets/images/blog/blog_8.png";
-import blogImage9 from "@/assets/images/blog/blog_9.png";
-import HeadingDashboard from "@/components/shared/headings/HeadingDashboard";
-import Image from "next/image";
-import Link from "next/link";
+import allBlogs from '@/../public/fakedata/blogs.json';
+import blogImage4 from '@/assets/images/blog/blog_4.png';
+import blogImage6 from '@/assets/images/blog/blog_6.png';
+import blogImage7 from '@/assets/images/blog/blog_7.png';
+import blogImage8 from '@/assets/images/blog/blog_8.png';
+import blogImage9 from '@/assets/images/blog/blog_9.png';
+import HeadingDashboard from '@/components/shared/headings/HeadingDashboard';
+import Image from 'next/image';
+import Link from 'next/link';
 const NoticeBoard = () => {
   const blogs = allBlogs?.slice(0, 5);
   const images = [blogImage4, blogImage6, blogImage7, blogImage8, blogImage9];
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5 max-h-137.5 overflow-auto">
-      <HeadingDashboard path={"/blogs"}>Notice Board</HeadingDashboard>
+      <HeadingDashboard path={'/blogs'}>Notice Board</HeadingDashboard>
 
       {/* instrutor */}
       <ul>

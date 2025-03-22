@@ -1,26 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 let idx = -1;
 let cidx = 0;
 const ZoomMeeting = ({ meeting }) => {
-  const {
-    id,
-    title,
-    image,
-    speakerName,
-    speakerImage,
-    date,
-    startingTime,
-    duration,
-    department,
-  } = meeting;
+  const { id, title, image, speakerName, speakerImage, date, startingTime, duration, department } =
+    meeting;
   const depBgs = [
-    "bg-secondaryColor",
-    "bg-blue",
-    "bg-secondaryColor2",
-    "bg-greencolor2",
-    "bg-orange",
-    "bg-yellow",
+    'bg-secondaryColor',
+    'bg-blue',
+    'bg-secondaryColor2',
+    'bg-greencolor2',
+    'bg-orange',
+    'bg-yellow',
   ];
 
   idx = (idx + 1) % depBgs.length;
@@ -64,9 +55,7 @@ const ZoomMeeting = ({ meeting }) => {
                   <i className="icofont-calendar pr-5px text-primaryColor text-lg"></i>
                 </div>
                 <div>
-                  <span className="text-sm text-black dark:text-blackColor-dark">
-                    {date}
-                  </span>
+                  <span className="text-sm text-black dark:text-blackColor-dark">{date}</span>
                 </div>
               </div>
               <div className="flex items-center">
@@ -74,9 +63,7 @@ const ZoomMeeting = ({ meeting }) => {
                   <i className="icofont-clock-time pr-5px text-primaryColor text-lg"></i>
                 </div>
                 <div>
-                  <span className="text-sm text-black dark:text-blackColor-dark">
-                    {duration}
-                  </span>
+                  <span className="text-sm text-black dark:text-blackColor-dark">{duration}</span>
                 </div>
               </div>
             </div>
@@ -107,11 +94,7 @@ const ZoomMeeting = ({ meeting }) => {
                   href={`/instructors/${cidx}`}
                   className="text-xs flex items-center text-contentColor hover:text-primaryColor dark:text-contentColor-dark dark:hover:text-primaryColor"
                 >
-                  <Image
-                    className="w-50px h-50px rounded-full mr-15px"
-                    src={speakerImage}
-                    alt=""
-                  />
+                  <Image className="w-50px h-50px rounded-full mr-15px" src={speakerImage} alt="" />
                   <div>
                     <span>Speaker:</span>
                     <h3 className="text-lg font-bold text-blackColor dark:text-blackColor-dark">

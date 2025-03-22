@@ -1,10 +1,10 @@
-import SignUpMain from "@/components/layout/main/SignUpMain";
-import ThemeController from "@/components/shared/others/ThemeController";
-import PageWrapper from "@/components/shared/wrappers/PageWrapper";
+import SignUpMain from '@/components/layout/main/SignUpMain';
+import ThemeController from '@/components/shared/others/ThemeController';
+import PageWrapper from '@/components/shared/wrappers/PageWrapper';
 
 export const metadata = {
-  title: "Sign Up | Edurock - Education LMS Template",
-  description: "Sign Up | Edurock - Education LMS Template",
+  title: 'Sign Up',
+  description: 'Sign Up',
 };
 
 const SignUp = () => {

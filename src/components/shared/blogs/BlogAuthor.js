@@ -1,6 +1,6 @@
-import Image from "next/image";
-import blogImag10 from "@/assets/images/blog/blog_10.png";
-import Link from "next/link";
+import Image from 'next/image';
+import blogImag10 from '@/assets/images/blog/blog_10.png';
+import Link from 'next/link';
 
 const BlogAuthor = () => {
   return (
@@ -28,8 +28,8 @@ const BlogAuthor = () => {
       </div>
       {/* description */}
       <p className="text-sm text-contentColor dark:text-contentColor-dark mb-15px">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.Veritatis
-        distinctio suscipit reprehenderit atque
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.Veritatis distinctio suscipit
+        reprehenderit atque
       </p>
       {/* social */}
       <div>

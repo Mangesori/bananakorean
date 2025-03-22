@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const LessonQuizSingle = ({ quiz: quizSingle, totalQuiz, idx }) => {
   const { id, attemptTimes, time, quiz, options } = quizSingle;
@@ -11,9 +11,7 @@ const LessonQuizSingle = ({ quiz: quizSingle, totalQuiz, idx }) => {
         <li className="text-bodyColor dark:text-bodyColor-dark leading-1.8">
           Attempts allowed : {attemptTimes} |
         </li>
-        <li className="text-bodyColor dark:text-bodyColor-dark leading-1.8">
-          Time: {time}
-        </li>
+        <li className="text-bodyColor dark:text-bodyColor-dark leading-1.8">Time: {time}</li>
       </ul>
       <hr className="border-borderColor2 dark:opacity-30 my-4" />
       <h4 className="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px">
@@ -24,8 +22,8 @@ const LessonQuizSingle = ({ quiz: quizSingle, totalQuiz, idx }) => {
           const idAttr =
             name
               .slice(0, Math.floor(Math.random(1) * name?.length))
-              .split(" ")
-              .join("") + Math.floor(Math.random() * 10000);
+              .split(' ')
+              .join('') + Math.floor(Math.random() * 10000);
 
           return (
             <li key={idx} className="flex items-center gap-x-2">

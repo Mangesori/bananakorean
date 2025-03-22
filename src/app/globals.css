@@ -1,11 +1,4 @@
 /*********************************************************************************
-
-	  Template Name: Edurock - Education LMS Template
-    Author: Kamrul Hasan
-    Support: kamrulishasan34@gmail.com
-    Description: Edurock -  Education, online course, tailwind v3.0 and Next.js v14,.
-    Version: 1.0.0
-    
 ****************
 *****************************************************************/
 
@@ -207,17 +200,17 @@ h6 {
 }
 .testimonial .swiper-button-prev::before,
 .testimonial .swiper-button-next::before {
-  font-family: "IcoFont";
+  font-family: 'IcoFont';
   color: var(--blackColor);
   font-size: 30px;
   transition: 0.3s;
 }
 
 .testimonial .swiper-button-prev::before {
-  content: "\ea93";
+  content: '\ea93';
 }
 .testimonial .swiper-button-next::before {
-  content: "\ea94";
+  content: '\ea94';
 }
 .testimonial .swiper-button-next:hover:before,
 .testimonial .swiper-button-prev:hover::before {
@@ -336,7 +329,7 @@ h6 {
 }
 
 .tooltip::before {
-  content: "";
+  content: '';
   width: 0;
   height: 0;
   border: 10px solid transparent;

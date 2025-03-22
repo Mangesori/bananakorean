@@ -1,10 +1,8 @@
-const countTotalPrice = (items) => {
+const countTotalPrice = items => {
   // calculate total price
   let totalPrice;
   if (items?.length) {
-    totalPrice = parseFloat(
-      items?.reduce((ac, { price, quantity }) => ac + quantity * price, 0)
-    );
+    totalPrice = parseFloat(items?.reduce((ac, { price, quantity }) => ac + quantity * price, 0));
   } else {
     totalPrice = 0;
   }

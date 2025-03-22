@@ -1,14 +1,14 @@
-import Accordion from "@/components/shared/accordion/Accordion";
-import AccordionContent from "@/components/shared/accordion/AccordionContent";
-import AccordionController from "@/components/shared/accordion/AccordionController";
-import AccordionContainer from "@/components/shared/containers/AccordionContainer";
+import Accordion from '@/components/shared/accordion/Accordion';
+import AccordionContent from '@/components/shared/accordion/AccordionContent';
+import AccordionController from '@/components/shared/accordion/AccordionController';
+import AccordionContainer from '@/components/shared/containers/AccordionContainer';
 
 const Faq = () => {
   const accordionItems = [
-    "Can I cancel my account at any time?",
-    "What happens after the license expires?",
-    "Does Harry have any documentations?",
-    "How long do I get support & updates?",
+    'Can I cancel my account at any time?',
+    'What happens after the license expires?',
+    'Does Harry have any documentations?',
+    'How long do I get support & updates?',
   ];
   return (
     <section>
@@ -29,17 +29,15 @@ const Faq = () => {
                   key={idx}
                   idx={idx}
                   isActive={idx === 0 ? true : false}
-                  accordion={"secondaryLg"}
+                  accordion={'secondaryLg'}
                 >
-                  <AccordionController type={"secondaryLg"}>
-                    {item}
-                  </AccordionController>
+                  <AccordionController type={'secondaryLg'}>{item}</AccordionController>
                   <AccordionContent>
                     <div className="content-wrapper py-4 px-5">
                       <p className="leading-7 text-contentColor dark:text-contentColor-dark mb-15px">
-                        Non similique culpa in provident quos sit commodi beatae
-                        ea laborum suscipit id autem velit aut iusto odio et
-                        deleniti quis et doloremque enim vel consequuntur quos.
+                        Non similique culpa in provident quos sit commodi beatae ea laborum suscipit
+                        id autem velit aut iusto odio et deleniti quis et doloremque enim vel
+                        consequuntur quos.
                       </p>
                     </div>
                   </AccordionContent>

@@ -1,57 +1,57 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
 const BlogTags = () => {
   const tags = [
     {
       id: 1,
-      category: "business",
-      name: "BUSINESS",
+      category: 'business',
+      name: 'BUSINESS',
     },
     {
       id: 2,
-      category: "design",
-      name: "DESIGN",
+      category: 'design',
+      name: 'DESIGN',
     },
     {
       id: 3,
-      category: "app",
-      name: "APPS",
+      category: 'app',
+      name: 'APPS',
     },
     {
       id: 4,
-      category: "design",
-      name: "LANDING PAGE",
+      category: 'design',
+      name: 'LANDING PAGE',
     },
     {
       id: 5,
-      category: "data",
-      name: "DATA",
+      category: 'data',
+      name: 'DATA',
     },
     {
       id: 6,
-      category: "health",
-      name: "BOOK",
+      category: 'health',
+      name: 'BOOK',
     },
     {
       id: 7,
-      category: "design",
-      name: "DESIGN",
+      category: 'design',
+      name: 'DESIGN',
     },
     {
       id: 8,
-      category: "health",
-      name: "BOOK",
+      category: 'health',
+      name: 'BOOK',
     },
     {
       id: 9,
-      category: "design",
-      name: "LANDING PAGE",
+      category: 'design',
+      name: 'LANDING PAGE',
     },
     {
       id: 10,
-      category: "data",
-      name: "DATA",
+      category: 'data',
+      name: 'DATA',
     },
   ];
   return (

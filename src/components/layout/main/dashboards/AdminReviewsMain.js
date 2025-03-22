@@ -1,5 +1,5 @@
-import ReviewsTab from "@/components/shared/dashboards/ReviewsTab";
-import React from "react";
+import ReviewsTab from '@/components/shared/dashboards/ReviewsTab';
+import React from 'react';
 
 const AdminReviewsMain = () => {
   return (

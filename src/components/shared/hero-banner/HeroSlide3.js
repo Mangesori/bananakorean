@@ -1,13 +1,13 @@
-import Image from "next/image";
-import React from "react";
-import ButtonPrimary from "../buttons/ButtonPrimary";
-import HreoName from "../section-names/HreoName";
-import PopupVideo from "../popup/PopupVideo";
-import useIsTrue from "@/hooks/useIsTrue";
+import Image from 'next/image';
+import React from 'react';
+import ButtonPrimary from '../buttons/ButtonPrimary';
+import HreoName from '../section-names/HreoName';
+import PopupVideo from '../popup/PopupVideo';
+import useIsTrue from '@/hooks/useIsTrue';
 
 const HeroSlide3 = ({ slide, idx }) => {
-  const isHome9 = useIsTrue("/home-9");
-  const isHome9Dark = useIsTrue("/home-9-dark");
+  const isHome9 = useIsTrue('/home-9');
+  const isHome9Dark = useIsTrue('/home-9-dark');
   const { tag, title, image } = slide;
   return (
     <div className="container 2xl:container-secondary-md relative overflow-hidden">
@@ -18,29 +18,22 @@ const HeroSlide3 = ({ slide, idx }) => {
           className="md:col-start-1 md:col-span-12 lg:col-start-1 lg:col-span-7"
         >
           <div
-            className={`3xl:pr-135px ${
-              idx === 1 ? "text-center" : idx === 2 ? "text-end" : ""
-            }`}
+            className={`3xl:pr-135px ${idx === 1 ? 'text-center' : idx === 2 ? 'text-end' : ''}`}
           >
             <HreoName>{tag}</HreoName>
             <h1 className="text-size-35 md:text-size-65 lg:text-5xl 2xl:text-size-65 leading-42px md:leading-18 lg:leading-15 2xl:leading-18 text-blackColor dark:text-blackColor-dark md:tracking-half lg:tracking-normal 2xl:tracking-half font-bold mb-15px">
-              {title}{" "}
+              {title}{' '}
             </h1>
             <p className="text-size-15 md:text-lg text-blackColor dark:text-blackColor-dark font-medium">
-              Lorem Ipsum is simply dummy text of the printing typesetting{" "}
-              <br />
+              Lorem Ipsum is simply dummy text of the printing typesetting <br />
               industry. Lorem Ipsum has been
             </p>
             {(isHome9 || isHome9Dark) && idx == 0 ? (
-              ""
+              ''
             ) : (
               <p
                 className={`text-3xl md:text-size-40 font-bold text-primaryColor mt-30px mb-10 flex items-center ${
-                  idx === 1
-                    ? "justify-center"
-                    : idx === 2
-                    ? "justify-end"
-                    : "justify-start"
+                  idx === 1 ? 'justify-center' : idx === 2 ? 'justify-end' : 'justify-start'
                 }`}
               >
                 $32.00
@@ -72,7 +65,7 @@ const HeroSlide3 = ({ slide, idx }) => {
                 <PopupVideo />
               </div>
             ) : (
-              ""
+              ''
             )}
           </div>
         </div>

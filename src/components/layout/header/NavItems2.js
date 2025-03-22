@@ -1,8 +1,8 @@
-import React from "react";
-import Navitem from "./Navitem";
-import DropdownWrapper from "@/components/shared/wrappers/DropdownWrapper";
-import DropdownVideos from "./DropdownVideos";
-import useAuth from "@/hooks/useAuth"; // Add this import
+import React from 'react';
+import Navitem from './Navitem';
+import DropdownWrapper from '@/components/shared/wrappers/DropdownWrapper';
+import DropdownVideos from './DropdownVideos';
+import { useAuth } from '@/hooks/useAuth'; // Add this import
 
 const NavItems = () => {
   const { user } = useAuth(); // Add this hook
@@ -10,14 +10,14 @@ const NavItems = () => {
   const baseNavItems = [
     {
       id: 1,
-      name: "Quiz",
-      path: "/quiz",
+      name: 'Quiz',
+      path: '/quiz',
       isRelative: false,
     },
     {
       id: 2,
-      name: "Videos",
-      path: "/videos",
+      name: 'Videos',
+      path: '/videos',
       dropdown: <DropdownVideos />,
       isRelative: false,
     },
@@ -44,12 +44,7 @@ const NavItems = () => {
 };
 
 const SearchIcon = ({ className }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-  >
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

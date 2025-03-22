@@ -1,101 +1,148 @@
-import React from "react";
-import Link from "next/link"; // 추가
+'use client';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { supabase } from '@/utils/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 const SignUpForm = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(null);
+  const router = useRouter();
+
+  const handleSignUp = async e => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    try {
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (signUpError) throw signUpError;
+
+      // profiles 테이블에 role 정보 추가
+      const { data: profile, error: profileError } = await supabase.from('profiles').insert([
+        {
+          id: authData.user.id,
+          email: authData.user.email,
+          name: authData.user.user_metadata.full_name || '',
+          role: 'student',
+          created_at: new Date().toISOString(),
+        },
+      ]);
+
+      if (profileError) throw profileError;
+
+      alert('회원가입이 완료되었습니다. 이메일을 확인해주세요.');
+      router.push('/login');
+    } catch (error) {
+      console.error('Error:', error.message);
+      alert(error.message);
+    }
+  };
+
+  const handleSocialSignUp = async provider => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: window.location.origin,
+          scopes: provider === 'facebook' ? 'email,public_profile' : 'email',
+        },
+      });
+
+      if (error) {
+        console.error('OAuth error:', error);
+        throw error;
+      }
+
+      // 페이스북 로그인 후 리다이렉트 처리는 useEffect에서 처리됨
+    } catch (error) {
+      console.error('Social signup error:', error);
+      setError(error.message);
+    }
+  };
+
   return (
     <div className="transition-opacity duration-150 ease-linear">
-      {/* heading   */}
+      {/* heading */}
       <div className="text-center">
         <h3 className="text-size-32 font-bold text-blackColor dark:text-blackColor-dark mb-2 leading-normal">
           Sign Up
         </h3>
         <p className="text-contentColor dark:text-contentColor-dark mb-15px">
-          Already have an account?{" "}
-          <Link // <a> 태그를 Link로 변경
-            href="/login" // login.html을 /login으로 변경
+          Already have an account?{' '}
+          <Link
+            href="/login"
             className="hover:text-primaryColor relative after:absolute after:left-0 after:bottom-0.5 after:w-0 after:h-0.5 after:bg-primaryColor after:transition-all after:duration-300 hover:after:w-full"
           >
-            Log In
+            <strong>Log In</strong>
           </Link>
         </p>
       </div>
 
-      <form className="pt-25px" data-aos="fade-up">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-30px gap-y-25px mb-25px">
-          <div>
-            <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
-              First Name
-            </label>
-            <input
-              type="text"
-              placeholder="First Name"
-              className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
-            />
-          </div>
-          <div>
-            <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
-              Last Name
-            </label>
-            <input
-              type="text"
-              placeholder="Last Name"
-              className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-30px gap-y-25px mb-25px">
-          <div>
-            <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
-              Username
-            </label>
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
-            />
-          </div>
-          <div>
-            <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-30px gap-y-25px mb-25px">
-          <div>
-            <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
-            />
-          </div>
-          <div>
-            <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
-              Re-Enter Password
-            </label>
-            <input
-              type="password"
-              placeholder="Re-Enter Password"
-              className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
-            />
-          </div>
+      <form className="pt-25px" data-aos="fade-up" onSubmit={handleSignUp}>
+        <div className="mb-25px">
+          <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
+            Name
+          </label>
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
+          />
         </div>
 
-        <div className="text-contentColor dark:text-contentColor-dark flex items-center">
+        <div className="mb-25px">
+          <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
+            Email
+          </label>
           <input
-            type="checkbox"
-            id="accept-pp"
-            className="w-18px h-18px mr-2 block box-content"
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
           />
-          <label htmlFor="accept-pp">Accept the Terms and Privacy Policy</label>
         </div>
+
+        <div className="mb-25px">
+          <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
+            Password
+          </label>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
+          />
+        </div>
+
+        <div className="mb-25px">
+          <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
+          />
+        </div>
+
+        {error && <p className="text-red-500">{error}</p>}
+
         <div className="mt-25px text-center">
           <button
             type="submit"
@@ -114,12 +161,14 @@ const SignUpForm = () => {
         <div className="text-center flex gap-x-1 md:gap-x-15px lg:gap-x-25px gap-y-5 items-center justify-center flex-wrap">
           <button
             type="button"
+            onClick={() => handleSocialSignUp('facebook')}
             className="text-size-15 text-whiteColor bg-primaryColor px-11 py-10px border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark"
           >
             <i className="icofont-facebook"></i> Facebook
           </button>
           <button
             type="button"
+            onClick={() => handleSocialSignUp('google')}
             className="text-size-15 text-whiteColor bg-primaryColor px-11 py-10px border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark"
           >
             <i className="icofont-google-plus"></i> Google

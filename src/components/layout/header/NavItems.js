@@ -1,8 +1,8 @@
-import React from "react";
-import Navitem from "./Navitem";
-import DropdownWrapper from "@/components/shared/wrappers/DropdownWrapper";
-import DropdownVideos from "./DropdownVideos";
-import useAuth from "@/hooks/useAuth";
+import React from 'react';
+import Navitem from './Navitem';
+import DropdownWrapper from '@/components/shared/wrappers/DropdownWrapper';
+import DropdownVideos from './DropdownVideos';
+import { useAuth } from '@/hooks/useAuth';
 
 const NavItems = () => {
   const { user } = useAuth();
@@ -10,15 +10,8 @@ const NavItems = () => {
   const navItems = [
     {
       id: 1,
-      name: "Quiz",
-      path: "/quiz",
-      isRelative: false,
-    },
-    {
-      id: 2,
-      name: "Videos",
-      path: "/videos",
-      dropdown: <DropdownVideos />,
+      name: 'Quiz',
+      path: '/quiz',
       isRelative: false,
     },
   ];

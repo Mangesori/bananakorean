@@ -1,6 +1,6 @@
-import LoginForm from "@/components/shared/login/LoginForm";
-import HeroPrimary from "@/components/sections/hero-banners/HeroPrimary";
-import LoginTab from "@/components/sections/login/LoginTab";
+'use client';
+import LoginForm from '@/components/shared/login/LoginForm';
+import LoginTab from '@/components/sections/login/LoginTab';
 
 const LoginMain = () => {
   return (

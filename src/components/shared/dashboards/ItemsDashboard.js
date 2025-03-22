@@ -1,4 +1,4 @@
-import ItemDashboard from "./ItemDashboard";
+import ItemDashboard from './ItemDashboard';
 
 const ItemsDashboard = ({ item }) => {
   const { title, items } = item;

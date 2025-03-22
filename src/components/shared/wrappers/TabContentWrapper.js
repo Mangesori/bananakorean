@@ -1,5 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect, useState } from 'react';
 
 const TabContentWrapper = ({ children, isShow }) => {
   const [isBlock, setIsBlock] = useState(false);
@@ -16,8 +16,8 @@ const TabContentWrapper = ({ children, isShow }) => {
   return (
     <div
       className={`transition-opacity duration-150 ease-linear ${
-        isShow ? "block " : "hidden "
-      } ${isBlock ? "opacity-100" : "opacity-0"}`}
+        isShow ? 'block ' : 'hidden '
+      } ${isBlock ? 'opacity-100' : 'opacity-0'}`}
     >
       {children}
     </div>

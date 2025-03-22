@@ -1,32 +1,32 @@
-"use client";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import HeroSlide4 from "./HeroSlide4";
-import { Pagination } from "swiper/modules";
+'use client';
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import HeroSlide4 from './HeroSlide4';
+import { Pagination } from 'swiper/modules';
 
 const HeroSlider4 = () => {
   const slides = [
     {
       title: (
         <>
-          The Best Machine Learning for Smart{" "}
-          <span className="text-secondaryColor">AI</span> Systems.
+          The Best Machine Learning for Smart <span className="text-secondaryColor">AI</span>{' '}
+          Systems.
         </>
       ),
-      tag: "Artificial Intelligence",
+      tag: 'Artificial Intelligence',
     },
     {
-      title: "Techniques for Intelligent Artificial Intelligence.",
-      tag: "Artificial Intelligence",
+      title: 'Techniques for Intelligent Artificial Intelligence.',
+      tag: 'Artificial Intelligence',
     },
     {
       title: (
         <>
-          Awesome Machine Learning for Smart{" "}
-          <span className="text-secondaryColor">AI</span> Systems.
+          Awesome Machine Learning for Smart <span className="text-secondaryColor">AI</span>{' '}
+          Systems.
         </>
       ),
-      tag: "Artificial Intelligence",
+      tag: 'Artificial Intelligence',
     },
   ];
   return (

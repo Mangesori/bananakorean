@@ -1,15 +1,15 @@
 const count = () => {
-  const countContainers = document.querySelectorAll(".count-container");
+  const countContainers = document.querySelectorAll('.count-container');
   if (!count) {
     return;
   }
 
-  countContainers.forEach((countContainer) => {
-    const countIput = countContainer.querySelector("input");
-    const minCount = countContainer.querySelector(".mincount");
-    const maxCount = countContainer.querySelector(".maxcount");
+  countContainers.forEach(countContainer => {
+    const countIput = countContainer.querySelector('input');
+    const minCount = countContainer.querySelector('.mincount');
+    const maxCount = countContainer.querySelector('.maxcount');
 
-    minCount.addEventListener("click", () => {
+    minCount.addEventListener('click', () => {
       let currentValue = parseInt(countIput.value);
       if (currentValue === 0 || currentValue < 0) {
         if (currentValue === 0) {
@@ -22,7 +22,7 @@ const count = () => {
       }
       countIput.value = currentValue;
     });
-    maxCount.addEventListener("click", () => {
+    maxCount.addEventListener('click', () => {
       let currentValue = parseInt(countIput.value);
       currentValue = currentValue + 1;
       countIput.value = currentValue;

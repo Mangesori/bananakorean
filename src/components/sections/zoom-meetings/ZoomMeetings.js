@@ -1,6 +1,6 @@
-import allMeetings from "@/../public/fakedata/meetings.json";
-import ZoomMeeting from "@/components/shared/zoom-meetings/ZoomMeeting";
-import getAllMeetings from "@/libs/getAllMeetings";
+import allMeetings from '@/../public/fakedata/meetings.json';
+import ZoomMeeting from '@/components/shared/zoom-meetings/ZoomMeeting';
+import getAllMeetings from '@/libs/getAllMeetings';
 const ZoomMeetings = () => {
   const meetings = getAllMeetings()?.slice(0, 8);
 

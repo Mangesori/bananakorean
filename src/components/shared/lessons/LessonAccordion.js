@@ -1,7 +1,7 @@
-"use client";
-import accordions from "@/libs/accordions";
-import Link from "next/link";
-import React, { useEffect } from "react";
+'use client';
+import accordions from '@/libs/accordions';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
 
 const LessonAccordion = ({ id }) => {
   useEffect(() => {

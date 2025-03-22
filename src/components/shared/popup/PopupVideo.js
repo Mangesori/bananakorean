@@ -1,8 +1,8 @@
-"use client";
-import Image from "next/image";
-import React, { useEffect } from "react";
-import videoImage from "@/assets/images/icon/video.png";
-import videoModal from "@/libs/videoModal";
+'use client';
+import Image from 'next/image';
+import React, { useEffect } from 'react';
+import videoImage from '@/assets/images/icon/video.png';
+import videoModal from '@/libs/videoModal';
 const PopupVideo = () => {
   useEffect(() => {
     videoModal();

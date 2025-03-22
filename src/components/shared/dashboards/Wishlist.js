@@ -1,6 +1,6 @@
-"use client";
-import HeadingDashboard from "../headings/HeadingDashboard";
-import getAllCourses from "@/libs/getAllCourses";
+'use client';
+import HeadingDashboard from '../headings/HeadingDashboard';
+import getAllCourses from '@/libs/getAllCourses';
 
 const Wishlist = () => {
   const courses = getAllCourses()?.slice(0, 5);

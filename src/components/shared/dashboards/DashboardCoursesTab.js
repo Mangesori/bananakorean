@@ -1,8 +1,8 @@
-"use client";
-import TabButtonSecondary from "../buttons/TabButtonSecondary";
-import TabContentWrapper from "../wrappers/TabContentWrapper";
-import useTab from "@/hooks/useTab";
-import getAllCourses from "@/libs/getAllCourses";
+'use client';
+import TabButtonSecondary from '../buttons/TabButtonSecondary';
+import TabContentWrapper from '../wrappers/TabContentWrapper';
+import useTab from '@/hooks/useTab';
+import getAllCourses from '@/libs/getAllCourses';
 
 const DashboardCoursesTab = () => {
   const { currentIdx, handleTabClick } = useTab();
@@ -10,15 +10,15 @@ const DashboardCoursesTab = () => {
 
   const tabbuttons = [
     {
-      name: "PUBLISH",
+      name: 'PUBLISH',
       content: <div>Published Courses</div>,
     },
     {
-      name: "PENDING",
+      name: 'PENDING',
       content: <div>Pending Courses</div>,
     },
     {
-      name: "DRAFT",
+      name: 'DRAFT',
       content: <div>Draft Courses</div>,
     },
   ];
@@ -39,7 +39,7 @@ const DashboardCoursesTab = () => {
               idx={idx}
               currentIdx={currentIdx}
               handleTabClick={handleTabClick}
-              button={"small"}
+              button={'small'}
             />
           ))}
         </div>

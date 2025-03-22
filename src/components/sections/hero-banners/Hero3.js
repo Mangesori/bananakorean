@@ -1,16 +1,14 @@
-const {
-  default: TiltWrapper,
-} = require("@/components/shared/wrappers/TiltWrapper");
-const { default: Image } = require("next/image");
-import about10 from "@/assets/images/about/about_10.png";
-import AppleImage from "@/components/shared/animaited-images/AppleImage";
-import BalbImage from "@/components/shared/animaited-images/BalbImage";
-import BookImage from "@/components/shared/animaited-images/BookImage";
-import GlobImage from "@/components/shared/animaited-images/GlobImage";
-import TriangleImage from "@/components/shared/animaited-images/TriangleImage";
-import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
-import HeadingXl from "@/components/shared/headings/HeadingXl";
-import HreoName from "@/components/shared/section-names/HreoName";
+const { default: TiltWrapper } = require('@/components/shared/wrappers/TiltWrapper');
+const { default: Image } = require('next/image');
+import about10 from '@/assets/images/about/about_10.png';
+import AppleImage from '@/components/shared/animaited-images/AppleImage';
+import BalbImage from '@/components/shared/animaited-images/BalbImage';
+import BookImage from '@/components/shared/animaited-images/BookImage';
+import GlobImage from '@/components/shared/animaited-images/GlobImage';
+import TriangleImage from '@/components/shared/animaited-images/TriangleImage';
+import ButtonPrimary from '@/components/shared/buttons/ButtonPrimary';
+import HeadingXl from '@/components/shared/headings/HeadingXl';
+import HreoName from '@/components/shared/section-names/HreoName';
 const Hero3 = () => {
   return (
     <section data-aos="fade-up">
@@ -49,12 +47,7 @@ const Hero3 = () => {
             <div data-aos="fade-up">
               <TiltWrapper>
                 <div className="tilt">
-                  <Image
-                    className="w-full"
-                    src={about10}
-                    alt=""
-                    placeholder="blur"
-                  />
+                  <Image className="w-full" src={about10} alt="" placeholder="blur" />
                 </div>
               </TiltWrapper>
             </div>

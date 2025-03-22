@@ -1,5 +1,5 @@
-import React from "react";
-import SignUpForm from "@/components/shared/login/SignUpForm";
+import React from 'react';
+import SignUpForm from '@/components/shared/login/SignUpForm';
 
 const SignUpMain = () => {
   return (

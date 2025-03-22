@@ -1,11 +1,11 @@
-import HeadingLg from "@/components/shared/headings/HeadingLg";
-import HreoName from "@/components/shared/section-names/HreoName";
-import Image from "next/image";
-import React from "react";
+import HeadingLg from '@/components/shared/headings/HeadingLg';
+import HreoName from '@/components/shared/section-names/HreoName';
+import Image from 'next/image';
+import React from 'react';
 
-import herobannerImage6 from "@/assets/images/herobanner/herobanner__6.png";
-import herobannerImage7 from "@/assets/images/herobanner/herobanner__7.png";
-import registerImage2 from "@/assets/images/register/register__2.png";
+import herobannerImage6 from '@/assets/images/herobanner/herobanner__6.png';
+import herobannerImage7 from '@/assets/images/herobanner/herobanner__7.png';
+import registerImage2 from '@/assets/images/register/register__2.png';
 const Hero6 = () => {
   return (
     <section data-aos="fade-up">
@@ -18,8 +18,7 @@ const Hero6 = () => {
               <HreoName>EDUCATION SOLUTION</HreoName>
               <HeadingLg color="white">
                 Massive Courses <br />
-                Available for Anyone{" "}
-                <span className="text-secondaryColor">.</span>
+                Available for Anyone <span className="text-secondaryColor">.</span>
               </HeadingLg>
             </div>
             <form
@@ -176,16 +175,8 @@ const Hero6 = () => {
             src={herobannerImage6}
             alt=""
           />
-          <Image
-            className="absolute right-[5%] bottom-[15%]"
-            src={herobannerImage7}
-            alt=""
-          />
-          <Image
-            className="absolute top-[5%] left-[45%]"
-            src={herobannerImage7}
-            alt=""
-          />
+          <Image className="absolute right-[5%] bottom-[15%]" src={herobannerImage7} alt="" />
+          <Image className="absolute top-[5%] left-[45%]" src={herobannerImage7} alt="" />
         </div>
       </div>
     </section>

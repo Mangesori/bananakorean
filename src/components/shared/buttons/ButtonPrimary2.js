@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const ButtonPrimary2 = () => {
   return <div></div>;

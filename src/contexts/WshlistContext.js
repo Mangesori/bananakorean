@@ -1,9 +1,9 @@
-"use client";
-import useSweetAlert from "@/hooks/useSweetAlert";
-import addItemsToLocalstorage from "@/libs/addItemsToLocalstorage";
-import getItemsFromLocalstorage from "@/libs/getItemsFromLocalstorage";
-import { createContext, useContext, useEffect, useState } from "react";
-import getAllProducts from "@/libs/getAllProducts";
+'use client';
+import useSweetAlert from '@/hooks/useSweetAlert';
+import addItemsToLocalstorage from '@/libs/addItemsToLocalstorage';
+import getItemsFromLocalstorage from '@/libs/getItemsFromLocalstorage';
+import { createContext, useContext, useEffect, useState } from 'react';
+import getAllProducts from '@/libs/getAllProducts';
 
 const wishlistContext = createContext(null);
 const WishlistContextProvider = ({ children }) => {
@@ -14,16 +14,15 @@ const WishlistContextProvider = ({ children }) => {
       ?.slice(0, 2)
       ?.map((product, idx) => ({ ...product, quantity: 1 }));
 
-    const wishlistProductFromLocalStorage =
-      getItemsFromLocalstorage("wishlist");
+    const wishlistProductFromLocalStorage = getItemsFromLocalstorage('wishlist');
 
     if (!wishlistProductFromLocalStorage) {
       setWishlistProducts(demoProducts);
-      addItemsToLocalstorage("wishlist", demoProducts);
+      addItemsToLocalstorage('wishlist', demoProducts);
     } else [setWishlistProducts(wishlistProductFromLocalStorage)];
   }, []);
   // add  product from localstorage cart
-  const addProductToWishlist = (currentProduct) => {
+  const addProductToWishlist = currentProduct => {
     const { id: currentId, title: currentTitle } = currentProduct;
 
     const modifyableProduct = wishlistProducts?.find(
@@ -33,12 +32,12 @@ const WishlistContextProvider = ({ children }) => {
     const isAlreadyExist = modifyableProduct ? true : false;
 
     if (isAlreadyExist) {
-      creteAlert("error", "Failed ! Already exist in wishlist.");
+      creteAlert('error', 'Failed ! Already exist in wishlist.');
     } else {
       let currentProducts = [...wishlistProducts, currentProduct];
       setWishlistProducts(currentProducts);
-      addItemsToLocalstorage("wishlist", currentProducts);
-      creteAlert("success", "Success! added to wishlist.");
+      addItemsToLocalstorage('wishlist', currentProducts);
+      creteAlert('success', 'Success! added to wishlist.');
     }
   };
 
@@ -48,8 +47,8 @@ const WishlistContextProvider = ({ children }) => {
       ({ id, title }) => id !== currentId || title !== currentTitle
     );
     setWishlistProducts(currentProducts);
-    addItemsToLocalstorage("wishlist", currentProducts);
-    creteAlert("success", "Success! deleted from wishlist.");
+    addItemsToLocalstorage('wishlist', currentProducts);
+    creteAlert('success', 'Success! deleted from wishlist.');
   };
   return (
     <wishlistContext.Provider

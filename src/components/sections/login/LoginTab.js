@@ -1,21 +1,21 @@
-"use client";
-import TabButtonPrimary from "@/components/shared/buttons/TabButtonPrimary";
-import LoginForm from "@/components/shared/login/LoginForm";
-import SignUpForm from "@/components/shared/login/SignUpForm";
-import TabContentWrapper from "@/components/shared/wrappers/TabContentWrapper";
-import Image from "next/image";
-import shapImage2 from "@/assets/images/education/hero_shape2.png";
-import shapImage3 from "@/assets/images/education/hero_shape3.png";
-import shapImage4 from "@/assets/images/education/hero_shape4.png";
-import shapImage5 from "@/assets/images/education/hero_shape5.png";
-import useTab from "@/hooks/useTab";
+'use client';
+import TabButtonPrimary from '@/components/shared/buttons/TabButtonPrimary';
+import LoginForm from '@/components/shared/login/LoginForm';
+import SignUpForm from '@/components/shared/login/SignUpForm';
+import TabContentWrapper from '@/components/shared/wrappers/TabContentWrapper';
+import Image from 'next/image';
+import shapImage2 from '@/assets/images/education/hero_shape2.png';
+import shapImage3 from '@/assets/images/education/hero_shape3.png';
+import shapImage4 from '@/assets/images/education/hero_shape4.png';
+import shapImage5 from '@/assets/images/education/hero_shape5.png';
+import useTab from '@/hooks/useTab';
 
 const LoginTab = () => {
   const { currentIdx, handleTabClick } = useTab();
   const tabButtons = [
-    { name: "Login", content: <LoginForm /> },
+    { name: 'Login', content: <LoginForm /> },
     {
-      name: " Sing up",
+      name: ' Sing up',
       content: <SignUpForm />,
     },
   ];
@@ -32,7 +32,7 @@ const LoginTab = () => {
                 idx={idx}
                 handleTabClick={handleTabClick}
                 currentIdx={currentIdx}
-                button={"lg"}
+                button={'lg'}
                 name={name}
               />
             ))}
@@ -42,10 +42,7 @@ const LoginTab = () => {
           <div className="shadow-container bg-whiteColor dark:bg-whiteColor-dark pt-10px px-5 pb-10 md:p-50px md:pt-30px rounded-5px">
             <div className="tab-contents">
               {tabButtons.map(({ content }, idx) => (
-                <TabContentWrapper
-                  key={idx}
-                  isShow={idx === currentIdx || false}
-                >
+                <TabContentWrapper key={idx} isShow={idx === currentIdx || false}>
                   {content}
                 </TabContentWrapper>
               ))}

@@ -1,6 +1,6 @@
-"use client";
-import scrollUp from "@/libs/scrollUp";
-import { useEffect } from "react";
+'use client';
+import scrollUp from '@/libs/scrollUp';
+import { useEffect } from 'react';
 // scroll up button
 const Scrollup = () => {
   useEffect(() => {

@@ -1,24 +1,24 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 const DropdownVideos = () => {
   const videoCategories = [
     {
-      title: "Lesson Quiz",
+      title: 'Lesson Quiz',
       items: [
         {
-          name: "Quiz",
-          path: "/lesson-quiz-result", // 직접 /quiz 경로로 연결
+          name: 'Quiz',
+          path: '/lesson-quiz-result', // 직접 /quiz 경로로 연결
         },
       ],
     },
     {
-      title: "Learning Level",
-      items: ["Beginner", "Intermediate", "Advanced"],
+      title: 'Learning Level',
+      items: ['Beginner', 'Intermediate', 'Advanced'],
     },
     {
-      title: "Categories",
-      items: ["Daily Life", "Romance", "Comedy", "Thriller"],
+      title: 'Categories',
+      items: ['Daily Life', 'Romance', 'Comedy', 'Thriller'],
     },
   ];
 
@@ -32,15 +32,15 @@ const DropdownVideos = () => {
               <li key={itemIdx}>
                 <Link
                   href={
-                    typeof item === "string"
+                    typeof item === 'string'
                       ? `/videos/${category.title.toLowerCase()}/${item
                           .toLowerCase()
-                          .replace(" ", "-")}`
+                          .replace(' ', '-')}`
                       : item.path
                   }
                   className="text-bodyColor hover:text-primary"
                 >
-                  {typeof item === "string" ? item : item.name}
+                  {typeof item === 'string' ? item : item.name}
                 </Link>
               </li>
             ))}

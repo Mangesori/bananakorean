@@ -1,17 +1,15 @@
-"use client";
+'use client';
 
-import accordions from "@/libs/accordions";
-import { useEffect } from "react";
+import accordions from '@/libs/accordions';
+import { useEffect } from 'react';
 
 const AccordionController = ({ children, type }) => {
   useEffect(() => {
     accordions();
   }, []);
   return (
-    <div
-      className={type === "primary" ? "flex items-center justify-between" : ""}
-    >
-      {type === "primary" ? (
+    <div className={type === 'primary' ? 'flex items-center justify-between' : ''}>
+      {type === 'primary' ? (
         <>
           {children}
           <button className="accordion-controller px-3 py-4">
@@ -22,9 +20,9 @@ const AccordionController = ({ children, type }) => {
       ) : (
         <button
           className={`accordion-controller flex justify-between items-center text-headingColor font-bold w-full  dark:text-headingColor-dark text-start leading-[20px] ${
-            type === "secondaryLg"
-              ? "px-10px pt-14px pb-15px md:px-25px md:pt-6 md:pb-25px outline-4 outline-transparent transition-none border-b border-transparent text-lg md:text-xl "
-              : "px-5 py-18px text-xl "
+            type === 'secondaryLg'
+              ? 'px-10px pt-14px pb-15px md:px-25px md:pt-6 md:pb-25px outline-4 outline-transparent transition-none border-b border-transparent text-lg md:text-xl '
+              : 'px-5 py-18px text-xl '
           }`}
         >
           <span>{children}</span>

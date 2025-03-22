@@ -1,5 +1,5 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
 
 const TestimonialSlide = ({ testimonial }) => {
   const { name, image, desc, desig } = testimonial;
@@ -34,9 +34,7 @@ const TestimonialSlide = ({ testimonial }) => {
           </div>
         </div>
         <div>
-          <p className="text-contentColor dark:text-contentColor-dark">
-            {desc}
-          </p>
+          <p className="text-contentColor dark:text-contentColor-dark">{desc}</p>
         </div>
       </div>
     </div>

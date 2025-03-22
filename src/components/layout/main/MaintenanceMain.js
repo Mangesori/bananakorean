@@ -1,6 +1,6 @@
 const {
   default: MaintenacePrimary,
-} = require("@/components/sections/maintenace/MaintenacePrimary");
+} = require('@/components/sections/maintenace/MaintenacePrimary');
 
 const MaintenanceMain = () => {
   return (

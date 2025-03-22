@@ -1,4 +1,4 @@
-import SidebarDashboard from "../dashboards/SidebarDashboard";
+import SidebarDashboard from '../dashboards/SidebarDashboard';
 
 const DashboardContainer = ({ children }) => {
   return (

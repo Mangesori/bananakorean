@@ -29,7 +29,7 @@
 }
 
 #lvideo-wrap:after {
-  content: "";
+  content: '';
   display: block;
   background-color: black;
   opacity: 0;
@@ -84,7 +84,7 @@
 }
 #lvideo-wrap .lvideo-close:before,
 #lvideo-wrap .lvideo-close:after {
-  content: "";
+  content: '';
   width: 60%;
   height: 3px;
   transition: 0.3s;

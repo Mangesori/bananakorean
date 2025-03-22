@@ -1,152 +1,192 @@
-"use client";
-import Image from "next/image";
-import teacherImage1 from "@/assets/images/teacher/teacher__1.png";
-import teacherImage2 from "@/assets/images/teacher/teacher__2.png";
-import teacherImage3 from "@/assets/images/teacher/teacher__3.png";
-import teacherImage4 from "@/assets/images/teacher/teacher__4.png";
-import ConversatonSingle from "./ConversatonSingle";
+'use client';
+import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
+import { supabase } from '@/utils/supabaseClient';
+import ConversatonSingle from './ConversatonSingle';
 
-const Conversation = ({ onBack }) => {
-  const conversations = [
-    {
-      id: 1,
-      image: teacherImage1,
-      isCurrentUser: false,
-      messages: [
+const Conversation = ({ currentUser, otherUser, onBack }) => {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const messagesEndRef = useRef(null);
+  const isAdmin = currentUser?.role === 'admin';
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      });
+    }, 100);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    if (!currentUser?.id || !otherUser?.id) return;
+
+    const fetchMessages = async () => {
+      try {
+        setLoading(true);
+
+        const { data, error } = await supabase
+          .from('messages')
+          .select('*')
+          .or(
+            `and(sender_id.eq.${currentUser.id},receiver_id.eq.${otherUser.id}),` +
+              `and(sender_id.eq.${otherUser.id},receiver_id.eq.${currentUser.id})`
+          )
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+
+        setMessages(data || []);
+
+        const { error: updateError } = await supabase
+          .from('messages')
+          .update({ read: true })
+          .eq('receiver_id', currentUser.id)
+          .eq('sender_id', otherUser.id)
+          .eq('read', false);
+
+        if (updateError) {
+          // Handle error silently
+        }
+      } catch (error) {
+        // Handle error silently
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMessages();
+
+    const channel = supabase
+      .channel('messages')
+      .on(
+        'postgres_changes',
         {
-          message: "Lorem ipsum dolor sit amet consectetur adipisicing sed.",
-          time: "4:32 PM",
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `or(and(sender_id.eq.${currentUser.id},receiver_id.eq.${otherUser.id}),and(sender_id.eq.${otherUser.id},receiver_id.eq.${currentUser.id}))`,
         },
-        {
-          message: "Dolor sit amet consectetur",
-          time: "4:30 PM",
-        },
-      ],
-    },
-    {
-      id: 2,
-      image: teacherImage3,
-      isCurrentUser: true,
-      messages: [
-        {
-          message: "Lorem ipsum dolor sit amet consectetur adipisicing sed.",
-          time: "4:40 PM",
-        },
-        {
-          message: "Dolor sit amet consectetur",
-          time: "4:42 PM",
-        },
-      ],
-    },
-    {
-      id: 3,
-      image: teacherImage4,
-      isCurrentUser: false,
-      messages: [
-        {
-          message: "Lorem ipsum dolor sit amet consectetur adipisicing sed.",
-          time: "4:40 PM",
-        },
-        {
-          message: "Dolor sit amet consectetur",
-          time: "5:03 PM",
-        },
-      ],
-    },
-  ];
+        payload => {
+          setMessages(prev => [...prev, payload.new]);
+          scrollToBottom();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [currentUser?.id, otherUser?.id]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
+    try {
+      const messageData = {
+        content: newMessage.trim(),
+        sender_id: currentUser.id,
+        receiver_id: otherUser.id,
+        created_at: new Date().toISOString(),
+      };
+
+      const { data, error } = await supabase.from('messages').insert(messageData).select().single();
+
+      if (error) throw error;
+
+      setMessages(prev => [...prev, data]);
+      setNewMessage('');
+      scrollToBottom();
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
+
+  if (!otherUser) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-[600px] flex items-center justify-center">
+        <p>대화 상대를 선택해주세요.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="xl:col-start-6 xl:col-span-7">
-      <div className="p-10px bg-whiteColor dark:bg-whiteColor-dark rounded-lg2">
-        {/* heading */}
-        <div className="flex justify-between items-center pb-10px border-b border-borderColor dark:border-borderColor-dark">
-          {onBack && (
-            <button
-              onClick={onBack}
-              className="mr-2 text-darkdeep4 hover:text-primaryColor"
-            >
-              <i className="icofont-arrow-left"></i>
-            </button>
-          )}
-          <div className="flex items-center">
-            {/* avatar */}
-            <div className="max-w-50px mr-5">
-              <Image
-                src={teacherImage2}
-                alt=""
-                className="w-full"
-                placeholder="blur"
-              />
-            </div>
-            {/* details */}
-            <div className="flex-grow">
-              <div>
-                <h5 className="text-lg font-medium text-blackColor dark:text-blackColor-dark">
-                  <span className="leading-6">Bradshaw</span>
-                </h5>
-                <p className="text-sm text-darkdeep4 text-start leading-22px">
-                  Stay at home, Stay safe
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-10px">
-            <a
-              href="admin-dashboard.html"
-              className="w-10.5 h-10.5 leading-10.5 box-content text-darkdeep4 hover:text-whiteColor hover:bg-primaryColor border border-borderColor dark:border-borderColor-dark rounded-full text-center"
-            >
-              <i className="icofont-phone"></i>
-            </a>
-            <a
-              href="admin-dashboard.html"
-              className="w-10.5 h-10.5 leading-10.5 box-content text-darkdeep4 hover:text-whiteColor hover:bg-primaryColor border border-borderColor dark:border-borderColor-dark rounded-full text-center"
-            >
-              <i className="icofont-ui-video-chat"></i>
-            </a>
-          </div>
-        </div>
-
-        {/* conversation body */}
-        <div className="max-h-125 overflow-y-auto mt-10 flex flex-col-reverse">
-          {conversations?.map((details, idx) => (
-            <ConversatonSingle key={idx} details={details} />
-          ))}
-        </div>
-
-        {/* conversation input */}
-        <div>
-          <form className="flex items-center bg-darkdeep3 dark:bg-darkdeep3-dark pl-30px rounded-full md:mr-30px">
-            <div className="h-[150%] block">
-              <label
-                htmlFor="attachment"
-                className="text-darkdeep4 text-xl pr-5 border-r border-darkdeep4 border-opacity-20 dark:border-blue-light2 h-full block py-9px"
-              >
-                <i
-                  className="icofont-attachment attachment"
-                  aria-hidden="true"
-                ></i>
-              </label>
-              <input
-                id="attachment"
-                type="file"
-                className="hidden w-full pl-5 py-10px bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium"
-              />
-            </div>
-            <div className="flex-grow">
-              <input
-                type="text"
-                placeholder="Type somthing"
-                className="w-full pl-5 py-10px text-darkdeep4 bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium"
-              />
-            </div>
-            <div className="flex-shrink-0">
-              <button className="w-50px h-50px leading-50px bg-primaryColor text-whiteColor rounded-full">
-                <i className="icofont-arrow-right text-xl"></i>
-              </button>
-            </div>
-          </form>
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-[600px] flex flex-col">
+      {/* Header */}
+      <div className="p-4 border-b flex items-center">
+        {isAdmin && onBack && (
+          <button onClick={onBack} className="mr-3 text-primaryColor hover:text-gray-800">
+            <i className="icofont-simple-left" />
+          </button>
+        )}
+        <Image
+          src={otherUser?.avatar_url || '/default-avatar.png'}
+          alt={otherUser?.name || 'User'}
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+        <div className="ml-3">
+          <h3 className="font-semibold">{otherUser?.name || 'Unknown User'}</h3>
+          <p className="text-sm text-gray-500">{otherUser?.email || ''}</p>
         </div>
       </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4">
+        {loading ? (
+          <div className="flex justify-center items-center h-full">Loading...</div>
+        ) : (
+          <>
+            {messages.map(message => (
+              <ConversatonSingle
+                key={message.id}
+                details={{
+                  id: message.id,
+                  image:
+                    message.sender_id === currentUser.id
+                      ? currentUser.avatar_url
+                      : otherUser.avatar_url,
+                  isCurrentUser: message.sender_id === currentUser.id,
+                  messages: [
+                    {
+                      message: message.content,
+                      time: new Date(message.created_at).toLocaleTimeString(),
+                    },
+                  ],
+                }}
+              />
+            ))}
+            <div ref={messagesEndRef} style={{ marginTop: '8px' }} />
+          </>
+        )}
+      </div>
+
+      {/* Input */}
+      <form onSubmit={handleSubmit} className="p-4 border-t">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={e => setNewMessage(e.target.value)}
+            placeholder="Write a message..."
+            className="flex-1 rounded-xl px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            className="w-45px h-45px leading-45px bg-primaryColor text-whiteColor rounded-xl"
+          >
+            <i className="icofont-arrow-right text-xl" />
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

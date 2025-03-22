@@ -1,46 +1,46 @@
-import counter1 from "@/assets/images/counter/counter__1.png";
-import counter2 from "@/assets/images/counter/counter__2.png";
-import counter3 from "@/assets/images/counter/counter__3.png";
-import counter4 from "@/assets/images/counter/counter__4.png";
-import CounterDashboard from "@/components/shared/dashboards/CounterDashboard";
-import HeadingDashboard from "@/components/shared/headings/HeadingDashboard";
+import counter1 from '@/assets/images/counter/counter__1.png';
+import counter2 from '@/assets/images/counter/counter__2.png';
+import counter3 from '@/assets/images/counter/counter__3.png';
+import counter4 from '@/assets/images/counter/counter__4.png';
+import CounterDashboard from '@/components/shared/dashboards/CounterDashboard';
+import HeadingDashboard from '@/components/shared/headings/HeadingDashboard';
 const CounterAdmin = () => {
   const counts = [
     {
-      name: "Enrolled Courses",
+      name: 'Enrolled Courses',
       image: counter1,
       data: 900,
-      symbol: "+",
+      symbol: '+',
     },
     {
-      name: "Active Courses",
+      name: 'Active Courses',
       image: counter2,
       data: 500,
-      symbol: "+",
+      symbol: '+',
     },
     {
-      name: "Complete Courses",
+      name: 'Complete Courses',
       image: counter3,
       data: 300,
-      symbol: "k",
+      symbol: 'k',
     },
     {
-      name: "Total Courses",
+      name: 'Total Courses',
       image: counter4,
       data: 1500,
-      symbol: "+",
+      symbol: '+',
     },
     {
-      name: "Total Students",
+      name: 'Total Students',
       image: counter3,
       data: 30,
-      symbol: "k",
+      symbol: 'k',
     },
     {
-      name: "OVER THE WORLD",
+      name: 'OVER THE WORLD',
       image: counter4,
       data: 90,
-      symbol: ",000k+",
+      symbol: ',000k+',
     },
   ];
   return (

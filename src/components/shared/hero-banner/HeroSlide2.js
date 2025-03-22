@@ -1,5 +1,5 @@
-import React from "react";
-import HreoName from "../section-names/HreoName";
+import React from 'react';
+import HreoName from '../section-names/HreoName';
 
 const HeroSlide2 = ({ slide, idx }) => {
   const { title, tag } = slide;
@@ -9,8 +9,8 @@ const HeroSlide2 = ({ slide, idx }) => {
         idx === 0
           ? "bg-[url('../assets/images/herobanner/university_1.jpg')]"
           : idx === 1
-          ? "bg-[url('../assets/images//herobanner/university_2.jpg')]"
-          : "bg-[url('../assets/images/herobanner/university_3.jpg')]"
+            ? "bg-[url('../assets/images//herobanner/university_2.jpg')]"
+            : "bg-[url('../assets/images/herobanner/university_3.jpg')]"
       } relative z-0`}
     >
       <div className="bg-black bg-opacity-70 overflow-hidden pt-50px pb-100px md:pt-35 md:pb-170px lg:pt-100px lg:pb-150px 2xl:pt-35 2xl:pb-170px">

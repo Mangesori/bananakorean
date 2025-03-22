@@ -1,12 +1,10 @@
-import AdminProfileMain from "@/components/layout/main/dashboards/AdminProfileMain";
-import DashboardContainer from "@/components/shared/containers/DashboardContainer";
-
-import ThemeController from "@/components/shared/others/ThemeController";
-import DsahboardWrapper from "@/components/shared/wrappers/DsahboardWrapper";
-import PageWrapper from "@/components/shared/wrappers/PageWrapper";
+import AdminProfileMain from '@/components/layout/main/dashboards/AdminProfileMain';
+import DashboardContainer from '@/components/shared/containers/DashboardContainer';
+import DsahboardWrapper from '@/components/shared/wrappers/DsahboardWrapper';
+import PageWrapper from '@/components/shared/wrappers/PageWrapper';
 export const metadata = {
-  title: "Admin Profile | Edurock - Education LMS Template",
-  description: "Admin Profile | Edurock - Education LMS Template",
+  title: 'Admin Profile',
+  description: 'Admin Profile',
 };
 const Admin_Profile = () => {
   return (
@@ -17,7 +15,6 @@ const Admin_Profile = () => {
             <AdminProfileMain />
           </DashboardContainer>
         </DsahboardWrapper>
-        <ThemeController />
       </main>
     </PageWrapper>
   );

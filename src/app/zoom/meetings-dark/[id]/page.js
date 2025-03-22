@@ -1,12 +1,11 @@
-import ZoomMeetingDetailsMain from "@/components/layout/main/ZoomMeetingDetailsMain";
-import ThemeController from "@/components/shared/others/ThemeController";
-import PageWrapper from "@/components/shared/wrappers/PageWrapper";
-import meetings from "@/../public/fakedata/meetings.json";
-import { notFound } from "next/navigation";
+import ZoomMeetingDetailsMain from '@/components/layout/main/ZoomMeetingDetailsMain';
+import ThemeController from '@/components/shared/others/ThemeController';
+import PageWrapper from '@/components/shared/wrappers/PageWrapper';
+import meetings from '@/../public/fakedata/meetings.json';
+import { notFound } from 'next/navigation';
 export const metadata = {
-  title: "Zoom Meetings Details - Dark | Edurock - Education LMS Template",
-  description:
-    "Zoom Meetings Details - Dark | Edurock - Education LMS Template",
+  title: 'Zoom Meetings Details - Dark',
+  description: 'Zoom Meetings Details - Dark',
 };
 const Zoom_Meetings_Details_Dark = ({ params }) => {
   const { id } = params;
