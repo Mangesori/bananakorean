@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
@@ -16,9 +17,9 @@ export default function NotFound() {
               The page you are looking for does not exist. It may have been moved or deleted.
             </p>
             <div className="mt-50px text-center">
-              <a href="/" className="btn btn-primary">
+              <Link href="/" className="btn btn-primary">
                 Return to Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>

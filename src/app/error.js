@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 
 export default function Error({ error, reset }) {
   return (
@@ -15,9 +16,9 @@ export default function Error({ error, reset }) {
               An error occurred while loading the page.
             </p>
             <div className="mt-50px text-center">
-              <button className="btn btn-primary" onClick={() => reset()}>
-                Try Again
-              </button>
+              <Link href="/" className="btn btn-primary">
+                Back to Home
+              </Link>
             </div>
           </div>
         </div>

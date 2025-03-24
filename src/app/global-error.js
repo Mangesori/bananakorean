@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 
 export default function GlobalError({ error, reset }) {
   return (
@@ -11,15 +12,15 @@ export default function GlobalError({ error, reset }) {
               <div className="w-full lg:max-w-770px lg:mx-auto text-center">
                 <div className="text-red-500 text-9xl font-bold mb-8">오류</div>
                 <h3 className="text-size-35 md:text-size-40 lg:text-size-50 leading-10 md:leading-14.5 lg:leading-20 font-bold">
-                  문제가 발생했습니다
+                  A problem has occurred
                 </h3>
                 <p className="text-lg leading-22px mb-8">
-                  페이지를 불러오는 중에 오류가 발생했습니다.
+                  An error occurred while loading the page.
                 </p>
                 <div className="mt-50px text-center">
-                  <button className="btn btn-primary" onClick={() => reset()}>
-                    다시 시도하기
-                  </button>
+                  <Link href="/" className="btn btn-primary">
+                    Back to Home
+                  </Link>
                 </div>
               </div>
             </div>
