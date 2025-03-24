@@ -11,6 +11,8 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   const fetchUserProfile = async userId => {
+    if (typeof window === 'undefined') return null;
+
     try {
       const { data: profile, error } = await supabase
         .from('profiles')
@@ -26,6 +28,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateSessionState = useCallback(async session => {
+    if (typeof window === 'undefined') return;
+
     try {
       if (session?.user) {
         const profile = await fetchUserProfile(session.user.id);
@@ -46,17 +50,26 @@ export const AuthProvider = ({ children }) => {
       } else {
         setUser(null);
         setIsAuthenticated(false);
-        localStorage.removeItem('user');
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user');
+        }
       }
     } catch (error) {
       console.error('Session update error:', error);
       setUser(null);
       setIsAuthenticated(false);
-      localStorage.removeItem('user');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      setLoading(false);
+      return;
+    }
+
     let mounted = true;
 
     const initializeAuth = async () => {
@@ -115,6 +128,8 @@ export const AuthProvider = ({ children }) => {
   }, [router, updateSessionState]);
 
   const signOut = async () => {
+    if (typeof window === 'undefined') return false;
+
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
