@@ -13,14 +13,14 @@ import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 import { AuthProvider } from '@/hooks/useAuth';
 
-export const inter = Inter({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-inter',
 });
 
-export const hind = Hind({
+const hind = Hind({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-hind',
