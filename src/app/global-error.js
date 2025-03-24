@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 export default function GlobalError({ error, reset }) {
   return (
-    <html>
-      <body>
+    <html lang="en">
+      <body className="relative leading-[1.8] bg-bodyBg dark:bg-bodyBg-dark z-0">
         <main>
           <section>
             <div className="container py-100px">
