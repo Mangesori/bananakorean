@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const QuizIntroduction = () => {
   return (
@@ -214,11 +215,15 @@ const QuizIntroduction = () => {
           <div className="bg-whitegrey4 -mt-10 p-6 rounded-xl">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="w-full md:w-1/2">
-                <img
-                  src="/images/About.png"
-                  alt="Created By An Expert"
-                  className="w-3/4 h-auto mx-auto"
-                />
+                <div className="flex justify-center">
+                  <Image
+                    src="/images/About.svg"
+                    alt="Created by Expert"
+                    width={180}
+                    height={180}
+                    className="max-w-full h-auto"
+                  />
+                </div>
               </div>
               <div className="w-full md:w-1/2">
                 <h4 className="text-3xl font-semibold text-primaryColor mb-4">
@@ -288,12 +293,14 @@ const QuizIntroduction = () => {
                   Individual Grammar Quiz
                 </h3>
                 <p className="text-contentColor mb-6">
-                  Ideal for learners who've studied Korean before but need targeted practice.
+                  Ideal for learners who&apos;ve studied Korean before but need targeted practice.
                 </p>
                 <ul className="text-left space-y-3 mb-8 flex-grow">
                   <li className="flex items-start">
                     <span className="text-blue mr-2 mt-1">✓</span>
-                    <span>Perfect if you took classes but didn't fully grasp certain points</span>
+                    <span>
+                      Perfect if you took classes but didn&apos;t fully grasp certain points
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-blue mr-2 mt-1">✓</span>

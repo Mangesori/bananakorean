@@ -26,11 +26,11 @@ const ComingSoonMain = () => {
         <div className="w-24 h-1 bg-primaryColor mx-auto mb-6 rounded-full"></div>
 
         <p className="text-xl text-contentColor mb-4">
-          We're preparing to enhance your learning experience
+          We&apos;re preparing to enhance your learning experience
         </p>
 
         <p className="text-contentColor mb-10 max-w-md mx-auto">
-          This feature is currently under development. We'll be back with new quizzes soon.
+          This feature is currently under development. We&apos;ll be back with new quizzes soon.
         </p>
 
         <div className="bg-white p-8 rounded-xl shadow-lg max-w-md mx-auto">

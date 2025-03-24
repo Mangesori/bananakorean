@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export interface AuthContextType {
-  user: any;
+  user: Record<string, unknown> | null;
   isAuthenticated: boolean;
   loading: boolean;
   signOut: () => void;
