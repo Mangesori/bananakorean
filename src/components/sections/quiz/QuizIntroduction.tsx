@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import aboutImg from '@/assets/images/homepage/About.png';
 
 const QuizIntroduction = () => {
   return (
@@ -217,11 +218,12 @@ const QuizIntroduction = () => {
               <div className="w-full md:w-1/2">
                 <div className="flex justify-center">
                   <Image
-                    src="/images/About.svg"
+                    src={aboutImg}
                     alt="Created by Expert"
                     width={440}
                     height={440}
                     className="max-w-full h-auto"
+                    priority
                   />
                 </div>
               </div>
