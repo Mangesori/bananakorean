@@ -19,18 +19,17 @@ export const inter = Inter({
   display: 'swap',
   variable: '--font-inter',
 });
+
 export const hind = Hind({
-  subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  display: 'swap',
+  subsets: ['latin'],
   variable: '--font-hind',
+  display: 'swap',
 });
 
 export const metadata = {
-  title: 'Banana Korean - Master Korean with Interactive Quizzes',
-  description:
-    "Enhance your Korean language skills with Banana Korean's interactive quizzes. Suitable for all proficiency levels.",
-  icon: '/favicon.ico',
+  title: 'Banana Korean',
+  description: 'Learn Korean with Banana Korean',
 };
 
 export default function RootLayout({ children }) {
