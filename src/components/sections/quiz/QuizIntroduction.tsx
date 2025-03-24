@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import aboutImage from '@/assets/images/homepage/About.png';
 
 const QuizIntroduction = () => {
   return (
@@ -217,7 +218,7 @@ const QuizIntroduction = () => {
               <div className="w-full md:w-1/2">
                 <div className="flex justify-center">
                   <Image
-                    src="/images/About.png"
+                    src={aboutImage}
                     alt="Created by Expert"
                     width={440}
                     height={440}
