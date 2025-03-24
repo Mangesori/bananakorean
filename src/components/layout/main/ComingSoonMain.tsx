@@ -33,20 +33,10 @@ const ComingSoonMain = () => {
           This feature is currently under development. We&apos;ll be back with new quizzes soon.
         </p>
 
-        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md mx-auto">
-          <p className="text-contentColor mb-6">
-            In the meantime, check out our other available quizzes and continue your Korean learning
-            journey!
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/"
-              className="inline-block bg-white border-2 border-primaryColor text-primaryColor hover:bg-primaryColor hover:text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium"
-            >
-              Return to Home
-            </Link>
-          </div>
+        <div className="mt-50px text-center">
+          <Link href="/" className="btn btn-primary">
+            Back to Home
+          </Link>
         </div>
       </div>
     </section>

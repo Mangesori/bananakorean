@@ -219,8 +219,8 @@ const QuizIntroduction = () => {
                   <Image
                     src="/images/About.svg"
                     alt="Created by Expert"
-                    width={180}
-                    height={180}
+                    width={440}
+                    height={440}
                     className="max-w-full h-auto"
                   />
                 </div>
