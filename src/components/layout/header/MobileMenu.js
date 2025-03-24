@@ -11,7 +11,6 @@ const MobileMenu = () => {
 
       {/*  mobile menu wrapper */}
       <div className="px-5 md:px-30px pt-5 md:pt-10 pb-50px h-full overflow-y-auto">
-        <MobileMenuSearch />
         {/*  mobile menu accordions */}
         <MobileMenuItems />
         {/*  my account accordion */}

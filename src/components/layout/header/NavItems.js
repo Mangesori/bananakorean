@@ -1,7 +1,6 @@
 import React from 'react';
 import Navitem from './Navitem';
 import DropdownWrapper from '@/components/shared/wrappers/DropdownWrapper';
-import DropdownVideos from './DropdownVideos';
 import { useAuth } from '@/hooks/useAuth';
 
 const NavItems = () => {
@@ -10,7 +9,7 @@ const NavItems = () => {
   const navItems = [
     {
       id: 1,
-      name: 'Quiz',
+      name: 'Grammar Quiz',
       path: '/quiz',
       isRelative: false,
     },

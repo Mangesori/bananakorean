@@ -6,23 +6,18 @@ const MobileMenuItems = () => {
   const items = [
     {
       id: 1,
-      name: 'Quiz',
-      path: '/quiz',
+      name: 'Step-by-Step Quiz',
+      path: '/quiz/coming-soon',
     },
     {
       id: 2,
-      name: 'Videos',
-      path: '/videos',
+      name: 'Grammar Quiz',
+      path: '/quiz',
     },
     {
       id: 3,
-      name: 'Blog',
-      path: '/blog',
-    },
-    {
-      id: 5,
-      name: 'Demos',
-      path: '/',
+      name: 'Grammar Comparison Quiz',
+      path: '/quiz/coming-soon',
     },
   ];
 

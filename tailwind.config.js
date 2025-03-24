@@ -102,6 +102,7 @@ module.exports = {
         whitegrey1: '#EDEDED',
         whitegrey2: '#F2F6F7',
         whitegrey3: '#E7DEFF',
+        whitegrey4: '#F7F7F8',
         headingColor: '#222222',
         contentColor: '#5F6C76',
         contentColor2: '#5C727D',

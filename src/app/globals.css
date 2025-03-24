@@ -81,8 +81,7 @@ h6 {
 
 /* sticky header */
 .sticky-header.active {
-  background: var(--whiteColor);
-  box-shadow: 0 0 50px 10px rgba(95, 45, 237, 0.15);
+  /* 배경색과 그림자 효과 제거 */
 }
 
 /* tab */

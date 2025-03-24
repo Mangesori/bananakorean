@@ -1,9 +1,8 @@
 'use client';
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/utils/supabaseClient';
 import { useRouter } from 'next/navigation';
-
-export const AuthContext = createContext({});
+import { AuthContext } from '@/contexts/auth';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

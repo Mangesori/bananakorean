@@ -733,8 +733,8 @@ export const pastTenseQuestions: KoreanQuestion[] = [
     translation: "My father didn't come to the hospital.",
     hints: [
       { content: 'my', hint: '제' },
-      { content: "didn't", hint: '안' },
       { content: 'father', hint: '아빠' },
+      { content: "didn't", hint: '안' },
       { content: 'come', hint: '오다' },
       { content: 'to', hint: '에' },
       { content: 'the', hint: '' },
