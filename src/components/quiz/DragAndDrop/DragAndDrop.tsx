@@ -97,17 +97,20 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
 
   // 모바일 및 태블릿에서 스크롤 방지
   useEffect(() => {
-    // 현재 body의 overflow 스타일 저장
     const originalStyle = window.getComputedStyle(document.body).overflow;
-
-    // body에 overflow: hidden 적용
     document.body.style.overflow = 'hidden';
 
-    // 컴포넌트가 언마운트될 때 원래 스타일로 복원
+    // 터치 이벤트 방지
+    const preventTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+    document.addEventListener('touchmove', preventTouchMove, { passive: false });
+
     return () => {
       document.body.style.overflow = originalStyle;
+      document.removeEventListener('touchmove', preventTouchMove);
     };
-  }, []);
+  }, [questions]);
 
   // 컴포넌트가 마운트될 때와 questions prop이 변경될 때 문제를 섞음
   useEffect(() => {
