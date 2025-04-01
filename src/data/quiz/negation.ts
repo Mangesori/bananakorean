@@ -52,7 +52,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의사', combineWithNext: true },
-      { id: '4', content: '이', combineWithNext: false },
+      { id: '4', content: '가', combineWithNext: false },
       { id: '5', content: '아니에요.' },
     ],
   },
@@ -886,6 +886,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 51,
     baseText: '이 책은 제 거가 아니에요.',
+    alternativeTexts: ['이 책은 제 거 아니에요.'],
     translation: 'This book is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -898,7 +899,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -906,6 +907,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 52,
     baseText: '이 펜은 제 거가 아니에요.',
+    alternativeTexts: ['이 펜은 제 거 아니에요.'],
     translation: 'This pen is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -918,7 +920,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '펜', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -926,6 +928,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 53,
     baseText: '이 가방은 제 거가 아니에요.',
+    alternativeTexts: ['이 가방은 제 거 아니에요.'],
     translation: 'This bag is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -938,7 +941,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '가방', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -946,6 +949,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 54,
     baseText: '이 커피는 제 거가 아니에요.',
+    alternativeTexts: ['이 커피는 제 거 아니에요.'],
     translation: 'This coffee is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -958,7 +962,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '커피', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -966,6 +970,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 55,
     baseText: '이 물은 제 거가 아니에요.',
+    alternativeTexts: ['이 물은 제 거 아니에요.'],
     translation: 'This water is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -978,7 +983,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -986,6 +991,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 56,
     baseText: '이 책상은 제 거가 아니에요.',
+    alternativeTexts: ['이 책상은 제 거 아니에요.'],
     translation: 'This desk is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -998,7 +1004,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '책상', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1006,6 +1012,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 57,
     baseText: '이 의자는 제 거가 아니에요.',
+    alternativeTexts: ['이 의자는 제 거 아니에요.'],
     translation: 'This chair is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -1018,7 +1025,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '의자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1026,6 +1033,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 58,
     baseText: '이 빵은 제 거가 아니에요.',
+    alternativeTexts: ['이 빵은 제 거 아니에요.'],
     translation: 'This bread is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -1038,7 +1046,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1046,6 +1054,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 59,
     baseText: '이 우유는 제 거가 아니에요.',
+    alternativeTexts: ['이 우유는 제 거 아니에요.'],
     translation: 'This milk is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -1058,7 +1067,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '우유', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1066,6 +1075,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 60,
     baseText: '이 핸드폰은 제 거가 아니에요.',
+    alternativeTexts: ['이 핸드폰은 제 거 아니에요.'],
     translation: 'This phone is not mine.',
     hints: [
       { content: 'This', hint: '이' },
@@ -1078,7 +1088,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1086,6 +1096,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 61,
     baseText: '저 책은 제 거가 아니에요.',
+    alternativeTexts: ['저 책은 제 거 아니에요.'],
     translation: 'That book is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1098,7 +1109,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1106,6 +1117,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 62,
     baseText: '저 펜은 제 거가 아니에요.',
+    alternativeTexts: ['저 펜은 제 거 아니에요.'],
     translation: 'That pen is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1118,7 +1130,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '펜', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1126,6 +1138,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 63,
     baseText: '저 가방은 제 거가 아니에요.',
+    alternativeTexts: ['저 가방은 제 거 아니에요.'],
     translation: 'That bag is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1138,7 +1151,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '가방', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1146,6 +1159,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 64,
     baseText: '저 커피는 제 거가 아니에요.',
+    alternativeTexts: ['저 커피는 제 거 아니에요.'],
     translation: 'That coffee is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1158,7 +1172,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '커피', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1166,6 +1180,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 65,
     baseText: '저 물은 제 거가 아니에요.',
+    alternativeTexts: ['저 물은 제 거 아니에요.'],
     translation: 'That water is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1178,7 +1193,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1186,6 +1201,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 66,
     baseText: '저 책상은 제 거가 아니에요.',
+    alternativeTexts: ['저 책상은 제 거 아니에요.'],
     translation: 'That desk is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1198,7 +1214,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '책상', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1206,6 +1222,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 67,
     baseText: '저 의자는 제 거가 아니에요.',
+    alternativeTexts: ['저 의자는 제 거 아니에요.'],
     translation: 'That chair is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1218,7 +1235,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '의자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1226,6 +1243,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 68,
     baseText: '저 빵은 제 거가 아니에요.',
+    alternativeTexts: ['저 빵은 제 거 아니에요.'],
     translation: 'That bread is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1238,7 +1256,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1246,6 +1264,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 69,
     baseText: '저 우유는 제 거가 아니에요.',
+    alternativeTexts: ['저 우유는 제 거 아니에요.'],
     translation: 'That milk is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1258,7 +1277,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '우유', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1266,6 +1285,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 70,
     baseText: '저 핸드폰은 제 거가 아니에요.',
+    alternativeTexts: ['저 핸드폰은 제 거 아니에요.'],
     translation: 'That phone is not mine.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1278,7 +1298,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
       { id: '4', content: '제', combineWithNext: false },
-      { id: '5', content: '거', combineWithNext: true },
+      { id: '5', content: '거', combineWithNext: true, ignoreSpaceRule: true },
       { id: '6', content: '가', combineWithNext: false },
       { id: '7', content: '아니에요.' },
     ],
@@ -1286,6 +1306,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 71,
     baseText: '저 사람은 학생이 아니에요.',
+    alternativeTexts: ['저 사람은 학생 아니에요.'],
     translation: 'That person is not a student.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1298,7 +1319,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '학생', combineWithNext: true },
+      { id: '4', content: '학생', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1306,6 +1327,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 72,
     baseText: '저 사람은 선생님이 아니에요.',
+    alternativeTexts: ['저 사람은 선생님 아니에요.'],
     translation: 'That person is not a teacher.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1318,7 +1340,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '선생님', combineWithNext: true },
+      { id: '4', content: '선생님', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1326,6 +1348,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 73,
     baseText: '저 사람은 의사가 아니에요.',
+    alternativeTexts: ['저 사람은 의사 아니에요.'],
     translation: 'That person is not a doctor.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1338,7 +1361,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '의사', combineWithNext: true },
+      { id: '4', content: '의사', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '가', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1346,6 +1369,7 @@ export const negationQuestions: KoreanQuestion[] = [
   {
     id: 74,
     baseText: '저 사람은 가수가 아니에요.',
+    alternativeTexts: ['저 사람은 가수 아니에요.'],
     translation: 'That person is not a singer.',
     hints: [
       { content: 'That', hint: '저' },
@@ -1358,7 +1382,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '가수', combineWithNext: true },
+      { id: '4', content: '가수', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '가', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1378,7 +1402,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '요리사', combineWithNext: true },
+      { id: '4', content: '요리사', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '가', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1398,7 +1422,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '경찰', combineWithNext: true },
+      { id: '4', content: '경찰', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1418,7 +1442,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '회사원', combineWithNext: true },
+      { id: '4', content: '회사원', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1438,7 +1462,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '배우', combineWithNext: true },
+      { id: '4', content: '배우', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '가', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1458,7 +1482,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '운동 선수', combineWithNext: true },
+      { id: '4', content: '운동 선수', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '가', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1478,7 +1502,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '기자', combineWithNext: true },
+      { id: '4', content: '기자', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '가', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1497,7 +1521,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '한국 사람', combineWithNext: true },
+      { id: '4', content: '한국 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1516,7 +1540,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '중국 사람', combineWithNext: true },
+      { id: '4', content: '중국 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1535,7 +1559,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '일본 사람', combineWithNext: true },
+      { id: '4', content: '일본 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1554,7 +1578,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '미국 사람', combineWithNext: true },
+      { id: '4', content: '미국 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1573,7 +1597,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '영국 사람', combineWithNext: true },
+      { id: '4', content: '영국 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1592,7 +1616,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '프랑스 사람', combineWithNext: true },
+      { id: '4', content: '프랑스 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1611,7 +1635,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '독일 사람', combineWithNext: true },
+      { id: '4', content: '독일 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1630,7 +1654,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '호주 사람', combineWithNext: true },
+      { id: '4', content: '호주 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1649,7 +1673,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '베트남 사람', combineWithNext: true },
+      { id: '4', content: '베트남 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],
@@ -1668,7 +1692,7 @@ export const negationQuestions: KoreanQuestion[] = [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
-      { id: '4', content: '인도 사람', combineWithNext: true },
+      { id: '4', content: '인도 사람', combineWithNext: true, ignoreSpaceRule: true },
       { id: '5', content: '이', combineWithNext: false },
       { id: '6', content: '아니에요.' },
     ],

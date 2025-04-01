@@ -249,17 +249,58 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
     } else {
       // Check 버튼이 눌렸을 때
       const userAnswer = answerItems.reduce((result, item, index) => {
+        // ignoreSpaceRule이 true이면 combineWithNext 속성에 관계없이 공백 결정을 문제의 정답에 따름
+        // 항상 공백을 추가하거나 제거하지 않고, 양쪽 답안을 모두 확인하는 방식으로 변경
         const shouldAddSpace = !item.combineWithNext && index !== answerItems.length - 1;
         return result + item.content + (shouldAddSpace ? ' ' : '');
       }, '');
 
-      if (
-        userAnswer === currentQuestion.baseText ||
-        (currentQuestion.alternativeTexts && currentQuestion.alternativeTexts.includes(userAnswer))
-      ) {
+      // ignoreSpaceRule이 있는 항목이 있는지 확인
+      const hasItemWithIgnoreSpaceRule = answerItems.some(item => item.ignoreSpaceRule);
+
+      // 기본 정답 확인
+      const isDefaultAnswerCorrect = userAnswer === currentQuestion.baseText;
+
+      // alternativeTexts 정답 확인
+      const isAlternativeAnswerCorrect =
+        currentQuestion.alternativeTexts &&
+        currentQuestion.alternativeTexts.some(alt => alt === userAnswer);
+
+      // 최종 정답 판정
+      if (isDefaultAnswerCorrect || isAlternativeAnswerCorrect) {
         setFeedbackMessage('잘 했어요!');
         setIsCorrect(true);
         setStreak(prev => prev + 1);
+      } else if (hasItemWithIgnoreSpaceRule) {
+        // ignoreSpaceRule이 있는 항목이 있을 경우 특별 처리
+        // 공백을 다르게 처리한 다른 버전의 답안 생성
+        const alternativeAnswer = answerItems.reduce((result, item, index) => {
+          // ignoreSpaceRule이 true인 항목은 반대 공백 규칙 적용
+          const shouldAddSpace =
+            ((!item.combineWithNext && !item.ignoreSpaceRule) ||
+              (item.combineWithNext && item.ignoreSpaceRule)) &&
+            index !== answerItems.length - 1;
+          return result + item.content + (shouldAddSpace ? ' ' : '');
+        }, '');
+
+        // 대체 답안으로 다시 확인
+        if (
+          alternativeAnswer === currentQuestion.baseText ||
+          (currentQuestion.alternativeTexts &&
+            currentQuestion.alternativeTexts.includes(alternativeAnswer))
+        ) {
+          setFeedbackMessage('잘 했어요!');
+          setIsCorrect(true);
+          setStreak(prev => prev + 1);
+        } else {
+          setFeedbackMessage('틀렸어요. 다시 시도해보세요!');
+          setAnswerItems([]);
+          const shuffledItems = shuffleArray(currentQuestion.items);
+          setQuestionItems(shuffledItems);
+          setStreak(0);
+          setLives(prev => Math.max(0, prev - 1));
+          setShowHint(false);
+        }
       } else {
         setFeedbackMessage('틀렸어요. 다시 시도해보세요!');
         setAnswerItems([]);
@@ -341,14 +382,27 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
                 id="answer-area"
                 className="answers flex flex-wrap gap-2 w-full min-h-[80px] relative z-10"
               >
-                {answerItems.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className={`inline-block ${!item.combineWithNext ? 'mr-1' : '-mr-1'}`}
-                  >
-                    <DraggableOption item={item} onItemClick={handleItemClick} />
-                  </div>
-                ))}
+                {answerItems.map((item, index) => {
+                  const nextItem = index < answerItems.length - 1 ? answerItems[index + 1] : null;
+                  const isParticleNext =
+                    nextItem &&
+                    (nextItem.content === '가' ||
+                      nextItem.content === '이' ||
+                      nextItem.content === '를' ||
+                      nextItem.content === '을');
+                  return (
+                    <div
+                      key={item.id}
+                      className={`inline-block ${
+                        (!item.combineWithNext || item.ignoreSpaceRule) && !isParticleNext
+                          ? 'mr-1'
+                          : '-mr-1'
+                      }`}
+                    >
+                      <DraggableOption item={item} onItemClick={handleItemClick} />
+                    </div>
+                  );
+                })}
               </DroppableArea>
             )}
           </div>

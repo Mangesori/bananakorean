@@ -11,6 +11,7 @@ export interface Item {
   id: string;
   content: string;
   combineWithNext?: boolean;
+  ignoreSpaceRule?: boolean;
 }
 
 export interface WordProps {
