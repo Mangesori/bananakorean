@@ -17,9 +17,17 @@ const NavbarRight = () => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    if (!user) {
-      setShowProfileDropdown(false);
-    }
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session && !user) {
+        // 세션이 있지만 user 상태가 없는 경우 페이지 새로고침
+        window.location.reload();
+      }
+    };
+
+    checkSession();
   }, [user]);
 
   const handleLogout = async () => {

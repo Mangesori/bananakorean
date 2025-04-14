@@ -48,52 +48,14 @@ const LoginForm = () => {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboards/student-dashboard`,
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            next: '/dashboards/student-dashboard',
+          },
         },
       });
 
       if (error) throw error;
-
-      // 세션 정보 가져오기
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError) throw sessionError;
-
-      if (session?.user) {
-        // profiles 테이블에 사용자 정보 저장 시도
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert([
-            {
-              id: session.user.id,
-              name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
-              role: 'student',
-            },
-          ])
-          .select()
-          .single();
-
-        // 이미 프로필이 있는 경우(23505 에러) 무시하고 진행
-        if (profileError && profileError.code !== '23505') {
-          throw profileError;
-        }
-
-        // 로그인 성공 시 대시보드로 리다이렉트
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-
-        const redirectPath =
-          profile?.role === 'admin'
-            ? '/dashboards/admin-dashboard'
-            : '/dashboards/student-dashboard';
-
-        router.push(redirectPath);
-      }
     } catch (error) {
       console.error('Social login error:', error);
       setError(error.message);
