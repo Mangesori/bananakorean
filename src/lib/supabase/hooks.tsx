@@ -140,7 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (data?.session) {
         // 유효한 세션이 있는 경우
-        logAuth('유효한 세션 발견', { id: data.session.id, user: data.session.user.email });
+        logAuth('유효한 세션 발견', { id: data.session.user.id, user: data.session.user.email });
 
         // 세션이 만료 10분 전이면 갱신 시도
         await tryRefreshExpiringSession(supabase, data.session);
