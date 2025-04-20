@@ -26,14 +26,10 @@ export async function uploadProfileImage(userId: string, file: File) {
     return { error: uploadError };
   }
 
+  // getPublicUrl은 에러를 반환하지 않고 URL만 반환함
   const {
     data: { publicUrl },
-    error: urlError,
   } = supabase.storage.from('avatars').getPublicUrl(filePath);
-
-  if (urlError) {
-    return { error: urlError };
-  }
 
   const { error: updateError } = await supabase
     .from('profiles')
