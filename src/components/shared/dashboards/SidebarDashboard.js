@@ -2,10 +2,11 @@
 
 import { usePathname } from 'next/navigation';
 import ItemsDashboard from './ItemsDashboard';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/supabase/hooks';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabaseClient';
+import Link from 'next/link';
 
 const SidebarDashboard = () => {
   const pathname = usePathname();
@@ -55,14 +56,14 @@ const SidebarDashboard = () => {
     };
   }, [user?.id]);
 
-  const handleLogout = async () => {
+  const handleSignOut = async () => {
     if (isLoggingOut) return;
 
     try {
       setIsLoggingOut(true);
       await signOut();
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error('Error during sign out:', error);
       alert('로그아웃 중 문제가 발생했습니다. 다시 시도해주세요.');
     } finally {
       setIsLoggingOut(false);
@@ -181,8 +182,8 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Logout',
-          onClick: handleLogout,
+          name: 'Sign out',
+          onClick: handleSignOut,
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -296,9 +297,9 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Logout',
+          name: 'Sign out',
           path: '#',
-          onClick: handleLogout,
+          onClick: handleSignOut,
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"

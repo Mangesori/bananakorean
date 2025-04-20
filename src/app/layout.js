@@ -11,7 +11,7 @@ import './globals.css';
 import FixedShadow from '@/components/shared/others/FixedShadow';
 import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
-import { AuthProvider } from '@/hooks/useAuth';
+import { AuthProvider } from '@/lib/supabase/hooks';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,8 +39,13 @@ export default function RootLayout({ children }) {
         className={`relative leading-[1.8] bg-bodyBg dark:bg-bodyBg-dark z-0  ${inter.className}`}
       >
         <AuthProvider>
+          <div
+            id="auth-ready-indicator"
+            style={{ display: 'none' }}
+            data-auth-ready="false"
+            data-auth-initialized="false"
+          />
           {children}
-          <div></div>
         </AuthProvider>
       </body>
     </html>

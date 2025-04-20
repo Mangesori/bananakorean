@@ -1,7 +1,10 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/lib/supabase/hooks';
+import Link from 'next/link';
 import React from 'react';
 import Navitem from './Navitem';
 import DropdownWrapper from '@/components/shared/wrappers/DropdownWrapper';
-import { useAuth } from '@/hooks/useAuth';
 
 const NavItems = () => {
   const { user } = useAuth();
@@ -11,6 +14,12 @@ const NavItems = () => {
       id: 1,
       name: 'Grammar Quiz',
       path: '/quiz',
+      isRelative: false,
+    },
+    {
+      id: 2,
+      name: '대화 퀴즈',
+      path: '/quiz/dialogue',
       isRelative: false,
     },
   ];

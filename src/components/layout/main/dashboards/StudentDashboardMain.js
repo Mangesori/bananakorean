@@ -1,7 +1,7 @@
 'use client';
+import React, { useEffect, useState } from 'react';
 import AdminFeedbacks from '@/components/sections/sub-section/dashboards/AdminFeedbacks';
-import { useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/supabase/hooks';
 import { supabase } from '@/utils/supabaseClient';
 
 const StudentDashboardMain = () => {

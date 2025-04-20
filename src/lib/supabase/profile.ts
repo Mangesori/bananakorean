@@ -1,0 +1,60 @@
+import { createClient } from './client';
+
+// 프로필 정보 가져오기
+export async function getUserProfile(userId: string) {
+  const supabase = createClient();
+  return await supabase.from('profiles').select('*').eq('id', userId).single();
+}
+
+// 프로필 업데이트
+export async function updateProfile(userId: string, updates: Partial<any>) {
+  const supabase = createClient();
+  return await supabase.from('profiles').update(updates).eq('id', userId);
+}
+
+// 프로필 이미지 업로드
+export async function uploadProfileImage(userId: string, file: File) {
+  const supabase = createClient();
+  const fileExt = file.name.split('.').pop();
+  const filePath = `${userId}/profile.${fileExt}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('avatars')
+    .upload(filePath, file, { upsert: true });
+
+  if (uploadError) {
+    return { error: uploadError };
+  }
+
+  const {
+    data: { publicUrl },
+    error: urlError,
+  } = supabase.storage.from('avatars').getPublicUrl(filePath);
+
+  if (urlError) {
+    return { error: urlError };
+  }
+
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({ avatar_url: publicUrl })
+    .eq('id', userId);
+
+  return { publicUrl, error: updateError };
+}
+
+// 대화 생성하기
+export async function createConversation(conversation: {
+  user1_id: string;
+  user2_id: string;
+  title?: string;
+}) {
+  const supabase = createClient();
+  return await supabase.from('conversations').insert([
+    {
+      ...conversation,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+  ]);
+}

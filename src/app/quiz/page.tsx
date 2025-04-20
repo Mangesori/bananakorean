@@ -158,7 +158,7 @@ export default function QuizPage() {
   return (
     <PageWrapper>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">한국어 문법 퀴즈</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Korean Grammar Quiz</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
           {grammarSets.map(set => (
             <Link

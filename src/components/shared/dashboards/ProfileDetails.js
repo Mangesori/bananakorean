@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/supabase/hooks';
 
 const ProfileDetails = () => {
   const { user } = useAuth();

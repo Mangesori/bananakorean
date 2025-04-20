@@ -1,116 +1,134 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import ButtonPrimary from '../buttons/ButtonPrimary';
-import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/utils/supabaseClient';
+import React, { useState } from 'react';
+import { useAuth } from '@/lib/supabase/hooks';
+import { updateProfile, uploadProfileImage } from '@/lib/supabase/profile';
 
 const ProfileContent = () => {
   const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    nickname: '',
+    name: user?.user_metadata?.name || '',
+    email: user?.email || '',
+    avatar_url: user?.user_metadata?.avatar_url || '',
   });
 
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name || '',
-        nickname: user.nickname || user.user_metadata?.username || '',
-      });
-    }
-  }, [user]);
-
   const handleChange = e => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUpload = async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await uploadProfileImage(file);
+      if (error) throw error;
+
+      setFormData(prev => ({ ...prev, avatar_url: data.publicUrl }));
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-
     try {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-      if (sessionError) throw sessionError;
-
-      if (!session?.user?.id) {
-        throw new Error('사용자 세션을 찾을 수 없습니다.');
-      }
-
-      // profiles 테이블 업데이트
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
-          name: formData.name || null,
-          nickname: formData.nickname || null,
-        })
-        .eq('id', session.user.id);
-
-      if (profileError) throw profileError;
-
-      // user_metadata 업데이트
-      const { error: metadataError } = await supabase.auth.updateUser({
-        data: { username: formData.nickname || null },
+      setLoading(true);
+      const { error } = await updateProfile({
+        name: formData.name,
+        avatar_url: formData.avatar_url,
       });
-
-      if (metadataError) throw metadataError;
-
-      alert('프로필이 성공적으로 업데이트되었습니다.');
-
-      // 페이지 새로고침 대신 상태 직접 업데이트
-      if (user) {
-        user.name = formData.name;
-        user.nickname = formData.nickname;
-        user.user_metadata = {
-          ...user.user_metadata,
-          username: formData.nickname,
-        };
-      }
+      if (error) throw error;
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert(`프로필 업데이트 중 오류가 발생했습니다: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form
-      className="text-sm text-blackColor dark:text-blackColor-dark leading-1.8"
-      data-aos="fade-up"
-      onSubmit={handleSubmit}
-    >
-      <div className="flex flex-col gap-y-15px">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+      <h2 className="text-2xl font-semibold mb-6 text-blackColor dark:text-blackColor-dark">
+        Profile Settings
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="flex items-center space-x-6">
+          <div className="relative w-24 h-24">
+            <img
+              src={formData.avatar_url || '/images/user1.jpg'}
+              alt="Profile"
+              className="w-full h-full rounded-full object-cover"
+            />
+            <label
+              htmlFor="avatar-upload"
+              className="absolute bottom-0 right-0 bg-primaryColor text-white p-2 rounded-full cursor-pointer hover:bg-primaryColor-dark"
+            >
+              <i className="icofont-camera text-lg"></i>
+            </label>
+            <input
+              type="file"
+              id="avatar-upload"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-blackColor dark:text-blackColor-dark">
+              {formData.name}
+            </h3>
+            <p className="text-contentColor dark:text-contentColor-dark">{formData.email}</p>
+          </div>
+        </div>
+
         <div>
-          <label className="mb-3 block font-semibold">Name</label>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-blackColor dark:text-blackColor-dark mb-2"
+          >
+            Name
+          </label>
           <input
             type="text"
+            id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Name"
-            className="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-primaryColor dark:bg-gray-700 dark:border-gray-600"
           />
         </div>
-        <div>
-          <label className="mb-3 block font-semibold">Nickname</label>
-          <input
-            type="text"
-            name="nickname"
-            value={formData.nickname}
-            onChange={handleChange}
-            placeholder="Nickname"
-            className="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no"
-          />
-        </div>
-      </div>
 
-      <div className="mt-15px">
-        <ButtonPrimary type="submit">Update Infomation</ButtonPrimary>
-      </div>
-    </form>
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-blackColor dark:text-blackColor-dark mb-2"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            disabled
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-primaryColor text-white py-2 px-4 rounded-lg hover:bg-primaryColor-dark disabled:opacity-50"
+        >
+          {loading ? 'Saving...' : 'Save Changes'}
+        </button>
+      </form>
+    </div>
   );
 };
 

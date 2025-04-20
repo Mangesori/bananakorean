@@ -1,11 +1,12 @@
 'use client';
+import React, { useEffect, useState } from 'react';
+import ProfileDetails from '@/components/shared/dashboards/ProfileDetails';
+import { useAuth } from '@/lib/supabase/hooks';
 import DashboardWrapper from '@/components/shared/wrappers/DsahboardWrapper';
 import DashboardContainer from '@/components/shared/containers/DashboardContainer';
 import PageWrapper from '@/components/shared/wrappers/PageWrapper';
 import StudentProfileMain from '@/components/layout/main/dashboards/StudentProfileMain';
-import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 const Student_Profile = () => {
   return (

@@ -1,6 +1,7 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/supabase/hooks';
 
 const HeroDashboard = () => {
   const pathname = usePathname();

@@ -1,6 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useEffect, useState, useRef } from 'react';
+import { useAuth } from '@/lib/supabase/hooks';
+import { getMessages, sendMessage, subscribeToMessages } from '@/lib/supabase/messages';
 import { supabase } from '@/utils/supabaseClient';
 import Conversation from './Conversation';
 import ConversationPartner from './ConversationPartner';
@@ -10,6 +11,14 @@ const ChatApp = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [conversationId, setConversationId] = useState(null);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const getProfile = async () => {
@@ -98,6 +107,58 @@ const ChatApp = () => {
     };
   }, [user]);
 
+  useEffect(() => {
+    if (!conversationId) return;
+
+    const fetchMessages = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await getMessages(conversationId);
+        if (error) throw error;
+        setMessages(data || []);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMessages();
+
+    const subscription = subscribeToMessages(conversationId, payload => {
+      if (payload.eventType === 'INSERT') {
+        setMessages(prev => [...prev, payload.new]);
+        scrollToBottom();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [conversationId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSend = async e => {
+    e.preventDefault();
+    if (!newMessage.trim() || !conversationId) return;
+
+    try {
+      const { error } = await sendMessage({
+        conversation_id: conversationId,
+        sender_id: user.id,
+        content: newMessage.trim(),
+      });
+
+      if (error) throw error;
+      setNewMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
@@ -125,7 +186,7 @@ const ChatApp = () => {
             />
           ) : (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-[600px] flex items-center justify-center">
-              <p>대화 상대를 선택해주세요.</p>
+              <p>Please select a conversation partner.</p>
             </div>
           )}
         </div>

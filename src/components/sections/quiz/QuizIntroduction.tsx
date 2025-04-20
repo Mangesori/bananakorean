@@ -28,7 +28,7 @@ const QuizIntroduction = () => {
             </p>
             <div className="flex flex-wrap gap-4 items-center justify-center mt-8">
               <Link
-                href="/signup"
+                href="/auth/signup"
                 className="inline-block bg-primaryColor text-white px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 shadow-md font-medium"
               >
                 Join Now
@@ -222,7 +222,7 @@ const QuizIntroduction = () => {
                     alt="Created by Expert"
                     width={440}
                     height={440}
-                    className="max-w-full h-auto"
+                    className="max-w-full h-auto w-auto"
                     priority
                   />
                 </div>

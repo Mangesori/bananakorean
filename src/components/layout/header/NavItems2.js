@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navitem from './Navitem';
 import DropdownWrapper from '@/components/shared/wrappers/DropdownWrapper';
 import DropdownVideos from './DropdownVideos';
-import { useAuth } from '@/hooks/useAuth'; // Add this import
+import { useAuth } from '@/lib/supabase/hooks'; // Add this import
 
 const NavItems = () => {
   const { user } = useAuth(); // Add this hook

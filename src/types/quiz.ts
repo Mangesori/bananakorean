@@ -126,3 +126,12 @@ export interface QuizProgress {
   currentStreak: number;
   bestStreak: number;
 }
+
+export interface DialogueQuestion {
+  id: number;
+  question: string;
+  questionTranslation: string;
+  answer: string;
+  answerTranslation: string;
+  items: Item[];
+}
