@@ -118,7 +118,7 @@ export default function LoginForm() {
           Log In
         </h3>
         <p className="text-contentColor dark:text-contentColor-dark mb-15px">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             href="/auth/signup"
             className="hover:text-primaryColor relative after:absolute after:left-0 after:bottom-0.5 after:w-0 after:h-0.5 after:bg-primaryColor after:transition-all after:duration-300 hover:after:w-full"

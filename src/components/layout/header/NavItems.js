@@ -18,7 +18,7 @@ const NavItems = () => {
     },
     {
       id: 2,
-      name: '대화 퀴즈',
+      name: 'Conversation type Quiz',
       path: '/quiz/dialogue',
       isRelative: false,
     },

@@ -79,7 +79,7 @@ const Conversation = ({ conversationId, otherUser, onBack }) => {
   if (!otherUser) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-[600px] flex items-center justify-center">
-        <p>대화 상대를 선택해주세요.</p>
+        <p>Please select a conversation partner.</p>
       </div>
     );
   }
