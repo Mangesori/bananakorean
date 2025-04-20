@@ -45,13 +45,15 @@ const LoginTab = () => {
         {tabButtons.map((button, idx) => (
           <TabButtonPrimary
             key={button.name}
-            text={button.name}
-            active={currentIdx === idx}
-            onClick={() => handleTabClick(idx)}
+            name={button.name}
+            handleTabClick={handleTabClick}
+            idx={idx}
+            currentIdx={currentIdx}
+            button="lg"
           />
         ))}
       </div>
-      <TabContentWrapper>{tabButtons[currentIdx].content}</TabContentWrapper>
+      <TabContentWrapper isShow={true}>{tabButtons[currentIdx].content}</TabContentWrapper>
     </div>
   );
 };
