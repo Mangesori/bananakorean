@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import PageWrapper from '@/components/shared/wrappers/PageWrapper';
 
-const dialogueSets = [
+const multipleSets = [
   {
     id: 'introduction',
     title: 'Learn how to introduce yourself',
@@ -168,68 +168,18 @@ const dialogueSets = [
     // 동안, 일찍,
     // 피아노, 기타, 바이올린, 드럼, 프루트, 색소폰, 첼로, 하모니카,
   },
-  {
-    id: 'obligation',
-    title: 'Learn how to express obligation',
-    description: '아야/어야 해요 - Must/Have to',
-  },
-  {
-    id: 'skills',
-    title: 'Learn how to express skills & abilities',
-    description: '못하다&잘하다&잘 못하다 - Good at/Bad at',
-  },
-  {
-    id: 'adjectives',
-    title: 'Learn how to describe nouns with adjectives',
-    description: '형용사 + 은 - Adjective Modification',
-  },
-  {
-    id: 'progressive',
-    title: 'Learn how to talk about ongoing actions',
-    description: '고 있다 - Be ~ing',
-  },
-  {
-    id: 'reasons',
-    title: 'Learn how to connect reasons & sequences',
-    description: '아서/어서 - Because',
-  },
-  {
-    id: 'contrast',
-    title: 'Learn how to express contrast',
-    description: '지만, 는데 - Although/But',
-  },
-  {
-    id: 'cause',
-    title: 'Learn how to give reasons',
-    description: '으니까 - Since/As',
-  },
-  {
-    id: 'conditions',
-    title: 'Learn how to talk about conditions',
-    description: '면 - If',
-  },
-  {
-    id: 'time-relations',
-    title: 'Learn how to express time relations',
-    description: '때 - When',
-  },
-  {
-    id: 'sequence',
-    title: 'Learn how to talk about before & after',
-    description: '기 전, 은 후 - Before & After',
-  },
 ];
 
-export default function DialogueQuizPage() {
+export default function MultipleIndexPage() {
   return (
     <PageWrapper>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Dialogue Quiz</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Multiple Choice Quiz</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {dialogueSets.map(set => (
+          {multipleSets.map(set => (
             <Link
               key={set.id}
-              href={`/quiz/dialogue/${set.id}`}
+              href={`/quiz/multiple/${set.id}`}
               className="block p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
             >
               <h2 className="text-xl font-semibold mb-2">{set.title}</h2>

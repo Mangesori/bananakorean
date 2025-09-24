@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import PageWrapper from '@/components/shared/wrappers/PageWrapper';
+import { topicMeta } from '@/data/quiz/topics/meta';
 
-const grammarSets = [
+// introduction부터 ability까지 20개 문법
+const fillBlankSets = [
   {
     id: 'introduction',
     title: 'Learn how to introduce yourself',
@@ -102,84 +104,21 @@ const grammarSets = [
     title: 'Learn how to express ability & possibility',
     description: '수 있다/없다 - Can/Cannot',
   },
-  {
-    id: 'obligation',
-    title: 'Learn how to express obligation',
-    description: '아야/어야 해요 - Must/Have to',
-  },
-  {
-    id: 'skills',
-    title: 'Learn how to express skills & abilities',
-    description: '못하다&잘하다&잘 못하다 - Good at/Bad at',
-  },
-  {
-    id: 'adjectives',
-    title: 'Learn how to describe nouns with adjectives',
-    description: '형용사 + 은 - Adjective Modification',
-  },
-  {
-    id: 'progressive',
-    title: 'Learn how to talk about ongoing actions',
-    description: '고 있다 - Be ~ing',
-  },
-  {
-    id: 'reasons',
-    title: 'Learn how to connect reasons & sequences',
-    description: '아서/어서 - Because',
-  },
-  {
-    id: 'contrast',
-    title: 'Learn how to express contrast',
-    description: '지만, 는데 - Although/But',
-  },
-  {
-    id: 'cause',
-    title: 'Learn how to give reasons',
-    description: '으니까 - Since/As',
-  },
-  {
-    id: 'conditions',
-    title: 'Learn how to talk about conditions',
-    description: '면 - If',
-  },
-  {
-    id: 'time-relations',
-    title: 'Learn how to express time relations',
-    description: '때 - When',
-  },
-  {
-    id: 'sequence',
-    title: 'Learn how to talk about before & after',
-    description: '기 전, 은 후 - Before & After',
-  },
 ];
 
-export default function QuizPage() {
+export default function FillBlankIndexPage() {
   return (
     <PageWrapper>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Korean Grammar Quiz</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Fill in the Blank Quiz</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {/* 빈칸 채우기 퀴즈 섹션 */}
-          <Link
-            href="/quiz/fill-blank"
-            className="block p-6 bg-blue-50 border-2 border-blue-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <h2 className="text-xl font-semibold mb-2 text-blue-800">빈칸 채우기 퀴즈</h2>
-            <p className="text-blue-600">문장의 빈칸을 채워서 한국어 문법을 연습해보세요</p>
-            <p className="text-blue-500 text-sm mt-2">20개 문법 주제 • 타이핑으로 답 입력</p>
-            <span className="inline-block mt-2 px-3 py-1 bg-blue-200 text-blue-800 text-sm rounded-full">
-              NEW!
-            </span>
-          </Link>
-
-          {grammarSets.map(set => (
+          {fillBlankSets.map(set => (
             <Link
               key={set.id}
-              href={`/quiz/${set.id}`}
+              href={`/quiz/fill-blank/${set.id}`}
               className="block p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
             >
-              <h2 className="text-xl font-semibold mb-2">{set.title}</h2>
+              <h2 className="text-xl font-semibold mb-2 text-blue-800">{set.title}</h2>
               <p className="text-gray-600">{set.description}</p>
             </Link>
           ))}

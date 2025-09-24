@@ -12,14 +12,20 @@ const NavItems = () => {
   const navItems = [
     {
       id: 1,
-      name: 'Grammar Quiz',
-      path: '/quiz',
+      name: 'Dialogue Quiz',
+      path: '/quiz/dialogue',
       isRelative: false,
     },
     {
       id: 2,
-      name: 'Conversation type Quiz',
-      path: '/quiz/dialogue',
+      name: 'Multiple Choice Quiz',
+      path: '/quiz/multiple',
+      isRelative: false,
+    },
+    {
+      id: 3,
+      name: 'Fill in the Blank Quiz',
+      path: '/quiz/fill-blank',
       isRelative: false,
     },
   ];

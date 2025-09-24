@@ -91,31 +91,24 @@ export interface QuizQuestion {
   variations: QuizVariation[];
 }
 
-// 레벨 시스템 관련 타입
-export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced';
-
-export interface QuizLevel {
-  level: DifficultyLevel;
-  requiredScore: number;
-  questions: number[];
-}
-
-// 세트 시스템 관련 타입
-export interface QuizSet {
+// 객관식(단일 선택) 퀴즈 타입
+export interface MultipleChoiceQuestion {
   id: number;
-  name: string;
-  questionIds: number[];
-  bestScore?: number;
-}
-
-// 테마 시스템 관련 타입
-export type QuizTheme = 'occupation' | 'nationality' | 'daily_life';
-
-export interface ThemeQuiz {
-  theme: QuizTheme;
-  name: string;
-  description: string;
-  questionIds: number[];
+  question: string;
+  questionTranslation?: string;
+  answerTranslation?: string;
+  options: string[];
+  correctAnswer: string;
+  explanation?: string;
+  // 아래 필드는 대화형의 questionPrefix/questionItems/suffix를 MCQ에 반영하기 위한 선택 필드
+  questionPrefix?: string;
+  questionItemsTranslation?: string;
+  questionSuffix?: string;
+  // answer 조각 정보 (MCQ에서 부분 영어 표시)
+  answerPrefix?: string;
+  answerItemsTranslation?: string;
+  answerSuffix?: string;
+  mode?: 'question-to-answer' | 'answer-to-question';
 }
 
 // 퀴즈 진행 상태 관련 타입
@@ -132,6 +125,34 @@ export interface DialogueQuestion {
   question: string;
   questionTranslation: string;
   answer: string;
+  alternativeAnswers?: string[];
   answerTranslation: string;
   items: Item[];
+  mode?: 'question-to-answer' | 'answer-to-question'; // 새로운 모드 옵션
+  // 새로운 필드들: question 내에서 부분적 드래그 앤 드롭 지원
+  questionPrefix?: string; // 고정으로 표시될 앞부분
+  questionItems?: Item[]; // 드래그 앤 드롭할 question 부분
+  questionSuffix?: string; // 고정으로 표시될 뒷부분
+  questionItemsTranslation?: string; // questionItems에 대한 영어 번역
+  // answer 부분에서 부분적 드래그 앤 드롭 지원
+  answerPrefix?: string; // answer에서 고정으로 표시될 앞부분
+  answerItems?: Item[]; // answer에서 드래그 앤 드롭할 부분
+  answerSuffix?: string; // answer에서 고정으로 표시될 뒷부분
+  answerItemsTranslation?: string; // answerItems에 대한 영어 번역
+}
+
+// 빈칸 채우기 퀴즈 타입
+export interface FillInTheBlankQuestion {
+  id: number;
+  sentence: string; // 빈칸이 포함된 문장 (예: "저는 ___에 가요")
+  translation: string; // 영어 번역
+  blanks: BlankField[]; // 빈칸 정보들
+  hints?: WordHint[]; // 힌트 정보
+}
+
+export interface BlankField {
+  id: string;
+  correctAnswers: string[]; // 정답들 (여러 정답 가능)
+  hint?: string; // 개별 빈칸 힌트
+  position: number; // 문장에서의 위치 (0부터 시작)
 }

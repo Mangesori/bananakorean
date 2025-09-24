@@ -78,6 +78,11 @@ body {
   overflow-x: hidden;
 }
 
+.body-lock {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-end-rgb));
