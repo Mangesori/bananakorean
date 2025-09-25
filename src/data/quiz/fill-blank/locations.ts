@@ -1,3 +1,3 @@
-import { locationQuestions } from '@/data/quiz/dialogue/locations';
+import { locationQuestions } from '@/data/quiz/DialogueDragAndDrop/locations';
 
 export const locationsFillBlankQuestions = locationQuestions;

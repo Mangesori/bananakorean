@@ -69,12 +69,12 @@ const DroppableArea: React.FC<DroppableAreaProps> = ({ id, children, className }
   );
 };
 
-interface DragAndDropProps {
+interface SentenceDragAndDropProps {
   questions: KoreanQuestion[];
   title: string;
 }
 
-const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
+const SentenceDragAndDrop: React.FC<SentenceDragAndDropProps> = ({ questions, title }) => {
   // 문제를 랜덤하게 섞는 함수
   const shuffleQuestions = (questionsToShuffle: KoreanQuestion[]) => {
     const shuffled = [...questionsToShuffle];
@@ -329,7 +329,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
           <h2 className="flex-1 text-2xl font-bold text-center">{title}</h2>
           <div className="flex justify-end">
             <Link
-              href="/quiz"
+              href="/quiz/SentenceDragAndDrop"
               className="flex items-center justify-center hover:text-gray-600 transition-colors -mt-1 p-1"
             >
               <svg
@@ -533,4 +533,4 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ questions, title }) => {
   );
 };
 
-export default DragAndDrop;
+export default SentenceDragAndDrop;

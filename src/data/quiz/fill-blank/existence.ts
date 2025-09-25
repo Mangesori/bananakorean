@@ -1,3 +1,3 @@
-import { existenceQuestions } from '@/data/quiz/dialogue/existence';
+import { existenceQuestions } from '@/data/quiz/DialogueDragAndDrop/existence';
 
 export const existenceFillBlankQuestions = existenceQuestions;

@@ -1,3 +1,3 @@
-import { durationQuestions } from '@/data/quiz/dialogue/duration';
+import { durationQuestions } from '@/data/quiz/DialogueDragAndDrop/duration';
 
 export const durationFillBlankQuestions = durationQuestions;

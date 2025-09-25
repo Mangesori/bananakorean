@@ -1,3 +1,3 @@
-import { basicVerbQuestions } from '@/data/quiz/dialogue/basic-verbs';
+import { basicVerbQuestions } from '@/data/quiz/DialogueDragAndDrop/basic-verbs';
 
 export const basicVerbsFillBlankQuestions = basicVerbQuestions;

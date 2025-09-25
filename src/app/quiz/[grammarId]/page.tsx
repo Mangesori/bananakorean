@@ -1,34 +1,34 @@
-import { introductionQuestions } from '@/data/quiz/introduction';
-import { demonstrativeQuestions } from '@/data/quiz/demonstratives';
-import { negationQuestions } from '@/data/quiz/negation';
-import { locationQuestions } from '@/data/quiz/locations';
-import { existenceQuestions } from '@/data/quiz/existence';
-import { basicVerbQuestions } from '@/data/quiz/basic-verbs';
-import { negativeSentenceQuestions } from '@/data/quiz/negative-sentences';
-import { movementQuestions } from '@/data/quiz/movement';
-import { locationActionQuestions } from '@/data/quiz/location-actions';
-import { pastTenseQuestions } from '@/data/quiz/past-tense';
-import { timeExpressionQuestions } from '@/data/quiz/time-expressions';
-import { durationQuestions } from '@/data/quiz/duration';
-import { positionQuestions } from '@/data/quiz/positions';
-import { purposeQuestions } from '@/data/quiz/purpose';
-import { commandQuestions } from '@/data/quiz/commands';
-import { startEndQuestions } from '@/data/quiz/start-end';
-import { directionMethodQuestions } from '@/data/quiz/direction-method';
-import { desireQuestions } from '@/data/quiz/desires';
-import { futureQuestions } from '@/data/quiz/future';
-import { abilityQuestions } from '@/data/quiz/ability';
-import { obligationQuestions } from '@/data/quiz/obligation';
-import { skillQuestions } from '@/data/quiz/skills';
-import { adjectiveQuestions } from '@/data/quiz/adjectives';
-import { progressiveQuestions } from '@/data/quiz/progressive';
-import { reasonQuestions } from '@/data/quiz/reasons';
-import { contrastQuestions } from '@/data/quiz/contrast';
-import { causeQuestions } from '@/data/quiz/cause';
-import { conditionQuestions } from '@/data/quiz/conditions';
-import { timeRelationQuestions } from '@/data/quiz/time-relations';
-import { sequenceQuestions } from '@/data/quiz/sequence';
-import DragAndDrop from '@/components/quiz/DragAndDrop/DragAndDrop';
+import { introductionQuestions } from '@/data/quiz/SentenceDragAndDrop/introduction';
+import { demonstrativeQuestions } from '@/data/quiz/SentenceDragAndDrop/demonstratives';
+import { negationQuestions } from '@/data/quiz/SentenceDragAndDrop/negation';
+import { locationQuestions } from '@/data/quiz/SentenceDragAndDrop/locations';
+import { existenceQuestions } from '@/data/quiz/SentenceDragAndDrop/existence';
+import { basicVerbQuestions } from '@/data/quiz/SentenceDragAndDrop/basic-verbs';
+import { negativeSentenceQuestions } from '@/data/quiz/SentenceDragAndDrop/negative-sentences';
+import { movementQuestions } from '@/data/quiz/SentenceDragAndDrop/movement';
+import { locationActionQuestions } from '@/data/quiz/SentenceDragAndDrop/location-actions';
+import { pastTenseQuestions } from '@/data/quiz/SentenceDragAndDrop/past-tense';
+import { timeExpressionQuestions } from '@/data/quiz/SentenceDragAndDrop/time-expressions';
+import { durationQuestions } from '@/data/quiz/SentenceDragAndDrop/duration';
+import { positionQuestions } from '@/data/quiz/SentenceDragAndDrop/positions';
+import { purposeQuestions } from '@/data/quiz/SentenceDragAndDrop/purpose';
+import { commandQuestions } from '@/data/quiz/SentenceDragAndDrop/commands';
+import { startEndQuestions } from '@/data/quiz/SentenceDragAndDrop/start-end';
+import { directionMethodQuestions } from '@/data/quiz/SentenceDragAndDrop/direction-method';
+import { desireQuestions } from '@/data/quiz/SentenceDragAndDrop/desires';
+import { futureQuestions } from '@/data/quiz/SentenceDragAndDrop/future';
+import { abilityQuestions } from '@/data/quiz/SentenceDragAndDrop/ability';
+import { obligationQuestions } from '@/data/quiz/SentenceDragAndDrop/obligation';
+import { skillQuestions } from '@/data/quiz/SentenceDragAndDrop/skills';
+import { adjectiveQuestions } from '@/data/quiz/SentenceDragAndDrop/adjectives';
+import { progressiveQuestions } from '@/data/quiz/SentenceDragAndDrop/progressive';
+import { reasonQuestions } from '@/data/quiz/SentenceDragAndDrop/reasons';
+import { contrastQuestions } from '@/data/quiz/SentenceDragAndDrop/contrast';
+import { causeQuestions } from '@/data/quiz/SentenceDragAndDrop/cause';
+import { conditionQuestions } from '@/data/quiz/SentenceDragAndDrop/conditions';
+import { timeRelationQuestions } from '@/data/quiz/SentenceDragAndDrop/time-relations';
+import { sequenceQuestions } from '@/data/quiz/SentenceDragAndDrop/sequence';
+import SentenceDragAndDrop from '@/components/quiz/SentenceDragAndDrop/SentenceDragAndDrop';
 import { KoreanQuestion } from '@/types/quiz';
 
 const grammarSets: { [key: string]: { title: string; questions: KoreanQuestion[] } } = {
@@ -163,7 +163,7 @@ export default function GrammarQuizPage({ params }: { params: { grammarId: strin
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 md:py-8 relative">
-      <DragAndDrop questions={grammarSet.questions} title={grammarSet.title} />
+      <SentenceDragAndDrop questions={grammarSet.questions} title={grammarSet.title} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
 import { makeMcqFromDialogue } from './utils';
-import { startEndQuestions } from '@/data/quiz/dialogue/start-end';
+import { startEndQuestions } from '@/data/quiz/DialogueDragAndDrop/start-end';
 
 export const startEndMcqQuestions = makeMcqFromDialogue(startEndQuestions);

@@ -6,17 +6,22 @@ const MobileMenuItems = () => {
   const items = [
     {
       id: 1,
+      name: 'Sentence Drag & Drop Quiz',
+      path: '/quiz/SentenceDragAndDrop',
+    },
+    {
+      id: 2,
       name: 'Dialogue Quiz',
-      path: '/quiz/dialogue',
+      path: '/quiz/DialogueDragAndDrop',
     },
 
     {
-      id: 2,
+      id: 3,
       name: 'Multiple Choice Quiz',
       path: '/quiz/multiple',
     },
     {
-      id: 3,
+      id: 4,
       name: 'Fill in the Blank Quiz',
       path: '/quiz/fill-blank',
     },

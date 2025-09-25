@@ -1,3 +1,3 @@
-import { futureQuestions } from '@/data/quiz/dialogue/future';
+import { futureQuestions } from '@/data/quiz/DialogueDragAndDrop/future';
 
 export const futureFillBlankQuestions = futureQuestions;

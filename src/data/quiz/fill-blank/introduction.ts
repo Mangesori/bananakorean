@@ -1,3 +1,3 @@
-import { introductionQuestions } from '@/data/quiz/dialogue/introduction';
+import { introductionQuestions } from '@/data/quiz/DialogueDragAndDrop/introduction';
 
 export const introductionFillBlankQuestions = introductionQuestions;

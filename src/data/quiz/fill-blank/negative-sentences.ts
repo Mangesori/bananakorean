@@ -1,3 +1,3 @@
-import { negativeSentenceQuestions } from '@/data/quiz/dialogue/negative-sentences';
+import { negativeSentenceQuestions } from '@/data/quiz/DialogueDragAndDrop/negative-sentences';
 
 export const negativeSentencesFillBlankQuestions = negativeSentenceQuestions;

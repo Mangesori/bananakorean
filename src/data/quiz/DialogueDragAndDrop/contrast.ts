@@ -1,0 +1,77 @@
+import { DialogueQuestion } from '@/types/quiz';
+
+export const contrastQuestions: DialogueQuestion[] = [
+  {
+    id: 1,
+    question: '지금 학교에 가요?',
+    questionTranslation: 'Are you going to school now?',
+    answer: '눈이 많이 오지만 학교에 가야 해요.',
+    answerTranslation: "Although it's snowing a lot, I have to go to school.",
+    items: [
+      { id: '1', content: '눈', combineWithNext: true },
+      { id: '2', content: '이', combineWithNext: false },
+      { id: '3', content: '많이', combineWithNext: false },
+      { id: '4', content: '오', combineWithNext: true },
+      { id: '4', content: '지만', combineWithNext: false },
+      { id: '5', content: '학교', combineWithNext: true },
+      { id: '6', content: '에', combineWithNext: false },
+      { id: '7', content: '가야', combineWithNext: false },
+      { id: '8', content: '해요.' },
+    ],
+  },
+  {
+    id: 2,
+    question: '주말에 시간이 있어요?.',
+    questionTranslation: 'Do you have time on the weekend?',
+    answer: '네, 조금 바쁘지만 시간이 있어요.',
+    answerTranslation: "Yes, I'm a little busy, but I have time.",
+    items: [
+      { id: '1', content: '네,', combineWithNext: false },
+      { id: '2', content: '조금', combineWithNext: false },
+      { id: '3', content: '바쁘', combineWithNext: true },
+      { id: '5', content: '지만', combineWithNext: false },
+      { id: '6', content: '시간', combineWithNext: true },
+      { id: '7', content: '이', combineWithNext: false },
+      { id: '8', content: '있어요.' },
+    ],
+  },
+  {
+    id: 3,
+    question: '한국어가 어때요?',
+    questionTranslation: 'How is Korean?',
+    answer: '한국어는 어렵지만 재미있어요.',
+    answerTranslation: 'Korean is difficult but fun.',
+    items: [
+      { id: '1', content: '한국어', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '어렵', combineWithNext: true },
+      { id: '4', content: '지만', combineWithNext: false },
+      { id: '5', content: '재미있어요.' },
+    ],
+  },
+  {
+    id: 4,
+    question: '피곤하지 않아요?',
+    questionTranslation: 'Are you not tired?',
+    answer: '피곤하지만 공부해야 해요.',
+    answerTranslation: "Although I'm tired, I have to study.",
+    items: [
+      { id: '1', content: '피곤하', combineWithNext: true },
+      { id: '2', content: '지만', combineWithNext: false },
+      { id: '3', content: '공부해야', combineWithNext: false },
+      { id: '4', content: '해요.' },
+    ],
+  },
+  {
+    id: 5,
+    question: '스테이크가 어땠어요?',
+    questionTranslation: 'How was the steak?',
+    answer: '비싸지만 맛있었어요.',
+    answerTranslation: 'Although it was expensive, it was delicious.',
+    items: [
+      { id: '1', content: '비싸', combineWithNext: true },
+      { id: '2', content: '지만', combineWithNext: false },
+      { id: '3', content: '맛있었어요.' },
+    ],
+  },
+];

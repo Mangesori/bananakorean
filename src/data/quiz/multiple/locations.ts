@@ -1,4 +1,4 @@
 import { makeMcqFromDialogue } from './utils';
-import { locationQuestions } from '@/data/quiz/dialogue/locations';
+import { locationQuestions } from '@/data/quiz/DialogueDragAndDrop/locations';
 
 export const locationsMcqQuestions = makeMcqFromDialogue(locationQuestions);

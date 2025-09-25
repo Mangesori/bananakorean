@@ -11,19 +11,19 @@ const NavItems = () => {
 
   const navItems = [
     {
-      id: 1,
+      id: 2,
       name: 'Dialogue Quiz',
-      path: '/quiz/dialogue',
+      path: '/quiz/DialogueDragAndDrop',
       isRelative: false,
     },
     {
-      id: 2,
+      id: 3,
       name: 'Multiple Choice Quiz',
       path: '/quiz/multiple',
       isRelative: false,
     },
     {
-      id: 3,
+      id: 4,
       name: 'Fill in the Blank Quiz',
       path: '/quiz/fill-blank',
       isRelative: false,

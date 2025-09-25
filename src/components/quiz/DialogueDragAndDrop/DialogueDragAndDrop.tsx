@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/core';
 import { Item, DialogueQuestion } from '@/types/quiz';
 import Link from 'next/link';
-import Option from '../DragAndDrop/component/Option';
+import Option from '../SentenceDragAndDrop/component/Option';
 
 interface DraggableOptionProps {
   item: Item;
@@ -508,7 +508,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
             <h2 className="flex-1 text-2xl font-bold text-center">{title}</h2>
             <div className="flex justify-end">
               <Link
-                href="/quiz/dialogue"
+                href="/quiz/DialogueDragAndDrop"
                 className="flex items-center justify-center hover:text-gray-600 transition-colors -mt-1 p-1"
               >
                 <svg
@@ -592,7 +592,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
               )}
 
               <Link
-                href="/quiz/dialogue"
+                href="/quiz/DialogueDragAndDrop"
                 className="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 text-gray-800 font-semibold text-center hover:bg-gray-50"
               >
                 목록으로
@@ -626,7 +626,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
           </h2>
           <div className="flex justify-end">
             <Link
-              href="/quiz/dialogue"
+              href="/quiz/DialogueDragAndDrop"
               className="flex items-center justify-center hover:text-gray-600 transition-colors -mt-1 p-1"
             >
               <svg

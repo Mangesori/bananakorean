@@ -315,7 +315,7 @@ const QuizIntroduction = () => {
                 </ul>
                 <div className="mt-auto">
                   <Link
-                    href="/quiz"
+                    href="/quiz/DialogueDragAndDrop"
                     className="inline-block bg-white border-2 border-blue text-blue hover:bg-blue hover:text-white px-6 py-2 rounded-lg transition-colors duration-300 font-medium"
                   >
                     Start Learning

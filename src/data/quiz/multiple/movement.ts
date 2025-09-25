@@ -1,4 +1,4 @@
 import { makeMcqFromDialogue } from './utils';
-import { movementQuestions } from '@/data/quiz/dialogue/movement';
+import { movementQuestions } from '@/data/quiz/DialogueDragAndDrop/movement';
 
 export const movementMcqQuestions = makeMcqFromDialogue(movementQuestions);

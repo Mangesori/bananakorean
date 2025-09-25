@@ -1,3 +1,3 @@
-import { negationQuestions } from '@/data/quiz/dialogue/negation';
+import { negationQuestions } from '@/data/quiz/DialogueDragAndDrop/negation';
 
 export const negationFillBlankQuestions = negationQuestions;

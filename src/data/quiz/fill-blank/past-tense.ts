@@ -1,3 +1,3 @@
-import { pastTenseQuestions } from '@/data/quiz/dialogue/past-tense';
+import { pastTenseQuestions } from '@/data/quiz/DialogueDragAndDrop/past-tense';
 
 export const pastTenseFillBlankQuestions = pastTenseQuestions;
