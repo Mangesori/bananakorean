@@ -229,7 +229,7 @@ export default function DialogueQuizPage() {
           {dialogueSets.map(set => (
             <Link
               key={set.id}
-              href={`/quiz/dialogue/${set.id}`}
+              href={`/quiz/DialogueDragAndDrop/${set.id}`}
               className="block p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
             >
               <h2 className="text-xl font-semibold mb-2">{set.title}</h2>

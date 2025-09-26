@@ -158,12 +158,12 @@ export default function QuizPage() {
   return (
     <PageWrapper>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Korean Grammar Quiz</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Sentence Drag & Drop Quiz</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
           {grammarSets.map(set => (
             <Link
               key={set.id}
-              href={`/quiz/${set.id}`}
+              href={`/quiz/SentenceDragAndDrop/${set.id}`}
               className="block p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
             >
               <h2 className="text-xl font-semibold mb-2">{set.title}</h2>
