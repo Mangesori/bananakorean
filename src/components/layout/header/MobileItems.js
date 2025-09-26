@@ -5,11 +5,6 @@ import MobileMenuItem from './MobileItem';
 const MobileMenuItems = () => {
   const items = [
     {
-      id: 1,
-      name: 'Sentence Drag & Drop Quiz',
-      path: '/quiz/SentenceDragAndDrop',
-    },
-    {
       id: 2,
       name: 'Dialogue Quiz',
       path: '/quiz/DialogueDragAndDrop',
