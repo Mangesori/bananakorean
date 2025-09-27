@@ -6,7 +6,7 @@ const nextConfig = {
     unoptimized: true,
     domains: [
       'lh3.googleusercontent.com', // Google 프로필 이미지 도메인
-      'qznustdtcdixffnrovqy.supabase.co', // 새 Supabase 스토리지 도메인
+      'iepcqrmxpdhfeicpfpxn.supabase.co', // 새 Supabase 스토리지 도메인
       'platform-lookaside.fbsbx.com', // Facebook 프로필 이미지
     ],
   },
