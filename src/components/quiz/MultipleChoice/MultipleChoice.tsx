@@ -21,6 +21,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
   const [showAnswerHint, setShowAnswerHint] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [shuffledQuestions, setShuffledQuestions] = useState<MultipleChoiceQuestion[]>([]);
+  const [currentQuestionSet, setCurrentQuestionSet] = useState<MultipleChoiceQuestion[]>([]);
   const lastOptionRef = useRef<HTMLButtonElement | null>(null);
   const bottomFixedRef = useRef<HTMLDivElement | null>(null);
   const [compactLastOption, setCompactLastOption] = useState<boolean>(false);
@@ -42,8 +43,28 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     return s;
   };
 
+  // 문제 세트 생성 함수 (반복 로직)
+  const generateQuestionSet = (baseQuestions: MultipleChoiceQuestion[], targetLength: number) => {
+    const result: MultipleChoiceQuestion[] = [];
+    const cycles = Math.ceil(targetLength / baseQuestions.length);
+
+    for (let cycle = 0; cycle < cycles; cycle++) {
+      const shuffled = shuffleQuestions(baseQuestions);
+      for (let i = 0; i < baseQuestions.length && result.length < targetLength; i++) {
+        result.push({
+          ...shuffled[i],
+          id: shuffled[i].id, // 원본 ID 유지 (고유성은 배열 인덱스로 보장)
+        });
+      }
+    }
+
+    return result;
+  };
+
   useEffect(() => {
     setShuffledQuestions(shuffleQuestions(questions));
+    // 초기에는 원본 문제들로 시작
+    setCurrentQuestionSet(shuffleQuestions(questions));
     setCurrentIndex(0);
     setSelectedOption(null);
     setIsAnswered(false);
@@ -68,13 +89,27 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     };
     document.addEventListener('touchmove', preventTouchMove, { passive: false });
 
+    // 전역 키보드 이벤트 리스너 추가
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && !isAnswered && selectedOption) {
+        e.preventDefault();
+        handleSubmit();
+      } else if (e.key === 'Enter' && isAnswered) {
+        e.preventDefault();
+        handleNext();
+      }
+    };
+
+    document.addEventListener('keydown', handleGlobalKeyDown);
+
     return () => {
       document.body.style.overflow = originalStyle;
       document.removeEventListener('touchmove', preventTouchMove);
+      document.removeEventListener('keydown', handleGlobalKeyDown);
     };
-  }, []);
+  }, [isAnswered, selectedOption]);
 
-  const current = shuffledQuestions[currentIndex];
+  const current = currentQuestionSet[currentIndex];
   const isAnswerToQuestionMode = current?.mode === 'answer-to-question';
   const isAnswerToQuestionLike = useMemo(() => {
     if (!current) return false;
@@ -122,33 +157,36 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     const nextIndex = currentIndex + 1;
     const newTotalAnswered = totalQuestionsAnswered + 1;
 
-    // 10문제마다 중간 결과 표시 (마지막 문제가 아닌 경우)
-    if (newTotalAnswered % QUESTIONS_PER_SESSION === 0 && nextIndex < shuffledQuestions.length) {
+    // 10문제마다 중간 결과 표시
+    if (newTotalAnswered % QUESTIONS_PER_SESSION === 0) {
       setTotalQuestionsAnswered(newTotalAnswered);
       setShowIntermediateResult(true);
       setShowFeedback(false);
       return;
     }
 
-    if (nextIndex < shuffledQuestions.length) {
-      setCurrentIndex(nextIndex);
-      setTotalQuestionsAnswered(newTotalAnswered);
-      setSelectedOption(null);
-      setIsAnswered(false);
-      setIsCorrect(false);
-      setShowFeedback(false);
-      setShowTranslationHint(false);
-      setShowQuestionHint(false);
-      setShowAnswerHint(false);
-    } else {
-      setTotalQuestionsAnswered(newTotalAnswered);
-      setIsFinished(true);
-      setShowFeedback(false);
+    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
+    if (nextIndex >= currentQuestionSet.length) {
+      const baseQuestions = questions;
+      const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24)); // 최소 24개, 최대 72개
+      const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
+      setCurrentQuestionSet(newQuestionSet);
     }
+
+    setCurrentIndex(nextIndex);
+    setTotalQuestionsAnswered(newTotalAnswered);
+    setSelectedOption(null);
+    setIsAnswered(false);
+    setIsCorrect(false);
+    setShowFeedback(false);
+    setShowTranslationHint(false);
+    setShowQuestionHint(false);
+    setShowAnswerHint(false);
   };
 
   const handleRestart = () => {
     setShuffledQuestions(shuffleQuestions(questions));
+    setCurrentQuestionSet(shuffleQuestions(questions));
     setCurrentIndex(0);
     setSelectedOption(null);
     setIsAnswered(false);
@@ -168,6 +206,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     setShowIntermediateResult(false);
     setSessionScore(0);
     const nextIndex = currentIndex + 1;
+
+    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
+    if (nextIndex >= currentQuestionSet.length) {
+      const baseQuestions = questions;
+      const newTotalAnswered = totalQuestionsAnswered;
+      const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24));
+      const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
+      setCurrentQuestionSet(newQuestionSet);
+    }
+
     setCurrentIndex(nextIndex);
     setSelectedOption(null);
     setIsAnswered(false);
@@ -208,9 +256,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     };
   }, [current?.id, isAnswered, showFeedback, selectedOption, measureLastOptionDistance]);
 
-  const isLast = currentIndex === shuffledQuestions.length - 1;
+  const isLast = false; // 무한 반복이므로 마지막 문제 개념 제거
   const currentSessionNumber = Math.floor(totalQuestionsAnswered / QUESTIONS_PER_SESSION);
-  const remainingQuestions = shuffledQuestions.length - totalQuestionsAnswered;
+
+  // 세션별 진행 상황 계산
+  const currentSessionProgress = totalQuestionsAnswered % QUESTIONS_PER_SESSION;
+  const sessionProgressText = `${totalQuestionsAnswered + 1}/${QUESTIONS_PER_SESSION * Math.max(1, Math.ceil((totalQuestionsAnswered + 1) / QUESTIONS_PER_SESSION))}`;
 
   if (!current) {
     return (
@@ -218,12 +269,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     );
   }
 
-  // 통합 결과 화면 (중간 결과 + 최종 결과)
-  if (showIntermediateResult || isFinished) {
-    const isComplete = totalQuestionsAnswered >= shuffledQuestions.length;
-    const titleText = showIntermediateResult
-      ? `세션 ${currentSessionNumber} 완료!`
-      : '퀴즈를 모두 완료했어요!';
+  // 통합 결과 화면 (중간 결과만)
+  if (showIntermediateResult) {
+    const titleText = `세션 ${currentSessionNumber} 완료!`;
 
     return (
       <main
@@ -279,44 +327,21 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
                 {/* 전체 결과 */}
                 <div className="text-lg font-medium">전체 결과</div>
                 <div className="text-3xl font-bold text-primaryColor">
-                  {score} / {totalQuestionsAnswered || shuffledQuestions.length}
+                  {score} / {totalQuestionsAnswered}
                 </div>
                 <div className="text-sm text-gray-600">
-                  전체 정답률:{' '}
-                  {Math.round(
-                    (score / Math.max(1, totalQuestionsAnswered || shuffledQuestions.length)) * 100
-                  )}
-                  %
-                </div>
-
-                {/* 진행 상황 */}
-                <div className="text-sm text-gray-700 space-y-1">
-                  <div>
-                    진행률: {totalQuestionsAnswered} / {shuffledQuestions.length}
-                  </div>
-                  {!isComplete && <div>남은 문제: {remainingQuestions}개</div>}
+                  전체 정답률: {Math.round((score / Math.max(1, totalQuestionsAnswered)) * 100)}%
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-3 w-full max-w-md">
-              {!isComplete ? (
-                // 아직 완료하지 않은 경우
-                <button
-                  onClick={handleContinueSession}
-                  className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
-                >
-                  계속하기
-                </button>
-              ) : (
-                // 모두 완료한 경우
-                <button
-                  onClick={handleRestart}
-                  className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
-                >
-                  다시 풀기
-                </button>
-              )}
+              <button
+                onClick={handleContinueSession}
+                className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
+              >
+                계속하기
+              </button>
 
               <Link
                 href="/quiz/multiple"
@@ -380,12 +405,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
             <div
               className="bg-primaryColor h-2 rounded-full"
               style={{
-                width: `${(totalQuestionsAnswered / Math.max(1, shuffledQuestions.length)) * 100}%`,
+                width: `${(currentSessionProgress / QUESTIONS_PER_SESSION) * 100}%`,
               }}
             ></div>
           </div>
           <div className="mt-1 md:mt-2 text-center text-xs md:text-sm text-gray-600">
-            {totalQuestionsAnswered} / {shuffledQuestions.length}
+            {sessionProgressText}
           </div>
         </div>
 
@@ -488,14 +513,19 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
                     : 'lg:py-3 xl:py-3 2xl:py-3 ') +
                   `transition flex items-center gap-3 shadow-sm ` +
                   (correctNow
-                    ? 'bg-green-50 border-green-500'
+                    ? 'bg-primaryColor/10 border-primaryColor'
                     : wrongNow
                       ? 'bg-red-50 border-red-500'
                       : selected
-                        ? 'bg-blue-50 border-blue-500'
-                        : 'bg-white hover:bg-gray-50 border-gray-200')
+                        ? 'border-primaryColor'
+                        : 'bg-white hover:border-gray-500')
                 }
                 onClick={() => handleSelect(option)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !isAnswered && selectedOption) {
+                    handleSubmit();
+                  }
+                }}
                 disabled={isAnswered}
               >
                 <span className="flex items-center justify-center w-7 h-7 rounded-full border border-gray-300 text-gray-700 text-sm shrink-0">
@@ -509,7 +539,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
       </div>
 
       {/* 하단 고정 래퍼: 피드백 + 버튼을 한 컨테이너에 스택 (A 방식) */}
-      {!isFinished && !showIntermediateResult && (
+      {!showIntermediateResult && (
         <div
           ref={bottomFixedRef}
           className="absolute inset-x-0 z-10 bg-gray-150"
@@ -595,10 +625,19 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
 
             <button
               onClick={() => (isAnswered ? handleNext() : handleSubmit())}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  if (isAnswered) {
+                    handleNext();
+                  } else if (selectedOption) {
+                    handleSubmit();
+                  }
+                }
+              }}
               className={`w-full py-3 md:py-4 text-lg md:text-xl font-bold rounded-2xl shadow-lg bg-primaryColor text-white uppercase transition-all disabled:opacity-50`}
               disabled={!isAnswered && !selectedOption}
             >
-              {isAnswered ? (isLast ? '완료' : '다음') : '확인'}
+              {isAnswered ? '다음' : '확인'}
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { DialogueQuestion } from '@/types/quiz';
 
@@ -21,13 +21,18 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
   const [showTranslationHint, setShowTranslationHint] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [shuffledQuestions, setShuffledQuestions] = useState<DialogueQuestion[]>([]);
+  const [currentQuestionSet, setCurrentQuestionSet] = useState<DialogueQuestion[]>([]);
 
   // 모바일/태블릿 감지 상태
   const [isMobileDevice, setIsMobileDevice] = useState<boolean>(false);
   const [isIOSDevice, setIsIOSDevice] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // 입력 모드 상태 (모바일에서 입력 필드 클릭 시 전환)
   const [isInputMode, setIsInputMode] = useState<boolean>(false);
+
+  // 물리적 키보드 연결 감지
+  const [hasPhysicalKeyboard, setHasPhysicalKeyboard] = useState<boolean>(false);
 
   // iOS 키보드 문제 해결을 위한 스크롤 위치 관리
   const [initialScrollY, setInitialScrollY] = useState<number>(0);
@@ -55,6 +60,39 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     }
     return s;
   };
+
+  // 물리적 키보드 감지 (단순화 버전 - iOS와 안드로이드 모두 지원)
+  useEffect(() => {
+    if (!isMobileDevice) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 모든 키 입력을 물리적 키보드로 간주
+      if (e.key && e.key.length > 0) {
+        const wasPhysicalKeyboard = hasPhysicalKeyboard;
+        setHasPhysicalKeyboard(true);
+
+        // 모바일 입력 모드에서 즉시 일반 레이아웃으로 전환 (iOS와 안드로이드 모두)
+        if (isInputMode) {
+          setIsInputMode(false);
+          setDynamicMargin(0);
+          setInitialScrollY(0);
+        }
+
+        // 물리적 키보드가 처음 감지되었거나, 모바일 입력 모드였다면 입력 필드에 자동 포커스
+        if (!wasPhysicalKeyboard || isInputMode) {
+          setTimeout(() => {
+            inputRef.current?.focus();
+          }, 50);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileDevice, isInputMode]);
 
   // 모바일/태블릿 감지 로직
   useEffect(() => {
@@ -97,10 +135,14 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // iOS 키보드 문제 해결을 위한 스크롤 제어 (iOS에서만 작동)
+  // iOS 키보드 감지 및 스크롤 제어 (iOS에서만 작동)
   useEffect(() => {
+    if (!isIOSDevice) return;
+
+    let previousViewportHeight = window.visualViewport?.height || window.innerHeight;
+
     const handleScroll = () => {
-      if (isInputMode && isMobileDevice && isIOSDevice) {
+      if (isInputMode && isMobileDevice) {
         const currentScrollY = window.scrollY;
 
         // 키보드로 인해 스크롤이 밀려났을 때 원래 위치로 복원
@@ -111,24 +153,39 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     };
 
     const handleViewportResize = () => {
-      if (isInputMode && isMobileDevice && isIOSDevice) {
+      if (!isMobileDevice) return;
+
+      const currentViewportHeight = window.visualViewport?.height || window.innerHeight;
+      const heightDifference = currentViewportHeight - previousViewportHeight;
+
+      // 입력 필드에 포커스가 있고, viewport 높이가 크게 증가했다면 (가상 키보드가 내려감)
+      // 이는 물리적 키보드 연결로 간주
+      if (isInputMode && heightDifference > 100) {
+        // 물리적 키보드로 간주하고 일반 레이아웃으로 전환
+        setHasPhysicalKeyboard(true);
+        setIsInputMode(false);
+        setDynamicMargin(0);
+        setInitialScrollY(0);
+
+        // 입력 필드에 포커스 유지
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 50);
+      } else if (isInputMode) {
+        // 일반적인 키보드 높이 변화 (동적 마진 재계산)
         handleScroll();
-        // iOS에서도 동적 마진 계산
         setDynamicMargin(calculateDynamicMargin());
       }
+
+      previousViewportHeight = currentViewportHeight;
     };
 
-    // iOS에서만 스크롤 및 뷰포트 리사이즈 이벤트 리스너 추가
-    if (isIOSDevice) {
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      window.visualViewport?.addEventListener('resize', handleViewportResize);
-    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.visualViewport?.addEventListener('resize', handleViewportResize);
 
     return () => {
-      if (isIOSDevice) {
-        window.removeEventListener('scroll', handleScroll);
-        window.visualViewport?.removeEventListener('resize', handleViewportResize);
-      }
+      window.removeEventListener('scroll', handleScroll);
+      window.visualViewport?.removeEventListener('resize', handleViewportResize);
     };
   }, [isInputMode, isMobileDevice, isIOSDevice, initialScrollY]);
 
@@ -179,6 +236,9 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
   useEffect(() => {
     if (!isMobileDevice || isIOSDevice) return;
 
+    let previousViewportHeight = window.visualViewport?.height || window.innerHeight;
+    let previousKeyboardVisible = false;
+
     const handleViewportResize = () => {
       const windowInnerHeight = window.innerHeight;
       const currentViewportHeight = window.visualViewport?.height || windowInnerHeight;
@@ -188,8 +248,24 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
       setIsKeyboardVisible(keyboardVisible);
       setViewportHeight(currentViewportHeight);
 
-      // 동적 마진 계산
-      setDynamicMargin(calculateDynamicMargin());
+      // 가상 키보드가 내려갔을 때 (물리적 키보드 연결로 간주)
+      if (isInputMode && previousKeyboardVisible && !keyboardVisible) {
+        setHasPhysicalKeyboard(true);
+        setIsInputMode(false);
+        setDynamicMargin(0);
+        setInitialScrollY(0);
+
+        // 입력 필드에 포커스 유지
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 50);
+      } else {
+        // 동적 마진 계산
+        setDynamicMargin(calculateDynamicMargin());
+      }
+
+      previousViewportHeight = currentViewportHeight;
+      previousKeyboardVisible = keyboardVisible;
     };
 
     const handleViewportScroll = () => {
@@ -224,8 +300,28 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     };
   }, [isMobileDevice, isIOSDevice, isKeyboardVisible]);
 
+  // 문제 세트 생성 함수 (반복 로직)
+  const generateQuestionSet = (baseQuestions: DialogueQuestion[], targetLength: number) => {
+    const result: DialogueQuestion[] = [];
+    const cycles = Math.ceil(targetLength / baseQuestions.length);
+
+    for (let cycle = 0; cycle < cycles; cycle++) {
+      const shuffled = shuffleQuestions(baseQuestions);
+      for (let i = 0; i < baseQuestions.length && result.length < targetLength; i++) {
+        result.push({
+          ...shuffled[i],
+          id: shuffled[i].id, // 원본 ID 유지 (고유성은 배열 인덱스로 보장)
+        });
+      }
+    }
+
+    return result;
+  };
+
   useEffect(() => {
     setShuffledQuestions(shuffleQuestions(questions));
+    // 초기에는 원본 문제들로 시작
+    setCurrentQuestionSet(shuffleQuestions(questions));
     setCurrentIndex(0);
     setUserAnswer('');
     setIsAnswered(false);
@@ -240,7 +336,28 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     setTotalQuestionsAnswered(0);
   }, [questions]);
 
-  const current = shuffledQuestions[currentIndex];
+  // 전역 키보드 이벤트 리스너 추가 (엔터 키로 제출/다음)
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        if (isAnswered) {
+          e.preventDefault();
+          handleNext();
+        } else if (userAnswer.trim()) {
+          e.preventDefault();
+          handleSubmit();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleGlobalKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, [isAnswered, userAnswer]);
+
+  const current = currentQuestionSet[currentIndex];
   const isAnswerToQuestionMode = current?.mode === 'answer-to-question';
   const isAnswerToQuestionLike = useMemo(() => {
     if (!current) return false;
@@ -288,16 +405,32 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     setShowAnswerHint(false);
     setShowTranslationHint(false);
 
-    // 세션 체크
-    if (totalQuestionsAnswered >= QUESTIONS_PER_SESSION) {
+    const nextIndex = currentIndex + 1;
+    const newTotalAnswered = totalQuestionsAnswered + 1;
+
+    // 10문제마다 중간 결과 표시
+    if (newTotalAnswered % QUESTIONS_PER_SESSION === 0) {
+      setTotalQuestionsAnswered(newTotalAnswered);
       setShowIntermediateResult(true);
       return;
     }
 
-    if (currentIndex < shuffledQuestions.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      setIsFinished(true);
+    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
+    if (nextIndex >= currentQuestionSet.length) {
+      const baseQuestions = questions;
+      const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24)); // 최소 24개, 최대 72개
+      const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
+      setCurrentQuestionSet(newQuestionSet);
+    }
+
+    setCurrentIndex(nextIndex);
+    setTotalQuestionsAnswered(newTotalAnswered);
+
+    // 물리적 키보드가 있거나 데스크톱이면 입력 필드에 자동 포커스
+    if (!isMobileDevice || hasPhysicalKeyboard) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -305,17 +438,38 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
   const handleContinueSession = () => {
     setShowIntermediateResult(false);
     setSessionScore(0);
-    setTotalQuestionsAnswered(0);
-    if (currentIndex < shuffledQuestions.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      setIsFinished(true);
+    const nextIndex = currentIndex + 1;
+
+    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
+    if (nextIndex >= currentQuestionSet.length) {
+      const baseQuestions = questions;
+      const newTotalAnswered = totalQuestionsAnswered;
+      const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24));
+      const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
+      setCurrentQuestionSet(newQuestionSet);
+    }
+
+    setCurrentIndex(nextIndex);
+    setUserAnswer('');
+    setIsAnswered(false);
+    setIsCorrect(false);
+    setShowFeedback(false);
+    setShowQuestionHint(false);
+    setShowAnswerHint(false);
+    setShowTranslationHint(false);
+
+    // 데스크톱 또는 물리적 키보드가 있는 경우 입력 필드에 자동 포커스
+    if (!isMobileDevice || hasPhysicalKeyboard) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   };
 
   // 다시 시작
   const handleRestart = () => {
     setShuffledQuestions(shuffleQuestions(questions));
+    setCurrentQuestionSet(shuffleQuestions(questions));
     setCurrentIndex(0);
     setUserAnswer('');
     setScore(0);
@@ -334,20 +488,38 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
 
   // 입력 필드 포커스 핸들러 (모바일에서 입력 모드 활성화)
   const handleInputFocus = () => {
-    if (isMobileDevice) {
-      setIsInputMode(true);
-      // iOS에서만 키보드 문제 해결을 위해 현재 스크롤 위치 저장
-      if (isIOSDevice) {
+    // 물리적 키보드가 이미 연결된 경우 입력 모드로 전환하지 않음
+    if (isMobileDevice && !hasPhysicalKeyboard) {
+      // 안드로이드: 가상 키보드 표시 여부를 짧은 지연 후 확인
+      if (!isIOSDevice) {
+        const initialViewportHeight = window.visualViewport?.height || window.innerHeight;
+
+        setTimeout(() => {
+          const currentViewportHeight = window.visualViewport?.height || window.innerHeight;
+          const heightDifference = initialViewportHeight - currentViewportHeight;
+
+          // 가상 키보드가 나타났다면 (viewport 높이가 100px 이상 줄어듦)
+          if (heightDifference > 100) {
+            setIsInputMode(true);
+            setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
+          } else {
+            // 가상 키보드가 나타나지 않았다면 물리적 키보드로 간주
+            setHasPhysicalKeyboard(true);
+          }
+        }, 300); // 키보드 애니메이션 완료 대기
+      } else {
+        // iOS: 기존 로직 유지
+        setIsInputMode(true);
         setInitialScrollY(window.scrollY);
+        setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
       }
-      // 동적 마진 계산 (더 빠른 반응)
-      setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
     }
   };
 
   // 입력 필드 블러 핸들러 (모바일에서 입력 모드 비활성화)
   const handleInputBlur = () => {
-    if (isMobileDevice) {
+    // 물리적 키보드가 연결된 경우 입력 모드를 유지
+    if (isMobileDevice && !hasPhysicalKeyboard) {
       // 약간의 지연을 두어 다른 상호작용이 있는지 확인
       setTimeout(() => {
         setIsInputMode(false);
@@ -373,16 +545,16 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     return <div className="text-center py-10">문제를 불러오는 중...</div>;
   }
 
-  const remainingQuestions = shuffledQuestions.length - totalQuestionsAnswered;
-  const isComplete = totalQuestionsAnswered >= shuffledQuestions.length;
-  const titleText = isComplete
-    ? '모든 문제를 완료했습니다!'
-    : showIntermediateResult
-      ? '세션 완료!'
-      : '';
+  const currentSessionNumber = Math.floor(totalQuestionsAnswered / QUESTIONS_PER_SESSION);
 
-  // 결과 화면 (중간 결과 또는 최종 결과)
-  if (showIntermediateResult || isFinished) {
+  // 세션별 진행 상황 계산
+  const currentSessionProgress = totalQuestionsAnswered % QUESTIONS_PER_SESSION;
+  const sessionProgressText = `${totalQuestionsAnswered + 1}/${QUESTIONS_PER_SESSION * Math.max(1, Math.ceil((totalQuestionsAnswered + 1) / QUESTIONS_PER_SESSION))}`;
+
+  const titleText = showIntermediateResult ? `세션 ${currentSessionNumber} 완료!` : '';
+
+  // 결과 화면 (중간 결과만)
+  if (showIntermediateResult) {
     return (
       <main className="bg-bodyBg max-w-4xl mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-8 py-6 md:py-10 rounded-xl h-[85vh] overflow-y-auto relative">
         <div className="wrapper bg-gray-150 -mt-6 absolute left-0 right-0 mx-0 rounded-xl p-4 md:p-8 pb-32">
@@ -436,44 +608,21 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
                 {/* 전체 결과 */}
                 <div className="text-lg font-medium">전체 결과</div>
                 <div className="text-3xl font-bold text-primaryColor">
-                  {score} / {totalQuestionsAnswered || shuffledQuestions.length}
+                  {score} / {totalQuestionsAnswered}
                 </div>
                 <div className="text-sm text-gray-600">
-                  전체 정답률:{' '}
-                  {Math.round(
-                    (score / Math.max(1, totalQuestionsAnswered || shuffledQuestions.length)) * 100
-                  )}
-                  %
-                </div>
-
-                {/* 진행 상황 */}
-                <div className="text-sm text-gray-700 space-y-1">
-                  <div>
-                    진행률: {totalQuestionsAnswered} / {shuffledQuestions.length}
-                  </div>
-                  {!isComplete && <div>남은 문제: {remainingQuestions}개</div>}
+                  전체 정답률: {Math.round((score / Math.max(1, totalQuestionsAnswered)) * 100)}%
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-3 w-full max-w-md">
-              {!isComplete ? (
-                // 아직 완료하지 않은 경우
-                <button
-                  onClick={handleContinueSession}
-                  className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
-                >
-                  계속하기
-                </button>
-              ) : (
-                // 모두 완료한 경우
-                <button
-                  onClick={handleRestart}
-                  className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
-                >
-                  다시 풀기
-                </button>
-              )}
+              <button
+                onClick={handleContinueSession}
+                className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
+              >
+                계속하기
+              </button>
 
               <Link
                 href="/quiz/fill-blank"
@@ -554,12 +703,12 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
                 <div
                   className="bg-primaryColor h-2 rounded-full transition-all duration-500 ease-out"
                   style={{
-                    width: `${(totalQuestionsAnswered / Math.max(1, shuffledQuestions.length)) * 100}%`,
+                    width: `${(currentSessionProgress / QUESTIONS_PER_SESSION) * 100}%`,
                   }}
                 ></div>
               </div>
               <div className="mt-1 md:mt-2 text-center text-xs md:text-sm text-gray-600">
-                {totalQuestionsAnswered} / {shuffledQuestions.length}
+                {sessionProgressText}
               </div>
             </div>
 
@@ -772,11 +921,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
                       disabled={!isAnswered && !userAnswer.trim()}
                       className="w-full py-3 text-lg font-bold rounded-lg shadow-lg bg-primaryColor text-white transition-all duration-200 disabled:opacity-50 hover:bg-primaryColor/90"
                     >
-                      {isAnswered
-                        ? currentIndex < shuffledQuestions.length - 1
-                          ? '다음'
-                          : '완료'
-                        : '확인'}
+                      {isAnswered ? '다음' : '확인'}
                     </button>
                   </div>
                 </div>
@@ -872,12 +1017,12 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
                 <div
                   className="bg-primaryColor h-2 rounded-full transition-all duration-500 ease-out"
                   style={{
-                    width: `${(totalQuestionsAnswered / Math.max(1, shuffledQuestions.length)) * 100}%`,
+                    width: `${(currentSessionProgress / QUESTIONS_PER_SESSION) * 100}%`,
                   }}
                 ></div>
               </div>
               <div className="mt-1 md:mt-2 text-center text-xs md:text-sm text-gray-600">
-                {totalQuestionsAnswered} / {shuffledQuestions.length}
+                {sessionProgressText}
               </div>
             </div>
           </div>
@@ -1075,11 +1220,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
                       disabled={!isAnswered && !userAnswer.trim()}
                       className="w-full py-3 md:py-4 text-lg md:text-xl font-bold rounded-lg shadow-lg bg-primaryColor text-white transition-all duration-200 disabled:opacity-50 hover:bg-primaryColor/90"
                     >
-                      {isAnswered
-                        ? currentIndex < shuffledQuestions.length - 1
-                          ? '다음'
-                          : '완료'
-                        : '확인'}
+                      {isAnswered ? '다음' : '확인'}
                     </button>
                   </div>
                 </div>
@@ -1174,12 +1315,12 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
             <div
               className="bg-primaryColor h-2 rounded-full"
               style={{
-                width: `${(totalQuestionsAnswered / Math.max(1, shuffledQuestions.length)) * 100}%`,
+                width: `${(currentSessionProgress / QUESTIONS_PER_SESSION) * 100}%`,
               }}
             ></div>
           </div>
           <div className="mt-1 md:mt-2 text-center text-xs md:text-sm text-gray-600">
-            {totalQuestionsAnswered} / {shuffledQuestions.length}
+            {sessionProgressText}
           </div>
         </div>
 
@@ -1264,7 +1405,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
       </div>
 
       {/* 하단 고정 영역 (피드백 + 텍스트 필드 + 버튼) */}
-      {!isFinished && !showIntermediateResult && (
+      {!showIntermediateResult && (
         <div
           className="absolute inset-x-0 z-10 bg-gray-150"
           style={{ bottom: `calc(1px + ${safeBottom})` }}
@@ -1363,6 +1504,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
             {/* 입력 필드 */}
             <div className="mb-4">
               <input
+                ref={inputRef}
                 type="text"
                 value={userAnswer}
                 onChange={e => setUserAnswer(e.target.value)}
@@ -1389,11 +1531,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
               disabled={!isAnswered && !userAnswer.trim()}
               className="w-full py-3 md:py-4 text-lg md:text-xl font-bold rounded-2xl shadow-lg bg-primaryColor text-white uppercase transition-all disabled:opacity-50"
             >
-              {isAnswered
-                ? currentIndex < shuffledQuestions.length - 1
-                  ? '다음'
-                  : '완료'
-                : '확인'}
+              {isAnswered ? '다음' : '확인'}
             </button>
           </div>
         </div>

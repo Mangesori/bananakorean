@@ -27,7 +27,7 @@ const fillBlankSets = [
   {
     id: 'existence',
     title: 'Learn how to express existence',
-    description: '이/가 (Place)에 있어요/없어요 - Existence/Non-existence',
+    description: '에 있어요/없어요 - Existence/Non-existence',
   },
   {
     id: 'basic-verbs',

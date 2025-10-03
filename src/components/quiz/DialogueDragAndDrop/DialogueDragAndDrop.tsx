@@ -87,6 +87,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
 
   // 문제를 섞어서 상태로 관리
   const [shuffledQuestions, setShuffledQuestions] = useState<DialogueQuestion[]>([]);
+  const [currentQuestionSet, setCurrentQuestionSet] = useState<DialogueQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -120,9 +121,29 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
     };
   }, [questions]);
 
+  // 문제 세트 생성 함수 (반복 로직)
+  const generateQuestionSet = (baseQuestions: DialogueQuestion[], targetLength: number) => {
+    const result: DialogueQuestion[] = [];
+    const cycles = Math.ceil(targetLength / baseQuestions.length);
+
+    for (let cycle = 0; cycle < cycles; cycle++) {
+      const shuffled = shuffleQuestions(baseQuestions);
+      for (let i = 0; i < baseQuestions.length && result.length < targetLength; i++) {
+        result.push({
+          ...shuffled[i],
+          id: shuffled[i].id, // 원본 ID 유지 (고유성은 배열 인덱스로 보장)
+        });
+      }
+    }
+
+    return result;
+  };
+
   // 컴포넌트가 마운트될 때와 questions prop이 변경될 때 문제를 섞음
   useEffect(() => {
     setShuffledQuestions(shuffleQuestions(questions));
+    // 초기에는 원본 문제들로 시작
+    setCurrentQuestionSet(shuffleQuestions(questions));
     setCurrentQuestionIndex(0);
     setIsCorrect(false);
     setShowFeedback(false);
@@ -156,8 +177,8 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
 
   // 문제가 바뀔 때마다 아이템을 랜덤으로 섞기
   useEffect(() => {
-    if (shuffledQuestions.length > 0) {
-      const currentQuestion = shuffledQuestions[currentQuestionIndex];
+    if (currentQuestionSet.length > 0) {
+      const currentQuestion = currentQuestionSet[currentQuestionIndex];
 
       // questionItems가 있는 경우 (Q 부분 드래그 앤 드롭)
       if (currentQuestion.questionItems) {
@@ -184,7 +205,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
         setAnswerDragItems([]);
       }
     }
-  }, [currentQuestionIndex, shuffledQuestions]);
+  }, [currentQuestionIndex, currentQuestionSet]);
 
   useEffect(() => {
     setwinReady(true);
@@ -316,38 +337,40 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
   };
 
   const handleSubmit = () => {
-    if (!shuffledQuestions.length) return;
+    if (!currentQuestionSet.length) return;
 
-    const currentQuestion = shuffledQuestions[currentQuestionIndex];
+    const currentQuestion = currentQuestionSet[currentQuestionIndex];
 
     if (isCorrect || showFeedback) {
       // Next 버튼이 눌렸을 때 (정답이거나 틀렸지만 피드백이 표시된 상태)
       const nextIndex = currentQuestionIndex + 1;
       const newTotalAnswered = totalQuestionsAnswered + 1;
 
-      // 10문제마다 중간 결과 표시 (마지막 문제가 아닌 경우)
-      if (newTotalAnswered % QUESTIONS_PER_SESSION === 0 && nextIndex < shuffledQuestions.length) {
+      // 10문제마다 중간 결과 표시
+      if (newTotalAnswered % QUESTIONS_PER_SESSION === 0) {
         setTotalQuestionsAnswered(newTotalAnswered);
         setShowIntermediateResult(true);
         setShowFeedback(false);
         return;
       }
 
-      if (nextIndex < shuffledQuestions.length) {
-        setCurrentQuestionIndex(nextIndex);
-        setTotalQuestionsAnswered(newTotalAnswered);
-        setAnswerItems([]);
-        setAnswerDragItems([]);
-        setIsCorrect(false);
-        setShowFeedback(false);
-        setShowQuestionHint(false);
-        setShowAnswerHint(false);
-        setShowTranslationHint(false);
-      } else {
-        setTotalQuestionsAnswered(newTotalAnswered);
-        setIsFinished(true);
-        setShowFeedback(false);
+      // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
+      if (nextIndex >= currentQuestionSet.length) {
+        const baseQuestions = questions;
+        const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24)); // 최소 24개, 최대 72개
+        const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
+        setCurrentQuestionSet(newQuestionSet);
       }
+
+      setCurrentQuestionIndex(nextIndex);
+      setTotalQuestionsAnswered(newTotalAnswered);
+      setAnswerItems([]);
+      setAnswerDragItems([]);
+      setIsCorrect(false);
+      setShowFeedback(false);
+      setShowQuestionHint(false);
+      setShowAnswerHint(false);
+      setShowTranslationHint(false);
     } else {
       // Check 버튼이 눌렸을 때
       let userAnswer = '';
@@ -437,11 +460,11 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
   };
 
   // 현재 문제가 없으면 로딩 표시
-  if (shuffledQuestions.length === 0) {
+  if (currentQuestionSet.length === 0) {
     return <div className="text-center py-10">Loading questions...</div>;
   }
 
-  const currentQuestion = shuffledQuestions[currentQuestionIndex];
+  const currentQuestion = currentQuestionSet[currentQuestionIndex];
   const isAnswerToQuestionLike = Boolean(
     currentQuestion.mode === 'answer-to-question' ||
       currentQuestion.questionPrefix ||
@@ -457,6 +480,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
 
   const handleRestart = () => {
     setShuffledQuestions(shuffleQuestions(questions));
+    setCurrentQuestionSet(shuffleQuestions(questions));
     setCurrentQuestionIndex(0);
     setIsCorrect(false);
     setShowFeedback(false);
@@ -478,6 +502,16 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
     setShowIntermediateResult(false);
     setSessionScore(0);
     const nextIndex = currentQuestionIndex + 1;
+
+    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
+    if (nextIndex >= currentQuestionSet.length) {
+      const baseQuestions = questions;
+      const newTotalAnswered = totalQuestionsAnswered;
+      const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24));
+      const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
+      setCurrentQuestionSet(newQuestionSet);
+    }
+
     setCurrentQuestionIndex(nextIndex);
     setAnswerItems([]);
     setAnswerDragItems([]);
@@ -488,16 +522,16 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
     setShowTranslationHint(false);
   };
 
-  const isLast = currentQuestionIndex === shuffledQuestions.length - 1;
+  const isLast = false; // 무한 반복이므로 마지막 문제 개념 제거
   const currentSessionNumber = Math.floor(totalQuestionsAnswered / QUESTIONS_PER_SESSION);
-  const remainingQuestions = shuffledQuestions.length - totalQuestionsAnswered;
 
-  // 통합 결과 화면 (중간 결과 + 최종 결과)
-  if (showIntermediateResult || isFinished) {
-    const isComplete = totalQuestionsAnswered >= shuffledQuestions.length;
-    const titleText = showIntermediateResult
-      ? `세션 ${currentSessionNumber} 완료!`
-      : '퀴즈를 모두 완료했어요!';
+  // 세션별 진행 상황 계산
+  const currentSessionProgress = totalQuestionsAnswered % QUESTIONS_PER_SESSION;
+  const sessionProgressText = `${totalQuestionsAnswered + 1}/${QUESTIONS_PER_SESSION * Math.max(1, Math.ceil((totalQuestionsAnswered + 1) / QUESTIONS_PER_SESSION))}`;
+
+  // 통합 결과 화면 (중간 결과만)
+  if (showIntermediateResult) {
+    const titleText = `세션 ${currentSessionNumber} 완료!`;
     return (
       <main
         className="bg-bodyBg max-w-4xl mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-8 py-6 md:py-10 rounded-xl h-[85vh] overflow-y-auto relative select-none"
@@ -552,44 +586,21 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
                 {/* 전체 결과 */}
                 <div className="text-lg font-medium">전체 결과</div>
                 <div className="text-3xl font-bold text-primaryColor">
-                  {score} / {totalQuestionsAnswered || shuffledQuestions.length}
+                  {score} / {totalQuestionsAnswered}
                 </div>
                 <div className="text-sm text-gray-600">
-                  전체 정답률:{' '}
-                  {Math.round(
-                    (score / Math.max(1, totalQuestionsAnswered || shuffledQuestions.length)) * 100
-                  )}
-                  %
-                </div>
-
-                {/* 진행 상황 */}
-                <div className="text-sm text-gray-700 space-y-1">
-                  <div>
-                    진행률: {totalQuestionsAnswered} / {shuffledQuestions.length}
-                  </div>
-                  {!isComplete && <div>남은 문제: {remainingQuestions}개</div>}
+                  전체 정답률: {Math.round((score / Math.max(1, totalQuestionsAnswered)) * 100)}%
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-3 w-full max-w-md">
-              {!isComplete ? (
-                // 아직 완료하지 않은 경우
-                <button
-                  onClick={handleContinueSession}
-                  className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
-                >
-                  계속하기
-                </button>
-              ) : (
-                // 모두 완료한 경우
-                <button
-                  onClick={handleRestart}
-                  className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
-                >
-                  다시 풀기
-                </button>
-              )}
+              <button
+                onClick={handleContinueSession}
+                className="w-full px-5 py-4 rounded-xl bg-primaryColor text-white font-semibold shadow text-lg"
+              >
+                계속하기
+              </button>
 
               <Link
                 href="/quiz/DialogueDragAndDrop"
@@ -654,12 +665,12 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
             <div
               className="bg-primaryColor h-2 rounded-full"
               style={{
-                width: `${(totalQuestionsAnswered / Math.max(1, shuffledQuestions.length)) * 100}%`,
+                width: `${(currentSessionProgress / QUESTIONS_PER_SESSION) * 100}%`,
               }}
             ></div>
           </div>
           <div className="mt-1 md:mt-2 text-center text-xs md:text-sm text-gray-600">
-            {totalQuestionsAnswered} / {shuffledQuestions.length}
+            {sessionProgressText}
           </div>
         </div>
 
@@ -945,7 +956,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
       </div>
 
       {/* 하단 고정 래퍼: 피드백 + 버튼을 한 컨테이너에 스택 */}
-      {!isFinished && !showIntermediateResult && (
+      {!showIntermediateResult && (
         <div
           className="absolute inset-x-0 z-10 bg-gray-150"
           style={{ bottom: `calc(1px + ${safeBottom})` }}
@@ -1038,7 +1049,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
               className={`w-full py-3 md:py-4 text-lg md:text-xl font-bold rounded-2xl shadow-lg bg-primaryColor text-white uppercase transition-all disabled:opacity-50`}
               disabled={!isCorrect && !showFeedback && answerItems.length === 0}
             >
-              {isCorrect ? (isLast ? '완료' : '다음') : showFeedback ? '다음' : '확인'}
+              {isCorrect ? '다음' : showFeedback ? '다음' : '확인'}
             </button>
           </div>
         </div>

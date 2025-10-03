@@ -49,7 +49,7 @@ const grammarSets: { [key: string]: { title: string; questions: KoreanQuestion[]
     questions: locationQuestions,
   },
   existence: {
-    title: '이/가 (Place)에 있어요/없어요',
+    title: '에 있어요/없어요',
     questions: existenceQuestions,
   },
   'basic-verbs': {

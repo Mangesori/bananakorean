@@ -35,7 +35,7 @@ export const topicMeta: Record<TopicId, { title: string }> = {
   demonstratives: { title: '이거, 그거, 저거' },
   negation: { title: '이/가 아니에요' },
   locations: { title: '여기, 거기, 저기' },
-  existence: { title: '이/가 (Place)에 있어요/없어요' },
+  existence: { title: '에 있어요/없어요' },
   'basic-verbs': { title: '을/를, 아요/어요' },
   'negative-sentences': { title: '안' },
   movement: { title: '에 가요/와요' },
