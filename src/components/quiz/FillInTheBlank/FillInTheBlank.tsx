@@ -61,29 +61,54 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
     return s;
   };
 
-  // 물리적 키보드 감지 (단순화 버전 - iOS와 안드로이드 모두 지원)
+  // 물리적 키보드 감지 (iOS와 안드로이드 모두 지원)
   useEffect(() => {
     if (!isMobileDevice) return;
 
+    let keyCheckTimeout: NodeJS.Timeout | null = null;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      // 모든 키 입력을 물리적 키보드로 간주
+      // 키 입력 감지
       if (e.key && e.key.length > 0) {
-        const wasPhysicalKeyboard = hasPhysicalKeyboard;
-        setHasPhysicalKeyboard(true);
+        // 모바일 입력 모드가 아닐 때만 물리적 키보드로 간주
+        // (입력 모드일 때는 가상 키보드일 가능성이 높음)
+        if (!isInputMode) {
+          const wasPhysicalKeyboard = hasPhysicalKeyboard;
+          setHasPhysicalKeyboard(true);
 
-        // 모바일 입력 모드에서 즉시 일반 레이아웃으로 전환 (iOS와 안드로이드 모두)
-        if (isInputMode) {
-          setIsInputMode(false);
-          setDynamicMargin(0);
-          setInitialScrollY(0);
-        }
+          // 물리적 키보드가 처음 감지되었다면 입력 필드에 자동 포커스
+          if (!wasPhysicalKeyboard) {
+            setTimeout(() => {
+              inputRef.current?.focus();
+            }, 50);
+          }
+        } else if (!isIOSDevice) {
+          // 안드로이드: 입력 모드에서 키 입력 발생 시 디바운싱 적용
+          // 여러 키 입력을 하나로 묶어서 처리
+          if (keyCheckTimeout) {
+            clearTimeout(keyCheckTimeout);
+          }
 
-        // 물리적 키보드가 처음 감지되었거나, 모바일 입력 모드였다면 입력 필드에 자동 포커스
-        if (!wasPhysicalKeyboard || isInputMode) {
-          setTimeout(() => {
-            inputRef.current?.focus();
-          }, 50);
+          keyCheckTimeout = setTimeout(() => {
+            const windowInnerHeight = window.innerHeight;
+            const currentViewportHeight = window.visualViewport?.height || windowInnerHeight;
+            const keyboardVisible = windowInnerHeight > currentViewportHeight + 50;
+
+            // 가상 키보드가 없다면 물리적 키보드로 간주
+            if (!keyboardVisible && isInputMode) {
+              setHasPhysicalKeyboard(true);
+              setIsInputMode(false);
+              setDynamicMargin(0);
+              setInitialScrollY(0);
+              setIsKeyboardVisible(false);
+
+              setTimeout(() => {
+                inputRef.current?.focus();
+              }, 50);
+            }
+          }, 300); // 300ms 디바운싱
         }
+        // iOS 입력 모드일 때는 키 입력을 그대로 허용 (visualViewport로만 감지)
       }
     };
 
@@ -91,8 +116,11 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      if (keyCheckTimeout) {
+        clearTimeout(keyCheckTimeout);
+      }
     };
-  }, [isMobileDevice, isInputMode]);
+  }, [isMobileDevice, isInputMode, isIOSDevice, hasPhysicalKeyboard]);
 
   // 모바일/태블릿 감지 로직
   useEffect(() => {
@@ -171,6 +199,14 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
         setTimeout(() => {
           inputRef.current?.focus();
         }, 50);
+      }
+      // 물리적 키보드 모드에서 viewport 높이가 크게 감소했다면 (가상 키보드가 올라옴)
+      // 이는 물리적 키보드 연결 끊김으로 간주
+      else if (hasPhysicalKeyboard && heightDifference < -100) {
+        setHasPhysicalKeyboard(false);
+        setIsInputMode(true);
+        setInitialScrollY(window.scrollY);
+        setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
       } else if (isInputMode) {
         // 일반적인 키보드 높이 변화 (동적 마진 재계산)
         handleScroll();
@@ -187,7 +223,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
       window.removeEventListener('scroll', handleScroll);
       window.visualViewport?.removeEventListener('resize', handleViewportResize);
     };
-  }, [isInputMode, isMobileDevice, isIOSDevice, initialScrollY]);
+  }, [isInputMode, isMobileDevice, isIOSDevice, initialScrollY, hasPhysicalKeyboard]);
 
   // 동적 마진 계산 함수
   const calculateDynamicMargin = () => {
@@ -238,8 +274,32 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
 
     let previousViewportHeight = window.visualViewport?.height || window.innerHeight;
     let previousKeyboardVisible = false;
+    let resizeCheckTimeout: NodeJS.Timeout | null = null;
 
     const handleViewportResize = () => {
+      // 물리적 키보드 사용 중에는 viewport resize 무시
+      if (hasPhysicalKeyboard) {
+        // 단, 가상 키보드가 올라왔는지 주기적으로 확인 (물리적 키보드 연결 끊김 감지용)
+        if (resizeCheckTimeout) {
+          clearTimeout(resizeCheckTimeout);
+        }
+
+        resizeCheckTimeout = setTimeout(() => {
+          const windowInnerHeight = window.innerHeight;
+          const currentViewportHeight = window.visualViewport?.height || windowInnerHeight;
+          const keyboardVisible = windowInnerHeight > currentViewportHeight + 50;
+
+          // 가상 키보드가 올라왔다면 물리적 키보드 연결 끊김으로 간주
+          if (keyboardVisible) {
+            setHasPhysicalKeyboard(false);
+            setIsInputMode(true);
+            setInitialScrollY(window.scrollY);
+            setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
+          }
+        }, 500); // 500ms 디바운싱
+        return;
+      }
+
       const windowInnerHeight = window.innerHeight;
       const currentViewportHeight = window.visualViewport?.height || windowInnerHeight;
 
@@ -297,8 +357,11 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
         window.visualViewport.removeEventListener('scroll', handleViewportScroll);
         window.removeEventListener('scroll', handleViewportScroll);
       }
+      if (resizeCheckTimeout) {
+        clearTimeout(resizeCheckTimeout);
+      }
     };
-  }, [isMobileDevice, isIOSDevice, isKeyboardVisible]);
+  }, [isMobileDevice, isIOSDevice, isKeyboardVisible, isInputMode, hasPhysicalKeyboard]);
 
   // 문제 세트 생성 함수 (반복 로직)
   const generateQuestionSet = (baseQuestions: DialogueQuestion[], targetLength: number) => {
@@ -488,31 +551,15 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({ questions, title }) => 
 
   // 입력 필드 포커스 핸들러 (모바일에서 입력 모드 활성화)
   const handleInputFocus = () => {
-    // 물리적 키보드가 이미 연결된 경우 입력 모드로 전환하지 않음
+    // 물리적 키보드가 연결된 경우 입력 모드로 전환하지 않음
     if (isMobileDevice && !hasPhysicalKeyboard) {
-      // 안드로이드: 가상 키보드 표시 여부를 짧은 지연 후 확인
-      if (!isIOSDevice) {
-        const initialViewportHeight = window.visualViewport?.height || window.innerHeight;
-
-        setTimeout(() => {
-          const currentViewportHeight = window.visualViewport?.height || window.innerHeight;
-          const heightDifference = initialViewportHeight - currentViewportHeight;
-
-          // 가상 키보드가 나타났다면 (viewport 높이가 100px 이상 줄어듦)
-          if (heightDifference > 100) {
-            setIsInputMode(true);
-            setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
-          } else {
-            // 가상 키보드가 나타나지 않았다면 물리적 키보드로 간주
-            setHasPhysicalKeyboard(true);
-          }
-        }, 300); // 키보드 애니메이션 완료 대기
-      } else {
-        // iOS: 기존 로직 유지
-        setIsInputMode(true);
+      setIsInputMode(true);
+      // iOS에서만 키보드 문제 해결을 위해 현재 스크롤 위치 저장
+      if (isIOSDevice) {
         setInitialScrollY(window.scrollY);
-        setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
       }
+      // 동적 마진 계산 (더 빠른 반응)
+      setTimeout(() => setDynamicMargin(calculateDynamicMargin()), 50);
     }
   };
 
