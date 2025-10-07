@@ -160,11 +160,21 @@ const ChatApp = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return (
+      <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+        <div className="flex justify-center items-center h-[400px] text-contentColor dark:text-contentColor-dark">
+          로딩 중...
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+      <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
+        <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">Messages</h2>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {currentUser?.role === 'admin' && (
           <div className="lg:col-span-4">
@@ -185,8 +195,8 @@ const ChatApp = () => {
               onBack={() => setSelectedUser(null)}
             />
           ) : (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-[600px] flex items-center justify-center">
-              <p>Please select a conversation partner.</p>
+            <div className="bg-lightGrey7 dark:bg-lightGrey7-dark rounded-5 h-[600px] flex items-center justify-center">
+              <p className="text-contentColor dark:text-contentColor-dark">대화 상대를 선택해주세요.</p>
             </div>
           )}
         </div>

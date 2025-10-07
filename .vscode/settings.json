@@ -17,5 +17,17 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "claudeCode.mcp.servers": {
+    "playwright": {
+      "command": "cmd",
+      "args": ["/c", "npx", "@playwright/mcp"],
+      "transport": "stdio"
+    },
+    "supabase": {
+      "command": "cmd",
+      "args": ["/c", "npx", "@supabase/mcp-server-supabase"],
+      "transport": "stdio"
+    }
   }
 }

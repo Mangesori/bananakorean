@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
 // 인증이 필요한 경로
-const PROTECTED_ROUTES = ['/dashboards', '/profile', '/settings'];
+const PROTECTED_ROUTES = ['/dashboards'];
 
 // 인증된 사용자가 접근할 수 없는 경로 (이미 로그인한 경우)
 const AUTH_ROUTES = ['/auth/login', '/auth/signup', '/auth/reset-password'];
@@ -11,19 +11,71 @@ const AUTH_ROUTES = ['/auth/login', '/auth/signup', '/auth/reset-password'];
 const INVALID_AUTH_PATHS = ['/auth/null', '/auth/undefined'];
 
 export async function middleware(request: NextRequest) {
-  // 응답 객체 생성
-  const response = NextResponse.next();
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
 
-  // Supabase 클라이언트 생성
-  const supabase = createMiddlewareClient({ req: request, res: response });
-
-  // 현재 세션 가져오기
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  // Supabase 클라이언트 생성 (SSR 패키지 사용)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          });
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+        },
+        remove(name: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          });
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          });
+          response.cookies.set({
+            name,
+            value: '',
+            ...options,
+          });
+        },
+      },
+    }
+  );
 
   // 현재 요청 경로
   const { pathname } = request.nextUrl;
+
+  // 세션 및 사용자 정보 가져오기 (보안을 위해 getUser 사용)
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // 디버깅을 위한 로깅
+  console.log(
+    `[MIDDLEWARE] Path: ${pathname}, Has User: ${!!user}, User ID: ${user?.id || 'none'}`
+  );
 
   // 존재하지 않는 auth 경로에 접근하는 경우 - 홈으로 리디렉션
   if (INVALID_AUTH_PATHS.includes(pathname)) {
@@ -31,20 +83,21 @@ export async function middleware(request: NextRequest) {
   }
 
   // 보호된 경로에 인증되지 않은 사용자가 접근하는 경우
-  if (PROTECTED_ROUTES.some(route => pathname.startsWith(route)) && !session) {
+  if (PROTECTED_ROUTES.some(route => pathname.startsWith(route)) && !user) {
+    console.log(`[MIDDLEWARE] Redirecting to login: ${pathname}`);
     const redirectUrl = new URL('/auth/login', request.url);
     redirectUrl.searchParams.set('next', pathname);
     return NextResponse.redirect(redirectUrl);
   }
 
   // 인증 경로에 이미 인증된 사용자가 접근하는 경우
-  if (AUTH_ROUTES.some(route => pathname.startsWith(route)) && session) {
+  if (AUTH_ROUTES.some(route => pathname.startsWith(route)) && user) {
     try {
       // 사용자 프로필 정보 조회
       const { data: profileData } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single();
 
       // 사용자 역할에 따른 리디렉션
@@ -61,13 +114,13 @@ export async function middleware(request: NextRequest) {
   }
 
   // 역할 검사: 관리자 전용 경로에 학생이 접근하는 경우 차단
-  if (pathname.includes('/dashboards/admin-') && session) {
+  if (pathname.includes('/dashboards/admin-') && user) {
     try {
       // 사용자 프로필 정보 조회
       const { data: profileData } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single();
 
       // 관리자가 아닌데 관리자 페이지에 접근하면 학생 대시보드로 리디렉션
@@ -81,13 +134,13 @@ export async function middleware(request: NextRequest) {
   }
 
   // 역할 검사: 학생 전용 경로에 관리자가 접근하는 경우 관리자 대시보드로 리디렉션
-  if (pathname.includes('/dashboards/student-') && session) {
+  if (pathname.includes('/dashboards/student-') && user) {
     try {
       // 사용자 프로필 정보 조회
       const { data: profileData } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single();
 
       // 학생이 아닌데 학생 페이지에 접근하면 관리자 대시보드로 리디렉션

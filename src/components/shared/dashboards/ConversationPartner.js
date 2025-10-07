@@ -56,10 +56,10 @@ const ConversationPartner = ({ onSelect }) => {
   }
 
   return (
-    <div className="h-full">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+    <div className="h-[600px] bg-lightGrey7 dark:bg-lightGrey7-dark rounded-5 overflow-hidden">
+      <div className="p-4 border-b border-borderColor dark:border-borderColor-dark">
         <h2 className="text-lg font-semibold text-blackColor dark:text-blackColor-dark">
-          Select a Conversation Partner
+          대화 상대 선택
         </h2>
       </div>
       <div className="overflow-y-auto h-[calc(100%-4rem)]">
@@ -68,7 +68,7 @@ const ConversationPartner = ({ onSelect }) => {
             <button
               key={partner.id}
               onClick={() => handlePartnerSelect(partner)}
-              className="w-full p-4 flex items-center hover:bg-gray-50 dark:hover:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
+              className="w-full p-4 flex items-center hover:bg-whiteColor dark:hover:bg-whiteColor-dark border-b border-borderColor dark:border-borderColor-dark transition-colors"
             >
               <div className="w-10 h-10 rounded-full bg-primaryColor text-white flex items-center justify-center">
                 {partner.name.charAt(0).toUpperCase()}
@@ -85,7 +85,7 @@ const ConversationPartner = ({ onSelect }) => {
           ))
         ) : (
           <p className="p-4 text-center text-contentColor dark:text-contentColor-dark">
-            No conversation partners available
+            대화 가능한 상대가 없습니다
           </p>
         )}
       </div>

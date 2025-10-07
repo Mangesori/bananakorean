@@ -1,14 +1,17 @@
 'use client';
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createBrowserClient } from '@supabase/ssr';
 
 export const createClient = () => {
-  return createClientComponentClient();
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 };
 
 export const refreshClientSession = async () => {
   try {
-    const supabase = createClientComponentClient();
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getSession();
 
     if (error) {

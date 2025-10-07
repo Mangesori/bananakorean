@@ -78,19 +78,19 @@ const Conversation = ({ conversationId, otherUser, onBack }) => {
 
   if (!otherUser) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-[600px] flex items-center justify-center">
-        <p>Please select a conversation partner.</p>
+      <div className="bg-lightGrey7 dark:bg-lightGrey7-dark rounded-5 h-[600px] flex items-center justify-center">
+        <p className="text-contentColor dark:text-contentColor-dark">대화 상대를 선택해주세요.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+    <div className="flex flex-col h-[600px] bg-lightGrey7 dark:bg-lightGrey7-dark rounded-5 overflow-hidden">
+      <div className="p-4 border-b border-borderColor dark:border-borderColor-dark flex items-center">
         {onBack && (
           <button
             onClick={onBack}
-            className="mr-3 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+            className="mr-3 text-contentColor dark:text-contentColor-dark hover:text-blackColor dark:hover:text-blackColor-dark"
           >
             <i className="icofont-arrow-left text-xl"></i>
           </button>
@@ -119,10 +119,10 @@ const Conversation = ({ conversationId, otherUser, onBack }) => {
             }`}
           >
             <div
-              className={`max-w-[70%] rounded-lg p-3 ${
+              className={`max-w-[70%] rounded-5 p-3 ${
                 message.sender_id === user.id
                   ? 'bg-primaryColor text-white'
-                  : 'bg-gray-100 dark:bg-gray-800'
+                  : 'bg-whiteColor dark:bg-whiteColor-dark'
               }`}
             >
               <p className="text-sm">{message.content}</p>
@@ -135,21 +135,21 @@ const Conversation = ({ conversationId, otherUser, onBack }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSend} className="border-t border-gray-200 p-4">
+      <form onSubmit={handleSend} className="border-t border-borderColor dark:border-borderColor-dark p-4">
         <div className="flex gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={e => setNewMessage(e.target.value)}
-            placeholder="Type a message..."
-            className="flex-1 rounded-lg border border-gray-300 p-2 focus:outline-none focus:border-primaryColor dark:bg-gray-800 dark:border-gray-700"
+            placeholder="메시지를 입력하세요..."
+            className="flex-1 rounded-5 border border-borderColor dark:border-borderColor-dark p-2 focus:outline-none focus:border-primaryColor bg-whiteColor dark:bg-whiteColor-dark text-blackColor dark:text-blackColor-dark"
           />
           <button
             type="submit"
             disabled={!newMessage.trim()}
-            className="bg-primaryColor text-white px-4 py-2 rounded-lg hover:bg-primaryColor-dark disabled:opacity-50"
+            className="bg-primaryColor text-white px-4 py-2 rounded-5 hover:opacity-90 disabled:opacity-50"
           >
-            Send
+            전송
           </button>
         </div>
       </form>

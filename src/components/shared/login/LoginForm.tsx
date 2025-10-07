@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   // 로컬 스토리지에서 이메일 불러오기
   useEffect(() => {
@@ -87,8 +87,14 @@ export default function LoginForm() {
       // next 파라미터가 있으면 해당 값을 사용, 없으면 빈 문자열로 설정
       const nextParamValue = nextParam || '';
       const redirectUrl = nextParamValue
-        ? `${window.location.origin}/auth/callback?next=${nextParamValue}`
+        ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextParamValue)}`
         : `${window.location.origin}/auth/callback`;
+
+      console.log('[LOGIN-FORM] Social login redirect:', {
+        provider,
+        nextParam: nextParamValue,
+        redirectUrl,
+      });
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,

@@ -2,16 +2,41 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { type Provider } from '@supabase/supabase-js';
 
 /**
  * Supabase 서버 클라이언트 관련 함수
  */
 // 서버 액션용 클라이언트 생성 함수
-const createClient = () => {
-  const cookieStore = cookies();
-  return createServerActionClient({ cookies: () => cookieStore });
+const createClient = async () => {
+  const cookieStore = await cookies();
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          try {
+            cookieStore.set(name, value, options);
+          } catch (error) {
+            // 서버 컴포넌트에서 쿠키 설정은 무시될 수 있음
+          }
+        },
+        remove(name: string, options: CookieOptions) {
+          try {
+            cookieStore.set(name, '', options);
+          } catch (error) {
+            // 서버 컴포넌트에서 쿠키 제거는 무시될 수 있음
+          }
+        },
+      },
+    }
+  );
 };
 
 /**
@@ -28,7 +53,7 @@ export async function signInAction(formData: FormData) {
       return { error: '이메일과 비밀번호를 모두 입력해주세요.' };
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -65,7 +90,7 @@ export async function signUpAction(formData: FormData) {
       return { error: '모든 필드를 입력해주세요.' };
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // 사용자 생성
     const { data, error } = await supabase.auth.signUp({
@@ -105,7 +130,7 @@ export async function signUpAction(formData: FormData) {
 // 소셜 로그인 액션
 export async function signInWithProviderAction(provider: Provider, redirectUrl?: string) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // 환경 변수에서 사이트 URL 가져오기
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -138,7 +163,7 @@ export async function signInWithProviderAction(provider: Provider, redirectUrl?:
 
 // 로그아웃 액션
 export async function signOut() {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signOut();
   redirect('/auth/login');
 }
@@ -183,7 +208,7 @@ export async function createProfileAction(userData: {
   name: string;
   role?: string;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   return createUserProfile(supabase, userData);
 }
 
@@ -197,7 +222,7 @@ export async function getConversationsAction(userId: string) {
       return { error: '사용자 ID가 필요합니다.' };
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('conversations')
       .select('*')
@@ -229,7 +254,7 @@ export async function createConversationAction(conversation: {
       return { error: '대화 참여자 정보가 필요합니다.' };
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('conversations')
       .insert([
@@ -261,7 +286,7 @@ export async function getMessagesAction(conversationId: string) {
       return { error: '대화 ID가 필요합니다.' };
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('messages')
       .select('*')
@@ -293,7 +318,7 @@ export async function sendMessageAction(message: {
       return { error: '메시지 정보가 불완전합니다.' };
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const timestamp = new Date().toISOString();
 
     // 메시지 저장
