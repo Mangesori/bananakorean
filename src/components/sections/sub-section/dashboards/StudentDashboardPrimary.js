@@ -1,19 +1,60 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
 import { supabase } from '@/utils/supabaseClient';
 import { getUserStats, getUserProgress, getUserAchievements } from '@/lib/supabase/quiz-tracking';
 
+// 스켈레톤 로더 컴포넌트
+const StatCardSkeleton = () => (
+  <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg animate-pulse">
+    <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-24 mb-2"></div>
+    <div className="h-9 bg-borderColor dark:bg-borderColor-dark rounded w-16 mt-2"></div>
+  </div>
+);
+
+const TableRowSkeleton = () => (
+  <tr>
+    <td className="px-6 py-4">
+      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-16 animate-pulse"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-24 animate-pulse"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-12 animate-pulse"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-12 animate-pulse"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-20 animate-pulse"></div>
+    </td>
+  </tr>
+);
+
+const AchievementCardSkeleton = () => (
+  <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-4 rounded-lg animate-pulse">
+    <div className="h-6 bg-borderColor dark:bg-borderColor-dark rounded w-32 mb-2"></div>
+    <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-full mt-1"></div>
+    <div className="h-3 bg-borderColor dark:bg-borderColor-dark rounded w-24 mt-2"></div>
+  </div>
+);
+
 const StudentDashboardPrimary = () => {
   const { user } = useAuth();
   const [stats, setStats] = useState(null);
-  const [progress, setProgress] = useState([]);
-  const [achievements, setAchievements] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(null);
+  const [achievements, setAchievements] = useState(null);
+  const [loadingStats, setLoadingStats] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(true);
+  const [loadingAchievements, setLoadingAchievements] = useState(true);
+  const profileChecked = useRef(false);
 
   useEffect(() => {
     const createProfile = async () => {
-      if (!user) return;
+      if (!user || profileChecked.current) return;
+
+      profileChecked.current = true;
 
       try {
         // 프로필이 이미 존재하는지 확인
@@ -31,7 +72,7 @@ const StudentDashboardPrimary = () => {
               {
                 id: user.id,
                 email: user.email,
-                name: user.user_metadata?.full_name || user.email.split('@')[0],
+                full_name: user.user_metadata?.full_name || user.email.split('@')[0],
                 role: 'student',
               },
             ])
@@ -54,42 +95,41 @@ const StudentDashboardPrimary = () => {
     const loadDashboardData = async () => {
       if (!user) return;
 
-      setLoading(true);
+      // 점진적으로 데이터 로드
       try {
-        // 사용자 통계 조회
-        const statsResult = await getUserStats();
-        if (statsResult.data) {
-          setStats(statsResult.data);
-        }
+        // 1. 통계 먼저 로드
+        getUserStats().then(statsResult => {
+          if (statsResult.data) {
+            setStats(statsResult.data);
+          }
+          setLoadingStats(false);
+        });
 
-        // 사용자 진도 조회
-        const progressResult = await getUserProgress();
-        if (progressResult.data) {
-          setProgress(progressResult.data);
-        }
+        // 2. 진도 로드
+        getUserProgress().then(progressResult => {
+          if (progressResult.data) {
+            setProgress(progressResult.data);
+          }
+          setLoadingProgress(false);
+        });
 
-        // 사용자 성취 조회
-        const achievementsResult = await getUserAchievements();
-        if (achievementsResult.data) {
-          setAchievements(achievementsResult.data);
-        }
+        // 3. 성취 로드
+        getUserAchievements().then(achievementsResult => {
+          if (achievementsResult.data) {
+            setAchievements(achievementsResult.data);
+          }
+          setLoadingAchievements(false);
+        });
       } catch (error) {
         console.error('Error loading dashboard data:', error);
-      } finally {
-        setLoading(false);
+        setLoadingStats(false);
+        setLoadingProgress(false);
+        setLoadingAchievements(false);
       }
     };
 
     loadDashboardData();
   }, [user]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-lg">로딩 중...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
@@ -101,41 +141,52 @@ const StudentDashboardPrimary = () => {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
-            <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-              총 시도 횟수
-            </h3>
-            <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
-              {stats?.total_attempts || 0}
-            </p>
-          </div>
+          {loadingStats ? (
+            <>
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+            </>
+          ) : (
+            <>
+              <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
+                <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
+                  총 시도 횟수
+                </h3>
+                <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
+                  {stats?.total_attempts || 0}
+                </p>
+              </div>
 
-          <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
-            <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-              정답률
-            </h3>
-            <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
-              {stats?.accuracy_rate?.toFixed(1) || 0}%
-            </p>
-          </div>
+              <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
+                <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
+                  정답률
+                </h3>
+                <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
+                  {stats?.accuracy_rate?.toFixed(1) || 0}%
+                </p>
+              </div>
 
-          <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
-            <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-              현재 연속 기록
-            </h3>
-            <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
-              {stats?.current_streak || 0}
-            </p>
-          </div>
+              <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
+                <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
+                  현재 연속 기록
+                </h3>
+                <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
+                  {stats?.current_streak || 0}
+                </p>
+              </div>
 
-          <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
-            <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-              완료한 문법
-            </h3>
-            <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
-              {stats?.completed_grammars || 0}
-            </p>
-          </div>
+              <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
+                <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
+                  완료한 문법
+                </h3>
+                <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
+                  {stats?.completed_grammars || 0}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -168,7 +219,15 @@ const StudentDashboardPrimary = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-borderColor dark:divide-borderColor-dark">
-              {progress.length > 0 ? (
+              {loadingProgress ? (
+                <>
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                  <TableRowSkeleton />
+                </>
+              ) : progress && progress.length > 0 ? (
                 progress.slice(0, 10).map(item => (
                   <tr key={item.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blackColor dark:text-blackColor-dark">
@@ -215,11 +274,17 @@ const StudentDashboardPrimary = () => {
       <section>
         <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
           <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
-            성취 배지 ({achievements.length})
+            성취 배지 {!loadingAchievements && achievements && `(${achievements.length})`}
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {achievements.length > 0 ? (
+          {loadingAchievements ? (
+            <>
+              <AchievementCardSkeleton />
+              <AchievementCardSkeleton />
+              <AchievementCardSkeleton />
+            </>
+          ) : achievements && achievements.length > 0 ? (
             achievements.slice(0, 6).map(achievement => (
               <div
                 key={achievement.id}

@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/supabase/hooks';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabaseClient';
+import { useUserProfile } from '@/contexts/UserProfileContext';
 import Link from 'next/link';
 
 const SidebarDashboard = () => {
@@ -17,19 +18,44 @@ const SidebarDashboard = () => {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const { userName, isLoading: loadingName } = useUserProfile();
 
   useEffect(() => {
     if (!user?.id) return;
 
     const fetchUnreadCount = async () => {
-      const { count, error } = await supabase
-        .from('messages')
-        .select('*', { count: 'exact' })
-        .eq('receiver_id', user.id)
-        .eq('read', false);
+      try {
+        // 내가 참여한 대화방 먼저 찾기
+        const { data: conversations, error: convError } = await supabase
+          .from('conversations')
+          .select('id')
+          .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`);
 
-      if (!error && count !== null) {
-        setUnreadCount(count);
+        if (convError) {
+          console.error('Error fetching conversations:', convError);
+          return;
+        }
+
+        if (!conversations || conversations.length === 0) {
+          setUnreadCount(0);
+          return;
+        }
+
+        const conversationIds = conversations.map(c => c.id);
+
+        // 해당 대화방의 읽지 않은 메시지 중 내가 보낸 것이 아닌 것만
+        const { count, error } = await supabase
+          .from('messages')
+          .select('*', { count: 'exact', head: true })
+          .in('conversation_id', conversationIds)
+          .eq('read', false)
+          .neq('sender_id', user.id);
+
+        if (!error && count !== null) {
+          setUnreadCount(count);
+        }
+      } catch (error) {
+        console.error('Error fetching unread count:', error);
       }
     };
 
@@ -43,7 +69,6 @@ const SidebarDashboard = () => {
           event: '*',
           schema: 'public',
           table: 'messages',
-          filter: `receiver_id=eq.${user.id}`,
         },
         () => {
           fetchUnreadCount();
@@ -72,7 +97,7 @@ const SidebarDashboard = () => {
 
   const adminItems = [
     {
-      title: `WELCOME, ${user?.name?.toUpperCase()}`,
+      title: loadingName ? 'WELCOME...' : `WELCOME, ${userName?.toUpperCase() || 'USER'}`,
       items: [
         {
           name: 'Dashboard',
@@ -209,7 +234,7 @@ const SidebarDashboard = () => {
 
   const studentItems = [
     {
-      title: `WELCOME, ${user?.name?.toUpperCase()}`,
+      title: loadingName ? 'WELCOME...' : `WELCOME, ${userName?.toUpperCase() || 'USER'}`,
       items: [
         {
           name: 'Dashboard',

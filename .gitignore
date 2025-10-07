@@ -28,6 +28,9 @@ yarn-error.log*
 # Cursor IDE settings
 .cursor/
 
+# Playwright MCP screenshots
+.playwright-mcp/
+
 # local env files
 .env*.local
 

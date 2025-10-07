@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, createContext, useContext, useCallback } from 'react';
+import { useState, useEffect, createContext, useContext, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Session, User, AuthChangeEvent } from '@supabase/supabase-js';
 import { createClient } from './client';
@@ -35,10 +35,13 @@ const AuthContext = createContext<AuthContextType>(initialContext);
 /**
  * 유틸리티 함수
  */
-// 인증 디버그 로깅 함수
+// 인증 디버그 로깅 함수 (주요 이벤트만)
 const logAuth = (message: string, data?: any) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[AUTH-PROVIDER] ${message}`, data || '');
+    const importantEvents = ['사용자 로그인', '사용자 로그아웃', '인증 초기화 오류', '세션 갱신 실패'];
+    if (importantEvents.some(event => message.includes(event))) {
+      console.log(`[AUTH] ${message}`, data || '');
+    }
   }
 };
 
@@ -55,6 +58,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const router = useRouter();
+  const initializingRef = useRef(false);
+  const initializedRef = useRef(false);
 
   /**
    * DOM 인증 상태 업데이트 헬퍼 함수
@@ -123,7 +128,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    */
   const refreshSession = useCallback(async () => {
     try {
-      logAuth('세션 갱신 시도 중');
       setIsLoading(true);
 
       const supabase = createClient();
@@ -131,7 +135,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Supabase 클라이언트를 초기화할 수 없습니다.');
       }
 
-      // 현재 세션 확인
       const { data, error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError) {
@@ -139,27 +142,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (data?.session) {
-        // 유효한 세션이 있는 경우
-        logAuth('유효한 세션 발견', { id: data.session.user.id, user: data.session.user.email });
-
-        // 세션이 만료 10분 전이면 갱신 시도
         await tryRefreshExpiringSession(supabase, data.session);
-
         setSession(data.session);
         setUser(data.session.user);
-        setRetryCount(0); // 성공 시 재시도 카운트 초기화
+        setRetryCount(0);
         updateAuthReadyIndicator(true);
       } else {
-        // 세션이 없는 경우
-        logAuth('세션 없음, 직접 세션 확인 시도');
         await handleNoSession(supabase);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '세션 갱신 중 오류가 발생했습니다.';
-      logAuth('세션 갱신 중 오류', errorMessage);
+      logAuth('세션 갱신 실패', errorMessage);
       setError(errorMessage);
 
-      // Supabase 서버 오류인 경우, 쿠키를 사용하여 최소한의 인증 상태 확인
       if (isBrowser()) {
         checkAuthStateCookie();
       }
@@ -172,19 +167,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * 만료 임박한 세션 갱신 시도
    */
   const tryRefreshExpiringSession = async (supabase: any, session: Session) => {
-    // 세션이 만료 10분 전이면 갱신 시도
     const expiresAt = session.expires_at;
     const now = Math.floor(Date.now() / 1000);
 
     if (expiresAt && expiresAt - now < 600) {
-      logAuth('세션 만료 임박, 갱신 시도');
       const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
 
-      if (refreshError) {
-        logAuth('세션 갱신 실패', refreshError);
-        // 갱신 실패해도 기존 세션 사용
-      } else if (refreshData.session) {
-        logAuth('세션 갱신 성공');
+      if (!refreshError && refreshData.session) {
         setSession(refreshData.session);
         setUser(refreshData.session.user);
         updateAuthReadyIndicator(true);
@@ -200,21 +189,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * 세션이 없는 경우 처리
    */
   const handleNoSession = async (supabase: any) => {
-    // 세션 갱신 시도
     const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
 
-    if (refreshError) {
-      logAuth('세션 갱신 실패', refreshError);
+    if (refreshError || !refreshData.session) {
       handleMissingSession();
-    } else if (refreshData.session) {
-      logAuth('세션 갱신 성공');
+    } else {
       setSession(refreshData.session);
       setUser(refreshData.session.user);
       updateAuthReadyIndicator(true);
       setRetryCount(0);
-    } else {
-      logAuth('세션 없음 (갱신 후)');
-      handleMissingSession();
     }
   };
 
@@ -227,7 +210,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    logAuth('인증 재시도', { attempt: retryCount + 1 });
     setRetryCount(prev => prev + 1);
     await refreshSession();
   }, [refreshSession, retryCount]);
@@ -237,7 +219,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    */
   const signOut = useCallback(async () => {
     try {
-      logAuth('로그아웃 시도');
       const supabase = createClient();
 
       if (!supabase) {
@@ -245,22 +226,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       await supabase.auth.signOut({ scope: 'local' });
-      logAuth('로그아웃 성공');
+      logAuth('사용자 로그아웃');
 
-      // 모든 사용자 관련 상태 초기화
       setUser(null);
       setSession(null);
-
-      // DOM 상태 및 로컬 스토리지 정리
       cleanupAfterSignOut();
 
       router.push('/');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '로그아웃 중 오류가 발생했습니다.';
-      logAuth('로그아웃 중 오류', errorMessage);
       setError(errorMessage);
 
-      // 심각한 오류일 경우 강제 로그아웃
       if (errorMessage.includes('Supabase 클라이언트') || errorMessage.includes('서버')) {
         setUser(null);
         setSession(null);
@@ -277,39 +253,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const cleanupAfterSignOut = () => {
     if (!isBrowser()) return;
 
-    // DOM 상태 업데이트
     updateAuthReadyIndicator(false);
 
-    // 로컬 스토리지 클리어
     try {
       localStorage.removeItem('supabase-auth-token');
       localStorage.removeItem('supabase.auth.token');
-
-      // 쿠키 제거
       document.cookie = 'app_auth_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     } catch (e) {
-      logAuth('로컬 스토리지 클리어 중 오류', e);
+      // 무시
     }
   };
 
   /**
    * 인증 상태 변경 구독 설정
    */
-  const setupAuthSubscription = (supabase: any, setMounted: (value: boolean) => void) => {
+  const setupAuthSubscription = (supabase: any) => {
     try {
       if (!supabase) return null;
 
       const { data } = supabase.auth.onAuthStateChange(
         async (event: AuthChangeEvent, currentSession: Session | null) => {
-          logAuth('인증 상태 변경', { event, hasSession: !!currentSession });
           handleAuthStateChange(event, currentSession);
         }
       );
 
-      logAuth('인증 상태 변경 구독 설정됨');
       return data.subscription;
     } catch (error) {
-      logAuth('인증 상태 변경 구독 실패', error);
       return null;
     }
   };
@@ -318,50 +287,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    * 인증 상태 변경 처리
    */
   const handleAuthStateChange = (event: AuthChangeEvent, currentSession: Session | null) => {
-    // 이벤트 유형별 추가 로깅
-    logAuthEventDetails(event, currentSession);
+    // 주요 이벤트만 로깅
+    if (event === 'SIGNED_IN') {
+      logAuth('사용자 로그인', currentSession?.user?.email);
+    } else if (event === 'SIGNED_OUT') {
+      logAuth('사용자 로그아웃');
+    }
 
     if (currentSession) {
       setSession(currentSession);
       setUser(currentSession.user);
-      logAuth('세션 및 사용자 정보 업데이트됨', { id: currentSession.user.id });
-
-      // 디버깅을 위해 세션 정보 저장
       storeDebugInfo(currentSession);
     } else {
       setSession(null);
       setUser(null);
-      logAuth('세션 및 사용자 정보 초기화됨');
     }
 
     setIsLoading(false);
-  };
-
-  /**
-   * 인증 이벤트 상세 로깅
-   */
-  const logAuthEventDetails = (event: AuthChangeEvent, currentSession: Session | null) => {
-    switch (event) {
-      case 'SIGNED_IN':
-        logAuth('사용자 로그인 완료', {
-          userId: currentSession?.user?.id,
-          email: currentSession?.user?.email,
-          provider: currentSession?.user?.app_metadata?.provider,
-          expires: currentSession?.expires_at,
-        });
-        break;
-      case 'SIGNED_OUT':
-        logAuth('사용자 로그아웃 완료');
-        break;
-      case 'TOKEN_REFRESHED':
-        logAuth('토큰 갱신됨', { expires: currentSession?.expires_at });
-        break;
-      case 'USER_UPDATED':
-        logAuth('사용자 정보 업데이트됨');
-        break;
-      default:
-        logAuth(`기타 인증 이벤트: ${event}`);
-    }
   };
 
   /**
@@ -371,51 +313,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!isBrowser()) return;
 
     try {
-      // 디버깅 목적으로 세션 정보 저장 (보안에 주의)
       localStorage.setItem('debug_session_info', 'active');
       localStorage.setItem('debug_user_email', currentSession.user.email || 'unknown');
     } catch (e) {
-      console.error('디버깅 정보 저장 중 오류:', e);
+      // 무시
     }
   };
 
   // 초기 세션 로드 및 세션 변경 구독
   useEffect(() => {
+    // 이미 초기화 중이거나 완료되었으면 중복 실행 방지
+    if (initializingRef.current || initializedRef.current) return;
+
+    initializingRef.current = true;
     const supabase = createClient();
-    let mounted = true;
     let authSubscription: { unsubscribe: () => void } | null = null;
 
-    // 초기 세션 로드
     const initializeAuth = async () => {
       try {
-        if (!mounted) return;
-
         if (!supabase) {
           throw new Error('Supabase 클라이언트를 초기화할 수 없습니다');
         }
 
-        logAuth('인증 초기화 시작');
         await refreshSession();
-        logAuth('인증 초기화 완료');
+        initializedRef.current = true;
       } catch (error) {
-        if (mounted) {
-          logAuth('인증 초기화 오류', error);
-        }
+        logAuth('인증 초기화 오류', error);
+      } finally {
+        initializingRef.current = false;
       }
     };
 
     initializeAuth();
+    authSubscription = setupAuthSubscription(supabase);
 
-    // 인증 상태 변경 구독
-    authSubscription = setupAuthSubscription(supabase, value => (mounted = value));
-
-    // 컴포넌트 언마운트 시 구독 해제
     return () => {
-      mounted = false;
-      if (authSubscription) {
-        authSubscription.unsubscribe();
-        logAuth('인증 상태 변경 구독 해제됨');
-      }
+      authSubscription?.unsubscribe();
     };
   }, [refreshSession]);
 

@@ -6,6 +6,7 @@ import FixedShadow from '@/components/shared/others/FixedShadow';
 import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { AuthProvider } from '@/lib/supabase/hooks';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { UserProfileProvider } from '@/contexts/UserProfileContext';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function ClientLayout({ children }) {
@@ -36,9 +37,11 @@ export default function ClientLayout({ children }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <PreloaderPrimary />
-        <FixedShadow />
-        {children}
+        <UserProfileProvider>
+          <PreloaderPrimary />
+          <FixedShadow />
+          {children}
+        </UserProfileProvider>
       </AuthProvider>
     </ThemeProvider>
   );

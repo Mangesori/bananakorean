@@ -1,9 +1,11 @@
 'use client';
 import React from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
+import { useUserProfile } from '@/contexts/UserProfileContext';
 
 const ProfileDetails = () => {
   const { user } = useAuth();
+  const { userName, isLoading: loading } = useUserProfile();
 
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
@@ -18,18 +20,7 @@ const ProfileDetails = () => {
               <span className="inline-block">Name</span>
             </div>
             <div className="md:col-start-5 md:col-span-8">
-              <span className="inline-block">{user?.name || '-'}</span>
-            </div>
-          </li>
-
-          <li className="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px">
-            <div className="md:col-start-1 md:col-span-4">
-              <span className="inline-block">Nickname</span>
-            </div>
-            <div className="md:col-start-5 md:col-span-8">
-              <span className="inline-block">
-                {user?.nickname || user?.user_metadata?.username || '-'}
-              </span>
+              <span className="inline-block">{loading ? 'Loading...' : (userName || '-')}</span>
             </div>
           </li>
 

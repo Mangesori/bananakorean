@@ -5,7 +5,8 @@ import MobileMenuOpen from '@/components/shared/buttons/MobileMenuOpen';
 import { useAuth } from '@/lib/supabase/hooks';
 import MessageDropdown from './MessageDropdown';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { useUserProfile } from '@/contexts/UserProfileContext';
+import UserAvatar from '@/components/shared/UserAvatar';
 
 const NavbarRight = () => {
   const [showMessages, setShowMessages] = useState(false);
@@ -13,6 +14,7 @@ const NavbarRight = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const { user, isLoading, signOut } = useAuth();
+  const { userName } = useUserProfile();
   const router = useRouter();
   const dropdownRef = useRef(null);
 
@@ -118,15 +120,9 @@ const NavbarRight = () => {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center gap-2 text-mainText hover:text-primary transition-colors"
               >
-                <Image
-                  src={user?.user_metadata?.avatar_url || '/images/default-avatar.svg'}
-                  alt="User"
-                  width={45}
-                  height={45}
-                  className="w-10 h-10 rounded-full"
-                />
+                <UserAvatar name={userName || user?.email} size={40} />
                 <span className="text-size-12 2xl:text-size-15">
-                  {user?.user_metadata?.full_name || user?.email}
+                  {userName || user?.email}
                 </span>
                 <i
                   className={`icofont icofont-rounded-${isDropdownOpen ? 'up' : 'down'} text-xs`}
@@ -137,7 +133,7 @@ const NavbarRight = () => {
                 <div className="absolute right-0 top-full mt-2 w-200px bg-white dark:bg-dark border border-borderColor dark:border-borderColor-dark rounded-md shadow-lg z-50">
                   <div className="p-3 border-b border-borderColor dark:border-borderColor-dark">
                     <p className="text-blackColor dark:text-blackColor-dark font-medium">
-                      {user?.user_metadata?.full_name || 'User'}
+                      {userName || 'User'}
                     </p>
                     <p className="text-sm text-contentColor dark:text-contentColor-dark">
                       {user?.email}
@@ -147,13 +143,24 @@ const NavbarRight = () => {
                     <Link
                       href={
                         user?.role === 'admin'
+                          ? '/dashboards/admin-dashboard'
+                          : '/dashboards/student-dashboard'
+                      }
+                      className="block px-4 py-2 text-sm text-contentColor dark:text-contentColor-dark hover:bg-gray-100 dark:hover:bg-gray-800"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      href={
+                        user?.role === 'admin'
                           ? '/dashboards/admin-profile'
                           : '/dashboards/student-profile'
                       }
                       className="block px-4 py-2 text-sm text-contentColor dark:text-contentColor-dark hover:bg-gray-100 dark:hover:bg-gray-800"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      Profile
+                      My Profile
                     </Link>
                     <Link
                       href={getSettingsUrl()}

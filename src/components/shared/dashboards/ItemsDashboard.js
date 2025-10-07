@@ -4,7 +4,10 @@ const ItemsDashboard = ({ item }) => {
   const { title, items } = item;
   return (
     <>
-      <h5 className="text-sm leading-1 font-semibold uppercase text-contentColor dark:text-contentColor-dark bg-lightGrey5 dark:bg-whiteColor-dark p-10px pb-7px mt-5 mb-10px tracking-half">
+      <h5
+        className="text-sm leading-1 font-semibold uppercase text-contentColor dark:text-contentColor-dark bg-lightGrey5 dark:bg-whiteColor-dark p-10px pb-7px mt-5 mb-10px tracking-half"
+        suppressHydrationWarning
+      >
         {title}
       </h5>
       <ul>

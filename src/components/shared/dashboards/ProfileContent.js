@@ -1,16 +1,29 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
 import { updateProfile, uploadProfileImage } from '@/lib/supabase/profile';
+import { useUserProfile } from '@/contexts/UserProfileContext';
+import { supabase } from '@/utils/supabaseClient';
+import UserAvatar from '@/components/shared/UserAvatar';
 
 const ProfileContent = () => {
   const { user } = useAuth();
+  const { userName, avatarUrl, refreshProfile } = useUserProfile();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: user?.user_metadata?.name || '',
+    name: '',
     email: user?.email || '',
-    avatar_url: user?.user_metadata?.avatar_url || '',
+    avatar_url: '',
   });
+
+  useEffect(() => {
+    // Context에서 가져온 값으로 초기화
+    setFormData(prev => ({
+      ...prev,
+      name: userName || '',
+      avatar_url: avatarUrl || '',
+    }));
+  }, [userName, avatarUrl]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -38,13 +51,18 @@ const ProfileContent = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const { error } = await updateProfile({
-        name: formData.name,
+      const { error } = await updateProfile(user.id, {
+        full_name: formData.name,
         avatar_url: formData.avatar_url,
       });
       if (error) throw error;
+
+      // Context 새로고침하여 모든 컴포넌트 업데이트
+      refreshProfile();
+      alert('Profile updated successfully!');
     } catch (error) {
       console.error('Error updating profile:', error);
+      alert('Failed to update profile');
     } finally {
       setLoading(false);
     }
@@ -58,29 +76,15 @@ const ProfileContent = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex items-center space-x-6">
-          <div className="relative w-24 h-24">
-            <img
-              src={formData.avatar_url || '/images/user1.jpg'}
-              alt="Profile"
-              className="w-full h-full rounded-full object-cover"
-            />
-            <label
-              htmlFor="avatar-upload"
-              className="absolute bottom-0 right-0 bg-primaryColor text-white p-2 rounded-full cursor-pointer hover:bg-primaryColor-dark"
-            >
-              <i className="icofont-camera text-lg"></i>
-            </label>
-            <input
-              type="file"
-              id="avatar-upload"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
+          <div className="relative">
+            <UserAvatar name={userName} size={96} />
           </div>
           <div>
-            <h3 className="text-lg font-medium text-blackColor dark:text-blackColor-dark">
-              {formData.name}
+            <h3
+              className="text-lg font-medium text-blackColor dark:text-blackColor-dark"
+              suppressHydrationWarning
+            >
+              {userName}
             </h3>
             <p className="text-contentColor dark:text-contentColor-dark">{formData.email}</p>
           </div>

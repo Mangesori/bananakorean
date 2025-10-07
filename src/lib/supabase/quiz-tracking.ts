@@ -293,11 +293,20 @@ export async function getUserStats() {
       return { error: '로그인이 필요합니다.' };
     }
 
-    // 전체 진도 데이터 조회
-    const { data: progressData, error: progressError } = await supabase
-      .from('user_progress')
-      .select('*')
-      .eq('user_id', user.id);
+    // 병렬로 데이터 조회
+    const [progressResult, achievementsResult] = await Promise.all([
+      supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id),
+      supabase
+        .from('user_achievements')
+        .select('id')
+        .eq('user_id', user.id),
+    ]);
+
+    const { data: progressData, error: progressError } = progressResult;
+    const { data: achievementsData } = achievementsResult;
 
     if (progressError) {
       console.error('진도 데이터 조회 오류:', progressError);
@@ -305,19 +314,16 @@ export async function getUserStats() {
     }
 
     // 통계 계산
-    const totalAttempts = progressData.reduce((sum, p) => sum + p.total_attempts, 0);
-    const totalCorrect = progressData.reduce((sum, p) => sum + p.correct_attempts, 0);
-    const totalTimeSpent = progressData.reduce((sum, p) => sum + p.total_time_spent, 0);
-    const currentStreak = Math.max(...progressData.map(p => p.current_streak), 0);
-    const bestStreak = Math.max(...progressData.map(p => p.best_streak), 0);
-    const completedGrammars = progressData.filter(p => p.mastery_level >= 3).length;
-
-    // 성취 배지 수 조회
-    const { data: achievementsData } = await supabase
-      .from('user_achievements')
-      .select('id')
-      .eq('user_id', user.id);
-
+    const totalAttempts = progressData?.reduce((sum, p) => sum + p.total_attempts, 0) || 0;
+    const totalCorrect = progressData?.reduce((sum, p) => sum + p.correct_attempts, 0) || 0;
+    const totalTimeSpent = progressData?.reduce((sum, p) => sum + p.total_time_spent, 0) || 0;
+    const currentStreak = progressData && progressData.length > 0
+      ? Math.max(...progressData.map(p => p.current_streak), 0)
+      : 0;
+    const bestStreak = progressData && progressData.length > 0
+      ? Math.max(...progressData.map(p => p.best_streak), 0)
+      : 0;
+    const completedGrammars = progressData?.filter(p => p.mastery_level >= 3).length || 0;
     const totalAchievements = achievementsData?.length || 0;
 
     const stats: UserStats = {
