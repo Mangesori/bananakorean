@@ -2,13 +2,19 @@
 import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { MultipleChoiceQuestion } from '@/types/quiz';
+import { useQuizMutation } from '@/hooks/useQuizMutation';
 
 interface MultipleChoiceProps {
   questions: MultipleChoiceQuestion[];
   title?: string;
+  reviewMode?: boolean;
 }
 
-const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => {
+const MultipleChoice: React.FC<MultipleChoiceProps> = ({
+  questions,
+  title,
+  reviewMode = false,
+}) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
@@ -22,6 +28,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [shuffledQuestions, setShuffledQuestions] = useState<MultipleChoiceQuestion[]>([]);
   const [currentQuestionSet, setCurrentQuestionSet] = useState<MultipleChoiceQuestion[]>([]);
+  const [isRetrying, setIsRetrying] = useState<boolean>(false); // 다시 시도 여부
   const lastOptionRef = useRef<HTMLButtonElement | null>(null);
   const bottomFixedRef = useRef<HTMLDivElement | null>(null);
   const [compactLastOption, setCompactLastOption] = useState<boolean>(false);
@@ -30,8 +37,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
   const [showIntermediateResult, setShowIntermediateResult] = useState<boolean>(false);
   const [sessionScore, setSessionScore] = useState<number>(0);
   const [totalQuestionsAnswered, setTotalQuestionsAnswered] = useState<number>(0);
+  const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+  const [sessionAttempts, setSessionAttempts] = useState<
+    { is_correct: boolean; time_spent?: number; is_retry: boolean }[]
+  >([]); // 세션 동안의 시도 내역
 
-  const QUESTIONS_PER_SESSION = 10;
+  // 복습 모드일 때는 틀린 문제 개수만큼만, 일반 모드일 때는 10문제
+  const QUESTIONS_PER_SESSION = reviewMode ? questions.length : 10;
+
+  // 퀴즈 저장 mutation
+  const quizMutation = useQuizMutation();
 
   // 질문 셔플
   const shuffleQuestions = (arr: MultipleChoiceQuestion[]) => {
@@ -63,8 +78,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
 
   useEffect(() => {
     setShuffledQuestions(shuffleQuestions(questions));
-    // 초기에는 원본 문제들로 시작
-    setCurrentQuestionSet(shuffleQuestions(questions));
+    // 복습 모드일 때는 문제 반복 없이 한 번만, 일반 모드일 때는 셔플
+    setCurrentQuestionSet(reviewMode ? questions : shuffleQuestions(questions));
     setCurrentIndex(0);
     setSelectedOption(null);
     setIsAnswered(false);
@@ -77,7 +92,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     setShowIntermediateResult(false);
     setSessionScore(0);
     setTotalQuestionsAnswered(0);
-  }, [questions]);
+  }, [questions, reviewMode]);
 
   // 모바일 및 태블릿에서 스크롤 방지 (뷰포트 높이는 CSS svh로 고정)
   useEffect(() => {
@@ -143,13 +158,47 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
   const handleSubmit = () => {
     if (isAnswered || !selectedOption) return;
     const correctNow = selectedOption === current.correctAnswer;
+
+    // 점수 업데이트
     if (correctNow) {
       setScore(prev => prev + 1);
       setSessionScore(prev => prev + 1);
     }
+
+    // DB에 퀴즈 시도 저장
+    const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000); // 초 단위
+    quizMutation.mutate({
+      grammar_name: current.grammarName || '일반',
+      quiz_type: 'multiple',
+      question_id: current.id?.toString() || `q-${currentIndex}`,
+      question_text: current.question || '',
+      user_answer: selectedOption || '',
+      correct_answer: current.correctAnswer || '',
+      is_correct: correctNow,
+      is_retry: isRetrying, // 다시 시도 여부 전달
+      time_spent: timeSpent,
+      hints_used:
+        (showQuestionHint ? 1 : 0) + (showAnswerHint ? 1 : 0) + (showTranslationHint ? 1 : 0),
+    });
+
+    // 세션 시도 내역에 추가
+    setSessionAttempts(prev => [
+      ...prev,
+      {
+        is_correct: correctNow,
+        time_spent: timeSpent,
+        is_retry: isRetrying,
+      },
+    ]);
+
     setIsCorrect(correctNow);
     setIsAnswered(true);
     setShowFeedback(true);
+
+    // 정답이면 다음 문제로 넘어갈 때 isRetrying 초기화
+    if (correctNow) {
+      setIsRetrying(false);
+    }
   };
 
   const handleNext = () => {
@@ -157,16 +206,33 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     const nextIndex = currentIndex + 1;
     const newTotalAnswered = totalQuestionsAnswered + 1;
 
-    // 10문제마다 중간 결과 표시
+    // 세션 완료 조건 체크
     if (newTotalAnswered % QUESTIONS_PER_SESSION === 0) {
       setTotalQuestionsAnswered(newTotalAnswered);
+
+      // 세션 완료 시 진도 업데이트
+      if (sessionAttempts.length > 0) {
+        import('@/lib/supabase/quiz-mutations').then(({ updateSessionProgress }) => {
+          updateSessionProgress(
+            current.grammarName || '일반',
+            'multiple_choice',
+            sessionAttempts
+          ).then(result => {
+            if (result.error) {
+              console.error('세션 진도 업데이트 실패:', result.error);
+            }
+          });
+        });
+        setSessionAttempts([]); // 세션 시도 내역 초기화
+      }
+
       setShowIntermediateResult(true);
       setShowFeedback(false);
       return;
     }
 
-    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
-    if (nextIndex >= currentQuestionSet.length) {
+    // 복습 모드가 아닐 때만 문제 세트 확장 (일반 모드)
+    if (!reviewMode && nextIndex >= currentQuestionSet.length) {
       const baseQuestions = questions;
       const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24)); // 최소 24개, 최대 72개
       const newQuestionSet = generateQuestionSet(baseQuestions, newTargetLength);
@@ -178,10 +244,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     setSelectedOption(null);
     setIsAnswered(false);
     setIsCorrect(false);
+    setIsRetrying(false); // 다음 문제로 넘어가면 재시도 상태 초기화
     setShowFeedback(false);
     setShowTranslationHint(false);
     setShowQuestionHint(false);
     setShowAnswerHint(false);
+    setQuestionStartTime(Date.now()); // 다음 문제 타이머 시작
   };
 
   const handleRestart = () => {
@@ -207,8 +275,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     setSessionScore(0);
     const nextIndex = currentIndex + 1;
 
-    // 다음 문제가 현재 세트에 없는 경우, 새로운 문제 세트 생성
-    if (nextIndex >= currentQuestionSet.length) {
+    // 복습 모드가 아닐 때만 문제 세트 확장 (일반 모드)
+    if (!reviewMode && nextIndex >= currentQuestionSet.length) {
       const baseQuestions = questions;
       const newTotalAnswered = totalQuestionsAnswered;
       const newTargetLength = Math.min(72, Math.max(24, newTotalAnswered + 24));
@@ -224,6 +292,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
     setShowTranslationHint(false);
     setShowQuestionHint(false);
     setShowAnswerHint(false);
+    setQuestionStartTime(Date.now()); // 다음 문제 타이머 시작
   };
 
   // 4번째 보기와 하단 고정 영역의 간격이 너무 좁을 때만 마지막 보기의 세로 패딩 축소 (태블릿 전용 시각 효과)
@@ -265,7 +334,27 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
 
   if (!current) {
     return (
-      <main className="bg-bodyBg max-w-4xl mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-8 py-6 md:py-10 rounded-xl h-[85vh] overflow-y-auto relative select-none" />
+      <main className="bg-bodyBg max-w-4xl mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-8 py-6 md:py-10 rounded-xl h-[85vh] overflow-y-auto relative select-none">
+        <div className="wrapper bg-gray-150 rounded-xl p-8">
+          <div className="text-center py-20">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark mb-2">
+              {reviewMode ? '복습할 문제가 없습니다' : '문제를 불러올 수 없습니다'}
+            </h2>
+            <p className="text-contentColor dark:text-contentColor-dark mb-6">
+              {reviewMode
+                ? '최근 세션에서 틀린 문제가 없습니다. 모든 문제를 정확하게 풀었습니다!'
+                : '문제를 찾을 수 없습니다.'}
+            </p>
+            <a
+              href="/dashboards/student-dashboard"
+              className="inline-block px-6 py-3 bg-primaryColor text-white rounded-lg hover:bg-primaryColor/90 transition-colors"
+            >
+              대시보드로 돌아가기
+            </a>
+          </div>
+        </div>
+      </main>
     );
   }
 
@@ -398,6 +487,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
             </Link>
           </div>
         </div>
+
+        {/* 오답 복습 안내 메시지 */}
+        {reviewMode && (
+          <div className="mt-3 mb-2 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <div className="flex items-center gap-2 text-sm md:text-base text-blue-800 dark:text-blue-200">
+              <span className="text-xl">📝</span>
+              <span className="font-medium">최근 세션에서 틀린 문제를 복습합니다</span>
+            </div>
+          </div>
+        )}
 
         {/* 진행 상태 표시 */}
         <div className="mt-4 md:mt-6 lg:mt-3 xl:mt-3 2xl:mt-6 mb-3 md:mb-4 lg:mb-0 xl:mb-0 2xl:mb-4 flex-shrink-0">
@@ -600,6 +699,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ questions, title }) => 
                           setIsAnswered(false);
                           setSelectedOption(null);
                           setShowFeedback(false);
+                          setIsRetrying(true); // 다시 시도 플래그 설정
                         }}
                         className="flex-1 bg-white text-red-700 hover:bg-gray-100 transition-colors px-4 py-2 rounded-lg text-sm font-medium"
                       >

@@ -18,6 +18,7 @@ import {
 import { Item, DialogueQuestion } from '@/types/quiz';
 import Link from 'next/link';
 import Option from '../SentenceDragAndDrop/component/Option';
+import { useQuizMutation } from '@/hooks/useQuizMutation';
 
 interface DraggableOptionProps {
   item: Item;
@@ -72,9 +73,14 @@ const DroppableArea: React.FC<DroppableAreaProps> = ({ id, children, className, 
 interface DialogueDragAndDropProps {
   questions: DialogueQuestion[];
   title: string;
+  reviewMode?: boolean;
 }
 
-const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, title }) => {
+const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({
+  questions,
+  title,
+  reviewMode = false,
+}) => {
   // 문제를 랜덤하게 섞는 함수
   const shuffleQuestions = (questionsToShuffle: DialogueQuestion[]) => {
     const shuffled = [...questionsToShuffle];
@@ -96,13 +102,21 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
   const [showQuestionHint, setShowQuestionHint] = useState(false);
   const [showAnswerHint, setShowAnswerHint] = useState(false);
   const [showTranslationHint, setShowTranslationHint] = useState(false);
+  const [isRetrying, setIsRetrying] = useState<boolean>(false); // 다시 시도 여부
 
   // 세션 관리
   const [showIntermediateResult, setShowIntermediateResult] = useState(false);
   const [sessionScore, setSessionScore] = useState(0);
   const [totalQuestionsAnswered, setTotalQuestionsAnswered] = useState(0);
+  const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+  const [sessionAttempts, setSessionAttempts] = useState<
+    { is_correct: boolean; time_spent?: number; is_retry: boolean }[]
+  >([]); // 세션 동안의 시도 내역
 
   const QUESTIONS_PER_SESSION = 10;
+
+  // 퀴즈 저장 mutation
+  const quizMutation = useQuizMutation();
 
   // 모바일 및 태블릿에서 스크롤 방지
   useEffect(() => {
@@ -349,6 +363,23 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
       // 10문제마다 중간 결과 표시
       if (newTotalAnswered % QUESTIONS_PER_SESSION === 0) {
         setTotalQuestionsAnswered(newTotalAnswered);
+
+        // 세션 완료 시 진도 업데이트
+        if (sessionAttempts.length > 0) {
+          import('@/lib/supabase/quiz-mutations').then(({ updateSessionProgress }) => {
+            updateSessionProgress(
+              currentQuestion.grammarName || '일반',
+              'dialogue_drag_drop',
+              sessionAttempts
+            ).then(result => {
+              if (result.error) {
+                console.error('세션 진도 업데이트 실패:', result.error);
+              }
+            });
+          });
+          setSessionAttempts([]); // 세션 시도 내역 초기화
+        }
+
         setShowIntermediateResult(true);
         setShowFeedback(false);
         return;
@@ -368,9 +399,11 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
       setAnswerDragItems([]);
       setIsCorrect(false);
       setShowFeedback(false);
+      setIsRetrying(false); // 다음 문제로 넘어가면 재시도 상태 초기화
       setShowQuestionHint(false);
       setShowAnswerHint(false);
       setShowTranslationHint(false);
+      setQuestionStartTime(Date.now()); // 다음 문제 타이머 시작
     } else {
       // Check 버튼이 눌렸을 때
       let userAnswer = '';
@@ -431,10 +464,39 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
         );
       }
 
-      if (isCorrect || isAlternativeCorrect) {
+      const correctNow = isCorrect || isAlternativeCorrect;
+
+      // DB에 퀴즈 시도 저장
+      const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000); // 초 단위
+      quizMutation.mutate({
+        grammar_name: currentQuestion.grammarName || '일반',
+        quiz_type: 'dialogue',
+        question_id: currentQuestion.id?.toString() || `q-${currentQuestionIndex}`,
+        question_text: currentQuestion.question || '',
+        user_answer: userAnswer,
+        correct_answer: correctAnswer,
+        is_correct: correctNow,
+        is_retry: isRetrying, // 다시 시도 여부 전달
+        time_spent: timeSpent,
+        hints_used:
+          (showQuestionHint ? 1 : 0) + (showAnswerHint ? 1 : 0) + (showTranslationHint ? 1 : 0),
+      });
+
+      // 세션 시도 내역에 추가
+      setSessionAttempts(prev => [
+        ...prev,
+        {
+          is_correct: correctNow,
+          time_spent: timeSpent,
+          is_retry: isRetrying,
+        },
+      ]);
+
+      if (correctNow) {
         setIsCorrect(true);
         setScore(prev => prev + 1);
         setSessionScore(prev => prev + 1);
+        setIsRetrying(false); // 정답이면 재시도 상태 초기화
       } else {
         // 상태 초기화 (틀렸을 때는 다시 시도할 수 있게)
         if (currentQuestion.questionItems) {
@@ -459,8 +521,31 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
     }
   };
 
-  // 현재 문제가 없으면 로딩 표시
+  // 현재 문제가 없으면 로딩 표시 또는 빈 문제 메시지
   if (currentQuestionSet.length === 0) {
+    if (reviewMode) {
+      return (
+        <main className="bg-bodyBg max-w-4xl mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-8 py-6 md:py-10 rounded-xl h-[85vh] overflow-y-auto relative select-none">
+          <div className="wrapper bg-gray-150 rounded-xl p-8">
+            <div className="text-center py-20">
+              <div className="text-6xl mb-4">🎉</div>
+              <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark mb-2">
+                복습할 문제가 없습니다
+              </h2>
+              <p className="text-contentColor dark:text-contentColor-dark mb-6">
+                최근 세션에서 틀린 문제가 없습니다. 모든 문제를 정확하게 풀었습니다!
+              </p>
+              <a
+                href="/dashboards/student-dashboard"
+                className="inline-block px-6 py-3 bg-primaryColor text-white rounded-lg hover:bg-primaryColor/90 transition-colors"
+              >
+                대시보드로 돌아가기
+              </a>
+            </div>
+          </div>
+        </main>
+      );
+    }
     return <div className="text-center py-10">Loading questions...</div>;
   }
 
@@ -658,6 +743,16 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
             </Link>
           </div>
         </div>
+
+        {/* 오답 복습 안내 메시지 */}
+        {reviewMode && (
+          <div className="mt-3 mb-2 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <div className="flex items-center gap-2 text-sm md:text-base text-blue-800 dark:text-blue-200">
+              <span className="text-xl">📝</span>
+              <span className="font-medium">최근 세션에서 틀린 문제를 복습합니다</span>
+            </div>
+          </div>
+        )}
 
         {/* 진행 상태 표시 */}
         <div className="mt-4 md:mt-6 lg:mt-3 xl:mt-3 2xl:mt-6 mb-3 md:mb-4 lg:mb-0 xl:mb-0 2xl:mb-4 flex-shrink-0">
@@ -1015,7 +1110,10 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({ questions, ti
                     {/* 액션 버튼들 */}
                     <div className="flex gap-2">
                       <button
-                        onClick={() => setShowFeedback(false)}
+                        onClick={() => {
+                          setShowFeedback(false);
+                          setIsRetrying(true); // 다시 시도 플래그 설정
+                        }}
                         className="flex-1 bg-white text-red-700 hover:bg-gray-100 transition-colors px-4 py-2 rounded-lg text-sm font-medium"
                       >
                         다시 시도

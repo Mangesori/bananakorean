@@ -42,12 +42,12 @@ const fillBlankSets = [
   {
     id: 'movement',
     title: 'Learn how to express movement',
-    description: '에 가요/와요 - Going/Coming to',
+    description: '(장소)에 가요/와요 - Going/Coming to',
   },
   {
     id: 'location-actions',
     title: 'Learn how to describe locations & actions',
-    description: '에서 - Location Marker for Actions',
+    description: '(장소)에서 - Location Marker for Actions',
   },
   {
     id: 'past-tense',
@@ -57,7 +57,7 @@ const fillBlankSets = [
   {
     id: 'time-expressions',
     title: 'Learn how to express time',
-    description: '에(시간) - Time Expressions',
+    description: '(시간)에 - Time Expressions',
   },
   {
     id: 'duration',
@@ -72,12 +72,12 @@ const fillBlankSets = [
   {
     id: 'purpose',
     title: 'Learn how to express purpose',
-    description: '으러 가요/와요 - Going/Coming to do',
+    description: '(으)러 가요/와요 - Going/Coming to do',
   },
   {
     id: 'commands',
     title: 'Learn how to give commands & prohibitions',
-    description: "으세요, 지 마세요 - Please do, Please don't",
+    description: "(으)세요, 지 마세요 - Please do, Please don't",
   },
   {
     id: 'start-end',
@@ -87,7 +87,7 @@ const fillBlankSets = [
   {
     id: 'direction-method',
     title: 'Learn how to express direction, means, or method',
-    description: '으로 - By means of, Through',
+    description: '(으)로 - By means of, Through',
   },
   {
     id: 'desires',
@@ -97,12 +97,12 @@ const fillBlankSets = [
   {
     id: 'future',
     title: 'Learn how to talk about the future',
-    description: '을 거예요 - Will ~',
+    description: '(으)ㄹ 거예요 - Will ~',
   },
   {
     id: 'ability',
     title: 'Learn how to express ability & possibility',
-    description: '수 있다/없다 - Can/Cannot',
+    description: '(으)ㄹ 수 있다/없다 - Can/Cannot',
   },
 ];
 

@@ -49,7 +49,7 @@ const dialogueSets = [
   {
     id: 'movement',
     title: 'Learn how to express movement',
-    description: '에 가요/와요 - Going/Coming to',
+    description: '(장소)에 가요/와요 - Going/Coming to',
     // 친구 집, 쇼핑몰, 은행, 편의점, 서점,
     // 아들, 딸,
     // 오늘, 하고
@@ -58,7 +58,7 @@ const dialogueSets = [
   {
     id: 'location-actions',
     title: 'Learn how to describe locations & actions',
-    description: '에서 - Location Marker for Actions',
+    description: '(장소)에서 - Location Marker for Actions',
     // 빌리다, 산책하다, 입다, 찾다, 만들다
     // 옷, 신발, 모자, 디저트, 수업, 돈, 음식
     // 한테,
@@ -72,7 +72,7 @@ const dialogueSets = [
   {
     id: 'time-expressions',
     title: 'Learn how to express time',
-    description: '에(시간) - Time Expressions',
+    description: '(시간)에 - Time Expressions',
     // 월요일, 화요일, 수요일, 목요일, 금요일, 토요일, 일요일
     // 1시, 2시, 3시, 4시, 5시, 6시, 7시, 8시, 9시, 10시, 11시, 12시
     // 오전, 오후, 주말
@@ -113,7 +113,7 @@ const dialogueSets = [
   {
     id: 'purpose',
     title: 'Learn how to express purpose',
-    description: '으러 가요/와요 - Going/Coming to do',
+    description: '(으)러 가요/와요 - Going/Coming to do',
     // 공부하다, 먹다, 운동하다, 사다, 배우다, 산책하다, 만나다, 보다,
     // 돈을 찾다, 돈을 보내다, 손을 씻다, 옷을 바꾸다, 머리를 자르다, 사진을 찍다,
     // 미용실, 사진관, 가게
@@ -121,7 +121,7 @@ const dialogueSets = [
   {
     id: 'commands',
     title: 'Learn how to give commands & prohibitions',
-    description: "으세요, 지 마세요 - Please do, Please don't",
+    description: "(으)세요, 지 마세요 - Please do, Please don't",
     // 다리가 아프다, 머리가 아프다, 목이 마르다, 배가 고프다, 춥다, 덥다, 따뜻하다, 어둡다, 더럽다, 깨끗하다
     // 길을 읽어버리다, 잠이 오다, 잠을 못 자다,
     // 앉다, 쓰레기를 버리다, 담배를 피우다, 에어컨을 켜다, 에어컨을 끄다, 불을 켜다, 불을 끄다,
@@ -136,7 +136,7 @@ const dialogueSets = [
   {
     id: 'direction-method',
     title: 'Learn how to express direction, means, or method',
-    description: '으로 - By means of, Through',
+    description: '(으)로 - By means of, Through',
     // 제주도, 서울, 부산, 중국, 일본, 프랑스, 미국, 스페인, 이탈리아, 태국, 베트남, 싱가포르,
     // 왼쪽, 오른쪽
     // 올라가다, 올라오다, 내려가다, 내려오다
@@ -154,7 +154,7 @@ const dialogueSets = [
   {
     id: 'future',
     title: 'Learn how to talk about the future',
-    description: '을 거예요 - Will ~',
+    description: '(으)ㄹ 거예요 - Will ~',
     // 구경하다, 관광하다, 서핑하다, 스키를 타다, 스케이트를 타다, 택배를 보내다, 이사하다, 장을 보다, 출장을 가다, 학원에 다니다,
     // 근처, 새, 새로운,
     // 도시, 시골, 우체국, 스키장,
@@ -163,7 +163,7 @@ const dialogueSets = [
   {
     id: 'ability',
     title: 'Learn how to express ability & possibility',
-    description: '수 있다/없다 - Can/Cannot',
+    description: '(으)ㄹ 수 있다/없다 - Can/Cannot',
     // (식당에) 들어가다, (한국어를) 연습하다, 고치다, (악기를) 불다, (악기를) 켜다, 도와주다, 기다리다
     // 동안, 일찍,
     // 피아노, 기타, 바이올린, 드럼, 프루트, 색소폰, 첼로, 하모니카,
@@ -181,7 +181,7 @@ const dialogueSets = [
   {
     id: 'adjectives',
     title: 'Learn how to describe nouns with adjectives',
-    description: '형용사 + 은 - Adjective Modification',
+    description: '형용사 + (으)ㄴ - Adjective Modification',
   },
   {
     id: 'progressive',
@@ -201,22 +201,22 @@ const dialogueSets = [
   {
     id: 'cause',
     title: 'Learn how to give reasons',
-    description: '으니까 - Since/As',
+    description: '(으)니까 - Since/As',
   },
   {
     id: 'conditions',
     title: 'Learn how to talk about conditions',
-    description: '면 - If',
+    description: '(으)면 - If',
   },
   {
     id: 'time-relations',
     title: 'Learn how to express time relations',
-    description: '때 - When',
+    description: '(으)ㄹ 때 - When',
   },
   {
     id: 'sequence',
     title: 'Learn how to talk about before & after',
-    description: '기 전, 은 후 - Before & After',
+    description: '기 전, (으)ㄴ 후 - Before & After',
   },
 ];
 
@@ -224,7 +224,7 @@ export default function DialogueQuizPage() {
   return (
     <PageWrapper>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Dialogue Quiz</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Drag And Drop Quiz</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
           {dialogueSets.map(set => (
             <Link

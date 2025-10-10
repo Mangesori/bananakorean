@@ -31,6 +31,7 @@ import { sequenceQuestions } from '@/data/quiz/DialogueDragAndDrop/sequence';
 import DialogueDragAndDrop from '@/components/quiz/DialogueDragAndDrop/DialogueDragAndDrop';
 import { DialogueQuestion } from '@/types/quiz';
 import { topicMeta, TopicId, topicIds } from '@/data/quiz/topics/meta';
+import { getLastSessionWrongAttempts } from '@/lib/supabase/quiz-tracking';
 
 const isTopicId = (value: string): value is TopicId => {
   return (topicIds as string[]).includes(value);
@@ -159,7 +160,13 @@ const dialogueSets: Record<TopicId, { title: string; questions: DialogueQuestion
   },
 };
 
-export default function DialogueQuizPage({ params }: { params: { dialogueId: string } }) {
+export default async function DialogueQuizPage({
+  params,
+  searchParams,
+}: {
+  params: { dialogueId: string };
+  searchParams: { reviewMode?: string };
+}) {
   const key = params.dialogueId;
 
   if (!isTopicId(key)) {
@@ -168,9 +175,38 @@ export default function DialogueQuizPage({ params }: { params: { dialogueId: str
 
   const dialogueSet = dialogueSets[key];
 
+  let questionsToShow = dialogueSet.questions;
+  let reviewMode = false;
+
+  // reviewMode가 'last-session'이면 최근 세션의 오답만 가져오기
+  if (searchParams.reviewMode === 'last-session') {
+    reviewMode = true;
+    // topic ID를 한글 제목으로 변환 (DB에는 한글 제목으로 저장되어 있음)
+    const grammarName = dialogueSet.title;
+    const { data: wrongAttempts } = await getLastSessionWrongAttempts(
+      grammarName,
+      'dialogue_drag_drop'
+    );
+
+    if (wrongAttempts && wrongAttempts.length > 0) {
+      // 오답 question_id로 원본 문제 필터링
+      const wrongQuestionIds = wrongAttempts.map(attempt => attempt.question_id);
+      questionsToShow = dialogueSet.questions.filter(q =>
+        wrongQuestionIds.includes(q.id.toString())
+      );
+    } else {
+      // 오답이 없으면 빈 배열
+      questionsToShow = [];
+    }
+  }
+
   return (
     <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
-      <DialogueDragAndDrop questions={dialogueSet.questions} title={dialogueSet.title} />
+      <DialogueDragAndDrop
+        questions={questionsToShow}
+        title={dialogueSet.title}
+        reviewMode={reviewMode}
+      />
     </div>
   );
 }

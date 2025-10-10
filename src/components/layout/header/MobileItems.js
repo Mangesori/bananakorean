@@ -6,7 +6,7 @@ const MobileMenuItems = () => {
   const items = [
     {
       id: 2,
-      name: 'Dialogue Quiz',
+      name: 'Drag And Drop Quiz',
       path: '/quiz/DialogueDragAndDrop',
     },
 

@@ -1,8 +1,10 @@
 'use client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
 import { supabase } from '@/utils/supabaseClient';
-import { getUserStats, getUserProgress, getUserAchievements } from '@/lib/supabase/quiz-tracking';
+import { getUserStats, getUserProgress, getUserAchievements } from '@/lib/supabase/quiz-mutations';
+import { useQuery } from '@tanstack/react-query';
+import { topicMeta } from '@/data/quiz/topics/meta';
 
 // 스켈레톤 로더 컴포넌트
 const StatCardSkeleton = () => (
@@ -41,14 +43,18 @@ const AchievementCardSkeleton = () => (
 );
 
 const StudentDashboardPrimary = () => {
-  const { user } = useAuth();
-  const [stats, setStats] = useState(null);
-  const [progress, setProgress] = useState(null);
-  const [achievements, setAchievements] = useState(null);
-  const [loadingStats, setLoadingStats] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(true);
-  const [loadingAchievements, setLoadingAchievements] = useState(true);
+  const { user, refreshSession } = useAuth();
   const profileChecked = useRef(false);
+  const sessionRefreshed = useRef(false);
+
+  // 페이지 로드 시 세션 갱신 (Server Action redirect 후)
+  useEffect(() => {
+    if (!sessionRefreshed.current) {
+      sessionRefreshed.current = true;
+      console.log('[StudentDashboard] Refreshing session on mount');
+      refreshSession();
+    }
+  }, [refreshSession]);
 
   useEffect(() => {
     const createProfile = async () => {
@@ -72,7 +78,7 @@ const StudentDashboardPrimary = () => {
               {
                 id: user.id,
                 email: user.email,
-                full_name: user.user_metadata?.full_name || user.email.split('@')[0],
+                name: user.user_metadata?.name || user.email.split('@')[0],
                 role: 'student',
               },
             ])
@@ -91,45 +97,36 @@ const StudentDashboardPrimary = () => {
     createProfile();
   }, [user]);
 
-  useEffect(() => {
-    const loadDashboardData = async () => {
-      if (!user) return;
+  // React Query를 사용한 데이터 페칭
+  const { data: stats, isLoading: loadingStats } = useQuery({
+    queryKey: ['userStats', user?.id],
+    queryFn: async () => {
+      const result = await getUserStats();
+      return result.data;
+    },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5분
+  });
 
-      // 점진적으로 데이터 로드
-      try {
-        // 1. 통계 먼저 로드
-        getUserStats().then(statsResult => {
-          if (statsResult.data) {
-            setStats(statsResult.data);
-          }
-          setLoadingStats(false);
-        });
+  const { data: progress, isLoading: loadingProgress } = useQuery({
+    queryKey: ['userProgress', user?.id],
+    queryFn: async () => {
+      const result = await getUserProgress();
+      return result.data;
+    },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5분
+  });
 
-        // 2. 진도 로드
-        getUserProgress().then(progressResult => {
-          if (progressResult.data) {
-            setProgress(progressResult.data);
-          }
-          setLoadingProgress(false);
-        });
-
-        // 3. 성취 로드
-        getUserAchievements().then(achievementsResult => {
-          if (achievementsResult.data) {
-            setAchievements(achievementsResult.data);
-          }
-          setLoadingAchievements(false);
-        });
-      } catch (error) {
-        console.error('Error loading dashboard data:', error);
-        setLoadingStats(false);
-        setLoadingProgress(false);
-        setLoadingAchievements(false);
-      }
-    };
-
-    loadDashboardData();
-  }, [user]);
+  const { data: achievements, isLoading: loadingAchievements } = useQuery({
+    queryKey: ['userAchievements', user?.id],
+    queryFn: async () => {
+      const result = await getUserAchievements();
+      return result.data;
+    },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5분
+  });
 
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
@@ -152,10 +149,13 @@ const StudentDashboardPrimary = () => {
             <>
               <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
                 <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  총 시도 횟수
+                  완료한 세션 수
                 </h3>
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.total_attempts || 0}
+                </p>
+                <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
+                  10문제 = 1세션
                 </p>
               </div>
 
@@ -166,23 +166,32 @@ const StudentDashboardPrimary = () => {
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.accuracy_rate?.toFixed(1) || 0}%
                 </p>
-              </div>
-
-              <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
-                <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  현재 연속 기록
-                </h3>
-                <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
-                  {stats?.current_streak || 0}
+                <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
+                  전체 문제 정답률
                 </p>
               </div>
 
               <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
                 <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  완료한 문법
+                  연속 학습 일수
+                </h3>
+                <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
+                  {stats?.current_streak || 0}
+                </p>
+                <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
+                  매일 학습 연속 기록
+                </p>
+              </div>
+
+              <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
+                <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
+                  학습한 문법 수
                 </h3>
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.completed_grammars || 0}
+                </p>
+                <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
+                  1세션 이상 완료한 문법
                 </p>
               </div>
             </>
@@ -202,7 +211,7 @@ const StudentDashboardPrimary = () => {
             <thead className="bg-lightGrey7 dark:bg-lightGrey7-dark">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  문법 ID
+                  문법
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
                   퀴즈 타입
@@ -214,7 +223,7 @@ const StudentDashboardPrimary = () => {
                   정답 횟수
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  숙련도
+                  오답 복습
                 </th>
               </tr>
             </thead>
@@ -228,33 +237,65 @@ const StudentDashboardPrimary = () => {
                   <TableRowSkeleton />
                 </>
               ) : progress && progress.length > 0 ? (
-                progress.slice(0, 10).map(item => (
-                  <tr key={item.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blackColor dark:text-blackColor-dark">
-                      {item.grammar_id}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                      {item.quiz_type}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                      {item.total_attempts}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                      {item.correct_attempts}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                      <div className="flex items-center">
-                        <div className="w-16 bg-borderColor dark:bg-borderColor-dark rounded-full h-2 mr-2">
-                          <div
-                            className="bg-primaryColor h-2 rounded-full"
-                            style={{ width: `${(item.mastery_level / 5) * 100}%` }}
-                          />
-                        </div>
-                        <span>{item.mastery_level}/5</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                progress.slice(0, 10).map(item => {
+                  // 한글 grammar_name을 topic ID로 변환
+                  const getTopicIdFromGrammarName = grammarName => {
+                    const entry = Object.entries(topicMeta).find(
+                      ([_, meta]) => meta.title === grammarName
+                    );
+                    return entry ? entry[0] : null;
+                  };
+
+                  // 퀴즈 타입에 따른 URL 경로 결정
+                  const getQuizPath = (quizType, grammarName) => {
+                    const topicId = getTopicIdFromGrammarName(grammarName);
+                    if (!topicId) return null;
+
+                    switch (quizType) {
+                      case 'dialogue_drag_drop':
+                        return `/quiz/DialogueDragAndDrop/${topicId}?reviewMode=last-session`;
+                      case 'fill_in_blank':
+                        return `/quiz/fill-blank/${topicId}?reviewMode=last-session`;
+                      case 'multiple_choice':
+                        return `/quiz/multiple/${topicId}?reviewMode=last-session`;
+                      default:
+                        return null;
+                    }
+                  };
+
+                  const reviewPath = getQuizPath(item.quiz_type, item.grammar_name);
+
+                  return (
+                    <tr key={item.id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blackColor dark:text-blackColor-dark">
+                        {item.grammar_name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
+                        {item.quiz_type}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
+                        {item.total_attempts}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
+                        {item.correct_attempts}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        {reviewPath && item.correct_attempts < item.total_attempts ? (
+                          <a
+                            href={reviewPath}
+                            className="text-primaryColor hover:text-primaryColor/80 hover:underline font-medium"
+                          >
+                            오답 확인
+                          </a>
+                        ) : (
+                          <span className="text-contentColor dark:text-contentColor-dark opacity-50">
+                            -
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
                   <td
