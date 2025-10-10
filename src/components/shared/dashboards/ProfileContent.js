@@ -52,7 +52,7 @@ const ProfileContent = () => {
     try {
       setLoading(true);
       const { error } = await updateProfile(user.id, {
-        full_name: formData.name,
+        name: formData.name,
         avatar_url: formData.avatar_url,
       });
       if (error) throw error;

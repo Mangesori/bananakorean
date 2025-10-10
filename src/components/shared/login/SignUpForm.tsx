@@ -1,102 +1,54 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type Provider } from '@supabase/supabase-js';
 import { signUpAction, signInWithProviderAction } from '@/lib/supabase/actions';
+import type { ActionState } from '@/lib/auth/middleware';
 
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
+// Submit 버튼 컴포넌트 (useFormStatus 사용)
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px w-full border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark disabled:opacity-50"
+    >
+      {pending ? 'Signing up...' : 'Sign up'}
+    </button>
+  );
 }
 
 const SignUpForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // useFormState로 Server Action 실행 (React 18)
+  const [state, formAction] = useFormState<ActionState, FormData>(signUpAction, { error: '' });
 
   // 리다이렉트 URL 가져오기
   const redirectUrl = searchParams?.get('redirectUrl') || '/';
 
+  // 회원가입 성공 시 처리
   useEffect(() => {
-    // 로컬 스토리지에서 저장된 이메일 가져오기
-    const savedEmail = localStorage.getItem('rememberedEmail');
-    if (savedEmail) {
-      setFormData(prev => ({ ...prev, email: savedEmail }));
-    }
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { name, email, password, confirmPassword } = formData;
-
-    if (password !== confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setSuccessMessage(null);
-
-    try {
-      // 리다이렉트 URL 저장
-      if (redirectUrl !== '/') {
-        localStorage.setItem('redirectUrl', redirectUrl);
-      }
-
-      // FormData 객체 생성
-      const data = new FormData();
-      data.append('name', name);
-      data.append('email', email);
-      data.append('password', password);
-
-      // 서버 액션 호출
-      const result = await signUpAction(data);
-
-      if (result?.error) {
-        throw new Error(result.error);
-      }
-
-      // 성공 메시지 표시
-      setSuccessMessage(result.message || '회원가입이 완료되었습니다. 이메일을 확인해주세요.');
-
-      // 일정 시간 후 로그인 페이지로 이동
-      setTimeout(() => {
+    if (state?.success && state?.message) {
+      setSuccessMessage(state.message);
+      // 3초 후 로그인 페이지로 이동
+      const timer = setTimeout(() => {
         router.push('/auth/login');
       }, 3000);
-    } catch (err) {
-      handleError(err);
-    } finally {
-      setLoading(false);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [state, router]);
+
 
   const handleSocialSignUp = async (provider: Provider) => {
     try {
-      setLoading(true);
-      setError(null);
-
       // 리다이렉트 URL 저장
       if (redirectUrl !== '/') {
         localStorage.setItem('redirectUrl', redirectUrl);
@@ -105,7 +57,8 @@ const SignUpForm = () => {
       const result = await signInWithProviderAction(provider, redirectUrl);
 
       if (result?.error) {
-        throw new Error(result.error);
+        console.error('소셜 회원가입 오류:', result.error);
+        return;
       }
 
       // OAuth 리디렉션 URL로 이동
@@ -113,18 +66,7 @@ const SignUpForm = () => {
         window.location.href = result.url as string;
       }
     } catch (err) {
-      handleError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleError = (err: unknown) => {
-    console.error('회원가입 오류:', err);
-    if (err instanceof Error) {
-      setError(err.message);
-    } else {
-      setError('회원가입 중 오류가 발생했습니다.');
+      console.error('소셜 회원가입 오류:', err);
     }
   };
 
@@ -151,7 +93,7 @@ const SignUpForm = () => {
           <p className="text-sm mt-2">잠시 후 로그인 페이지로 이동합니다...</p>
         </div>
       ) : (
-        <form className="pt-25px" data-aos="fade-up" onSubmit={handleSignUp}>
+        <form className="pt-25px" data-aos="fade-up" action={formAction}>
           <div className="mb-25px">
             <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
               Name
@@ -161,8 +103,6 @@ const SignUpForm = () => {
               name="name"
               required
               placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
               className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
             />
           </div>
@@ -176,8 +116,6 @@ const SignUpForm = () => {
               name="email"
               required
               placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
               className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
             />
           </div>
@@ -191,8 +129,6 @@ const SignUpForm = () => {
               name="password"
               required
               placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
               className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
             />
           </div>
@@ -206,22 +142,14 @@ const SignUpForm = () => {
               name="confirmPassword"
               required
               placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
               className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
             />
           </div>
 
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          {state?.error && <p className="text-red-500 text-sm mb-4">{state.error}</p>}
 
           <div className="mt-25px text-center">
-            <button
-              type="submit"
-              disabled={loading}
-              className="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px w-full border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark disabled:opacity-50"
-            >
-              {loading ? 'Signing up...' : 'Sign up'}
-            </button>
+            <SubmitButton />
           </div>
 
           <div>

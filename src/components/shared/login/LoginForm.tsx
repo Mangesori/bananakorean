@@ -1,89 +1,47 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
+import { useSearchParams } from 'next/navigation';
+import { signInAction } from '@/lib/supabase/actions';
+import type { ActionState } from '@/lib/auth/middleware';
+
+// Submit 버튼 컴포넌트 (useFormStatus 사용)
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px w-full border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark disabled:opacity-50"
+    >
+      {pending ? 'Logging in...' : 'Login'}
+    </button>
+  );
+}
 
 export default function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const nextParam = searchParams?.get('next');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [rememberedEmail, setRememberedEmail] = useState('');
 
-  const supabase = createClient();
+  // useFormState로 Server Action 실행 (React 18)
+  const [state, formAction] = useFormState<ActionState, FormData>(signInAction, { error: '' });
 
-  // 로컬 스토리지에서 이메일 불러오기
+  // 쿠키에서 저장된 이메일 불러오기
   useEffect(() => {
-    const rememberedEmail = localStorage.getItem('rememberedEmail');
-    if (rememberedEmail) {
-      setEmail(rememberedEmail);
-      setRememberMe(true);
+    const cookies = document.cookie.split(';');
+    const emailCookie = cookies.find(c => c.trim().startsWith('remembered_email='));
+    if (emailCookie) {
+      const email = emailCookie.split('=')[1];
+      setRememberedEmail(decodeURIComponent(email));
     }
   }, []);
 
-  const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      // 이메일 기억하기 설정
-      if (rememberMe) {
-        localStorage.setItem('rememberedEmail', email);
-      } else {
-        localStorage.removeItem('rememberedEmail');
-      }
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      // 사용자 프로필 정보 조회
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', data.user.id)
-        .single();
-
-      if (profileError) {
-        throw new Error('사용자 정보를 불러오는데 실패했습니다.');
-      }
-
-      // 사용자 역할에 따른 리디렉션
-      const redirectUrl =
-        nextParam ||
-        (profileData.role === 'admin'
-          ? '/dashboards/admin-dashboard'
-          : '/dashboards/student-dashboard');
-
-      router.push(redirectUrl);
-      router.refresh();
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('로그인 중 오류가 발생했습니다.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSocialSignIn = async (provider: 'google' | 'facebook') => {
     try {
-      setLoading(true);
-      setError(null);
-
       // next 파라미터가 있으면 해당 값을 사용, 없으면 빈 문자열로 설정
       const nextParamValue = nextParam || '';
       const redirectUrl = nextParamValue
@@ -96,7 +54,10 @@ export default function LoginForm() {
         redirectUrl,
       });
 
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+
+      const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: redirectUrl,
@@ -107,13 +68,7 @@ export default function LoginForm() {
         throw new Error(error.message);
       }
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('소셜 로그인 중 오류가 발생했습니다.');
-      }
-    } finally {
-      setLoading(false);
+      console.error('소셜 로그인 오류:', err);
     }
   };
 
@@ -134,17 +89,17 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <form className="pt-25px" onSubmit={handleSignIn}>
+      <form className="pt-25px" action={formAction}>
         <div className="mb-25px">
           <label className="text-contentColor dark:text-contentColor-dark mb-10px block">
             Email
           </label>
           <input
             type="email"
+            name="email"
             required
             placeholder="Your Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            defaultValue={rememberedEmail}
             className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
           />
         </div>
@@ -155,10 +110,9 @@ export default function LoginForm() {
           </label>
           <input
             type="password"
+            name="password"
             required
             placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
             className="w-full h-52px leading-52px pl-5 bg-transparent text-sm focus:outline-none text-contentColor dark:text-contentColor-dark border border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 font-medium rounded"
           />
         </div>
@@ -167,8 +121,9 @@ export default function LoginForm() {
           <label className="inline-flex items-center">
             <input
               type="checkbox"
-              checked={rememberMe}
-              onChange={e => setRememberMe(e.target.checked)}
+              name="rememberMe"
+              value="true"
+              defaultChecked={!!rememberedEmail}
               className="mr-2"
             />
             <span className="text-contentColor dark:text-contentColor-dark">Remember Me</span>
@@ -181,16 +136,10 @@ export default function LoginForm() {
           </Link>
         </div>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {state?.error && <p className="text-red-500 text-sm mb-4">{state.error}</p>}
 
         <div className="mt-25px text-center">
-          <button
-            type="submit"
-            disabled={loading}
-            className="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px w-full border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark disabled:opacity-50"
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
+          <SubmitButton />
         </div>
 
         <div>

@@ -17,13 +17,7 @@ export async function createConversation(conversation: {
   title?: string;
 }) {
   const supabase = createClient();
-  return await supabase.from('conversations').insert([
-    {
-      ...conversation,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-  ]);
+  return await supabase.from('conversations').insert([conversation]);
 }
 
 // 메시지 목록 가져오기
@@ -43,12 +37,7 @@ export async function sendMessage(message: {
   content: string;
 }) {
   const supabase = createClient();
-  const { data, error } = await supabase.from('messages').insert([
-    {
-      ...message,
-      created_at: new Date().toISOString(),
-    },
-  ]);
+  const { data, error } = await supabase.from('messages').insert([message]);
 
   // 대화 마지막 메시지 업데이트
   if (!error) {
@@ -56,7 +45,7 @@ export async function sendMessage(message: {
       .from('conversations')
       .update({
         last_message: message.content,
-        updated_at: new Date().toISOString(),
+        // updated_at은 DB default 또는 trigger로 처리
       })
       .eq('id', message.conversation_id);
   }

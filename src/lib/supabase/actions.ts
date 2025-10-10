@@ -2,104 +2,86 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { type Provider } from '@supabase/supabase-js';
-
-/**
- * Supabase 서버 클라이언트 관련 함수
- */
-// 서버 액션용 클라이언트 생성 함수
-const createClient = async () => {
-  const cookieStore = await cookies();
-
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          try {
-            cookieStore.set(name, value, options);
-          } catch (error) {
-            // 서버 컴포넌트에서 쿠키 설정은 무시될 수 있음
-          }
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set(name, '', options);
-          } catch (error) {
-            // 서버 컴포넌트에서 쿠키 제거는 무시될 수 있음
-          }
-        },
-      },
-    }
-  );
-};
+import { validatedAction } from '@/lib/auth/middleware';
+import { signInSchema, signUpSchema } from '@/lib/auth/schemas';
+import { createClient } from '@/lib/auth/middleware';
 
 /**
  * 인증 관련 서버 액션
  */
-// 로그인 액션
-export async function signInAction(formData: FormData) {
-  try {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+// 로그인 액션 (Zod 검증 적용)
+export const signInAction = validatedAction(signInSchema, async (data, formData) => {
+  const { email, password, rememberMe } = data;
+  const supabase = await createClient();
 
-    // 필수 필드 검증
-    if (!email || !password) {
-      return { error: '이메일과 비밀번호를 모두 입력해주세요.' };
-    }
-
-    const supabase = await createClient();
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+  // Remember Me 처리
+  const cookieStore = await cookies();
+  if (rememberMe === 'true') {
+    // 이메일을 쿠키에 저장 (30일)
+    cookieStore.set('remembered_email', email, {
+      maxAge: 60 * 60 * 24 * 30, // 30일
+      httpOnly: false, // 클라이언트에서 읽을 수 있어야 함
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
     });
-
-    if (error) {
-      return { error: error.message };
-    }
-
-    // 사용자 역할에 따른 리디렉션 경로 설정
-    const role = data.user?.user_metadata?.role || 'student';
-    const redirectPath =
-      role === 'admin' ? '/dashboards/admin-dashboard' : '/dashboards/student-dashboard';
-
-    redirect(redirectPath);
-  } catch (err) {
-    console.error('로그인 처리 중 오류:', err);
-    return {
-      error: err instanceof Error ? err.message : '로그인 처리 중 오류가 발생했습니다.',
-    };
+  } else {
+    // Remember Me 체크 해제 시 쿠키 삭제
+    cookieStore.delete('remembered_email');
   }
-}
 
-// 회원가입 액션
-export async function signUpAction(formData: FormData) {
+  const { data: authData, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  if (!authData.user) {
+    return { error: '로그인에 실패했습니다.' };
+  }
+
+  // 프로필 조회하여 역할 확인
+  const { data: profileData, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', authData.user.id)
+    .single();
+
+  if (profileError) {
+    console.error('프로필 조회 오류:', profileError);
+    // 프로필 조회 실패해도 기본 역할로 처리
+  }
+
+  // 사용자 역할에 따른 리디렉션 경로 설정
+  const role = profileData?.role || authData.user?.user_metadata?.role || 'student';
+  const redirectPath =
+    role === 'admin' ? '/dashboards/admin-dashboard' : '/dashboards/student-dashboard';
+
+  // 서버에서 리디렉션 (revalidatePath 추가하여 캐시 갱신)
+  const { revalidatePath } = await import('next/cache');
+  revalidatePath('/', 'layout');
+
+  redirect(redirectPath);
+});
+
+// 회원가입 액션 (Zod 검증 적용)
+export const signUpAction = validatedAction(signUpSchema, async (data, formData) => {
   try {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const name = formData.get('name') as string;
-
-    // 필수 필드 검증
-    if (!email || !password || !name) {
-      return { error: '모든 필드를 입력해주세요.' };
-    }
-
+    const { name, email, password } = data;
     const supabase = await createClient();
 
     // 사용자 생성
-    const { data, error } = await supabase.auth.signUp({
+    const { data: authData, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
         data: {
-          full_name: name,
+          name: name,
+          role: 'student', // JWT에 role 포함
         },
       },
     });
@@ -108,12 +90,21 @@ export async function signUpAction(formData: FormData) {
       return { error: error.message };
     }
 
+    if (!authData.user) {
+      return { error: '회원가입에 실패했습니다.' };
+    }
+
     // 프로필 생성
-    await createUserProfile(supabase, {
-      id: data.user!.id,
-      email: data.user!.email!,
-      name: name,
+    const profileResult = await createUserProfile(supabase, {
+      id: authData.user.id,
+      email: authData.user.email!,
+      role: 'student',
     });
+
+    if (profileResult.error) {
+      console.error('프로필 생성 오류:', profileResult.error);
+      // 프로필 생성 실패해도 회원가입은 완료되었으므로 성공 메시지 표시
+    }
 
     return {
       success: true,
@@ -125,7 +116,7 @@ export async function signUpAction(formData: FormData) {
       error: err instanceof Error ? err.message : '회원가입 처리 중 오류가 발생했습니다.',
     };
   }
-}
+});
 
 // 소셜 로그인 액션
 export async function signInWithProviderAction(provider: Provider, redirectUrl?: string) {
@@ -174,16 +165,16 @@ export async function signOut() {
 // 프로필 생성 헬퍼 함수
 const createUserProfile = async (
   supabase: any,
-  userData: { id: string; email: string; name: string; role?: string }
+  userData: { id: string; email: string; role?: string }
 ) => {
   try {
     const { error } = await supabase.from('profiles').insert([
       {
         id: userData.id,
         email: userData.email,
-        name: userData.name,
         role: userData.role || 'student',
-        created_at: new Date().toISOString(),
+        // created_at은 DB default로 처리
+        // name은 user_metadata에 저장되므로 여기서는 제외
       },
     ]);
 
@@ -205,7 +196,6 @@ const createUserProfile = async (
 export async function createProfileAction(userData: {
   id: string;
   email: string;
-  name: string;
   role?: string;
 }) {
   const supabase = await createClient();
@@ -257,13 +247,7 @@ export async function createConversationAction(conversation: {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('conversations')
-      .insert([
-        {
-          ...conversation,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ])
+      .insert([conversation])
       .select();
 
     if (error) {
@@ -319,17 +303,11 @@ export async function sendMessageAction(message: {
     }
 
     const supabase = await createClient();
-    const timestamp = new Date().toISOString();
 
     // 메시지 저장
     const { data, error } = await supabase
       .from('messages')
-      .insert([
-        {
-          ...message,
-          created_at: timestamp,
-        },
-      ])
+      .insert([message])
       .select();
 
     if (error) {
@@ -341,7 +319,7 @@ export async function sendMessageAction(message: {
       .from('conversations')
       .update({
         last_message: message.content,
-        updated_at: timestamp,
+        // updated_at은 DB default 또는 trigger로 처리
       })
       .eq('id', message.conversation_id);
 

@@ -13,10 +13,20 @@ const NavbarRight = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const { user, isLoading, signOut } = useAuth();
+  const { user, isLoading, signOut, refreshSession } = useAuth();
   const { userName } = useUserProfile();
   const router = useRouter();
   const dropdownRef = useRef(null);
+  const refreshedRef = useRef(false);
+
+  // 페이지 로드 시 세션 갱신 (Server Action redirect 후)
+  useEffect(() => {
+    if (!refreshedRef.current && !user && !isLoading) {
+      refreshedRef.current = true;
+      console.log('[NavbarRight] Refreshing session on mount');
+      refreshSession();
+    }
+  }, [user, isLoading, refreshSession]);
 
   // 클릭 외부 처리
   useEffect(() => {

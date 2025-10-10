@@ -67,15 +67,25 @@ export async function middleware(request: NextRequest) {
   // 현재 요청 경로
   const { pathname } = request.nextUrl;
 
+  // GET 요청시 세션 자동 갱신 (Sliding Window 방식)
+  if (request.method === 'GET') {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session) {
+      // 세션 토큰 갱신 (Supabase가 자동으로 만료 임박 시 갱신)
+      await supabase.auth.refreshSession();
+    }
+  }
+
   // 세션 및 사용자 정보 가져오기 (보안을 위해 getUser 사용)
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 디버깅을 위한 로깅
-  console.log(
-    `[MIDDLEWARE] Path: ${pathname}, Has User: ${!!user}, User ID: ${user?.id || 'none'}`
-  );
+  // 사용자 역할 가져오기 (JWT user_metadata에서)
+  const userRole = user?.user_metadata?.role || 'student';
 
   // 존재하지 않는 auth 경로에 접근하는 경우 - 홈으로 리디렉션
   if (INVALID_AUTH_PATHS.includes(pathname)) {
@@ -84,7 +94,6 @@ export async function middleware(request: NextRequest) {
 
   // 보호된 경로에 인증되지 않은 사용자가 접근하는 경우
   if (PROTECTED_ROUTES.some(route => pathname.startsWith(route)) && !user) {
-    console.log(`[MIDDLEWARE] Redirecting to login: ${pathname}`);
     const redirectUrl = new URL('/auth/login', request.url);
     redirectUrl.searchParams.set('next', pathname);
     return NextResponse.redirect(redirectUrl);
@@ -92,64 +101,22 @@ export async function middleware(request: NextRequest) {
 
   // 인증 경로에 이미 인증된 사용자가 접근하는 경우
   if (AUTH_ROUTES.some(route => pathname.startsWith(route)) && user) {
-    try {
-      // 사용자 프로필 정보 조회
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
+    const redirectPath =
+      userRole === 'admin'
+        ? '/dashboards/admin-dashboard'
+        : '/dashboards/student-dashboard';
 
-      // 사용자 역할에 따른 리디렉션
-      const redirectPath =
-        profileData?.role === 'admin'
-          ? '/dashboards/admin-dashboard'
-          : '/dashboards/student-dashboard';
-
-      return NextResponse.redirect(new URL(redirectPath, request.url));
-    } catch (error) {
-      // 오류 발생 시 기본 경로로 리디렉션
-      return NextResponse.redirect(new URL('/dashboards/student-dashboard', request.url));
-    }
+    return NextResponse.redirect(new URL(redirectPath, request.url));
   }
 
   // 역할 검사: 관리자 전용 경로에 학생이 접근하는 경우 차단
-  if (pathname.includes('/dashboards/admin-') && user) {
-    try {
-      // 사용자 프로필 정보 조회
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-      // 관리자가 아닌데 관리자 페이지에 접근하면 학생 대시보드로 리디렉션
-      if (profileData?.role !== 'admin') {
-        return NextResponse.redirect(new URL('/dashboards/student-dashboard', request.url));
-      }
-    } catch (error) {
-      // 오류 발생 시 기본 경로로 리디렉션
-      return NextResponse.redirect(new URL('/dashboards/student-dashboard', request.url));
-    }
+  if (pathname.includes('/dashboards/admin-') && user && userRole !== 'admin') {
+    return NextResponse.redirect(new URL('/dashboards/student-dashboard', request.url));
   }
 
   // 역할 검사: 학생 전용 경로에 관리자가 접근하는 경우 관리자 대시보드로 리디렉션
-  if (pathname.includes('/dashboards/student-') && user) {
-    try {
-      // 사용자 프로필 정보 조회
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-      // 학생이 아닌데 학생 페이지에 접근하면 관리자 대시보드로 리디렉션
-      if (profileData?.role === 'admin' && !pathname.includes('/dashboards/student-message')) {
-        return NextResponse.redirect(new URL('/dashboards/admin-dashboard', request.url));
-      }
-    } catch (error) {
-      // 무시: 오류 발생 시 원래 페이지로 진행
-    }
+  if (pathname.includes('/dashboards/student-') && user && userRole === 'admin' && !pathname.includes('/dashboards/student-message')) {
+    return NextResponse.redirect(new URL('/dashboards/admin-dashboard', request.url));
   }
 
   return response;

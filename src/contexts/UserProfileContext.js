@@ -65,7 +65,7 @@ export const UserProfileProvider = ({ children }) => {
       try {
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('full_name, avatar_url')
+          .select('name, avatar_url')
           .eq('id', user.id)
           .single();
 
@@ -73,7 +73,7 @@ export const UserProfileProvider = ({ children }) => {
         console.log('[UserProfileProvider] Error:', error);
 
         if (profile) {
-          const name = profile.full_name || user.email?.split('@')[0] || '';
+          const name = profile.name || user.email?.split('@')[0] || '';
           const avatar = profile.avatar_url || '';
 
           console.log('[UserProfileProvider] Setting userName to:', name);
