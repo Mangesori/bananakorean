@@ -122,7 +122,7 @@ const MultipleChoiceReview: React.FC<MultipleChoiceReviewProps> = ({
     const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000);
     quizMutation.mutate({
       grammar_name: grammarName,
-      quiz_type: 'multiple_choice',
+      quiz_type: 'multiple',
       question_id: current.id?.toString() || `q-${currentIndex}`,
       question_text: current.question || '',
       user_answer: selectedOption || '',
