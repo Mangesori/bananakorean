@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
+import AccordionContainer from '@/components/shared/containers/AccordionContainer';
 import AccordionController from '@/components/shared/accordion/AccordionController';
 import Accordion from '@/components/shared/accordion/Accordion';
 import AccordionContent from '@/components/shared/accordion/AccordionContent';
@@ -45,8 +46,8 @@ const MobileMyAccount = () => {
 
   // 로그인된 상태 - My Account accordion 표시
   return (
-    <div>
-      <ul className="accordion-container mt-9 mb-30px pb-9 border-b border-borderColor dark:border-borderColor-dark">
+    <div className="mt-9 mb-30px pb-9 border-b border-borderColor dark:border-borderColor-dark">
+      <AccordionContainer>
         <Accordion>
           <AccordionController type={'primary'}>
             <Link
@@ -93,7 +94,7 @@ const MobileMyAccount = () => {
             </ul>
           </AccordionContent>
         </Accordion>
-      </ul>
+      </AccordionContainer>
     </div>
   );
 };
