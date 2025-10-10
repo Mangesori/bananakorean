@@ -1,4 +1,4 @@
-const Accordion = ({ children, isActive, accordion, idx }) => {
+const Accordion = ({ children, isActive = false, accordion, idx }) => {
   return (
     <li
       className={`accordion ${
