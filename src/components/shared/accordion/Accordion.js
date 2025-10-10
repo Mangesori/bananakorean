@@ -1,7 +1,7 @@
 const Accordion = ({ children, isActive = false, accordion = undefined, idx = undefined }) => {
   return (
     <li
-      className={`accordion ${
+      className={`accordion list-none ${
         accordion === 'secondary' ? 'accordion-seondary mb-25px' : ''
       } ${isActive ? 'active' : ''}`}
     >

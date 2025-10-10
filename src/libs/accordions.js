@@ -1,10 +1,17 @@
 // style controllers
 
 const controllerStyle = (accordionController, isActive) => {
-  const rotateAbleLine = accordionController.querySelectorAll('span')[1];
-
-  if (rotateAbleLine) {
-    rotateAbleLine.style.transform = !isActive ? 'rotate(0deg)' : 'rotate(90deg)';
+  // primary 타입은 SVG를 회전시킴
+  const svg = accordionController.querySelector('svg');
+  
+  if (svg) {
+    svg.style.transform = !isActive ? 'rotate(180deg)' : 'rotate(0deg)';
+  } else {
+    // 다른 타입은 기존 span 로직 사용
+    const rotateAbleLine = accordionController.querySelectorAll('span')[1];
+    if (rotateAbleLine) {
+      rotateAbleLine.style.transform = !isActive ? 'rotate(0deg)' : 'rotate(90deg)';
+    }
   }
 };
 

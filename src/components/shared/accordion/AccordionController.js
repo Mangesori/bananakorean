@@ -13,8 +13,19 @@ const AccordionController = ({ children, type }) => {
         <>
           {children}
           <button className="accordion-controller px-3 py-4">
-            <span className="w-[10px] h-[1px] bg-darkdeep1 block dark:bg-whiteColor"></span>
-            <span className="w-[10px] h-[1px] bg-darkdeep1 block dark:bg-whiteColor rotate-90 -mt-[1px] transition-all duration-500"></span>
+            <svg
+              className="flex-shrink-0 transition-all duration-500 rotate-0"
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                className="fill-darkdeep1 dark:fill-whiteColor"
+                fillRule="evenodd"
+                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+              ></path>
+            </svg>
           </button>
         </>
       ) : (
