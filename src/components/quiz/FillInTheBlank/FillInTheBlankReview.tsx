@@ -71,7 +71,7 @@ const FillInTheBlankReview: React.FC<FillInTheBlankReviewProps> = ({
 
   const checkAnswer = () => {
     const trimmedAnswer = userAnswer.trim().toLowerCase();
-    const correctAnswer = (current?.correctAnswer || '').toLowerCase().trim();
+    const correctAnswer = (current?.answer || '').toLowerCase().trim();
     const alternativeAnswers = (current?.alternativeAnswers || []).map(ans =>
       ans.toLowerCase().trim()
     );
@@ -99,7 +99,7 @@ const FillInTheBlankReview: React.FC<FillInTheBlankReviewProps> = ({
       question_id: current.id?.toString() || `q-${currentIndex}`,
       question_text: current.question || '',
       user_answer: userAnswer.trim(),
-      correct_answer: current.correctAnswer || '',
+      correct_answer: current.answer || '',
       is_correct: correct,
       is_retry: isRetrying,
       is_review: true, // 복습 모드 플래그
@@ -409,7 +409,7 @@ const FillInTheBlankReview: React.FC<FillInTheBlankReviewProps> = ({
                   {showTranslationHint && (
                     <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
                       <div className="text-sm font-medium mb-1">정답</div>
-                      <div className="text-lg font-semibold">{current.correctAnswer}</div>
+                      <div className="text-lg font-semibold">{current.answer}</div>
                       {current.alternativeAnswers && current.alternativeAnswers.length > 0 && (
                         <>
                           <div className="text-sm font-medium mt-2 mb-1">다른 정답</div>
