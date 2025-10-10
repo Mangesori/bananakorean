@@ -1,8 +1,9 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 읽다, 마시다, 듣다, 공부하다, 보다, 만나다, 먹다, 사다, 좋아하다, 자다, 배우다, 공부하다, 쇼핑하다, 이야기하다, 운동하다, 요리하다, 일하다, 전화하다
 // 음악, 노래, 한국어, 영어, 밥, 우유, 커피, 피자, 맥주, 아침, 점심, 저녁, 공부, 운동, 쇼핑, 이야기, 요리, 일, 전화
 
-export const basicVerbQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '무엇을 읽어요?',
@@ -517,3 +518,5 @@ export const basicVerbQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const basicVerbQuestions = addGrammarName(questions, 'basic-verbs');

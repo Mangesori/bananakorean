@@ -1,6 +1,7 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const contrastQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '지금 학교에 가요?',
@@ -40,8 +41,7 @@ export const contrastQuestions: DialogueQuestion[] = [
     question: '한국어가 어때요?',
     questionTranslation: 'How is Korean?',
     answer: '한국어는 어렵지만 재미있어요.',
-    answerTranslation: 'Korean is difficult but fun.',
-    items: [
+    answerTranslation: 'Korean is difficult but fun.',    items: [
       { id: '1', content: '한국어', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어렵', combineWithNext: true },
@@ -67,11 +67,12 @@ export const contrastQuestions: DialogueQuestion[] = [
     question: '스테이크가 어땠어요?',
     questionTranslation: 'How was the steak?',
     answer: '비싸지만 맛있었어요.',
-    answerTranslation: 'Although it was expensive, it was delicious.',
-    items: [
+    answerTranslation: 'Although it was expensive, it was delicious.',    items: [
       { id: '1', content: '비싸', combineWithNext: true },
       { id: '2', content: '지만', combineWithNext: false },
       { id: '3', content: '맛있었어요.' },
     ],
   },
 ];
+
+export const contrastQuestions = addGrammarName(questions, 'contrast');

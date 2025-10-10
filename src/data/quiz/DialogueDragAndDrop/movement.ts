@@ -1,18 +1,18 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 학교, 집, 도서관, 영화관, 친구 집, 병원, 회사, 쇼핑몰, 은행, 카페, 식당, 화장실, 편의점, 서점
 // 아들, 딸,
 // 오늘, 하고
 // 한국, 중국, 일본, 미국, 영국, 프랑스, 독일, 호주, 베트남, 인도,
 
-export const movementQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '어디에 가요?',
     questionTranslation: 'Where do you go?',
     answer: '저는 학교에 가요.',
     alternativeAnswers: ['학교에 가요.'],
-    answerTranslation: 'I go to school.',
-    items: [
+    answerTranslation: 'I go to school.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -26,8 +26,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 집에 가요.',
     alternativeAnswers: ['집에 가요.'],
-    answerTranslation: 'I go home.',
-    items: [
+    answerTranslation: 'I go home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -41,8 +40,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 도서관에 가요.',
     alternativeAnswers: ['도서관에 가요.'],
-    answerTranslation: 'I go to the library.',
-    items: [
+    answerTranslation: 'I go to the library.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -56,8 +54,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 영화관에 가요.',
     alternativeAnswers: ['영화관에 가요.'],
-    answerTranslation: 'I go to the movie theater.',
-    items: [
+    answerTranslation: 'I go to the movie theater.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -71,8 +68,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 한국에 가요.',
     alternativeAnswers: ['한국에 가요.'],
-    answerTranslation: 'I go to Korea.',
-    items: [
+    answerTranslation: 'I go to Korea.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '한국', combineWithNext: true },
@@ -86,8 +82,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 식당에 가요.',
     alternativeAnswers: ['식당에 가요.'],
-    answerTranslation: 'I go to a restaurant.',
-    items: [
+    answerTranslation: 'I go to a restaurant.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -101,8 +96,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 화장실에 가요.',
     alternativeAnswers: ['화장실에 가요.'],
-    answerTranslation: 'I go to the bathroom.',
-    items: [
+    answerTranslation: 'I go to the bathroom.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -116,8 +110,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 회사에 가요.',
     alternativeAnswers: ['회사에 가요.'],
-    answerTranslation: 'I go to the office.',
-    items: [
+    answerTranslation: 'I go to the office.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -131,8 +124,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 은행에 가요.',
     alternativeAnswers: ['은행에 가요.'],
-    answerTranslation: 'I go to the bank.',
-    items: [
+    answerTranslation: 'I go to the bank.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '은행', combineWithNext: true },
@@ -146,8 +138,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 쇼핑몰에 가요.',
     alternativeAnswers: ['쇼핑몰에 가요.'],
-    answerTranslation: 'I go to the shopping mall.',
-    items: [
+    answerTranslation: 'I go to the shopping mall.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '쇼핑몰', combineWithNext: true },
@@ -177,8 +168,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go with a friend?',
     answer: '저는 친구하고 영화관에 가요.',
     alternativeAnswers: ['친구하고 영화관에 가요.'],
-    answerTranslation: 'I go to the movie theater with a friend.',
-    items: [
+    answerTranslation: 'I go to the movie theater with a friend.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '친구', combineWithNext: true },
@@ -194,8 +184,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go with your father?',
     answer: '저는 아빠하고 식당에 가요.',
     alternativeAnswers: ['아빠하고 식당에 가요.'],
-    answerTranslation: 'I go to a restaurant with my father.',
-    items: [
+    answerTranslation: 'I go to a restaurant with my father.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아빠', combineWithNext: true },
@@ -211,8 +200,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go with your mother?',
     answer: '저는 엄마하고 쇼핑몰에 가요.',
     alternativeAnswers: ['엄마하고 쇼핑몰에 가요.'],
-    answerTranslation: 'I go to the shopping mall with my mother.',
-    items: [
+    answerTranslation: 'I go to the shopping mall with my mother.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '엄마', combineWithNext: true },
@@ -228,8 +216,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where does the son go with his father?',
     answer: '아들은 아빠하고 집에 가요.',
     alternativeAnswers: ['아빠하고 집에 가요.'],
-    answerTranslation: 'The son goes home with his father.',
-    items: [
+    answerTranslation: 'The son goes home with his father.',    items: [
       { id: '1', content: '아들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '아빠', combineWithNext: true },
@@ -245,8 +232,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where does the daughter go with her mother?',
     answer: '딸은 엄마하고 은행에 가요.',
     alternativeAnswers: ['엄마하고 은행에 가요.'],
-    answerTranslation: 'The daughter goes to the bank with her mother.',
-    items: [
+    answerTranslation: 'The daughter goes to the bank with her mother.',    items: [
       { id: '1', content: '딸', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '엄마', combineWithNext: true },
@@ -613,8 +599,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 중국에 가요.',
     alternativeAnswers: ['중국에 가요.'],
-    answerTranslation: 'I go to China.',
-    items: [
+    answerTranslation: 'I go to China.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '중국', combineWithNext: true },
@@ -628,8 +613,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 일본에 가요.',
     alternativeAnswers: ['일본에 가요.'],
-    answerTranslation: 'I go to Japan.',
-    items: [
+    answerTranslation: 'I go to Japan.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일본', combineWithNext: true },
@@ -643,8 +627,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 미국에 가요.',
     alternativeAnswers: ['미국에 가요.'],
-    answerTranslation: 'I go to America.',
-    items: [
+    answerTranslation: 'I go to America.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -658,8 +641,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 영국에 가요.',
     alternativeAnswers: ['영국에 가요.'],
-    answerTranslation: 'I go to the UK.',
-    items: [
+    answerTranslation: 'I go to the UK.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영국', combineWithNext: true },
@@ -673,8 +655,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 프랑스에 가요.',
     alternativeAnswers: ['프랑스에 가요.'],
-    answerTranslation: 'I go to France.',
-    items: [
+    answerTranslation: 'I go to France.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '프랑스', combineWithNext: true },
@@ -688,8 +669,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 독일에 가요.',
     alternativeAnswers: ['독일에 가요.'],
-    answerTranslation: 'I go to Germany.',
-    items: [
+    answerTranslation: 'I go to Germany.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '독일', combineWithNext: true },
@@ -703,8 +683,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 호주에 가요.',
     alternativeAnswers: ['호주에 가요.'],
-    answerTranslation: 'I go to Australia.',
-    items: [
+    answerTranslation: 'I go to Australia.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '호주', combineWithNext: true },
@@ -718,8 +697,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 베트남에 가요.',
     alternativeAnswers: ['베트남에 가요.'],
-    answerTranslation: 'I go to Vietnam.',
-    items: [
+    answerTranslation: 'I go to Vietnam.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '베트남', combineWithNext: true },
@@ -733,8 +711,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 인도에 가요.',
     alternativeAnswers: ['인도에 가요.'],
-    answerTranslation: 'I go to India.',
-    items: [
+    answerTranslation: 'I go to India.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '인도', combineWithNext: true },
@@ -748,8 +725,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country do you go to?',
     answer: '저는 태국에 가요.',
     alternativeAnswers: ['태국에 가요.'],
-    answerTranslation: 'I go to Thailand.',
-    items: [
+    answerTranslation: 'I go to Thailand.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '태국', combineWithNext: true },
@@ -763,8 +739,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Min-su go to?',
     answer: '민수는 중국에 가요.',
     alternativeAnswers: ['중국에 가요.'],
-    answerTranslation: 'Min-su goes to China.',
-    items: [
+    answerTranslation: 'Min-su goes to China.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '중국', combineWithNext: true },
@@ -778,8 +753,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Yuna go to?',
     answer: '유나는 일본에 가요.',
     alternativeAnswers: ['일본에 가요.'],
-    answerTranslation: 'Yuna goes to Japan.',
-    items: [
+    answerTranslation: 'Yuna goes to Japan.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일본', combineWithNext: true },
@@ -793,8 +767,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Min-su go to?',
     answer: '민수는 미국에 가요.',
     alternativeAnswers: ['미국에 가요.'],
-    answerTranslation: 'Min-su goes to America.',
-    items: [
+    answerTranslation: 'Min-su goes to America.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -808,8 +781,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Yuna go to?',
     answer: '유나는 영국에 가요.',
     alternativeAnswers: ['영국에 가요.'],
-    answerTranslation: 'Yuna goes to the UK.',
-    items: [
+    answerTranslation: 'Yuna goes to the UK.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영국', combineWithNext: true },
@@ -823,8 +795,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Min-su go to?',
     answer: '민수는 프랑스에 가요.',
     alternativeAnswers: ['프랑스에 가요.'],
-    answerTranslation: 'Min-su goes to France.',
-    items: [
+    answerTranslation: 'Min-su goes to France.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '프랑스', combineWithNext: true },
@@ -838,8 +809,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Yuna go to?',
     answer: '유나는 독일에 가요.',
     alternativeAnswers: ['독일에 가요.'],
-    answerTranslation: 'Yuna goes to Germany.',
-    items: [
+    answerTranslation: 'Yuna goes to Germany.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '독일', combineWithNext: true },
@@ -853,8 +823,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Min-su go to?',
     answer: '민수는 호주에 가요.',
     alternativeAnswers: ['호주에 가요.'],
-    answerTranslation: 'Min-su goes to Australia.',
-    items: [
+    answerTranslation: 'Min-su goes to Australia.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '호주', combineWithNext: true },
@@ -868,8 +837,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Yuna go to?',
     answer: '유나는 베트남에 가요.',
     alternativeAnswers: ['베트남에 가요.'],
-    answerTranslation: 'Yuna goes to Vietnam.',
-    items: [
+    answerTranslation: 'Yuna goes to Vietnam.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '베트남', combineWithNext: true },
@@ -883,8 +851,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Min-su go to?',
     answer: '민수는 인도에 가요.',
     alternativeAnswers: ['인도에 가요.'],
-    answerTranslation: 'Min-su goes to India.',
-    items: [
+    answerTranslation: 'Min-su goes to India.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '인도', combineWithNext: true },
@@ -898,8 +865,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which country does Yuna go to?',
     answer: '유나는 태국에 가요.',
     alternativeAnswers: ['태국에 가요.'],
-    answerTranslation: 'Yuna goes to Thailand.',
-    items: [
+    answerTranslation: 'Yuna goes to Thailand.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '태국', combineWithNext: true },
@@ -1266,8 +1232,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 편의점에 가요.',
     alternativeAnswers: ['편의점에 가요.'],
-    answerTranslation: 'I go to the convenience store.',
-    items: [
+    answerTranslation: 'I go to the convenience store.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '편의점', combineWithNext: true },
@@ -1298,8 +1263,7 @@ export const movementQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you go?',
     answer: '저는 서점에 가요.',
     alternativeAnswers: ['서점에 가요.'],
-    answerTranslation: 'I go to the bookstore.',
-    items: [
+    answerTranslation: 'I go to the bookstore.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '서점', combineWithNext: true },
@@ -1325,3 +1289,5 @@ export const movementQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const movementQuestions = addGrammarName(questions, 'movement');

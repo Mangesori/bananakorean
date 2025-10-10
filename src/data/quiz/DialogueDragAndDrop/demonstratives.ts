@@ -1,14 +1,15 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 이거, 그거, 저거, 책, 펜, 가방, 커피, 물, 책상, 의자, 빵, 우유, 핸드폰
 
-export const demonstrativeQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '이거는 뭐예요?',
     questionTranslation: 'What is this?',
     answer: '이거는 책이에요.',
     answerTranslation: 'This is a book.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -21,7 +22,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 펜이에요.',
     answerTranslation: 'This is a pen.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '펜', combineWithNext: true },
@@ -34,7 +35,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 가방이에요.',
     answerTranslation: 'This is a bag.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: true },
@@ -47,7 +48,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 커피예요.',
     answerTranslation: 'This is coffee.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -60,7 +61,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 물이에요.',
     answerTranslation: 'This is water.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -73,7 +74,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 책상이에요.',
     answerTranslation: 'This is a desk.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -86,7 +87,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 의자예요.',
     answerTranslation: 'This is a chair.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -99,7 +100,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 빵이에요.',
     answerTranslation: 'This is a bread.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -112,7 +113,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 우유예요.',
     answerTranslation: 'This is milk.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우유', combineWithNext: true },
@@ -125,7 +126,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '이거는 핸드폰이에요.',
     answerTranslation: 'This is a phone.',
-    items: [
+items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '핸드폰', combineWithNext: true },
@@ -138,7 +139,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 책이에요.',
     answerTranslation: 'That is a book.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -151,7 +152,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 펜이에요.',
     answerTranslation: 'That is a pen.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '펜', combineWithNext: true },
@@ -164,7 +165,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 가방이에요.',
     answerTranslation: 'That is a bag.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: true },
@@ -177,7 +178,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 커피예요.',
     answerTranslation: 'That is coffee.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -190,7 +191,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 물이에요.',
     answerTranslation: 'That is water.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -203,7 +204,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 책상이에요.',
     answerTranslation: 'That is a desk.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -216,7 +217,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 의자예요.',
     answerTranslation: 'That is a chair.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -229,7 +230,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 빵이에요.',
     answerTranslation: 'That is a bread.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -242,7 +243,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 우유예요.',
     answerTranslation: 'That is milk.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우유', combineWithNext: true },
@@ -255,7 +256,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this?',
     answer: '그거는 핸드폰이에요.',
     answerTranslation: 'That is a phone.',
-    items: [
+items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '핸드폰', combineWithNext: true },
@@ -268,7 +269,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 책이에요.',
     answerTranslation: 'That is a book.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -281,7 +282,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 펜이에요.',
     answerTranslation: 'That is a pen.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '펜', combineWithNext: true },
@@ -294,7 +295,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 가방이에요.',
     answerTranslation: 'That is a bag.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: true },
@@ -307,7 +308,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 커피예요.',
     answerTranslation: 'That is coffee.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -320,7 +321,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 물이에요.',
     answerTranslation: 'That is water.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -333,7 +334,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 책상이에요.',
     answerTranslation: 'That is a desk.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -346,7 +347,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 의자예요.',
     answerTranslation: 'That is a chair.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -359,7 +360,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 빵이에요.',
     answerTranslation: 'That is a bread.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -372,7 +373,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 우유예요.',
     answerTranslation: 'That is milk.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우유', combineWithNext: true },
@@ -385,7 +386,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that?',
     answer: '저거는 핸드폰이에요.',
     answerTranslation: 'That is a phone.',
-    items: [
+items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '핸드폰', combineWithNext: true },
@@ -398,7 +399,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose book is this?',
     answer: '이 책은 제 거예요.',
     answerTranslation: 'This book is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -413,7 +414,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose pen is this?',
     answer: '이 펜은 제 거예요.',
     answerTranslation: 'This pen is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '펜', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -428,7 +429,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose bag is this?',
     answer: '이 가방은 제 거예요.',
     answerTranslation: 'This bag is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '가방', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -443,7 +444,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose coffee is this?',
     answer: '이 커피는 제 거예요.',
     answerTranslation: 'This coffee is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '커피', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -458,7 +459,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose water is this?',
     answer: '이 물은 제 거예요.',
     answerTranslation: 'This water is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -473,7 +474,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose desk is this?',
     answer: '이 책상은 제 거예요.',
     answerTranslation: 'This desk is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '책상', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -488,7 +489,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose chair is this?',
     answer: '이 의자는 제 거예요.',
     answerTranslation: 'This chair is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '의자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -503,7 +504,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose bread is this?',
     answer: '이 빵은 제 거예요.',
     answerTranslation: 'This bread is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -518,7 +519,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose milk is this?',
     answer: '이 우유는 제 거예요.',
     answerTranslation: 'This milk is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '우유', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -533,7 +534,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose phone is this?',
     answer: '이 핸드폰은 제 거예요.',
     answerTranslation: 'This phone is mine.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -548,7 +549,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose book is that?',
     answer: '저 책은 제 거예요.',
     answerTranslation: 'That book is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -563,7 +564,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose pen is that?',
     answer: '저 펜은 제 거예요.',
     answerTranslation: 'That pen is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '펜', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -578,7 +579,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose bag is that?',
     answer: '저 가방은 제 거예요.',
     answerTranslation: 'That bag is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '가방', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -593,7 +594,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose coffee is that?',
     answer: '저 커피는 제 거예요.',
     answerTranslation: 'That coffee is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '커피', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -608,7 +609,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose water is that?',
     answer: '저 물은 제 거예요.',
     answerTranslation: 'That water is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -623,7 +624,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose desk is that?',
     answer: '저 책상은 제 거예요.',
     answerTranslation: 'That desk is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '책상', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -638,7 +639,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose chair is that?',
     answer: '저 의자는 제 거예요.',
     answerTranslation: 'That chair is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '의자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -653,7 +654,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose bread is that?',
     answer: '저 빵은 제 거예요.',
     answerTranslation: 'That bread is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -668,7 +669,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose milk is that?',
     answer: '저 우유는 제 거예요.',
     answerTranslation: 'That milk is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '우유', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -683,7 +684,7 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     questionTranslation: 'Whose phone is that?',
     answer: '저 핸드폰은 제 거예요.',
     answerTranslation: 'That phone is mine.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -693,3 +694,5 @@ export const demonstrativeQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const demonstrativeQuestions = addGrammarName(questions, 'demonstratives');

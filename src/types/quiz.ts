@@ -100,6 +100,7 @@ export interface MultipleChoiceQuestion {
   options: string[];
   correctAnswer: string;
   explanation?: string;
+  grammarName?: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   // 아래 필드는 대화형의 questionPrefix/questionItems/suffix를 MCQ에 반영하기 위한 선택 필드
   questionPrefix?: string;
   questionItemsTranslation?: string;
@@ -128,6 +129,7 @@ export interface DialogueQuestion {
   alternativeAnswers?: string[];
   answerTranslation: string;
   items: Item[];
+  grammarName?: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   mode?: 'question-to-answer' | 'answer-to-question'; // 새로운 모드 옵션
   // 새로운 필드들: question 내에서 부분적 드래그 앤 드롭 지원
   questionPrefix?: string; // 고정으로 표시될 앞부분

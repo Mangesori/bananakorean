@@ -1,13 +1,14 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const conditionQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '비가 오면 우산을 가져가세요.',
     questionTranslation: 'If it rains, take an umbrella.',
     answer: '네, 알겠습니다.',
     answerTranslation: 'Okay, I got it.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '비', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
@@ -24,7 +25,7 @@ export const conditionQuestions: DialogueQuestion[] = [
     questionTranslation: 'What will you do on the weekend?',
     answer: '시간이 있으면 영화를 볼 거예요.',
     answerTranslation: 'If I have time, I will watch a movie.',
-    items: [
+items: [
       { id: '1', content: '시간', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '있', combineWithNext: true },
@@ -41,7 +42,7 @@ export const conditionQuestions: DialogueQuestion[] = [
     questionTranslation: 'If the weather is good, what do you usually do?',
     answer: '날씨가 좋으면 공원에 가요.',
     answerTranslation: 'If the weather is good, I go to the park.',
-    items: [
+items: [
       { id: '1', content: '날씨', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '좋', combineWithNext: true },
@@ -57,7 +58,7 @@ export const conditionQuestions: DialogueQuestion[] = [
     questionTranslation: 'If you are sick, what do you usually do?',
     answer: '아프면 병원에 가요.',
     answerTranslation: 'If I am sick, I go to the hospital.',
-    items: [
+items: [
       { id: '1', content: '아프', combineWithNext: true },
       { id: '2', content: '면', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -71,7 +72,7 @@ export const conditionQuestions: DialogueQuestion[] = [
     questionTranslation: 'If I have money, what do you want to do?',
     answer: '돈이 있으면 여행을 가고 싶어요.',
     answerTranslation: 'If I have money, I want to go on a trip.',
-    items: [
+items: [
       { id: '1', content: '돈', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '있', combineWithNext: true },
@@ -83,3 +84,5 @@ export const conditionQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const conditionQuestions = addGrammarName(questions, 'conditions');

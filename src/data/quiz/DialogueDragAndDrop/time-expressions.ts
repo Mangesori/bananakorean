@@ -1,4 +1,5 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 월요일, 화요일, 수요일, 목요일, 금요일, 토요일, 일요일
 // 1시, 2시, 3시, 4시, 5시, 6시, 7시, 8시, 9시, 10시, 11시, 12시
 // 오전, 오후, 주말
@@ -8,7 +9,7 @@ import { DialogueQuestion } from '@/types/quiz';
 // 일어나다, 아르바이트하다, 노래를 부르다
 // 남자친구, 여자친구, 노래방, 회의, 파티, 콘서트
 
-export const timeExpressionQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '몇 시에 일어나요?',
@@ -248,7 +249,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 주말에 남자친구를 만나요.',
     alternativeAnswers: ['주말에 남자친구를 만나요.'],
     answerTranslation: 'I meet my boyfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -265,7 +266,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 주말에 여자친구를 만나요.',
     alternativeAnswers: ['주말에 여자친구를 만나요.'],
     answerTranslation: 'I meet my girlfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -286,7 +287,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 주말에 남자친구하고 데이트해요.',
     ],
     answerTranslation: 'I go on a date with my boyfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -309,7 +310,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 주말에 여자친구하고 데이트해요.',
     ],
     answerTranslation: 'I go on a date with my girlfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -328,7 +329,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오전에 학교에 가요.',
     alternativeAnswers: ['오전에 학교에 가요.'],
     answerTranslation: 'I go to school in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -345,7 +346,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오전에 책을 읽어요.',
     alternativeAnswers: ['오전에 책을 읽어요.'],
     answerTranslation: 'I read a book in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -362,7 +363,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오전에 운동을 해요.',
     alternativeAnswers: ['오전에 운동을 해요.', '오전에 운동해요.', '저는 오전에 운동해요.'],
     answerTranslation: 'I exercise in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -379,7 +380,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오전에 음식을 만들어요.',
     alternativeAnswers: ['오전에 음식을 만들어요.'],
     answerTranslation: 'I make food in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -396,7 +397,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오전에 노래방에서 노래를 불러요.',
     alternativeAnswers: ['오전에 노래방에서 노래를 불러요.'],
     answerTranslation: 'I sing a song in a karaoke in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -415,7 +416,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오후에 학교에 가요.',
     alternativeAnswers: ['오후에 학교에 가요.'],
     answerTranslation: 'I go to school in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -436,7 +437,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오후에 아르바이트해요.',
     ],
     answerTranslation: 'I work a part-time job in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -453,7 +454,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오후에 쇼핑을 해요.',
     alternativeAnswers: ['오후에 쇼핑을 해요.', '오후에 쇼핑해요.', '저는 오후에 쇼핑해요.'],
     answerTranslation: 'I go shopping in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -470,7 +471,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오후에 영화를 봐요.',
     alternativeAnswers: ['오후에 영화를 봐요.'],
     answerTranslation: 'I watch a movie in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -491,7 +492,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오후에 도서관에서 공부해요.',
     ],
     answerTranslation: 'I study in the library in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -514,7 +515,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오후에 카페에서 친구하고 이야기해요.',
     ],
     answerTranslation: 'I talk to my friend at a cafe in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -589,7 +590,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오늘 맥주를 마셔요.',
     alternativeAnswers: ['오늘 맥주를 마셔요.', '오늘 저는 맥주를 마셔요.'],
     answerTranslation: 'I drink beer today.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오늘', combineWithNext: false },
@@ -605,7 +606,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오늘 소주를 마셔요.',
     alternativeAnswers: ['오늘 소주를 마셔요.', '오늘 저는 소주를 마셔요.'],
     answerTranslation: 'I drink soju today.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오늘', combineWithNext: false },
@@ -621,7 +622,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '월요일에 수업이 있어요.',
     alternativeAnswers: ['수업이 월요일에 있어요.'],
     answerTranslation: 'I have a class on Monday.',
-    items: [
+items: [
       { id: '1', content: '월요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '수업', combineWithNext: true },
@@ -636,7 +637,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '화요일에 수업이 있어요.',
     alternativeAnswers: ['수업이 화요일에 있어요.'],
     answerTranslation: 'I have a class on Tuesday.',
-    items: [
+items: [
       { id: '1', content: '화요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '수업', combineWithNext: true },
@@ -651,7 +652,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '수요일에 회의가 있어요.',
     alternativeAnswers: ['회의가 수요일에 있어요.'],
     answerTranslation: 'I have a meeting on Wednesday.',
-    items: [
+items: [
       { id: '1', content: '수요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '회의', combineWithNext: true },
@@ -666,7 +667,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '목요일에 파티가 있어요.',
     alternativeAnswers: ['파티가 목요일에 있어요.'],
     answerTranslation: 'I have a party on Thursday.',
-    items: [
+items: [
       { id: '1', content: '목요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '파티', combineWithNext: true },
@@ -681,7 +682,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '금요일에 콘서트가 있어요.',
     alternativeAnswers: ['콘서트가 금요일에 있어요.'],
     answerTranslation: 'There is a concert on Friday.',
-    items: [
+items: [
       { id: '1', content: '금요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '콘서트', combineWithNext: true },
@@ -730,7 +731,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 아침에 공원에서 산책해요.',
     ],
     answerTranslation: 'I walk in the park in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아침', combineWithNext: true },
@@ -749,7 +750,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 아침에 집에서 한국어를 공부해요.',
     alternativeAnswers: ['아침에 집에서 한국어를 공부해요.'],
     answerTranslation: 'I study Korean at home in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아침', combineWithNext: true },
@@ -772,7 +773,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 식당에서 점심을 먹어요.',
     ],
     answerTranslation: 'I eat lunch at a restaurant at lunchtime.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '점심', combineWithNext: true },
@@ -791,7 +792,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 점심에 학교에서 친구를 만나요.',
     alternativeAnswers: ['점심에 학교에서 친구를 만나요.'],
     answerTranslation: 'I meet my friend at school at lunchtime.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '점심', combineWithNext: true },
@@ -810,8 +811,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 저녁에 영화관에서 영화를 봐요.',
     alternativeAnswers: ['저녁에 영화관에서 영화를 봐요.'],
     answerTranslation: 'I watch a movie at a movie theater in the evening.',
-
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: true },
@@ -830,7 +830,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 저녁에 집에서 밥을 먹어요.',
     alternativeAnswers: ['저녁에 집에서 밥을 먹어요.'],
     answerTranslation: 'I eat dinner at home in the evening.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: true },
@@ -849,7 +849,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 3월에 한국에 가요.',
     alternativeAnswers: ['3월에 한국에 가요.'],
     answerTranslation: 'I go to Korea in March.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '3월', combineWithNext: true },
@@ -866,7 +866,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 4월에 여행을 가요.',
     alternativeAnswers: ['4월에 여행을 가요.'],
     answerTranslation: 'I go on a trip in April.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '4월', combineWithNext: true },
@@ -883,7 +883,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '12월에 크리스마스가 있어요.',
     alternativeAnswers: ['크리스마스가 12월에 있어요.'],
     answerTranslation: 'There is Christmas in December.',
-    items: [
+items: [
       { id: '1', content: '12월', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '크리스마스', combineWithNext: true },
@@ -898,7 +898,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '아니요, 12월에 헬스장에 사람이 없어요.',
     alternativeAnswers: ['12월에 헬스장에 사람이 없어요.'],
     answerTranslation: 'No, there are no people in the gym in December.',
-    items: [
+items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '12월', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -1148,7 +1148,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '주말에 남자친구를 만났어요.',
     alternativeAnswers: ['저는 주말에 남자친구를 만났어요.'],
     answerTranslation: 'I met my boyfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -1165,7 +1165,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '주말에 여자친구를 만났어요.',
     alternativeAnswers: ['저는 주말에 여자친구를 만났어요.'],
     answerTranslation: 'I met my girlfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -1186,7 +1186,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 주말에 남자친구하고 데이트했어요.',
     ],
     answerTranslation: 'I went on a date with my boyfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -1209,7 +1209,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 주말에 여자친구하고 데이트했어요.',
     ],
     answerTranslation: 'I went on a date with my girlfriend at the weekend.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -1228,7 +1228,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '오전에 학교에 갔어요.',
     alternativeAnswers: ['저는 오전에 학교에 갔어요.'],
     answerTranslation: 'I went to school in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -1245,7 +1245,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '오전에 책을 읽었어요.',
     alternativeAnswers: ['저는 오전에 책을 읽었어요.'],
     answerTranslation: 'I read a book in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -1266,7 +1266,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오전에 운동했어요.',
     ],
     answerTranslation: 'I exercised in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -1283,7 +1283,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오전에 음식을 만들었어요.',
     alternativeAnswers: ['오전에 음식을 만들었어요.', '오전에 저는 음식을 만들었어요.'],
     answerTranslation: 'I made food in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -1303,7 +1303,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '오전에 저는 노래방에서 노래를 불렀어요.',
     ],
     answerTranslation: 'I sang a song in a karaoke in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: true },
@@ -1322,7 +1322,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오후에 학교에 갔어요.',
     alternativeAnswers: ['오후에 학교에 갔어요.', '오후에 저는 학교에 갔어요.'],
     answerTranslation: 'I went to school in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -1343,7 +1343,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오후에 아르바이트했어요.',
     ],
     answerTranslation: 'I worked a part-time job in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -1360,7 +1360,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오후에 쇼핑을 했어요.',
     alternativeAnswers: ['오후에 쇼핑을 했어요.', '오후에 쇼핑했어요.', '저는 오후에 쇼핑했어요.'],
     answerTranslation: 'I went shopping in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -1377,7 +1377,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오후에 영화를 봤어요.',
     alternativeAnswers: ['오후에 영화를 봤어요.', '오후에 저는 영화를 봤어요.'],
     answerTranslation: 'I watched a movie in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -1398,7 +1398,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오후에 도서관에서 공부했어요.',
     ],
     answerTranslation: 'I studied in the library in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -1421,7 +1421,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 오후에 카페에서 친구하고 이야기했어요.',
     ],
     answerTranslation: 'I talked to my friend at a cafe in the afternoon.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: true },
@@ -1508,7 +1508,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오늘 맥주를 마셨어요.',
     alternativeAnswers: ['오늘 맥주를 마셨어요.', '오늘 저는 맥주를 마셨어요.'],
     answerTranslation: 'I drank beer today.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오늘', combineWithNext: false },
@@ -1524,7 +1524,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 오늘 소주를 마셨어요.',
     alternativeAnswers: ['오늘 소주를 마셨어요.', '오늘 저는 소주를 마셨어요.'],
     answerTranslation: 'I drank soju today.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오늘', combineWithNext: false },
@@ -1540,7 +1540,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '월요일에 수업이 있었어요.',
     alternativeAnswers: ['수업이 월요일에 있었어요.'],
     answerTranslation: 'I had a class on Monday.',
-    items: [
+items: [
       { id: '1', content: '월요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '수업', combineWithNext: true },
@@ -1555,7 +1555,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '화요일에 수업이 있었어요.',
     alternativeAnswers: ['수업이 화요일에 있었어요.'],
     answerTranslation: 'I had a class on Tuesday.',
-    items: [
+items: [
       { id: '1', content: '화요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '수업', combineWithNext: true },
@@ -1570,7 +1570,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '수요일에 회의가 있었어요.',
     alternativeAnswers: ['회의가 수요일에 있었어요.'],
     answerTranslation: 'I had a meeting on Wednesday.',
-    items: [
+items: [
       { id: '1', content: '수요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '회의', combineWithNext: true },
@@ -1585,7 +1585,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '목요일에 파티가 있었어요.',
     alternativeAnswers: ['파티가 목요일에 있었어요.'],
     answerTranslation: 'There was a party on Thursday.',
-    items: [
+items: [
       { id: '1', content: '목요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '파티', combineWithNext: true },
@@ -1600,7 +1600,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '금요일에 콘서트가 있었어요.',
     alternativeAnswers: ['콘서트가 금요일에 있었어요.'],
     answerTranslation: 'There was a concert on Friday.',
-    items: [
+items: [
       { id: '1', content: '금요일', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '콘서트', combineWithNext: true },
@@ -1649,7 +1649,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
       '저는 아침에 공원에서 산책했어요.',
     ],
     answerTranslation: 'I walked in the park in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아침', combineWithNext: true },
@@ -1668,7 +1668,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 아침에 집에서 한국어를 공부했어요.',
     alternativeAnswers: ['아침에 집에서 한국어를 공부했어요.'],
     answerTranslation: 'I studied Korean at home in the morning.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아침', combineWithNext: true },
@@ -1687,7 +1687,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 점심에 식당에서 밥을 먹었어요.',
     alternativeAnswers: ['점심에 식당에서 밥을 먹었어요.'],
     answerTranslation: 'I ate lunch at a restaurant at lunchtime.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '점심', combineWithNext: true },
@@ -1706,7 +1706,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 점심에 학교에서 친구를 만났어요.',
     alternativeAnswers: ['점심에 학교에서 친구를 만났어요.'],
     answerTranslation: 'I met my friend at school at lunchtime.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '점심', combineWithNext: true },
@@ -1725,7 +1725,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 저녁에 영화관에서 영화를 봤어요.',
     alternativeAnswers: ['저녁에 영화관에서 영화를 봤어요.'],
     answerTranslation: 'I watched a movie at a movie theater in the evening.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: true },
@@ -1744,7 +1744,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 저녁에 집에서 밥을 먹었어요.',
     alternativeAnswers: ['저녁에 집에서 밥을 먹었어요.'],
     answerTranslation: 'I ate dinner at home in the evening.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: true },
@@ -1763,7 +1763,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 3월에 한국에 갔어요.',
     alternativeAnswers: ['3월에 한국에 갔어요.'],
     answerTranslation: 'I went to Korea in March.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '3월', combineWithNext: true },
@@ -1780,7 +1780,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 9월에 미국에 갔어요.',
     alternativeAnswers: ['9월에 미국에 갔어요.'],
     answerTranslation: 'I went to the United States in September.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '9월', combineWithNext: true },
@@ -1797,7 +1797,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 4월에 여행을 갔어요.',
     alternativeAnswers: ['4월에 여행을 갔어요.'],
     answerTranslation: 'I went on a trip in April.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '4월', combineWithNext: true },
@@ -1814,7 +1814,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 책을 읽었어요.',
     alternativeAnswers: ['어제 책을 읽었어요.'],
     answerTranslation: 'I read a book yesterday.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1830,7 +1830,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 저녁에 영화를 봤어요.',
     alternativeAnswers: ['어제 저녁에 영화를 봤어요.'],
     answerTranslation: 'I watched a movie last night.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1848,7 +1848,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 저녁에 친구를 만났어요.',
     alternativeAnswers: ['어제 저녁에 친구를 만났어요.'],
     answerTranslation: 'I met my friend last night.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1866,7 +1866,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 저녁에 술을 마셨어요.',
     alternativeAnswers: ['어제 저녁에 술을 마셨어요.'],
     answerTranslation: 'I drank alcohol last night.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1884,7 +1884,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 저녁에 피자를 먹었어요.',
     alternativeAnswers: ['어제 저녁에 피자를 먹었어요.'],
     answerTranslation: 'I ate pizza last night.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1902,7 +1902,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 저녁에 콘서트에 갔어요.',
     alternativeAnswers: ['어제 저녁에 콘서트에 갔어요.'],
     answerTranslation: 'I went to a concert last night.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1920,7 +1920,7 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     answer: '저는 어제 저녁에 노래방에서 노래를 불렀어요.',
     alternativeAnswers: ['어제 저녁에 노래방에서 노래를 불렀어요.'],
     answerTranslation: 'I sang a song at a karaoke last night.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -1934,3 +1934,5 @@ export const timeExpressionQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const timeExpressionQuestions = addGrammarName(questions, 'time-expressions');

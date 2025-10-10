@@ -1,15 +1,16 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 창문, 자리,
 // 친구하고 놀다
 
-export const desireQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '오늘 뭐 하고 싶어요?',
     questionTranslation: 'What do you want to do today?',
     answer: '영화관에 가고 싶어요.',
     answerTranslation: 'I want to go to the movie theater.',
-    items: [
+items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -23,7 +24,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do today?',
     answer: '영화를 보고 싶어요.',
     answerTranslation: 'I want to watch a movie.',
-    items: [
+items: [
       { id: '1', content: '영화', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '보', combineWithNext: true },
@@ -37,7 +38,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do today?',
     answer: '여행을 가고 싶어요.',
     answerTranslation: 'I want to go on a trip.',
-    items: [
+items: [
       { id: '1', content: '여행', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -51,7 +52,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do today?',
     answer: '음악을 듣고 싶어요.',
     answerTranslation: 'I want to listen to music.',
-    items: [
+items: [
       { id: '1', content: '음악', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '듣', combineWithNext: true },
@@ -65,7 +66,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do today?',
     answer: '책을 읽고 싶어요.',
     answerTranslation: 'I want to read a book.',
-    items: [
+items: [
       { id: '1', content: '책', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '읽', combineWithNext: true },
@@ -79,7 +80,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do today?',
     answer: '잠을 자고 싶어요.',
     answerTranslation: 'I want to sleep.',
-    items: [
+items: [
       { id: '1', content: '잠', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '자', combineWithNext: true },
@@ -94,7 +95,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '쇼핑을 하고 싶어요.',
     alternativeAnswers: ['쇼핑하고 싶어요.'],
     answerTranslation: 'I want to go shopping.',
-    items: [
+items: [
       { id: '1', content: '쇼핑', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '하', combineWithNext: true },
@@ -109,7 +110,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '운동을 하고 싶어요.',
     alternativeAnswers: ['운동하고 싶어요.'],
     answerTranslation: 'I want to exercise.',
-    items: [
+items: [
       { id: '1', content: '운동', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '하', combineWithNext: true },
@@ -124,7 +125,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '공부를 하고 싶어요.',
     alternativeAnswers: ['공부하고 싶어요.'],
     answerTranslation: 'I want to study.',
-    items: [
+items: [
       { id: '1', content: '공부', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '하', combineWithNext: true },
@@ -138,7 +139,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to drink?',
     answer: '물을 마시고 싶어요.',
     answerTranslation: 'I want to drink water.',
-    items: [
+items: [
       { id: '1', content: '물', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '마시', combineWithNext: true },
@@ -152,7 +153,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you want to go on the weekend?',
     answer: '부산에 가고 싶어요.',
     answerTranslation: 'I want to go to Busan.',
-    items: [
+items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -166,7 +167,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to eat this evening?',
     answer: '피자를 먹고 싶어요.',
     answerTranslation: 'I want to eat pizza.',
-    items: [
+items: [
       { id: '1', content: '피자', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '먹', combineWithNext: true },
@@ -181,7 +182,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '도서관에서 공부를 하고 싶어요.',
     alternativeAnswers: ['도서관에서 공부하고 싶어요.'],
     answerTranslation: 'I want to study at the library.',
-    items: [
+items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '공부', combineWithNext: true },
@@ -197,7 +198,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Which language do you want to learn?',
     answer: '한국어를 배우고 싶어요.',
     answerTranslation: 'I want to learn Korean.',
-    items: [
+items: [
       { id: '1', content: '한국어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '배우', combineWithNext: true },
@@ -211,7 +212,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'With whom do you want to hang out?',
     answer: '친구하고 놀고 싶어요.',
     answerTranslation: 'I want to hang out with my friend.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '하고', combineWithNext: false },
       { id: '3', content: '놀', combineWithNext: true },
@@ -226,7 +227,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '헬스장에서 운동을 하고 싶어요.',
     alternativeAnswers: ['헬스장에서 운동하고 싶어요.'],
     answerTranslation: 'I want to exercise at the gym.',
-    items: [
+items: [
       { id: '1', content: '헬스장', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: true },
@@ -242,7 +243,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do you want to watch a movie?',
     answer: '텔레비전으로 영화를 보고 싶어요.',
     answerTranslation: 'I want to watch a movie on the TV.',
-    items: [
+items: [
       { id: '1', content: '텔레비전', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '영화', combineWithNext: true },
@@ -258,7 +259,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to eat now?',
     answer: '빵을 먹고 싶어요.',
     answerTranslation: 'I want to eat bread.',
-    items: [
+items: [
       { id: '1', content: '빵', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '먹', combineWithNext: true },
@@ -272,7 +273,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you want to go tomorrow?',
     answer: '서울에 가고 싶어요.',
     answerTranslation: 'I want to go to Seoul.',
-    items: [
+items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -286,7 +287,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who do you want to meet on the weekend?',
     answer: '친구를 만나고 싶어요.',
     answerTranslation: 'I want to meet my friend.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '만나', combineWithNext: true },
@@ -300,7 +301,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you want to take pictures?',
     answer: '공원에서 사진을 찍고 싶어요.',
     answerTranslation: 'I want to take pictures at the park.',
-    items: [
+items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '사진', combineWithNext: true },
@@ -316,7 +317,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you want to rest?',
     answer: '주말에 쉬고 싶어요.',
     answerTranslation: 'I want to rest on the weekend.',
-    items: [
+items: [
       { id: '1', content: '주말', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '쉬', combineWithNext: true },
@@ -330,7 +331,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do you want to go to school?',
     answer: '지하철로 가고 싶어요.',
     answerTranslation: 'I want to go by subway.',
-    items: [
+items: [
       { id: '1', content: '지하철', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -344,7 +345,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What music do you want to listen to?',
     answer: '한국 노래를 듣고 싶어요.',
     answerTranslation: 'I want to listen to Korean music.',
-    items: [
+items: [
       { id: '1', content: '한국', combineWithNext: false },
       { id: '2', content: '노래', combineWithNext: true },
       { id: '3', content: '를', combineWithNext: false },
@@ -359,7 +360,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What music do you want to listen to?',
     answer: '케이팝을 듣고 싶어요.',
     answerTranslation: 'I want to listen to K-pop.',
-    items: [
+items: [
       { id: '1', content: '케이팝', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '듣', combineWithNext: true },
@@ -373,7 +374,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to eat now?',
     answer: '밥을 먹고 싶어요.',
     answerTranslation: 'I want to eat a meal.',
-    items: [
+items: [
       { id: '1', content: '밥', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '먹', combineWithNext: true },
@@ -387,7 +388,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do you want to pay?',
     answer: '카드로 결제하고 싶어요.',
     answerTranslation: 'I want to pay by card.',
-    items: [
+items: [
       { id: '1', content: '카드', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '결제하', combineWithNext: true },
@@ -401,7 +402,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you want to travel during your vacation?',
     answer: '제주도로 여행을 가고 싶어요.',
     answerTranslation: 'I want to travel to Jeju Island.',
-    items: [
+items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '여행', combineWithNext: true },
@@ -417,7 +418,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you want to go during your vacation?',
     answer: '방학 때 고향에 가고 싶어요.',
     answerTranslation: 'I want to go to my hometown during my vacation.',
-    items: [
+items: [
       { id: '1', content: '방학', combineWithNext: false },
       { id: '2', content: '때', combineWithNext: false },
       { id: '3', content: '고향', combineWithNext: true },
@@ -433,7 +434,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do during your vacation?',
     answer: '이번 휴가에 친구를 만나러 미국에 가고 싶어요.',
     answerTranslation: 'I want to go to the United States to meet my friend during my vacation.',
-    items: [
+items: [
       { id: '1', content: '이번', combineWithNext: false },
       { id: '2', content: '휴가', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -453,7 +454,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do during your vacation?',
     answer: '이번 휴가에 콘서트를 보러 싱가포르에 가고 싶어요.',
     answerTranslation: 'I want to go to Singapore to watch a concert during my vacation.',
-    items: [
+items: [
       { id: '1', content: '이번', combineWithNext: false },
       { id: '2', content: '휴가', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -473,7 +474,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do on this weekend?',
     answer: '이번 주말에 옷을 사러 백화점에 가고 싶어요.',
     answerTranslation: 'I want to go to a department store to buy clothes on this weekend.',
-    items: [
+items: [
       { id: '1', content: '이번', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -493,7 +494,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do on this weekend?',
     answer: '이번 주말에 옷을 사러 백화점에 가고 싶어요.',
     answerTranslation: 'I want to go to a department store to buy clothes on this weekend.',
-    items: [
+items: [
       { id: '1', content: '이번', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -513,7 +514,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do on this weekend?',
     answer: '이번 주말에 자전거를 타러 한강에 가고 싶어요.',
     answerTranslation: 'I want to go to the Han River to ride a bicycle on this weekend.',
-    items: [
+items: [
       { id: '1', content: '이번', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -533,7 +534,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What do you want to do on this weekend?',
     answer: '이번 주말에 수영을 하러 바다에 가고 싶어요.',
     answerTranslation: 'I want to go to the sea to swim on this weekend.',
-    items: [
+items: [
       { id: '1', content: '이번', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -553,7 +554,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where do you want to go after class?',
     answer: '카페로 가고 싶어요.',
     answerTranslation: 'I want to go to a cafe.',
-    items: [
+items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -567,7 +568,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'With whom do you want to talk?',
     answer: '선생님하고 이야기하고 싶어요.',
     answerTranslation: 'I want to talk with the teacher.',
-    items: [
+items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '하고', combineWithNext: false },
       { id: '3', content: '이야기하', combineWithNext: true },
@@ -581,7 +582,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What kind of movie did you want to watch?',
     answer: '한국 영화를 보고 싶었어요.',
     answerTranslation: 'I wanted to watch a Korean movie.',
-    items: [
+items: [
       { id: '1', content: '한국', combineWithNext: false },
       { id: '2', content: '영화', combineWithNext: true },
       { id: '3', content: '를', combineWithNext: false },
@@ -596,7 +597,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'When did you want to travel?',
     answer: '지난 주에 여행을 가고 싶었어요.',
     answerTranslation: 'I wanted to travel last week.',
-    items: [
+items: [
       { id: '1', content: '지난', combineWithNext: false },
       { id: '2', content: '주', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -613,7 +614,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you want to drink coffee?',
     answer: '카페에서 커피를 마시고 싶었어요.',
     answerTranslation: 'I wanted to drink coffee at a cafe.',
-    items: [
+items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -630,7 +631,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '학교에서 공부를 하고 싶었어요.',
     alternativeAnswers: ['학교에서 공부하고 싶었어요.'],
     answerTranslation: 'I wanted to study at school.',
-    items: [
+items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '공부', combineWithNext: true },
@@ -646,7 +647,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who did you want to meet today?',
     answer: '선생님을 만나고 싶었어요.',
     answerTranslation: 'I wanted to meet the teacher.',
-    items: [
+items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '만나', combineWithNext: true },
@@ -660,7 +661,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you want to go?',
     answer: '제주도로 가고 싶었어요.',
     answerTranslation: 'I wanted to go to Jeju Island.',
-    items: [
+items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -675,7 +676,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '수영을 하고 싶었어요.',
     alternativeAnswers: ['수영하고 싶었어요.'],
     answerTranslation: 'I wanted to swim.',
-    items: [
+items: [
       { id: '1', content: '수영', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '하', combineWithNext: true },
@@ -689,7 +690,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you want to rest?',
     answer: '집에서 쉬고 싶었어요.',
     answerTranslation: 'I wanted to rest at home.',
-    items: [
+items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '쉬', combineWithNext: true },
@@ -703,7 +704,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What did you want to buy?',
     answer: '책을 사고 싶었어요.',
     answerTranslation: 'I wanted to buy a book.',
-    items: [
+items: [
       { id: '1', content: '책', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '사', combineWithNext: true },
@@ -717,7 +718,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you want to eat a meal?',
     answer: '식당에서 밥을 먹고 싶었어요.',
     answerTranslation: 'I wanted to eat at a restaurant.',
-    items: [
+items: [
       { id: '1', content: '식당', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '밥', combineWithNext: true },
@@ -733,7 +734,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you want to go after class?',
     answer: '집으로 가고 싶었어요.',
     answerTranslation: 'I wanted to go home.',
-    items: [
+items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -747,7 +748,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you want to travel?',
     answer: '비행기로 여행을 가고 싶었어요.',
     answerTranslation: 'I wanted to travel by plane.',
-    items: [
+items: [
       { id: '1', content: '비행기', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '여행', combineWithNext: true },
@@ -763,7 +764,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you want to go?',
     answer: '노래방에 가고 싶었어요.',
     answerTranslation: 'I wanted to go to the karaoke.',
-    items: [
+items: [
       { id: '1', content: '노래방', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -777,7 +778,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What did you want to learn?',
     answer: '영어를 배우고 싶었어요.',
     answerTranslation: 'I wanted to learn English.',
-    items: [
+items: [
       { id: '1', content: '영어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '배우', combineWithNext: true },
@@ -791,7 +792,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'With whom did you want to talk?',
     answer: '친구하고 이야기하고 싶었어요.',
     answerTranslation: 'I wanted to talk with my friend.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '하고', combineWithNext: false },
       { id: '3', content: '이야기하', combineWithNext: true },
@@ -806,7 +807,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '헬스장에서 운동을 하고 싶었어요.',
     alternativeAnswers: ['헬스장에서 운동하고 싶었어요.'],
     answerTranslation: 'I wanted to exercise at the gym.',
-    items: [
+items: [
       { id: '1', content: '헬스장', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: true },
@@ -822,7 +823,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you want to pay?',
     answer: '현금으로 결제하고 싶었어요.',
     answerTranslation: 'I wanted to pay with cash.',
-    items: [
+items: [
       { id: '1', content: '현금', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '결제하', combineWithNext: true },
@@ -837,7 +838,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '안나 씨는 쇼핑을 하고 싶어해요.',
     alternativeAnswers: ['안나 씨는 쇼핑하고 싶어해요.'],
     answerTranslation: 'Anna wants to go shopping.',
-    items: [
+items: [
       { id: '1', content: '안나', combineWithNext: false },
       { id: '2', content: '씨', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -855,7 +856,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '친구는 헬스장에서 운동을 하고 싶어해요.',
     alternativeAnswers: ['친구는 헬스장에서 운동하고 싶어해요.'],
     answerTranslation: 'My friend wants to exercise at the gym.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: false },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '헬스장', combineWithNext: true },
@@ -873,7 +874,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What does Minsu want to do today?',
     answer: '민수 씨는 영화를 보고 싶어해요.',
     answerTranslation: 'Minsu wants to watch a movie.',
-    items: [
+items: [
       { id: '1', content: '민수', combineWithNext: false },
       { id: '2', content: '씨', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -890,7 +891,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where does your friend want to go?',
     answer: '친구는 도서관에 가고 싶어해요.',
     answerTranslation: 'My friend wants to go to the library.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: false },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -907,7 +908,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '안나 씨는 카페에서 공부를 하고 싶어해요.',
     alternativeAnswers: ['안나 씨는 카페에서 공부하고 싶어해요.'],
     answerTranslation: 'Anna wants to study at the cafe.',
-    items: [
+items: [
       { id: '1', content: '안나', combineWithNext: false },
       { id: '2', content: '씨', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -926,7 +927,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do the students want to take the class?',
     answer: '학생들은 교실에서 수업을 듣고 싶어해요.',
     answerTranslation: 'The students want to take the class in the classroom.',
-    items: [
+items: [
       { id: '1', content: '학생들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -944,7 +945,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do the students want to take the class?',
     answer: '학생들은 온라인으로 수업을 듣고 싶어해요.',
     answerTranslation: 'The students want to take the class online.',
-    items: [
+items: [
       { id: '1', content: '학생들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '온라인', combineWithNext: true },
@@ -962,7 +963,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What exercise does your son want to do?',
     answer: '아들은 축구를 하고 싶어해요.',
     answerTranslation: 'My son wants to play soccer.',
-    items: [
+items: [
       { id: '1', content: '아들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '축구', combineWithNext: true },
@@ -978,7 +979,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does the teacher want to rest?',
     answer: '선생님은 주말에 쉬고 싶어해요.',
     answerTranslation: 'The teacher wants to rest on the weekend.',
-    items: [
+items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '주말', combineWithNext: true },
@@ -994,7 +995,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'What does your friend want to eat?',
     answer: '친구는 빵을 먹고 싶어해요.',
     answerTranslation: 'My friend wants to eat bread.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: false },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -1011,7 +1012,7 @@ export const desireQuestions: DialogueQuestion[] = [
     answer: '안나 씨는 집에서 운동을 하고 싶어해요.',
     alternativeAnswers: ['안나 씨는 집에서 운동하고 싶어해요.'],
     answerTranslation: 'Anna wants to exercise at home.',
-    items: [
+items: [
       { id: '1', content: '안나', combineWithNext: false },
       { id: '2', content: '씨', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1030,7 +1031,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'How does Minsu want to pay?',
     answer: '민수 씨는 카드로 결제하고 싶어해요.',
     answerTranslation: 'Minsu wants to pay by card.',
-    items: [
+items: [
       { id: '1', content: '민수', combineWithNext: false },
       { id: '2', content: '씨', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1047,7 +1048,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where does your friend want to take pictures?',
     answer: '친구는 공원에서 사진을 찍고 싶어해요.',
     answerTranslation: 'My friend wants to take pictures in the park.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: false },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '공원', combineWithNext: true },
@@ -1065,7 +1066,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Why are you getting up from your seat?',
     answer: '더워요. 창문을 열고 싶어요.',
     answerTranslation: 'It is hot. I want to open the window.',
-    answerPrefix: '더워요. ',
+answerPrefix: '더워요. ',
     answerItems: [
       { id: '1', content: '창문', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -1083,7 +1084,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Why are you getting up from your seat?',
     answer: '추워요. 창문을 닫고 싶어요.',
     answerTranslation: 'It is cold. I want to close the window.',
-    answerPrefix: '추워요. ',
+answerPrefix: '추워요. ',
     answerItems: [
       { id: '1', content: '창문', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -1101,7 +1102,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Why are you getting up from your seat?',
     answer: '더워요. 에어컨을 켜고 싶어요.',
     answerTranslation: 'It is hot. I want to turn on the air conditioner.',
-    answerPrefix: '더워요. ',
+answerPrefix: '더워요. ',
     answerItems: [
       { id: '1', content: '에어컨', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -1119,7 +1120,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Why are you getting up from your seat?',
     answer: '추워요. 에어컨을 끄고 싶어요.',
     answerTranslation: 'It is cold. I want to turn off the air conditioner.',
-    answerPrefix: '추워요. ',
+answerPrefix: '추워요. ',
     answerItems: [
       { id: '1', content: '에어컨', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -1137,7 +1138,7 @@ export const desireQuestions: DialogueQuestion[] = [
     questionTranslation: 'Why are you getting up from your seat?',
     answer: '어두워요. 불을 켜고 싶어요.',
     answerTranslation: 'It is dark. I want to turn on the light.',
-    answerPrefix: '어두워요. ',
+answerPrefix: '어두워요. ',
     answerItems: [
       { id: '1', content: '불', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -1150,3 +1151,5 @@ export const desireQuestions: DialogueQuestion[] = [
     items: [],
   },
 ];
+
+export const desireQuestions = addGrammarName(questions, 'desires');

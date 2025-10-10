@@ -1,8 +1,9 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 읽다, 마시다, 듣다, 공부하다, 보다, 만나다, 먹다, 사다, 좋아하다, 자다, 배우다, 공부하다, 쇼핑하다, 이야기하다, 운동하다, 요리하다, 일하다, 전화하다
 // 음악, 노래, 한국어, 영어, 밥, 피자, 아침, 점심, 저녁, 공부, 운동, 쇼핑, 이야기, 요리, 일, 전화
 
-export const negativeSentenceQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '책을 읽어요?',
@@ -10,7 +11,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 책을 안 읽어요.',
     alternativeAnswers: ['아니요. 책을 안 읽어요.', '저는 책을 안 읽어요.', '책을 안 읽어요.'],
     answerTranslation: "No. I don't read books.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -27,7 +28,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 물을 안 마셔요.',
     alternativeAnswers: ['아니요. 물을 안 마셔요.', '저는 물을 안 마셔요.', '물을 안 마셔요.'],
     answerTranslation: "No. I don't drink water.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -48,7 +49,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '음악을 안 들어요.',
     ],
     answerTranslation: "No. I don't listen to music.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -69,7 +70,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '한국어 공부를 안 해요.',
     ],
     answerTranslation: "No. I don't study Korean.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -91,7 +92,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '텔레비전을 안 봐요.',
     ],
     answerTranslation: "No. I don't watch television.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -112,7 +113,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '친구를 안 만나요.',
     ],
     answerTranslation: "No. I don't meet friends.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -129,7 +130,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 밥을 안 먹어요.',
     alternativeAnswers: ['아니요. 밥을 안 먹어요.', '저는 밥을 안 먹어요.', '밥을 안 먹어요.'],
     answerTranslation: "No. I don't eat rice.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -146,7 +147,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 우유를 안 사요.',
     alternativeAnswers: ['아니요. 우유를 안 사요.', '저는 우유를 안 사요.', '우유를 안 사요.'],
     answerTranslation: "No. I don't buy milk.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -167,7 +168,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '운동을 안 좋아해요.',
     ],
     answerTranslation: "No. I don't like exercise.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -184,7 +185,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 잠을 안 자요.',
     alternativeAnswers: ['아니요. 잠을 안 자요.', '저는 잠을 안 자요.', '잠을 안 자요.'],
     answerTranslation: "No. I don't sleep.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -205,7 +206,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '영어를 안 배워요.',
     ],
     answerTranslation: "No. I don't learn English.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -226,7 +227,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '한국어를 안 가르쳐요.',
     ],
     answerTranslation: "No. I don't teach Korean.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -243,7 +244,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 공부를 안 해요.',
     alternativeAnswers: ['아니요. 공부를 안 해요.', '저는 공부를 안 해요.', '공부를 안 해요.'],
     answerTranslation: "No. I don't study.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -260,7 +261,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 저는 쇼핑을 안 해요.',
     alternativeAnswers: ['아니요. 쇼핑을 안 해요.', '저는 쇼핑을 안 해요.', '쇼핑을 안 해요.'],
     answerTranslation: "No. I don't go shopping.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -281,7 +282,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '이야기를 안 해요.',
     ],
     answerTranslation: "No. I don't talk.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -305,7 +306,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '운동 안 해요.',
     ],
     answerTranslation: "No. I don't exercise.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -329,7 +330,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '요리 안 해요.',
     ],
     answerTranslation: "No. I don't cook.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -353,7 +354,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '일 안 해요.',
     ],
     answerTranslation: "No. I don't work.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -377,7 +378,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '전화 안 해요.',
     ],
     answerTranslation: "No. I don't call.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '저', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -394,7 +395,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     answer: '아니요. 민수는 영화를 안 봐요.',
     alternativeAnswers: ['아니요. 영화를 안 봐요.', '민수는 영화를 안 봐요.', '영화를 안 봐요.'],
     answerTranslation: "No. Min-su doesn't watch movies.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '민수', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -415,7 +416,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '커피를 안 마셔요.',
     ],
     answerTranslation: "No. Yuna doesn't drink coffee.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '유나', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -436,7 +437,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '노래를 안 들어요.',
     ],
     answerTranslation: "No. Min-su doesn't listen to songs.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '민수', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -457,7 +458,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '피자를 안 먹어요.',
     ],
     answerTranslation: "No. Yuna doesn't eat pizza.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '유나', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -478,7 +479,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '맥주를 안 마셔요.',
     ],
     answerTranslation: "No. Min-su doesn't drink beer.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '민수', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -499,7 +500,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '아침을 안 먹어요.',
     ],
     answerTranslation: "No. Yuna doesn't eat breakfast.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '유나', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -520,7 +521,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '점심을 안 먹어요.',
     ],
     answerTranslation: "No. Yuna doesn't eat lunch.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '유나', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -541,7 +542,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '저녁을 안 먹어요.',
     ],
     answerTranslation: "No. Yuna doesn't eat dinner.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '유나', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -562,7 +563,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '선생님을 안 만나요.',
     ],
     answerTranslation: "No. Min-su doesn't meet the teacher.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '민수', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -583,7 +584,7 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
       '쇼핑을 안 좋아해요.',
     ],
     answerTranslation: "No. Min-su doesn't like shopping.",
-    items: [
+items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '민수', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -594,3 +595,5 @@ export const negativeSentenceQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const negativeSentenceQuestions = addGrammarName(questions, 'negative-sentences');

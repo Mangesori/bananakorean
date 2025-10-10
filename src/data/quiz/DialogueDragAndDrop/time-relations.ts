@@ -1,13 +1,14 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const timeRelationQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '학교에 갈 때 무엇을 타요?',
     questionTranslation: 'When I go to school, what do you take?',
     answer: '학교에 갈 때 버스를 타요.',
     answerTranslation: 'When I go to school, I take the bus.',
-    items: [
+items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -23,7 +24,7 @@ export const timeRelationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When I was in Korea, what did you eat a lot of?',
     answer: '한국에 있을 때 김치를 많이 먹었어요.',
     answerTranslation: 'When I was in Korea, I ate a lot of kimchi.',
-    items: [
+items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '있을', combineWithNext: false },
@@ -54,7 +55,7 @@ export const timeRelationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When it rains, what do you do?',
     answer: '비가 올 때 우산을 써요.',
     answerTranslation: 'When it rains, I use an umbrella.',
-    items: [
+items: [
       { id: '1', content: '비', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '올', combineWithNext: false },
@@ -70,7 +71,7 @@ export const timeRelationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When I have time, what do you do?',
     answer: '시간이 있을 때 운동을 해요.',
     answerTranslation: 'When I have time, I exercise.',
-    items: [
+items: [
       { id: '1', content: '시간', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '있을', combineWithNext: false },
@@ -81,3 +82,5 @@ export const timeRelationQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const timeRelationQuestions = addGrammarName(questions, 'time-relations');

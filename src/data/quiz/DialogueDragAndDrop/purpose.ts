@@ -1,8 +1,9 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 공부하다, 먹다, 운동하다, 사다, 배우다, 산책하다, 만나다, 보다, 돈을 찾다, 손을 씻다, 옷을 바꾸다, 쇼핑하다, 머리를 자르다, 사진을 찍다, 아르바이트를 하다
 // 도서관, 식당, 헬스장, 서점, 학교, 공원, 카페, 영화관, 은행, 화장실, 백화점, 쇼핑몰, 미용실, 사진관, 가게
 
-export const purposeQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '뭐 하러 도서관에 가요?',
@@ -16,8 +17,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 공부를 하러 도서관에 가요.',
       '저는 도서관에 공부를 하러 가요.',
     ],
-    answerTranslation: 'I go to the library to study.',
-    items: [
+    answerTranslation: 'I go to the library to study.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '공부', combineWithNext: true },
@@ -42,8 +42,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 식당에 밥을 먹으러 가요.',
       '저는 식당에 밥 먹으러 가요.',
     ],
-    answerTranslation: 'I go to the restaurant to eat.',
-    items: [
+    answerTranslation: 'I go to the restaurant to eat.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '밥', combineWithNext: true },
@@ -68,8 +67,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 헬스장에 운동을 하러 가요.',
       '저는 헬스장에 운동하러 가요.',
     ],
-    answerTranslation: 'I go to the gym to exercise.',
-    items: [
+    answerTranslation: 'I go to the gym to exercise.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: true },
@@ -90,8 +88,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '서점에 책을 사러 가요.',
       '저는 서점에 책을 사러 가요.',
     ],
-    answerTranslation: 'I go to the bookstore to buy books.',
-    items: [
+    answerTranslation: 'I go to the bookstore to buy books.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -112,8 +109,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '학교에 한국어를 배우러 가요.',
       '저는 학교에 한국어를 배우러 가요.',
     ],
-    answerTranslation: 'I go to school to learn Korean.',
-    items: [
+    answerTranslation: 'I go to school to learn Korean.',    items: [
       { id: '1', content: '한국어', combineWithNext: false },
       { id: '2', content: '배우', combineWithNext: true },
       { id: '3', content: '러', combineWithNext: false },
@@ -136,8 +132,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 공원에 산책을 하러 가요.',
       '저는 공원에 산책하러 가요.',
     ],
-    answerTranslation: 'I go to the park to walk.',
-    items: [
+    answerTranslation: 'I go to the park to walk.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '산책', combineWithNext: true },
@@ -158,8 +153,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '카페에 친구를 만나러 가요.',
       '저는 카페에 친구를 만나러 가요.',
     ],
-    answerTranslation: 'I go to the cafe to meet friends.',
-    items: [
+    answerTranslation: 'I go to the cafe to meet friends.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '친구', combineWithNext: true },
@@ -180,8 +174,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '영화관에 영화를 보러 가요.',
       '저는 영화관에 영화를 보러 가요.',
     ],
-    answerTranslation: 'I go to the movie theater to watch movies.',
-    items: [
+    answerTranslation: 'I go to the movie theater to watch movies.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화', combineWithNext: true },
@@ -202,8 +195,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '은행에 돈을 찾으러 가요.',
       '저는 은행에 돈을 찾으러 가요.',
     ],
-    answerTranslation: 'I go to the bank to withdraw money.',
-    items: [
+    answerTranslation: 'I go to the bank to withdraw money.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '돈', combineWithNext: true },
@@ -224,8 +216,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '화장실에 손을 씻으러 가요.',
       '저는 화장실에 손을 씻으러 가요.',
     ],
-    answerTranslation: 'I go to the bathroom to wash hands.',
-    items: [
+    answerTranslation: 'I go to the bathroom to wash hands.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '손', combineWithNext: true },
@@ -250,8 +241,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 백화점에 쇼핑을 하러 가요.',
       '저는 백화점에 쇼핑하러 가요.',
     ],
-    answerTranslation: 'I go to the department store to shop.',
-    items: [
+    answerTranslation: 'I go to the department store to shop.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '쇼핑', combineWithNext: true },
@@ -272,8 +262,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '쇼핑몰에 옷을 사러 가요.',
       '저는 쇼핑몰에 옷을 사러 가요.',
     ],
-    answerTranslation: 'I go to the shopping mall to buy clothes.',
-    items: [
+    answerTranslation: 'I go to the shopping mall to buy clothes.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '옷', combineWithNext: true },
@@ -294,8 +283,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '미용실에 머리를 자르러 가요.',
       '저는 미용실에 머리를 자르러 가요.',
     ],
-    answerTranslation: 'I go to the hair salon to cut hair.',
-    items: [
+    answerTranslation: 'I go to the hair salon to cut hair.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '머리', combineWithNext: true },
@@ -316,8 +304,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '사진관에 사진을 찍으러 가요.',
       '저는 사진관에 사진을 찍으러 가요.',
     ],
-    answerTranslation: 'I go to the photo studio to take pictures.',
-    items: [
+    answerTranslation: 'I go to the photo studio to take pictures.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '사진', combineWithNext: true },
@@ -342,8 +329,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 가게에 아르바이트를 하러 가요.',
       '저는 가게에 아르바이트하러 가요.',
     ],
-    answerTranslation: 'I go to the store to work.',
-    items: [
+    answerTranslation: 'I go to the store to work.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아르바이트', combineWithNext: true },
@@ -364,8 +350,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '도서관에 책을 빌리러 왔어요.',
       '저는 도서관에 책을 빌리러 왔어요.',
     ],
-    answerTranslation: 'I came to the library to borrow books.',
-    items: [
+    answerTranslation: 'I came to the library to borrow books.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -386,8 +371,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '식당에 점심을 먹으러 왔어요.',
       '저는 식당에 점심을 먹으러 왔어요.',
     ],
-    answerTranslation: 'I came to the restaurant to eat lunch.',
-    items: [
+    answerTranslation: 'I came to the restaurant to eat lunch.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '점심', combineWithNext: true },
@@ -412,8 +396,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 헬스장에 운동을 하러 왔어요.',
       '저는 헬스장에 운동하러 왔어요.',
     ],
-    answerTranslation: 'I came to the gym to exercise.',
-    items: [
+    answerTranslation: 'I came to the gym to exercise.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: true },
@@ -434,8 +417,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '서점에 책을 바꾸러 왔어요.',
       '저는 서점에 책을 바꾸러 왔어요.',
     ],
-    answerTranslation: 'I came to the bookstore to exchange books.',
-    items: [
+    answerTranslation: 'I came to the bookstore to exchange books.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -456,8 +438,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '학교에 한국어를 배우러 왔어요.',
       '저는 학교에 한국어를 배우러 왔어요.',
     ],
-    answerTranslation: 'I came to school to learn Korean.',
-    items: [
+    answerTranslation: 'I came to school to learn Korean.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '한국어', combineWithNext: true },
@@ -482,8 +463,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 공원에 산책을 하러 왔어요.',
       '저는 공원에 산책하러 왔어요.',
     ],
-    answerTranslation: 'I came to the park to take a walk.',
-    items: [
+    answerTranslation: 'I came to the park to take a walk.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '산책', combineWithNext: true },
@@ -504,8 +484,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '카페에 친구를 만나러 왔어요.',
       '저는 카페에 친구를 만나러 왔어요.',
     ],
-    answerTranslation: 'I came to the cafe to meet friends.',
-    items: [
+    answerTranslation: 'I came to the cafe to meet friends.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '친구', combineWithNext: true },
@@ -526,8 +505,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '영화관에 영화를 보러 왔어요.',
       '저는 영화관에 영화를 보러 왔어요.',
     ],
-    answerTranslation: 'I came to the movie theater to watch a movie.',
-    items: [
+    answerTranslation: 'I came to the movie theater to watch a movie.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화', combineWithNext: true },
@@ -548,8 +526,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '은행에 돈을 찾으러 왔어요.',
       '저는 은행에 돈을 찾으러 왔어요.',
     ],
-    answerTranslation: 'I came to the bank to withdraw money.',
-    items: [
+    answerTranslation: 'I came to the bank to withdraw money.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '돈', combineWithNext: true },
@@ -570,8 +547,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '미용실에 머리를 자르러 왔어요.',
       '저는 미용실에 머리를 자르러 왔어요.',
     ],
-    answerTranslation: 'I came to the hair salon to cut my hair.',
-    items: [
+    answerTranslation: 'I came to the hair salon to cut my hair.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '머리', combineWithNext: true },
@@ -592,8 +568,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '가게에 옷을 바꾸러 왔어요.',
       '저는 가게에 옷을 바꾸러 왔어요.',
     ],
-    answerTranslation: 'I came to the store to change clothes.',
-    items: [
+    answerTranslation: 'I came to the store to change clothes.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '옷', combineWithNext: true },
@@ -614,8 +589,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '한국에 한국어를 배우러 왔어요.',
       '저는 한국에 한국어를 배우러 왔어요.',
     ],
-    answerTranslation: 'I came to Korea to learn Korean.',
-    items: [
+    answerTranslation: 'I came to Korea to learn Korean.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '한국어', combineWithNext: true },
@@ -636,8 +610,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '미국에 영어를 배우러 왔어요.',
       '저는 미국에 영어를 배우러 왔어요.',
     ],
-    answerTranslation: 'I came to the United States to learn English.',
-    items: [
+    answerTranslation: 'I came to the United States to learn English.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영어', combineWithNext: true },
@@ -658,8 +631,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '중국에 중국어를 배우러 왔어요.',
       '저는 중국에 중국어를 배우러 왔어요.',
     ],
-    answerTranslation: 'I came to China to learn Chinese.',
-    items: [
+    answerTranslation: 'I came to China to learn Chinese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '중국어', combineWithNext: true },
@@ -680,8 +652,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '일본에 일본어를 배우러 왔어요.',
       '저는 일본에 일본어를 배우러 왔어요.',
     ],
-    answerTranslation: 'I came to Japan to learn Japanese.',
-    items: [
+    answerTranslation: 'I came to Japan to learn Japanese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일본어', combineWithNext: true },
@@ -705,8 +676,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 공부를 하러 도서관에 갔어요.',
       '저는 도서관에 공부를 하러 갔어요.',
     ],
-    answerTranslation: 'I went to the library to study.',
-    items: [
+    answerTranslation: 'I went to the library to study.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '공부', combineWithNext: true },
@@ -731,8 +701,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 식당에 밥을 먹으러 갔어요.',
       '저는 식당에 밥 먹으러 갔어요.',
     ],
-    answerTranslation: 'I went to the restaurant to eat.',
-    items: [
+    answerTranslation: 'I went to the restaurant to eat.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '밥', combineWithNext: true },
@@ -757,8 +726,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 헬스장에 운동을 하러 갔어요.',
       '저는 헬스장에 운동하러 갔어요.',
     ],
-    answerTranslation: 'I went to the gym to exercise.',
-    items: [
+    answerTranslation: 'I went to the gym to exercise.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: true },
@@ -779,8 +747,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '서점에 책을 사러 갔어요.',
       '저는 서점에 책을 사러 갔어요.',
     ],
-    answerTranslation: 'I went to the bookstore to buy books.',
-    items: [
+    answerTranslation: 'I went to the bookstore to buy books.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -801,8 +768,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '학교에 한국어를 배우러 갔어요.',
       '저는 학교에 한국어를 배우러 갔어요.',
     ],
-    answerTranslation: 'I went to school to learn Korean.',
-    items: [
+    answerTranslation: 'I went to school to learn Korean.',    items: [
       { id: '1', content: '한국어', combineWithNext: false },
       { id: '2', content: '배우', combineWithNext: true },
       { id: '3', content: '러', combineWithNext: false },
@@ -825,8 +791,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 공원에 산책을 하러 갔어요.',
       '저는 공원에 산책하러 갔어요.',
     ],
-    answerTranslation: 'I went to the park to walk.',
-    items: [
+    answerTranslation: 'I went to the park to walk.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '산책', combineWithNext: true },
@@ -847,8 +812,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '카페에 친구를 만나러 갔어요.',
       '저는 카페에 친구를 만나러 갔어요.',
     ],
-    answerTranslation: 'I went to the cafe to meet friends.',
-    items: [
+    answerTranslation: 'I went to the cafe to meet friends.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '친구', combineWithNext: true },
@@ -869,8 +833,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '영화관에 영화를 보러 갔어요.',
       '저는 영화관에 영화를 보러 갔어요.',
     ],
-    answerTranslation: 'I went to the movie theater to watch movies.',
-    items: [
+    answerTranslation: 'I went to the movie theater to watch movies.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화', combineWithNext: true },
@@ -891,8 +854,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '은행에 돈을 찾으러 갔어요.',
       '저는 은행에 돈을 찾으러 갔어요.',
     ],
-    answerTranslation: 'I went to the bank to withdraw money.',
-    items: [
+    answerTranslation: 'I went to the bank to withdraw money.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '돈', combineWithNext: true },
@@ -913,8 +875,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '화장실에 손을 씻으러 갔어요.',
       '저는 화장실에 손을 씻으러 갔어요.',
     ],
-    answerTranslation: 'I went to the bathroom to wash hands.',
-    items: [
+    answerTranslation: 'I went to the bathroom to wash hands.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '손', combineWithNext: true },
@@ -939,8 +900,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 백화점에 쇼핑을 하러 갔어요.',
       '저는 백화점에 쇼핑하러 갔어요.',
     ],
-    answerTranslation: 'I went to the department store to shop.',
-    items: [
+    answerTranslation: 'I went to the department store to shop.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '쇼핑', combineWithNext: true },
@@ -961,8 +921,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '쇼핑몰에 옷을 사러 갔어요.',
       '저는 쇼핑몰에 옷을 사러 갔어요.',
     ],
-    answerTranslation: 'I went to the shopping mall to buy clothes.',
-    items: [
+    answerTranslation: 'I went to the shopping mall to buy clothes.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '옷', combineWithNext: true },
@@ -983,8 +942,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '미용실에 머리를 자르러 갔어요.',
       '저는 미용실에 머리를 자르러 갔어요.',
     ],
-    answerTranslation: 'I went to the hair salon to cut hair.',
-    items: [
+    answerTranslation: 'I went to the hair salon to cut hair.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '머리', combineWithNext: true },
@@ -1005,8 +963,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '사진관에 사진을 찍으러 갔어요.',
       '저는 사진관에 사진을 찍으러 갔어요.',
     ],
-    answerTranslation: 'I went to the photo studio to take pictures.',
-    items: [
+    answerTranslation: 'I went to the photo studio to take pictures.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '사진', combineWithNext: true },
@@ -1031,8 +988,7 @@ export const purposeQuestions: DialogueQuestion[] = [
       '저는 가게에 아르바이트를 하러 갔어요.',
       '저는 가게에 아르바이트하러 갔어요.',
     ],
-    answerTranslation: 'I went to the store to work.',
-    items: [
+    answerTranslation: 'I went to the store to work.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아르바이트', combineWithNext: true },
@@ -1044,3 +1000,5 @@ export const purposeQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const purposeQuestions = addGrammarName(questions, 'purpose');

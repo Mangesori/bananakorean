@@ -1,16 +1,16 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 들어가다, 연습하다,
 // 동안, 일찍,
 
-export const abilityQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   // 1) 기본 능력 표현 (Basic Ability)
   {
     id: 1,
     question: '한국어를 할 수 있어요?',
     questionTranslation: 'Can you speak Korean?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can.',
-    items: [
+    answerTranslation: 'Yes, I can.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -22,8 +22,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '요리를 할 수 있어요?',
     questionTranslation: 'Can you cook?',
     answer: '아니요, 할 수 없어요.',
-    answerTranslation: 'No, I cannot.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '요리', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -37,8 +36,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '운전을 할 수 있어요?',
     questionTranslation: 'Can you drive?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can.',
-    items: [
+    answerTranslation: 'Yes, I can.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -50,8 +48,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '그림을 그릴 수 있어요?',
     questionTranslation: 'Can you draw pictures?',
     answer: '조금 그릴 수 있어요.',
-    answerTranslation: 'I can draw a little.',
-    mode: 'answer-to-question',
+    answerTranslation: 'I can draw a little.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '그림', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -65,8 +62,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '노래를 부를 수 있어요?',
     questionTranslation: 'Can you sing?',
     answer: '아니요, 부를 수 없어요.',
-    answerTranslation: 'No, I cannot sing.',
-    items: [
+    answerTranslation: 'No, I cannot sing.',    items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '부를', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -78,8 +74,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '컴퓨터를 고칠 수 있어요?',
     questionTranslation: 'Can you fix computers?',
     answer: '네, 고칠 수 있어요.',
-    answerTranslation: 'Yes, I can fix them.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can fix them.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '컴퓨터', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -93,8 +88,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '사진을 찍을 수 있어요?',
     questionTranslation: 'Can you take pictures?',
     answer: '네, 찍을 수 있어요.',
-    answerTranslation: 'Yes, I can take them.',
-    items: [
+    answerTranslation: 'Yes, I can take them.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '찍을', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -106,8 +100,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '빵을 만들 수 있어요?',
     questionTranslation: 'Can you make bread?',
     answer: '아니요, 만들 수 없어요.',
-    answerTranslation: 'No, I cannot make it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot make it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '빵', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -123,8 +116,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '수영을 할 수 있어요?',
     questionTranslation: 'Can you swim?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can.',
-    items: [
+    answerTranslation: 'Yes, I can.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -136,8 +128,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '태권도를 할 수 있어요?',
     questionTranslation: 'Can you do Taekwondo?',
     answer: '아니요, 할 수 없어요.',
-    answerTranslation: 'No, I cannot.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '태권도', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -151,8 +142,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '축구를 할 수 있어요?',
     questionTranslation: 'Can you play soccer?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can.',
-    items: [
+    answerTranslation: 'Yes, I can.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -164,8 +154,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '농구를 할 수 있어요?',
     questionTranslation: 'Can you play basketball?',
     answer: '조금 할 수 있어요.',
-    answerTranslation: 'I can play a little.',
-    mode: 'answer-to-question',
+    answerTranslation: 'I can play a little.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '농구', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -179,8 +168,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '스키를 탈 수 있어요?',
     questionTranslation: 'Can you ski?',
     answer: '아니요, 탈 수 없어요.',
-    answerTranslation: 'No, I cannot ski.',
-    items: [
+    answerTranslation: 'No, I cannot ski.',    items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '탈', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -192,8 +180,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '테니스를 할 수 있어요?',
     questionTranslation: 'Can you play tennis?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '테니스', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -207,8 +194,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '골프를 칠 수 있어요?',
     questionTranslation: 'Can you play golf?',
     answer: '아니요, 칠 수 없어요.',
-    answerTranslation: 'No, I cannot play.',
-    items: [
+    answerTranslation: 'No, I cannot play.',    items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '칠', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -220,8 +206,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '야구를 할 수 있어요?',
     questionTranslation: 'Can you play baseball?',
     answer: '조금 할 수 있어요.',
-    answerTranslation: 'I can play a little.',
-    mode: 'answer-to-question',
+    answerTranslation: 'I can play a little.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '야구', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -237,8 +222,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '피아노를 칠 수 있어요?',
     questionTranslation: 'Can you play the piano?',
     answer: '네, 칠 수 있어요.',
-    answerTranslation: 'Yes, I can play it.',
-    items: [
+    answerTranslation: 'Yes, I can play it.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '칠', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -250,8 +234,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '기타를 칠 수 있어요?',
     questionTranslation: 'Can you play the guitar?',
     answer: '아니요, 칠 수 없어요.',
-    answerTranslation: 'No, I cannot play it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot play it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '기타', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -265,8 +248,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '바이올린을 켤 수 있어요?',
     questionTranslation: 'Can you play the violin?',
     answer: '조금 켤 수 있어요.',
-    answerTranslation: 'I can play it a little.',
-    items: [
+    answerTranslation: 'I can play it a little.',    items: [
       { id: '1', content: '조금', combineWithNext: false },
       { id: '2', content: '켤', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -278,8 +260,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '드럼을 칠 수 있어요?',
     questionTranslation: 'Can you play the drums?',
     answer: '네, 칠 수 있어요.',
-    answerTranslation: 'Yes, I can play them.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can play them.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '드럼', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -293,8 +274,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '플루트를 불 수 있어요?',
     questionTranslation: 'Can you play the flute?',
     answer: '아니요, 불 수 없어요.',
-    answerTranslation: 'No, I cannot play it.',
-    items: [
+    answerTranslation: 'No, I cannot play it.',    items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '불', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -306,8 +286,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '색소폰을 불 수 있어요?',
     questionTranslation: 'Can you play the saxophone?',
     answer: '조금 불 수 있어요.',
-    answerTranslation: 'I can play it a little.',
-    mode: 'answer-to-question',
+    answerTranslation: 'I can play it a little.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '색소폰', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -321,8 +300,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '첼로를 켤 수 있어요?',
     questionTranslation: 'Can you play the cello?',
     answer: '네, 켤 수 있어요.',
-    answerTranslation: 'Yes, I can play it.',
-    items: [
+    answerTranslation: 'Yes, I can play it.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '켤', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -334,8 +312,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '하모니카를 불 수 있어요?',
     questionTranslation: 'Can you play the harmonica?',
     answer: '아니요, 불 수 없어요.',
-    answerTranslation: 'No, I cannot play it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot play it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '하모니카', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -351,8 +328,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '영어를 할 수 있어요?',
     questionTranslation: 'Can you speak English?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can speak it.',
-    items: [
+    answerTranslation: 'Yes, I can speak it.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -364,8 +340,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '중국어를 읽을 수 있어요?',
     questionTranslation: 'Can you read Chinese?',
     answer: '아니요, 읽을 수 없어요.',
-    answerTranslation: 'No, I cannot read it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot read it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '중국어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -379,8 +354,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '일본어를 쓸 수 있어요?',
     questionTranslation: 'Can you write Japanese?',
     answer: '조금 쓸 수 있어요.',
-    answerTranslation: 'I can write it a little.',
-    items: [
+    answerTranslation: 'I can write it a little.',    items: [
       { id: '1', content: '조금', combineWithNext: false },
       { id: '2', content: '쓸', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -392,8 +366,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '프랑스어를 할 수 있어요?',
     questionTranslation: 'Can you speak French?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, I can speak it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can speak it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '프랑스어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -407,8 +380,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '독일어를 할 수 있어요?',
     questionTranslation: 'Can you speak German?',
     answer: '아니요, 할 수 없어요.',
-    answerTranslation: 'No, I cannot speak it.',
-    items: [
+    answerTranslation: 'No, I cannot speak it.',    items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -420,8 +392,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '베트남어를 읽을 수 있어요?',
     questionTranslation: 'Can you read Vietnamese?',
     answer: '조금 읽을 수 있어요.',
-    answerTranslation: 'I can read it a little.',
-    mode: 'answer-to-question',
+    answerTranslation: 'I can read it a little.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '베트남어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -435,8 +406,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '한글을 쓸 수 있어요?',
     questionTranslation: 'Can you write Korean Alphabet?',
     answer: '네, 쓸 수 있어요.',
-    answerTranslation: 'Yes, I can write it.',
-    items: [
+    answerTranslation: 'Yes, I can write it.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '쓸', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -448,8 +418,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '이탈리아어를 할 수 있어요?',
     questionTranslation: 'Can you speak Italian?',
     answer: '아니요, 할 수 없어요.',
-    answerTranslation: 'No, I cannot speak it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot speak it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '이탈리아어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -465,8 +434,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '오늘 영화관에 갈 수 있어요?',
     questionTranslation: 'Can you go to the movie theater today?',
     answer: '네, 갈 수 있어요.',
-    answerTranslation: 'Yes, I can go.',
-    items: [
+    answerTranslation: 'Yes, I can go.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '갈', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -478,8 +446,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '내일 만날 수 있어요?',
     questionTranslation: 'Can we see each other tomorrow?',
     answer: '아니요, 만날 수 없어요.',
-    answerTranslation: 'No, we cannot see each other.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, we cannot see each other.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '내일', combineWithNext: false },
       { id: '2', content: '만날', combineWithNext: false },
@@ -492,8 +459,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '이번 주말에 시간이 있어요? 같이 쇼핑할 수 있어요?',
     questionTranslation: 'Do you have time this weekend? Can we go shopping together?',
     answer: '네, 같이 쇼핑할 수 있어요.',
-    answerTranslation: 'Yes, we can go shopping together.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, we can go shopping together.',    mode: 'answer-to-question',
     questionPrefix: '이번 주말에 시간이 있어요? ',
     questionItems: [
       { id: '1', content: '같이', combineWithNext: false },
@@ -510,8 +476,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '지금 전화할 수 있어요?',
     questionTranslation: 'Can you call now?',
     answer: '아니요, 지금은 전화할 수 없어요.',
-    answerTranslation: 'No, I cannot call right now.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot call right now.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '지금', combineWithNext: false },
       { id: '2', content: '전화할', combineWithNext: false },
@@ -524,8 +489,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 연습할 수 있어요?',
     questionTranslation: 'Can you practice this afternoon?',
     answer: '네, 연습할 수 있어요.',
-    answerTranslation: 'Yes, I can practice.',
-    items: [
+    answerTranslation: 'Yes, I can practice.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '연습할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -537,8 +501,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '일찍 올 수 있어요?',
     questionTranslation: 'Can you come early?',
     answer: '네, 일찍 올 수 있어요.',
-    answerTranslation: 'Yes, I can come early.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can come early.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '일찍', combineWithNext: false },
       { id: '2', content: '올', combineWithNext: false },
@@ -551,8 +514,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '내일 도와줄 수 있어요?',
     questionTranslation: 'Can you help tomorrow?',
     answer: '네, 도와줄 수 있어요.',
-    answerTranslation: 'Yes, I can help.',
-    items: [
+    answerTranslation: 'Yes, I can help.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '도와줄', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -564,8 +526,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '10분 동안 기다릴 수 있어요?',
     questionTranslation: 'Can you wait for 10 minutes?',
     answer: '네, 기다릴 수 있어요.',
-    answerTranslation: 'Yes, I can wait.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can wait.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '10분', combineWithNext: false },
       { id: '2', content: '동안', combineWithNext: false },
@@ -581,8 +542,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '지금 식당에 들어갈 수 있어요?',
     questionTranslation: 'Can you enter the restaurant now?',
     answer: '네, 들어갈 수 있어요.',
-    answerTranslation: 'Yes, I can enter.',
-    items: [
+    answerTranslation: 'Yes, I can enter.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '들어갈', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -594,8 +554,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '도서관에서 공부할 수 있어요?',
     questionTranslation: 'Can you study at the library?',
     answer: '네, 공부할 수 있어요.',
-    answerTranslation: 'Yes, I can study.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can study.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -609,8 +568,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '여기에 주차할 수 있어요?',
     questionTranslation: 'Can I park here?',
     answer: '아니요, 여기에는 주차할 수 없어요.',
-    answerTranslation: 'No, you cannot park here.',
-    items: [
+    answerTranslation: 'No, you cannot park here.',    items: [
       { id: '1', content: '아니요,', combineWithNext: false },
       { id: '2', content: '여기', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: true },
@@ -625,8 +583,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '카페에 앉을 수 있어요?',
     questionTranslation: 'Can you sit at the cafe?',
     answer: '네, 앉을 수 있어요.',
-    answerTranslation: 'Yes, I can sit.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can sit.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
@@ -640,8 +597,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '화장실을 사용할 수 있어요?',
     questionTranslation: 'Can I use the bathroom?',
     answer: '네, 사용할 수 있어요.',
-    answerTranslation: 'Yes, you can use it.',
-    items: [
+    answerTranslation: 'Yes, you can use it.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '사용할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -653,8 +609,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '여기에서 사진을 찍을 수 있어요?',
     questionTranslation: 'Can I take pictures here?',
     answer: '아니요, 여기에서는 사진을 찍을 수 없어요.',
-    answerTranslation: 'No, you cannot take pictures here.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, you cannot take pictures here.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -670,8 +625,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '교실에 들어가도 돼요? 들어갈 수 있어요?',
     questionTranslation: 'Is it okay to enter the classroom? Can I enter?',
     answer: '네, 들어갈 수 있어요.',
-    answerTranslation: 'Yes, you can enter.',
-    questionPrefix: '교실에 들어가도 돼요? ',
+    answerTranslation: 'Yes, you can enter.',    questionPrefix: '교실에 들어가도 돼요? ',
     questionItems: [
       { id: '1', content: '들어갈', combineWithNext: false },
       { id: '2', content: '수', combineWithNext: false },
@@ -686,8 +640,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '컴퓨터를 사용할 수 있어요?',
     questionTranslation: 'Can I use the computer?',
     answer: '죄송해요. 지금은 사용할 수 없어요.',
-    answerTranslation: 'Sorry. You cannot use it right now.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Sorry. You cannot use it right now.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '컴퓨터', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -703,8 +656,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '일찍 올 수 있어요?',
     questionTranslation: 'Can you come early?',
     answer: '네, 일찍 올 수 있어요.',
-    answerTranslation: 'Yes, I can come early.',
-    items: [
+    answerTranslation: 'Yes, I can come early.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '일찍', combineWithNext: false },
       { id: '3', content: '올', combineWithNext: false },
@@ -717,8 +669,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '한 시간 동안 기다릴 수 있어요?',
     questionTranslation: 'Can you wait for one hour?',
     answer: '네, 기다릴 수 있어요.',
-    answerTranslation: 'Yes, I can wait.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can wait.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '한', combineWithNext: false },
       { id: '2', content: '시간', combineWithNext: false },
@@ -733,8 +684,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '늦게 가도 괜찮아요? 늦게 갈 수 있어요?',
     questionTranslation: 'Is it okay if I go late? Can I go later?',
     answer: '네, 늦게 와도 괜찮아요.',
-    answerTranslation: 'Yes, you can come later.',
-    questionPrefix: '늦게 가도 괜찮아요? ',
+    answerTranslation: 'Yes, you can come later.',    questionPrefix: '늦게 가도 괜찮아요? ',
     questionItems: [
       { id: '1', content: '늦게', combineWithNext: false },
       { id: '2', content: '갈', combineWithNext: false },
@@ -750,8 +700,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '30분 동안 이야기할 수 있어요?',
     questionTranslation: 'Can you talk for 30 minutes?',
     answer: '아니요, 30분 동안은 이야기할 수 없어요.',
-    answerTranslation: 'No, I cannot talk for 30 minutes.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, I cannot talk for 30 minutes.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '30분', combineWithNext: false },
       { id: '2', content: '동안', combineWithNext: false },
@@ -765,8 +714,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '오늘 늦게까지 일할 수 있어요?',
     questionTranslation: 'Can you work until late today?',
     answer: '네, 오늘 늦게까지 일할 수 있어요.',
-    answerTranslation: 'Yes, I can work until late today.',
-    items: [
+    answerTranslation: 'Yes, I can work until late today.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '늦게', combineWithNext: true },
       { id: '3', content: '까지', combineWithNext: true },
@@ -780,8 +728,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '조금 빨리 할 수 있어요?',
     questionTranslation: 'Can you do it a little quickly?',
     answer: '네, 조금 빨리 할 수 있어요.',
-    answerTranslation: 'Yes, I can do it a little quickly.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can do it a little quickly.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '조금', combineWithNext: false },
       { id: '2', content: '빨리', combineWithNext: false },
@@ -795,8 +742,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '내일까지 끝낼 수 있어요?',
     questionTranslation: 'Can you finish by tomorrow?',
     answer: '네, 내일까지 끝낼 수 있어요.',
-    answerTranslation: 'Yes, I can finish it by tomorrow.',
-    items: [
+    answerTranslation: 'Yes, I can finish it by tomorrow.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '내일', combineWithNext: true },
       { id: '3', content: '까지', combineWithNext: false },
@@ -810,8 +756,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '천천히 말할 수 있어요?',
     questionTranslation: 'Can you speak slowly?',
     answer: '네, 천천히 말할 수 있어요.',
-    answerTranslation: 'Yes, I can speak slowly.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Yes, I can speak slowly.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '천천히', combineWithNext: false },
       { id: '2', content: '말할', combineWithNext: false },
@@ -826,8 +771,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '친구는 한국어를 할 수 있어요?',
     questionTranslation: 'Can your friend speak Korean?',
     answer: '네, 할 수 있어요.',
-    answerTranslation: 'Yes, he/she can.',
-    items: [
+    answerTranslation: 'Yes, he/she can.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -839,8 +783,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '안나 씨는 요리를 할 수 있어요?',
     questionTranslation: 'Can Anna cook?',
     answer: '아니요, 할 수 없어요.',
-    answerTranslation: 'No, she cannot.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, she cannot.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '안나', combineWithNext: false },
       { id: '2', content: '씨', combineWithNext: true },
@@ -857,8 +800,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '민수 씨는 운전을 할 수 있어요?',
     questionTranslation: 'Can Minsu drive?',
     answer: '네, 운전을 할 수 있어요.',
-    answerTranslation: 'Yes, he can drive.',
-    items: [
+    answerTranslation: 'Yes, he can drive.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '운전', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -872,8 +814,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '학생들은 영어를 할 수 있어요?',
     questionTranslation: 'Can the students speak English?',
     answer: '조금 할 수 있어요.',
-    answerTranslation: 'They can speak a little.',
-    mode: 'answer-to-question',
+    answerTranslation: 'They can speak a little.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '학생들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
@@ -889,8 +830,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '선생님은 피아노를 칠 수 있어요?',
     questionTranslation: 'Can the teacher play the piano?',
     answer: '네, 칠 수 있어요.',
-    answerTranslation: 'Yes, he/she can play.',
-    items: [
+    answerTranslation: 'Yes, he/she can play.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '칠', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -902,8 +842,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '아이들은 수영을 할 수 있어요?',
     questionTranslation: 'Can the children swim?',
     answer: '아니요, 아직 할 수 없어요.',
-    answerTranslation: 'No, they cannot yet.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, they cannot yet.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '아이들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
@@ -919,8 +858,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '부모님은 컴퓨터를 사용할 수 있어요?',
     questionTranslation: 'Can your parents use a computer?',
     answer: '네, 사용할 수 있어요.',
-    answerTranslation: 'Yes, they can use it.',
-    items: [
+    answerTranslation: 'Yes, they can use it.',    items: [
       { id: '1', content: '네,', combineWithNext: false },
       { id: '2', content: '사용할', combineWithNext: false },
       { id: '3', content: '수', combineWithNext: false },
@@ -932,8 +870,7 @@ export const abilityQuestions: DialogueQuestion[] = [
     question: '그 사람은 내일 올 수 있어요?',
     questionTranslation: 'Can that person come tomorrow?',
     answer: '아니요, 내일은 올 수 없어요.',
-    answerTranslation: 'No, he/she cannot come tomorrow.',
-    mode: 'answer-to-question',
+    answerTranslation: 'No, he/she cannot come tomorrow.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '그', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -945,3 +882,5 @@ export const abilityQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const abilityQuestions = addGrammarName(questions, 'ability');

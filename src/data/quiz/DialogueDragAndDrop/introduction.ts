@@ -1,15 +1,15 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 학생, 선생님, 의사, 가수, 요리사, 경찰, 회사원, 배우, 운동 선수, 기자
 // 한국 사람, 중국 사람, 일본 사람, 미국 사람, 영국 사람, 프랑스 사람, 독일 사람, 호주 사람, 베트남 사람, 인도 사람
 
-export const introductionQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 학생이에요.',
-    answerTranslation: 'I am a student.',
-    items: [
+    answerTranslation: 'I am a student.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학생', combineWithNext: true },
@@ -21,8 +21,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 선생님이에요.',
-    answerTranslation: 'I am a teacher.',
-    items: [
+    answerTranslation: 'I am a teacher.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '선생님', combineWithNext: true },
@@ -34,8 +33,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 의사예요.',
-    answerTranslation: 'I am a doctor.',
-    items: [
+    answerTranslation: 'I am a doctor.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의사', combineWithNext: true },
@@ -47,8 +45,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 가수예요.',
-    answerTranslation: 'I am a singer.',
-    items: [
+    answerTranslation: 'I am a singer.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가수', combineWithNext: true },
@@ -60,8 +57,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 요리사예요.',
-    answerTranslation: 'I am a chef.',
-    items: [
+    answerTranslation: 'I am a chef.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '요리사', combineWithNext: true },
@@ -73,8 +69,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 경찰이에요.',
-    answerTranslation: 'I am a police officer.',
-    items: [
+    answerTranslation: 'I am a police officer.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '경찰', combineWithNext: true },
@@ -86,8 +81,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 회사원이에요.',
-    answerTranslation: 'I am an office worker.',
-    items: [
+    answerTranslation: 'I am an office worker.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '회사원', combineWithNext: true },
@@ -99,8 +93,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 배우예요.',
-    answerTranslation: 'I am an actor.',
-    items: [
+    answerTranslation: 'I am an actor.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '배우', combineWithNext: true },
@@ -112,8 +105,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 운동 선수예요.',
-    answerTranslation: 'I am an athlete.',
-    items: [
+    answerTranslation: 'I am an athlete.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: false },
@@ -126,8 +118,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '직업이 뭐예요?',
     questionTranslation: 'What is your job?',
     answer: '저는 기자예요.',
-    answerTranslation: 'I am a reporter.',
-    items: [
+    answerTranslation: 'I am a reporter.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '기자', combineWithNext: true },
@@ -139,8 +130,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '이름이 뭐예요?',
     questionTranslation: 'What is your name?',
     answer: '제 이름은 민수예요.',
-    answerTranslation: 'My name is Minsu.',
-    items: [
+    answerTranslation: 'My name is Minsu.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '이름', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -153,8 +143,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '이름이 뭐예요?',
     questionTranslation: 'What is your name?',
     answer: '제 이름은 유나예요.',
-    answerTranslation: 'My name is Yuna.',
-    items: [
+    answerTranslation: 'My name is Yuna.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '이름', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -167,8 +156,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '이름이 뭐예요?',
     questionTranslation: 'What is your name?',
     answer: '제 이름은 마이클이에요.',
-    answerTranslation: 'My name is Michael.',
-    items: [
+    answerTranslation: 'My name is Michael.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '이름', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -181,8 +169,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '이름이 뭐예요?',
     questionTranslation: 'What is your name?',
     answer: '제 이름은 수잔이에요.',
-    answerTranslation: 'My name is Suzan.',
-    items: [
+    answerTranslation: 'My name is Suzan.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '이름', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -195,8 +182,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 한국 사람이에요.',
-    answerTranslation: 'I am a Korean.',
-    items: [
+    answerTranslation: 'I am a Korean.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '한국', combineWithNext: false },
@@ -209,8 +195,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 중국 사람이에요.',
-    answerTranslation: 'I am a Chinese.',
-    items: [
+    answerTranslation: 'I am a Chinese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '중국', combineWithNext: false },
@@ -223,8 +208,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 일본 사람이에요.',
-    answerTranslation: 'I am a Japanese.',
-    items: [
+    answerTranslation: 'I am a Japanese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일본', combineWithNext: false },
@@ -237,8 +221,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 미국 사람이에요.',
-    answerTranslation: 'I am an American.',
-    items: [
+    answerTranslation: 'I am an American.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: false },
@@ -251,8 +234,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 영국 사람이에요.',
-    answerTranslation: 'I am a British.',
-    items: [
+    answerTranslation: 'I am a British.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영국', combineWithNext: false },
@@ -265,8 +247,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 프랑스 사람이에요.',
-    answerTranslation: 'I am a French.',
-    items: [
+    answerTranslation: 'I am a French.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '프랑스', combineWithNext: false },
@@ -279,8 +260,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 독일 사람이에요.',
-    answerTranslation: 'I am a German.',
-    items: [
+    answerTranslation: 'I am a German.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '독일', combineWithNext: false },
@@ -293,8 +273,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 호주 사람이에요.',
-    answerTranslation: 'I am an Australian.',
-    items: [
+    answerTranslation: 'I am an Australian.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '호주', combineWithNext: false },
@@ -307,8 +286,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 베트남 사람이에요.',
-    answerTranslation: 'I am a Vietnamese.',
-    items: [
+    answerTranslation: 'I am a Vietnamese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '베트남', combineWithNext: false },
@@ -321,8 +299,7 @@ export const introductionQuestions: DialogueQuestion[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 인도 사람이에요.',
-    answerTranslation: 'I am an Indian.',
-    items: [
+    answerTranslation: 'I am an Indian.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '인도', combineWithNext: false },
@@ -331,3 +308,5 @@ export const introductionQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const introductionQuestions = addGrammarName(questions, 'introduction');

@@ -1,6 +1,7 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const adjectiveQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '쇼핑몰에서 무엇을 샀어요?',
@@ -68,3 +69,5 @@ export const adjectiveQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const adjectiveQuestions = addGrammarName(questions, 'adjectives');

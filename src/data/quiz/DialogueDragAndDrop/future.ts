@@ -1,18 +1,18 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 구경하다, 관광하다, 서핑하다, 스키를 타다, 스케이트를 타다, 택배를 보내다, 이사하다, 장을 보다, 출장을 가다, 학원에 다니다,
 // 근처, 새, 새로운,
 // 도시, 시골, 우체국, 스키장,
 // (이)랑,
 
-export const futureQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   // 1) 오늘 오후/저녁에 뭐 할 거예요?
   {
     id: 1,
     question: '오늘 오후에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this afternoon?',
     answer: '도서관에서 공부할 거예요.',
-    answerTranslation: 'I am going to study at the library.',
-    items: [
+    answerTranslation: 'I am going to study at the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '공부할', combineWithNext: false },
@@ -24,8 +24,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 저녁에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this evening?',
     answer: '친구랑 저녁을 먹을 거예요.',
-    answerTranslation: 'I am going to have dinner with a friend.',
-    items: [
+    answerTranslation: 'I am going to have dinner with a friend.',    items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '랑', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: true },
@@ -39,8 +38,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this afternoon?',
     answer: '헬스장에서 운동을 할 거예요.',
-    answerTranslation: 'I am going to exercise at the gym.',
-    items: [
+    answerTranslation: 'I am going to exercise at the gym.',    items: [
       { id: '1', content: '헬스장', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '운동', combineWithNext: true },
@@ -54,8 +52,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 저녁에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this evening?',
     answer: '집에서 영화를 볼 거예요.',
-    answerTranslation: 'I am going to watch a movie at home.',
-    items: [
+    answerTranslation: 'I am going to watch a movie at home.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '영화', combineWithNext: true },
@@ -69,8 +66,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this afternoon?',
     answer: '카페에서 책을 읽을 거예요.',
-    answerTranslation: 'I am going to read a book at a cafe.',
-    items: [
+    answerTranslation: 'I am going to read a book at a cafe.',    items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -84,8 +80,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 저녁에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this evening?',
     answer: '바다에 사진을 찍으러 갈 거예요.',
-    answerTranslation: 'I am going to go to the sea to take pictures.',
-    items: [
+    answerTranslation: 'I am going to go to the sea to take pictures.',    items: [
       { id: '1', content: '바다', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '사진', combineWithNext: true },
@@ -102,8 +97,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 뭐 할 거예요?',
     questionTranslation: 'What are you going to do tomorrow?',
     answer: '친구를 만날 거예요.',
-    answerTranslation: 'I am going to meet a friend.',
-    items: [
+    answerTranslation: 'I am going to meet a friend.',    items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '만날', combineWithNext: false },
@@ -115,8 +109,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 뭐 할 거예요?',
     questionTranslation: 'What are you going to do tomorrow?',
     answer: '한국어를 공부할 거예요.',
-    answerTranslation: 'I am going to study Korean.',
-    items: [
+    answerTranslation: 'I am going to study Korean.',    items: [
       { id: '1', content: '한국어', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '공부할', combineWithNext: false },
@@ -128,8 +121,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 뭐 할 거예요?',
     questionTranslation: 'What are you going to do tomorrow?',
     answer: '회사에 갈 거예요.',
-    answerTranslation: 'I am going to go to the office.',
-    items: [
+    answerTranslation: 'I am going to go to the office.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -141,8 +133,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 뭐 할 거예요?',
     questionTranslation: 'What are you going to do tomorrow?',
     answer: '한강 공원에서 산책할 거예요.',
-    answerTranslation: 'I am going to take a walk in the Han River Park.',
-    items: [
+    answerTranslation: 'I am going to take a walk in the Han River Park.',    items: [
       { id: '1', content: '한강', combineWithNext: false },
       { id: '2', content: '공원', combineWithNext: true },
       { id: '3', content: '에서', combineWithNext: false },
@@ -155,8 +146,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 뭐 할 거예요?',
     questionTranslation: 'What are you going to do tomorrow?',
     answer: '집 청소할 거예요.',
-    answerTranslation: 'I am going to clean the house.',
-    items: [
+    answerTranslation: 'I am going to clean the house.',    items: [
       { id: '1', content: '집', combineWithNext: false },
       { id: '2', content: '청소할', combineWithNext: false },
       { id: '3', content: '거예요.' },
@@ -167,8 +157,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 뭐 할 거예요?',
     questionTranslation: 'What are you going to do tomorrow?',
     answer: '쇼핑몰에 옷을 사러 갈 거예요.',
-    answerTranslation: 'I am going to go to the mall to buy clothes.',
-    items: [
+    answerTranslation: 'I am going to go to the mall to buy clothes.',    items: [
       { id: '1', content: '쇼핑몰', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '옷', combineWithNext: true },
@@ -185,8 +174,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 토요일에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this Saturday?',
     answer: '가족이랑 식사할 거예요.',
-    answerTranslation: 'I am going to have a meal with my family.',
-    items: [
+    answerTranslation: 'I am going to have a meal with my family.',    items: [
       { id: '1', content: '가족', combineWithNext: true },
       { id: '2', content: '이랑', combineWithNext: false },
       { id: '3', content: '식사할', combineWithNext: false },
@@ -198,8 +186,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 일요일에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this Sunday?',
     answer: '백화점을 구경하러 갈 거예요.',
-    answerTranslation: 'I am going to go to look around a department store.',
-    items: [
+    answerTranslation: 'I am going to go to look around a department store.',    items: [
       { id: '1', content: '백화점', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '구경하러', combineWithNext: false },
@@ -212,8 +199,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 토요일에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this Saturday?',
     answer: '콘서트를 보러 갈 거예요.',
-    answerTranslation: 'I am going to go to watch a concert.',
-    items: [
+    answerTranslation: 'I am going to go to watch a concert.',    items: [
       { id: '1', content: '콘서트', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '보러', combineWithNext: false },
@@ -226,8 +212,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 일요일에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this Sunday?',
     answer: '카페에서 공부할 거예요.',
-    answerTranslation: 'I am going to study at a cafe.',
-    items: [
+    answerTranslation: 'I am going to study at a cafe.',    items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '공부할', combineWithNext: false },
@@ -239,8 +224,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 토요일에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this Saturday?',
     answer: '영화관에서 영화를 볼 거예요.',
-    answerTranslation: 'I am going to watch a movie at the movie theater.',
-    items: [
+    answerTranslation: 'I am going to watch a movie at the movie theater.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '영화', combineWithNext: true },
@@ -256,8 +240,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this weekend?',
     answer: '서핑을 할 거예요.',
-    answerTranslation: 'I am going to go surfing.',
-    items: [
+    answerTranslation: 'I am going to go surfing.',    items: [
       { id: '1', content: '서핑', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '할', combineWithNext: false },
@@ -269,8 +252,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this weekend?',
     answer: '스케이트를 탈 거예요.',
-    answerTranslation: 'I am going to go skating.',
-    items: [
+    answerTranslation: 'I am going to go skating.',    items: [
       { id: '1', content: '스케이트', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '탈', combineWithNext: false },
@@ -282,8 +264,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this weekend?',
     answer: '집에서 드라마를 볼 거예요.',
-    answerTranslation: 'I am going to watch dramas at home.',
-    items: [
+    answerTranslation: 'I am going to watch dramas at home.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '드라마', combineWithNext: true },
@@ -297,8 +278,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this weekend?',
     answer: '마트에서 장을 볼 거예요.',
-    answerTranslation: 'I am going to go grocery shopping at the mart.',
-    items: [
+    answerTranslation: 'I am going to go grocery shopping at the mart.',    items: [
       { id: '1', content: '마트', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '장', combineWithNext: true },
@@ -328,8 +308,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next week?',
     answer: '근처 도시로 이사를 갈 거예요.',
-    answerTranslation: 'I am going to move to a nearby city.',
-    items: [
+    answerTranslation: 'I am going to move to a nearby city.',    items: [
       { id: '1', content: '근처', combineWithNext: false },
       { id: '2', content: '도시', combineWithNext: true },
       { id: '3', content: '로', combineWithNext: false },
@@ -344,8 +323,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next week?',
     answer: '택배를 보낼 거예요.',
-    answerTranslation: 'I am going to send a parcel.',
-    items: [
+    answerTranslation: 'I am going to send a parcel.',    items: [
       { id: '1', content: '택배', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '보낼', combineWithNext: false },
@@ -357,8 +335,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next week?',
     answer: '새로운 수업을 시작할 거예요.',
-    answerTranslation: 'I am going to start a new class.',
-    items: [
+    answerTranslation: 'I am going to start a new class.',    items: [
       { id: '1', content: '새로운', combineWithNext: false },
       { id: '2', content: '수업', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -371,8 +348,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next week?',
     answer: '한국어 시험을 볼 거예요.',
-    answerTranslation: 'I am going to take a Korean test.',
-    items: [
+    answerTranslation: 'I am going to take a Korean test.',    items: [
       { id: '1', content: '한국어', combineWithNext: false },
       { id: '2', content: '시험', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -385,8 +361,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next week?',
     answer: '부산으로 출장을 갈 거예요.',
-    answerTranslation: 'I am going to go on a business trip to Busan.',
-    items: [
+    answerTranslation: 'I am going to go on a business trip to Busan.',    items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '출장', combineWithNext: true },
@@ -400,8 +375,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next week?',
     answer: '우체국에 택배를 보내러 갈 거예요.',
-    answerTranslation: 'I am going to go to the post office to send a parcel.',
-    items: [
+    answerTranslation: 'I am going to go to the post office to send a parcel.',    items: [
       { id: '1', content: '우체국', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '택배', combineWithNext: true },
@@ -417,8 +391,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next month?',
     answer: '새 프로젝트를 시작할 거예요.',
-    answerTranslation: 'I am going to start a new project.',
-    items: [
+    answerTranslation: 'I am going to start a new project.',    items: [
       { id: '1', content: '새', combineWithNext: false },
       { id: '2', content: '프로젝트', combineWithNext: true },
       { id: '3', content: '를', combineWithNext: false },
@@ -431,8 +404,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next month?',
     answer: '제주도에 여행을 갈 거예요.',
-    answerTranslation: 'I am going to travel to Jeju Island.',
-    items: [
+    answerTranslation: 'I am going to travel to Jeju Island.',    items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '여행', combineWithNext: true },
@@ -446,8 +418,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next month?',
     answer: '스키를 탈 거예요.',
-    answerTranslation: 'I am going to go skiing.',
-    items: [
+    answerTranslation: 'I am going to go skiing.',    items: [
       { id: '1', content: '스키', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '탈', combineWithNext: false },
@@ -459,8 +430,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next month?',
     answer: '서울 관광을 할 거예요.',
-    answerTranslation: 'I am going to go sightseeing in Seoul.',
-    items: [
+    answerTranslation: 'I am going to go sightseeing in Seoul.',    items: [
       { id: '1', content: '서울', combineWithNext: false },
       { id: '2', content: '관광', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -473,8 +443,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do next month?',
     answer: '헬스장에 다닐 거예요.',
-    answerTranslation: 'I am going to go to the gym regularly.',
-    items: [
+    answerTranslation: 'I am going to go to the gym regularly.',    items: [
       { id: '1', content: '헬스장', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '다닐', combineWithNext: false },
@@ -487,8 +456,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this school break?',
     answer: '한국어 학원에 다닐 거예요.',
-    answerTranslation: 'I am going to attend a Korean language institute.',
-    items: [
+    answerTranslation: 'I am going to attend a Korean language institute.',    items: [
       { id: '1', content: '한국어', combineWithNext: false },
       { id: '2', content: '학원', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -501,8 +469,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this school break?',
     answer: '아르바이트를 할 거예요.',
-    answerTranslation: 'I am going to do a part-time job.',
-    items: [
+    answerTranslation: 'I am going to do a part-time job.',    items: [
       { id: '1', content: '아르바이트', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '할', combineWithNext: false },
@@ -514,8 +481,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this school break?',
     answer: '가족이랑 여행할 거예요.',
-    answerTranslation: 'I am going to travel with my family.',
-    items: [
+    answerTranslation: 'I am going to travel with my family.',    items: [
       { id: '1', content: '가족', combineWithNext: true },
       { id: '2', content: '이랑', combineWithNext: false },
       { id: '3', content: '여행할', combineWithNext: false },
@@ -527,8 +493,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this school break?',
     answer: '태권도를 배울 거예요.',
-    answerTranslation: 'I am going to learn Taekwondo.',
-    items: [
+    answerTranslation: 'I am going to learn Taekwondo.',    items: [
       { id: '1', content: '태권도', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '배울', combineWithNext: false },
@@ -540,8 +505,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this school break?',
     answer: '책을 많이 읽을 거예요.',
-    answerTranslation: 'I am going to read many books.',
-    items: [
+    answerTranslation: 'I am going to read many books.',    items: [
       { id: '1', content: '책', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '많이', combineWithNext: false },
@@ -555,8 +519,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this vacation?',
     answer: '제주도에서 서핑할 거예요.',
-    answerTranslation: 'I am going to go surfing in Jeju.',
-    items: [
+    answerTranslation: 'I am going to go surfing in Jeju.',    items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '서핑할', combineWithNext: false },
@@ -568,8 +531,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this vacation?',
     answer: '해외여행을 갈 거예요.',
-    answerTranslation: 'I am going to travel abroad.',
-    items: [
+    answerTranslation: 'I am going to travel abroad.',    items: [
       { id: '1', content: '해외', combineWithNext: true },
       { id: '2', content: '여행', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -582,8 +544,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this vacation?',
     answer: '부모님을 보러 고향에 갈 거예요.',
-    answerTranslation: 'I am going to go to my hometown to see my parents.',
-    items: [
+    answerTranslation: 'I am going to go to my hometown to see my parents.',    items: [
       { id: '1', content: '부모님', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '고향', combineWithNext: true },
@@ -597,8 +558,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가에 뭐 할 거예요?',
     questionTranslation: 'What are you going to do this vacation?',
     answer: '리조트에서 쉴 거예요.',
-    answerTranslation: 'I am going to rest at a resort.',
-    items: [
+    answerTranslation: 'I am going to rest at a resort.',    items: [
       { id: '1', content: '리조트', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '쉴', combineWithNext: false },
@@ -624,8 +584,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가에 뭐 할 거예요?',
     questionTranslation: 'What are you going this vacation?',
     answer: '호주에 서핑하러 갈 거예요.',
-    answerTranslation: 'I am going to Australia to go surfing.',
-    items: [
+    answerTranslation: 'I am going to Australia to go surfing.',    items: [
       { id: '1', content: '호주', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '서핑하러', combineWithNext: false },
@@ -639,8 +598,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this afternoon?',
     answer: '도서관에 갈 거예요.',
-    answerTranslation: 'I am going to the library.',
-    items: [
+    answerTranslation: 'I am going to the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -652,8 +610,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 저녁에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this evening?',
     answer: '영화관에 갈 거예요.',
-    answerTranslation: 'I am going to the movie theater.',
-    items: [
+    answerTranslation: 'I am going to the movie theater.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -665,8 +622,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this afternoon?',
     answer: '카페에 갈 거예요.',
-    answerTranslation: 'I am going to a cafe.',
-    items: [
+    answerTranslation: 'I am going to a cafe.',    items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -678,8 +634,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 저녁에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this evening?',
     answer: '헬스장에 갈 거예요.',
-    answerTranslation: 'I am going to the gym.',
-    items: [
+    answerTranslation: 'I am going to the gym.',    items: [
       { id: '1', content: '헬스장', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -691,8 +646,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this afternoon?',
     answer: '공원에 갈 거예요.',
-    answerTranslation: 'I am going to the park.',
-    items: [
+    answerTranslation: 'I am going to the park.',    items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -705,8 +659,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 어디에 갈 거예요?',
     questionTranslation: 'Where are you going tomorrow?',
     answer: '서울에 갈 거예요.',
-    answerTranslation: 'I am going to Seoul.',
-    items: [
+    answerTranslation: 'I am going to Seoul.',    items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -718,8 +671,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 어디에 갈 거예요?',
     questionTranslation: 'Where are you going tomorrow?',
     answer: '회사에 갈 거예요.',
-    answerTranslation: 'I am going to the office.',
-    items: [
+    answerTranslation: 'I am going to the office.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -731,8 +683,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 어디에 갈 거예요?',
     questionTranslation: 'Where are you going tomorrow?',
     answer: '병원에 갈 거예요.',
-    answerTranslation: 'I am going to the hospital.',
-    items: [
+    answerTranslation: 'I am going to the hospital.',    items: [
       { id: '1', content: '병원', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -744,8 +695,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 어디에 갈 거예요?',
     questionTranslation: 'Where are you going tomorrow?',
     answer: '백화점에 갈 거예요.',
-    answerTranslation: 'I am going to the department store.',
-    items: [
+    answerTranslation: 'I am going to the department store.',    items: [
       { id: '1', content: '백화점', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -757,8 +707,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 어디에 갈 거예요?',
     questionTranslation: 'Where are you going tomorrow?',
     answer: '한강에 갈 거예요.',
-    answerTranslation: 'I am going to the Han River.',
-    items: [
+    answerTranslation: 'I am going to the Han River.',    items: [
       { id: '1', content: '한강', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -771,8 +720,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 토요일에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this Saturday?',
     answer: '부산에 갈 거예요.',
-    answerTranslation: 'I am going to Busan.',
-    items: [
+    answerTranslation: 'I am going to Busan.',    items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -784,8 +732,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 일요일에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this Sunday?',
     answer: '바다에 갈 거예요.',
-    answerTranslation: 'I am going to the sea.',
-    items: [
+    answerTranslation: 'I am going to the sea.',    items: [
       { id: '1', content: '바다', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -797,8 +744,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 토요일에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this Saturday?',
     answer: '노래방에 갈 거예요.',
-    answerTranslation: 'I am going to the karaoke.',
-    items: [
+    answerTranslation: 'I am going to the karaoke.',    items: [
       { id: '1', content: '노래방', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -824,8 +770,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주 토요일에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this Saturday?',
     answer: '박물관에 갈 거예요.',
-    answerTranslation: 'I am going to the museum.',
-    items: [
+    answerTranslation: 'I am going to the museum.',    items: [
       { id: '1', content: '박물관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -838,8 +783,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this weekend?',
     answer: '산에 갈 거예요.',
-    answerTranslation: 'I am going to the mountain.',
-    items: [
+    answerTranslation: 'I am going to the mountain.',    items: [
       { id: '1', content: '산', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -851,8 +795,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this weekend?',
     answer: '시장에 갈 거예요.',
-    answerTranslation: 'I am going to the market.',
-    items: [
+    answerTranslation: 'I am going to the market.',    items: [
       { id: '1', content: '시장', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -864,8 +807,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this weekend?',
     answer: '영화관에 갈 거예요.',
-    answerTranslation: 'I am going to the movie theater.',
-    items: [
+    answerTranslation: 'I am going to the movie theater.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -877,8 +819,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this weekend?',
     answer: '도서관에 갈 거예요.',
-    answerTranslation: 'I am going to the library.',
-    items: [
+    answerTranslation: 'I am going to the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -890,8 +831,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this weekend?',
     answer: '카페에 갈 거예요.',
-    answerTranslation: 'I am going to a cafe.',
-    items: [
+    answerTranslation: 'I am going to a cafe.',    items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -904,8 +844,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next week?',
     answer: '제주도로 갈 거예요.',
-    answerTranslation: 'I am going to Jeju Island.',
-    items: [
+    answerTranslation: 'I am going to Jeju Island.',    items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -917,8 +856,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next week?',
     answer: '부산에 갈 거예요.',
-    answerTranslation: 'I am going to Busan.',
-    items: [
+    answerTranslation: 'I am going to Busan.',    items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -930,8 +868,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next week?',
     answer: '고향에 갈 거예요.',
-    answerTranslation: 'I am going to my hometown.',
-    items: [
+    answerTranslation: 'I am going to my hometown.',    items: [
       { id: '1', content: '고향', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -943,8 +880,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next week?',
     answer: '회사에 갈 거예요.',
-    answerTranslation: 'I am going to the office.',
-    items: [
+    answerTranslation: 'I am going to the office.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -956,8 +892,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next week?',
     answer: '대전에 갈 거예요.',
-    answerTranslation: 'I am going to Daejeon.',
-    items: [
+    answerTranslation: 'I am going to Daejeon.',    items: [
       { id: '1', content: '대전', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -970,8 +905,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next month?',
     answer: '일본으로 갈 거예요.',
-    answerTranslation: 'I am going to Japan.',
-    items: [
+    answerTranslation: 'I am going to Japan.',    items: [
       { id: '1', content: '일본', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -983,8 +917,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next month?',
     answer: '프랑스로 갈 거예요.',
-    answerTranslation: 'I am going to France.',
-    items: [
+    answerTranslation: 'I am going to France.',    items: [
       { id: '1', content: '프랑스', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -996,8 +929,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next month?',
     answer: '제주도로 갈 거예요.',
-    answerTranslation: 'I am going to Jeju Island.',
-    items: [
+    answerTranslation: 'I am going to Jeju Island.',    items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1009,8 +941,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next month?',
     answer: '서울에 갈 거예요.',
-    answerTranslation: 'I am going to Seoul.',
-    items: [
+    answerTranslation: 'I am going to Seoul.',    items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1022,8 +953,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디에 갈 거예요?',
     questionTranslation: 'Where are you going next month?',
     answer: '시골 집에 갈 거예요.',
-    answerTranslation: 'I am going to my house in the countryside.',
-    items: [
+    answerTranslation: 'I am going to my house in the countryside.',    items: [
       { id: '1', content: '시골', combineWithNext: false },
       { id: '2', content: '집', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -1037,8 +967,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this school break?',
     answer: '고향에 갈 거예요.',
-    answerTranslation: 'I am going to my hometown.',
-    items: [
+    answerTranslation: 'I am going to my hometown.',    items: [
       { id: '1', content: '고향', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1050,8 +979,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this school break?',
     answer: '제주도에 갈 거예요.',
-    answerTranslation: 'I am going to Jeju Island.',
-    items: [
+    answerTranslation: 'I am going to Jeju Island.',    items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1063,8 +991,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this school break?',
     answer: '학원에 갈 거예요.',
-    answerTranslation: 'I am going to an academy.',
-    items: [
+    answerTranslation: 'I am going to an academy.',    items: [
       { id: '1', content: '학원', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1076,8 +1003,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 방학 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this school break?',
     answer: '도서관에 갈 거예요.',
-    answerTranslation: 'I am going to the library.',
-    items: [
+    answerTranslation: 'I am going to the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1104,8 +1030,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this vacation?',
     answer: '바다에 갈 거예요.',
-    answerTranslation: 'I am going to the beach.',
-    items: [
+    answerTranslation: 'I am going to the beach.',    items: [
       { id: '1', content: '바다', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1117,8 +1042,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this vacation?',
     answer: '싱가포르로 갈 거예요.',
-    answerTranslation: 'I am going to Singapore.',
-    items: [
+    answerTranslation: 'I am going to Singapore.',    items: [
       { id: '1', content: '싱가포르', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1130,8 +1054,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this vacation?',
     answer: '부산에 갈 거예요.',
-    answerTranslation: 'I am going to Busan.',
-    items: [
+    answerTranslation: 'I am going to Busan.',    items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1143,8 +1066,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this vacation?',
     answer: '산에 갈 거예요.',
-    answerTranslation: 'I am going to the mountain.',
-    items: [
+    answerTranslation: 'I am going to the mountain.',    items: [
       { id: '1', content: '산', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1156,8 +1078,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 휴가 때 어디에 갈 거예요?',
     questionTranslation: 'Where are you going this vacation?',
     answer: '스키장에 갈 거예요.',
-    answerTranslation: 'I am going to the ski resort.',
-    items: [
+    answerTranslation: 'I am going to the ski resort.',    items: [
       { id: '1', content: '스키장', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1170,8 +1091,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 어떻게 학교에 갈 거예요?',
     questionTranslation: 'How are you going to go to school tomorrow?',
     answer: '지하철로 갈 거예요.',
-    answerTranslation: 'I am going to go by subway.',
-    items: [
+    answerTranslation: 'I am going to go by subway.',    items: [
       { id: '1', content: '지하철', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1183,8 +1103,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디로 여행 갈 거예요?',
     questionTranslation: 'Where are you going to travel next month?',
     answer: '비행기로 제주도에 갈 거예요.',
-    answerTranslation: 'I am going to Jeju by plane.',
-    items: [
+    answerTranslation: 'I am going to Jeju by plane.',    items: [
       { id: '1', content: '비행기', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '제주도', combineWithNext: true },
@@ -1198,8 +1117,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 오후에 사진을 어떻게 찍을 거예요?',
     questionTranslation: 'How are you going to take pictures this afternoon?',
     answer: '핸드폰으로 찍을 거예요.',
-    answerTranslation: 'I am going to take them with a phone.',
-    items: [
+    answerTranslation: 'I am going to take them with a phone.',    items: [
       { id: '1', content: '핸드폰', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '찍을', combineWithNext: false },
@@ -1211,8 +1129,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '비행기 티켓 결제는 어떻게 할 거예요?',
     questionTranslation: 'How are you going to pay for the plane ticket?',
     answer: '카드로 결제할 거예요.',
-    answerTranslation: 'I am going to pay by card.',
-    items: [
+    answerTranslation: 'I am going to pay by card.',    items: [
       { id: '1', content: '카드', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '결제할', combineWithNext: false },
@@ -1224,8 +1141,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 주에 부산에 어떻게 갈 거예요?',
     questionTranslation: 'How are you going to Busan next week?',
     answer: '버스로 갈 거예요.',
-    answerTranslation: 'I am going by bus.',
-    items: [
+    answerTranslation: 'I am going by bus.',    items: [
       { id: '1', content: '버스', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '갈', combineWithNext: false },
@@ -1238,8 +1154,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '이번 주말에 쇼핑할 거예요?',
     questionTranslation: 'Are you going to go shopping this weekend?',
     answer: '아니요, 쇼핑을 안 할 거예요. 집에서 쉴 거예요.',
-    answerTranslation: 'No, I am not going to go shopping. I am going to rest at home.',
-    answerPrefix: '아니요, ',
+    answerTranslation: 'No, I am not going to go shopping. I am going to rest at home.',    answerPrefix: '아니요, ',
     answerItems: [
       { id: '1', content: '쇼핑', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -1256,8 +1171,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 회사에 갈 거예요?',
     questionTranslation: 'Are you going to the office tomorrow?',
     answer: '아니요, 내일은 회사에 안 갈 거예요.',
-    answerTranslation: 'No, I am not going to go to the office tomorrow.',
-    answerPrefix: '아니요, ',
+    answerTranslation: 'No, I am not going to go to the office tomorrow.',    answerPrefix: '아니요, ',
     answerItems: [
       { id: '1', content: '내일', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
@@ -1276,8 +1190,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '오늘 저녁에 요리할 거예요?',
     questionTranslation: 'Are you going to cook this evening?',
     answer: '아니요, 요리를 안 할 거예요. 밖에서 먹을 거예요.',
-    answerTranslation: 'No, I am not going to cook. I am going to eat out.',
-    answerPrefix: '아니요, ',
+    answerTranslation: 'No, I am not going to cook. I am going to eat out.',    answerPrefix: '아니요, ',
     answerItems: [
       { id: '1', content: '요리', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
@@ -1294,8 +1207,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '다음 달에 여행을 갈 거예요?',
     questionTranslation: 'Are you going to travel next month?',
     answer: '아니요, 다음 달에는 여행을 안 갈 거예요.',
-    answerTranslation: 'No, I am not going to travel next month.',
-    answerPrefix: '아니요, ',
+    answerTranslation: 'No, I am not going to travel next month.',    answerPrefix: '아니요, ',
     answerItems: [
       { id: '1', content: '다음', combineWithNext: false },
       { id: '2', content: '달', combineWithNext: true },
@@ -1315,8 +1227,7 @@ export const futureQuestions: DialogueQuestion[] = [
     question: '내일 택배를 보낼 거예요?',
     questionTranslation: 'Are you going to send the parcel tomorrow?',
     answer: '아니요, 다음 주에 택배를 보낼 거예요.',
-    answerTranslation: 'No, I am not going to send the parcel next week.',
-    answerPrefix: '아니요, ',
+    answerTranslation: 'No, I am not going to send the parcel next week.',    answerPrefix: '아니요, ',
     answerItems: [
       { id: '1', content: '다음', combineWithNext: false },
       { id: '2', content: '주', combineWithNext: true },
@@ -1331,3 +1242,5 @@ export const futureQuestions: DialogueQuestion[] = [
     items: [],
   },
 ];
+
+export const futureQuestions = addGrammarName(questions, 'future');

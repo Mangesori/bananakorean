@@ -1,4 +1,5 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 어제, 오늘, 내일
 // 지난주, 이번 주, 다음 주
 // 지난달, 이번 달, 다음 달
@@ -16,7 +17,7 @@ import { DialogueQuestion } from '@/types/quiz';
 // 비가 오다, 눈이 오다, 살다, 문을 열다, 문을 닫다, 놀다, 시작하다, 시작되다, 끝내다, 끝나다
 // 한국, 중국, 일본, 미국, 영국, 프랑스, 독일, 호주, 베트남, 인도
 
-export const durationQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   // 1) 시간 범위 문장 (한 시부터 열두 시까지)
   {
     id: 1,
@@ -24,8 +25,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time do you watch movies?',
     answer: '저는 일곱 시부터 열 시까지 영화를 봐요.',
     alternativeAnswers: ['일곱 시부터 열 시까지 영화를 봐요.'],
-    answerTranslation: 'I watch a movie from 7 to 10.',
-    items: [
+    answerTranslation: 'I watch a movie from 7 to 10.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일곱 시', combineWithNext: true },
@@ -43,8 +43,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time do you study at the cafe?',
     answer: '저는 세 시부터 다섯 시까지 카페에서 공부해요.',
     alternativeAnswers: ['세 시부터 다섯 시까지 카페에서 공부해요.'],
-    answerTranslation: 'I study at a cafe from 3 to 5.',
-    items: [
+    answerTranslation: 'I study at a cafe from 3 to 5.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '세 시', combineWithNext: true },
@@ -62,8 +61,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time do you meet your friend?',
     answer: '저는 여덟 시부터 열한 시까지 친구를 만나요.',
     alternativeAnswers: ['여덟 시부터 열한 시까지 친구를 만나요.'],
-    answerTranslation: 'I meet a friend from 8 to 11.',
-    items: [
+    answerTranslation: 'I meet a friend from 8 to 11.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '여덟 시', combineWithNext: true },
@@ -81,8 +79,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when did Min-su read books at the library?',
     answer: '민수는 아침부터 오후 세 시까지 도서관에서 책을 읽었어요.',
     alternativeAnswers: ['아침부터 오후 세 시까지 도서관에서 책을 읽었어요.'],
-    answerTranslation: 'Min-su read books at the library from morning to 3 PM.',
-    items: [
+    answerTranslation: 'Min-su read books at the library from morning to 3 PM.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아침', combineWithNext: true },
@@ -103,8 +100,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when does Yuna go shopping?',
     answer: '유나는 오전 열한 시부터 오후 세 시까지 쇼핑해요.',
     alternativeAnswers: ['오전 열한 시부터 오후 세 시까지 쇼핑해요.'],
-    answerTranslation: 'Yuna goes shopping from 11 AM to 3 PM.',
-    items: [
+    answerTranslation: 'Yuna goes shopping from 11 AM to 3 PM.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: false },
@@ -122,8 +118,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time do you learn Korean?',
     answer: '저는 열 시부터 열두 시까지 한국어를 배워요.',
     alternativeAnswers: ['열 시부터 열두 시까지 한국어를 배워요.'],
-    answerTranslation: 'I learn Korean from 10 to 12.',
-    items: [
+    answerTranslation: 'I learn Korean from 10 to 12.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '열 시', combineWithNext: true },
@@ -141,8 +136,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time do you exercise?',
     answer: '저는 두 시부터 네 시까지 운동해요.',
     alternativeAnswers: ['두 시부터 네 시까지 운동해요.'],
-    answerTranslation: 'I exercise from 2 to 4.',
-    items: [
+    answerTranslation: 'I exercise from 2 to 4.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '두 시', combineWithNext: true },
@@ -158,8 +152,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time does your mother cook?',
     answer: '엄마는 한 시부터 세 시까지 요리해요.',
     alternativeAnswers: ['한 시부터 세 시까지 요리해요.'],
-    answerTranslation: 'My mother cooks from 1 to 3.',
-    items: [
+    answerTranslation: 'My mother cooks from 1 to 3.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '한 시', combineWithNext: true },
@@ -175,8 +168,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when do you study Japanese?',
     answer: '저는 오후 여섯 시부터 아홉 시까지 일본어를 공부해요.',
     alternativeAnswers: ['오후 여섯 시부터 아홉 시까지 일본어를 공부해요.'],
-    answerTranslation: 'I study Japanese from 6 PM to 9 PM.',
-    items: [
+    answerTranslation: 'I study Japanese from 6 PM to 9 PM.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: false },
@@ -195,8 +187,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time do you walk in the park?',
     answer: '저는 네 시부터 여섯 시까지 공원에서 산책해요.',
     alternativeAnswers: ['네 시부터 여섯 시까지 공원에서 산책해요.'],
-    answerTranslation: 'I take a walk in the park from 4 to 6.',
-    items: [
+    answerTranslation: 'I take a walk in the park from 4 to 6.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '네 시', combineWithNext: true },
@@ -214,8 +205,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time does Yuna eat lunch?',
     answer: '유나는 열두 시부터 두 시까지 점심을 먹어요.',
     alternativeAnswers: ['열두 시부터 두 시까지 점심을 먹어요.'],
-    answerTranslation: 'Yuna eats lunch from 12 to 2.',
-    items: [
+    answerTranslation: 'Yuna eats lunch from 12 to 2.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '열두 시', combineWithNext: true },
@@ -233,8 +223,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From what time to what time does your father work?',
     answer: '아빠는 아홉 시부터 여섯 시까지 일해요.',
     alternativeAnswers: ['아홉 시부터 여섯 시까지 일해요.'],
-    answerTranslation: 'My father works from 9 to 6.',
-    items: [
+    answerTranslation: 'My father works from 9 to 6.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아홉 시', combineWithNext: true },
@@ -251,8 +240,7 @@ export const durationQuestions: DialogueQuestion[] = [
       'From what time to what time does Min-su work part-time at the restaurant?',
     answer: '민수는 다섯 시부터 열두 시까지 식당에서 아르바이트를 해요.',
     alternativeAnswers: ['다섯 시부터 열두 시까지 식당에서 아르바이트를 해요.'],
-    answerTranslation: 'Min-su works part-time at a restaurant from 5 to 12.',
-    items: [
+    answerTranslation: 'Min-su works part-time at a restaurant from 5 to 12.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '다섯 시', combineWithNext: true },
@@ -272,8 +260,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when do you have classes?',
     answer: '저는 오전 열 시부터 오후 두 시까지 수업이 있어요.',
     alternativeAnswers: ['오전 열 시부터 오후 두 시까지 수업이 있어요.'],
-    answerTranslation: 'I have classes from 10 AM to 2 PM.',
-    items: [
+    answerTranslation: 'I have classes from 10 AM to 2 PM.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: false },
@@ -293,8 +280,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when does this restaurant open?',
     answer: '이 식당은 오전 열 시부터 오후 열한 시까지 문을 열어요.',
     alternativeAnswers: ['오전 열 시부터 오후 열한 시까지 문을 열어요.'],
-    answerTranslation: 'This restaurant opens from 10 AM to 11 PM.',
-    items: [
+    answerTranslation: 'This restaurant opens from 10 AM to 11 PM.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -315,8 +301,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when does this store open?',
     answer: '이 가게는 오후 두 시부터 여덟 시까지 문을 열어요.',
     alternativeAnswers: ['오후 두 시부터 여덟 시까지 문을 열어요.'],
-    answerTranslation: 'This store opens from 2 to 8 PM.',
-    items: [
+    answerTranslation: 'This store opens from 2 to 8 PM.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '가게', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -338,8 +323,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'From when to when does your father work at the store?',
     answer: '아빠는 화요일부터 토요일까지 가게에서 일해요.',
     alternativeAnswers: ['화요일부터 토요일까지 가게에서 일해요.'],
-    answerTranslation: 'My father works at the store from Tuesday to Saturday.',
-    items: [
+    answerTranslation: 'My father works at the store from Tuesday to Saturday.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화요일', combineWithNext: true },
@@ -357,8 +341,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 저 를 배워?',
     answer: '저는 월요일부터 수요일까지 한국어를 배워요.',
     alternativeAnswers: ['월요일부터 수요일까지 한국어를 배워요.'],
-    answerTranslation: 'I learn Korean from Monday to Wednesday.',
-    items: [
+    answerTranslation: 'I learn Korean from Monday to Wednesday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '월요일', combineWithNext: true },
@@ -376,8 +359,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 민수 여행을 가?',
     answer: '민수는 목요일부터 일요일까지 여행을 가요.',
     alternativeAnswers: ['민수는 목요일부터 일요일까지 여행을 가요.'],
-    answerTranslation: 'Min-su goes on a trip from Thursday to Sunday.',
-    items: [
+    answerTranslation: 'Min-su goes on a trip from Thursday to Sunday.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '목요일', combineWithNext: true },
@@ -395,8 +377,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 유나 를 가?',
     answer: '유나는 토요일부터 월요일까지 휴가를 가요.',
     alternativeAnswers: ['유나는 토요일부터 월요일까지 휴가를 가요.'],
-    answerTranslation: 'Yuna goes on vacation from Saturday to Monday.',
-    items: [
+    answerTranslation: 'Yuna goes on vacation from Saturday to Monday.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '토요일', combineWithNext: true },
@@ -414,8 +395,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 를 공부해?',
     answer: '수요일부터 금요일까지 학원에서 영어를 공부해요.',
     alternativeAnswers: ['저는 수요일부터 금요일까지 학원에서 영어를 공부해요.'],
-    answerTranslation: 'I study English at the academy from Wednesday to Friday.',
-    items: [
+    answerTranslation: 'I study English at the academy from Wednesday to Friday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '수요일', combineWithNext: true },
@@ -435,8 +415,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 카페 문을 열어?',
     answer: '이 카페는 월요일부터 토요일까지 문을 열어요.',
     alternativeAnswers: ['이 카페는 월요일부터 토요일까지 문을 열어요.'],
-    answerTranslation: 'This cafe is open from Monday to Saturday.',
-    items: [
+    answerTranslation: 'This cafe is open from Monday to Saturday.',    items: [
       { id: '1', content: '이', combineWithNext: true },
       { id: '2', content: '카페', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -455,8 +434,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 헬스장에서 운동해?',
     answer: '화요일부터 목요일까지 헬스장에서 운동해요.',
     alternativeAnswers: ['저는 화요일부터 목요일까지 헬스장에서 운동해요.'],
-    answerTranslation: 'I exercise at the gym from Tuesday to Thursday.',
-    items: [
+    answerTranslation: 'I exercise at the gym from Tuesday to Thursday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화요일', combineWithNext: true },
@@ -474,8 +452,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 식당 있어?',
     answer: '이 식당은 금요일부터 일요일까지 공연이 있어요.',
     alternativeAnswers: ['이 식당은 금요일부터 일요일까지 공연이 있어요.'],
-    answerTranslation: 'This restaurant has performances from Friday to Sunday.',
-    items: [
+    answerTranslation: 'This restaurant has performances from Friday to Sunday.',    items: [
       { id: '1', content: '이', combineWithNext: true },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -494,8 +471,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 학원에 다녀?',
     answer: '월요일부터 금요일까지 학원에 다녀요.',
     alternativeAnswers: ['저는 월요일부터 금요일까지 학원에 다녀요.'],
-    answerTranslation: 'I attend the academy from Monday to Friday.',
-    items: [
+    answerTranslation: 'I attend the academy from Monday to Friday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '월요일', combineWithNext: true },
@@ -513,8 +489,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 여행을 가?',
     answer: '수요일부터 토요일까지 친구하고 여행을 가요.',
     alternativeAnswers: ['저는 수요일부터 토요일까지 친구하고 여행을 가요.'],
-    answerTranslation: 'I go on a trip with my friend from Wednesday to Saturday.',
-    items: [
+    answerTranslation: 'I go on a trip with my friend from Wednesday to Saturday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '수요일', combineWithNext: true },
@@ -534,8 +509,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 학교에 가?',
     answer: '월요일부터 금요일까지 학교에 가요.',
     alternativeAnswers: ['저는 월요일부터 금요일까지 학교에 가요.'],
-    answerTranslation: 'I go to school from Monday to Friday.',
-    items: [
+    answerTranslation: 'I go to school from Monday to Friday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '월요일', combineWithNext: true },
@@ -553,8 +527,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 사무실에서 일해?',
     answer: '화요일부터 목요일까지 사무실에서 일해요.',
     alternativeAnswers: ['저는 화요일부터 목요일까지 사무실에서 일해요.'],
-    answerTranslation: 'I work at the office from Tuesday to Thursday.',
-    items: [
+    answerTranslation: 'I work at the office from Tuesday to Thursday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화요일', combineWithNext: true },
@@ -572,8 +545,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 식당 문을 열어?',
     answer: '이 식당은 수요일부터 일요일까지 문을 열어요.',
     alternativeAnswers: ['이 식당은 수요일부터 일요일까지 문을 열어요.'],
-    answerTranslation: 'This restaurant is open from Wednesday to Sunday.',
-    items: [
+    answerTranslation: 'This restaurant is open from Wednesday to Sunday.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -594,8 +566,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 일본에서 일해?',
     answer: '4월부터 6월까지 일본에서 일해요.',
     alternativeAnswers: ['저는 4월부터 6월까지 일본에서 일해요.'],
-    answerTranslation: 'I work in Japan from April to June.',
-    items: [
+    answerTranslation: 'I work in Japan from April to June.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '4월', combineWithNext: true },
@@ -613,8 +584,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 방학이에?',
     answer: '7월부터 8월까지 방학이에요.',
     alternativeAnswers: ['7월부터 8월까지 방학이에요.'],
-    answerTranslation: 'Summer vacation is from July to August.',
-    items: [
+    answerTranslation: 'Summer vacation is from July to August.',    items: [
       { id: '1', content: '7월', combineWithNext: true },
       { id: '2', content: '부터', combineWithNext: false },
       { id: '3', content: '8월', combineWithNext: true },
@@ -629,8 +599,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 를 배워?',
     answer: '9월부터 11월까지 프랑스어를 배워요.',
     alternativeAnswers: ['저는 9월부터 11월까지 프랑스어를 배워요.'],
-    answerTranslation: 'I learn French from September to November.',
-    items: [
+    answerTranslation: 'I learn French from September to November.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '9월', combineWithNext: true },
@@ -648,8 +617,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 중국에 있었어?',
     answer: '2월부터 5월까지 중국에 있었어요.',
     alternativeAnswers: ['저는 2월부터 5월까지 중국에 있었어요.'],
-    answerTranslation: 'I was in China from February to May.',
-    items: [
+    answerTranslation: 'I was in China from February to May.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '2월', combineWithNext: true },
@@ -667,8 +635,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 를 공부해?',
     answer: '6월부터 9월까지 호주에서 영어를 공부해요.',
     alternativeAnswers: ['저는 6월부터 9월까지 호주에서 영어를 공부해요.'],
-    answerTranslation: 'I study English in Australia from June to September.',
-    items: [
+    answerTranslation: 'I study English in Australia from June to September.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '6월', combineWithNext: true },
@@ -688,8 +655,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 독일에서 살았어?',
     answer: '3월부터 6월까지 독일에서 살았어요.',
     alternativeAnswers: ['저는 3월부터 6월까지 독일에서 살았어요.'],
-    answerTranslation: 'I lived in Germany from March to June.',
-    items: [
+    answerTranslation: 'I lived in Germany from March to June.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '3월', combineWithNext: true },
@@ -707,8 +673,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 콘서트 열려?',
     answer: '콘서트는 10월부터 12월까지 열려요.',
     alternativeAnswers: ['콘서트는 10월부터 12월까지 열려요.'],
-    answerTranslation: 'The concert is held from October to December.',
-    items: [
+    answerTranslation: 'The concert is held from October to December.',    items: [
       { id: '1', content: '콘서트', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '10월', combineWithNext: true },
@@ -724,8 +689,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 여행을 해?',
     answer: '5월부터 7월까지 베트남에서 여행을 해요.',
     alternativeAnswers: ['저는 5월부터 7월까지 베트남에서 여행을 해요.'],
-    answerTranslation: 'I travel in Vietnam from May to July.',
-    items: [
+    answerTranslation: 'I travel in Vietnam from May to July.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '5월', combineWithNext: true },
@@ -745,8 +709,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 와?',
     answer: '12월부터 내년 2월까지 눈이 많이 와요.',
     alternativeAnswers: ['눈이 12월부터 내년 2월까지 많이 와요.'],
-    answerTranslation: 'It snows a lot from December to February next year.',
-    items: [
+    answerTranslation: 'It snows a lot from December to February next year.',    items: [
       { id: '1', content: '12월', combineWithNext: true },
       { id: '2', content: '부터', combineWithNext: false },
       { id: '3', content: '내년', combineWithNext: false },
@@ -764,8 +727,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 와?',
     answer: '7월부터 8월까지 비가 많이 와요.',
     alternativeAnswers: ['7월부터 8월까지 비가 많이 와요.'],
-    answerTranslation: 'It rains a lot from July to August.',
-    items: [
+    answerTranslation: 'It rains a lot from July to August.',    items: [
       { id: '1', content: '7월', combineWithNext: true },
       { id: '2', content: '부터', combineWithNext: false },
       { id: '3', content: '8월', combineWithNext: true },
@@ -782,8 +744,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 한국에 있었어?',
     answer: '1월부터 3월까지 한국에 있었어요.',
     alternativeAnswers: ['저는 1월부터 3월까지 한국에 있었어요.'],
-    answerTranslation: 'I was in Korea from January to March.',
-    items: [
+    answerTranslation: 'I was in Korea from January to March.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '1월', combineWithNext: true },
@@ -801,8 +762,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you 를 공부해?',
     answer: '8월부터 12월까지 미국에서 영어를 공부해요.',
     alternativeAnswers: ['저는 8월부터 12월까지 미국에서 영어를 공부해요.'],
-    answerTranslation: 'I study English in the US from August to December.',
-    items: [
+    answerTranslation: 'I study English in the US from August to December.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '8월', combineWithNext: true },
@@ -823,8 +783,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 를 만나?',
     answer: '11시부터 친구를 만나요.',
     alternativeAnswers: ['저는 11시부터 친구를 만나요.'],
-    answerTranslation: 'I meet a friend from 11.',
-    items: [
+    answerTranslation: 'I meet a friend from 11.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '11시', combineWithNext: true },
@@ -840,8 +799,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 를 공부해?',
     answer: '오전 10시부터 한국어를 공부해요.',
     alternativeAnswers: ['저는 오전 10시부터 한국어를 공부해요.'],
-    answerTranslation: 'I study Korean from 10 AM.',
-    items: [
+    answerTranslation: 'I study Korean from 10 AM.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오전', combineWithNext: false },
@@ -858,8 +816,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 를 배워?',
     answer: '내일부터 일본어를 배워요.',
     alternativeAnswers: ['저는 내일부터 일본어를 배워요.'],
-    answerTranslation: 'I learn Japanese from tomorrow.',
-    items: [
+    answerTranslation: 'I learn Japanese from tomorrow.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '내일', combineWithNext: true },
@@ -875,8 +832,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 술을 마셔?',
     answer: '저녁 7시부터 술을 마셔요.',
     alternativeAnswers: ['저는 저녁 7시부터 술을 마셔요.'],
-    answerTranslation: 'I drink alcohol from 7 PM.',
-    items: [
+    answerTranslation: 'I drink alcohol from 7 PM.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: false },
@@ -893,8 +849,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 카페에서 일해?',
     answer: '오후 3시부터 카페에서 일해요.',
     alternativeAnswers: ['저는 오후 3시부터 카페에서 일해요.'],
-    answerTranslation: 'I work at a cafe from 3 PM.',
-    items: [
+    answerTranslation: 'I work at a cafe from 3 PM.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: false },
@@ -911,8 +866,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 학교에 가?',
     answer: '다음 주부터 학교에 가요.',
     alternativeAnswers: ['저는 다음 주부터 학교에 가요.'],
-    answerTranslation: 'I go to school from next week.',
-    items: [
+    answerTranslation: 'I go to school from next week.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '다음 주', combineWithNext: true },
@@ -928,8 +882,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 사무실에서 일해?',
     answer: '이번 달부터 사무실에서 일해요.',
     alternativeAnswers: ['저는 이번 달부터 사무실에서 일해요.'],
-    answerTranslation: 'I work at the office from this month.',
-    items: [
+    answerTranslation: 'I work at the office from this month.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '이번 달', combineWithNext: true },
@@ -945,8 +898,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 운동을 시작해?',
     answer: '오늘부터 운동을 시작해요.',
     alternativeAnswers: ['저는 오늘부터 운동을 시작해요.'],
-    answerTranslation: 'I start exercising from today.',
-    items: [
+    answerTranslation: 'I start exercising from today.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '오늘', combineWithNext: true },
@@ -962,8 +914,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 요리해?',
     answer: '여섯 시부터 요리해요.',
     alternativeAnswers: ['저는 여섯 시부터 요리해요.'],
-    answerTranslation: 'I cook from 6.',
-    items: [
+    answerTranslation: 'I cook from 6.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '여섯 시', combineWithNext: true },
@@ -977,8 +928,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 도서관에서 공부해?',
     answer: '아침부터 도서관에서 공부해요.',
     alternativeAnswers: ['저는 아침부터 도서관에서 공부해요.'],
-    answerTranslation: 'I study at the library from morning.',
-    items: [
+    answerTranslation: 'I study at the library from morning.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아침', combineWithNext: true },
@@ -994,8 +944,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 일해?',
     answer: '아홉 시부터 일해요.',
     alternativeAnswers: ['저는 아홉 시부터 일해요.'],
-    answerTranslation: 'I work from 9.',
-    items: [
+    answerTranslation: 'I work from 9.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '아홉 시', combineWithNext: true },
@@ -1009,8 +958,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 를 해?',
     answer: '다섯 시부터 식당에서 아르바이트를 해요.',
     alternativeAnswers: ['저는 다섯 시부터 식당에서 아르바이트를 해요.'],
-    answerTranslation: 'I work part-time at a restaurant from 5.',
-    items: [
+    answerTranslation: 'I work part-time at a restaurant from 5.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '다섯 시', combineWithNext: true },
@@ -1028,8 +976,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 점심을 먹어?',
     answer: '열두 시부터 점심을 먹어요.',
     alternativeAnswers: ['저는 열두 시부터 점심을 먹어요.'],
-    answerTranslation: 'I eat lunch from 12.',
-    items: [
+    answerTranslation: 'I eat lunch from 12.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '열두 시', combineWithNext: true },
@@ -1045,8 +992,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 식당 start 문을 열어?',
     answer: '이 식당은 오전 열 시부터 문을 열어요.',
     alternativeAnswers: ['이 식당은 오전 열 시부터 문을 열어요.'],
-    answerTranslation: 'This restaurant opens from 10 AM.',
-    items: [
+    answerTranslation: 'This restaurant opens from 10 AM.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1064,8 +1010,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 가게 start 문을 열어?',
     answer: '이 가게는 오후 두 시부터 문을 열어요.',
     alternativeAnswers: ['이 가게는 오후 두 시부터 문을 열어요.'],
-    answerTranslation: 'This store opens from 2 PM.',
-    items: [
+    answerTranslation: 'This store opens from 2 PM.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '가게', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1085,8 +1030,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 회사에서 일해?',
     answer: '저는 네 시까지 회사에서 일해요.',
     alternativeAnswers: ['네 시까지 회사에서 일해요.'],
-    answerTranslation: 'I work at the company until 4.',
-    items: [
+    answerTranslation: 'I work at the company until 4.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '네 시', combineWithNext: true },
@@ -1102,8 +1046,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 유나 학원에 있었어?',
     answer: '유나는 밤 열 시까지 학원에 있었어요.',
     alternativeAnswers: ['유나는 밤 열 시까지 학원에 있었어요.'],
-    answerTranslation: 'Yuna was at the academy until 10 PM.',
-    items: [
+    answerTranslation: 'Yuna was at the academy until 10 PM.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '밤', combineWithNext: false },
@@ -1120,8 +1063,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 민수 책을 읽었어?',
     answer: '민수는 어제까지 책을 읽었어요.',
     alternativeAnswers: ['민수는 어제까지 책을 읽었어요.'],
-    answerTranslation: 'Min-su read books until yesterday.',
-    items: [
+    answerTranslation: 'Min-su read books until yesterday.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: true },
@@ -1137,8 +1079,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 공원에서 산책해?',
     answer: '저는 저녁까지 공원에서 산책해요.',
     alternativeAnswers: ['저녁까지 공원에서 산책해요.'],
-    answerTranslation: 'I take a walk in the park until evening.',
-    items: [
+    answerTranslation: 'I take a walk in the park until evening.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '저녁', combineWithNext: true },
@@ -1154,8 +1095,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 형 헬스장에서 운동해?',
     answer: '형은 오후 다섯 시까지 헬스장에서 운동해요.',
     alternativeAnswers: ['형은 오후 다섯 시까지 헬스장에서 운동해요.'],
-    answerTranslation: 'My brother exercises at the gym until 5 PM.',
-    items: [
+    answerTranslation: 'My brother exercises at the gym until 5 PM.',    items: [
       { id: '1', content: '형', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '오후', combineWithNext: false },
@@ -1172,8 +1112,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you 를 끝내?',
     answer: '다음 주까지 숙제를 끝내요.',
     alternativeAnswers: ['저는 다음 주까지 숙제를 끝내요.'],
-    answerTranslation: 'I finish my homework until next week.',
-    items: [
+    answerTranslation: 'I finish my homework until next week.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '다음 주', combineWithNext: true },
@@ -1189,8 +1128,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 누나 를 배워?',
     answer: '누나는 이번 달까지 한국어를 배워요.',
     alternativeAnswers: ['누나는 이번 달까지 한국어를 배워요.'],
-    answerTranslation: 'My sister learns Korean until this month.',
-    items: [
+    answerTranslation: 'My sister learns Korean until this month.',    items: [
       { id: '1', content: '누나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '이번 달', combineWithNext: true },
@@ -1206,8 +1144,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 친구하고 놀아?',
     answer: '저는 내일까지 친구하고 놀아요.',
     alternativeAnswers: ['내일까지 친구하고 놀아요.'],
-    answerTranslation: 'I play with my friend until tomorrow.',
-    items: [
+    answerTranslation: 'I play with my friend until tomorrow.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '내일', combineWithNext: true },
@@ -1223,8 +1160,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 민수 영화관에 갔어?',
     answer: '민수는 점심까지 영화관에 갔어요.',
     alternativeAnswers: ['민수는 점심까지 영화관에 갔어요.'],
-    answerTranslation: 'Min-su went to the movie theater until lunch.',
-    items: [
+    answerTranslation: 'Min-su went to the movie theater until lunch.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '점심', combineWithNext: true },
@@ -1240,8 +1176,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 유나 를 했어?',
     answer: '유나는 일곱 시까지 아르바이트를 했어요.',
     alternativeAnswers: ['유나는 일곱 시까지 아르바이트를 했어요.'],
-    answerTranslation: 'Yuna worked part-time until 7.',
-    items: [
+    answerTranslation: 'Yuna worked part-time until 7.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일곱 시', combineWithNext: true },
@@ -1257,8 +1192,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 아빠 일해?',
     answer: '아빠는 여섯 시까지 일해요.',
     alternativeAnswers: ['아빠는 여섯 시까지 일해요.'],
-    answerTranslation: 'My father works until 6.',
-    items: [
+    answerTranslation: 'My father works until 6.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '여섯 시', combineWithNext: true },
@@ -1272,8 +1206,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 엄마 를 해?',
     answer: '엄마는 열두 시까지 식당에서 아르바이트를 해요.',
     alternativeAnswers: ['엄마는 열두 시까지 식당에서 아르바이트를 해요.'],
-    answerTranslation: 'My mother works part-time at a restaurant until 12.',
-    items: [
+    answerTranslation: 'My mother works part-time at a restaurant until 12.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '열두 시', combineWithNext: true },
@@ -1291,8 +1224,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 점심을 먹어?',
     answer: '저는 두 시까지 점심을 먹어요.',
     alternativeAnswers: ['두 시까지 점심을 먹어요.'],
-    answerTranslation: 'I eat lunch until 2.',
-    items: [
+    answerTranslation: 'I eat lunch until 2.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '두 시', combineWithNext: true },
@@ -1308,8 +1240,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 식당 문을 열어?',
     answer: '이 식당은 오후 열한 시까지 문을 열어요.',
     alternativeAnswers: ['이 식당은 오후 열한 시까지 문을 열어요.'],
-    answerTranslation: 'This restaurant opens until 11 PM.',
-    items: [
+    answerTranslation: 'This restaurant opens until 11 PM.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1327,8 +1258,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 가게 문을 열어?',
     answer: '이 가게는 여덟 시까지 문을 열어요.',
     alternativeAnswers: ['이 가게는 여덟 시까지 문을 열어요.'],
-    answerTranslation: 'This store opens until 8.',
-    items: [
+    answerTranslation: 'This store opens until 8.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '가게', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1347,8 +1277,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 민수 start 를 해?',
     answer: '민수는 화요일부터 카페에서 아르바이트를 해요.',
     alternativeAnswers: ['민수는 카페에서 화요일부터 아르바이트를 해요.'],
-    answerTranslation: 'Minsu works part-time at a cafe from Tuesday.',
-    items: [
+    answerTranslation: 'Minsu works part-time at a cafe from Tuesday.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화요일', combineWithNext: true },
@@ -1366,8 +1295,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 유나 start 를 배워?',
     answer: '유나는 수요일부터 영어를 배워요.',
     alternativeAnswers: ['유나는 영어를 수요일부터 배워요.'],
-    answerTranslation: 'Yuna learns English from Wednesday.',
-    items: [
+    answerTranslation: 'Yuna learns English from Wednesday.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '수요일', combineWithNext: true },
@@ -1383,8 +1311,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 가족 start 여행을 시작해?',
     answer: '우리 가족은 토요일부터 여행을 시작해요.',
     alternativeAnswers: ['우리 가족은 토요일부터 여행을 시작해요.'],
-    answerTranslation: 'Our family starts traveling from Saturday.',
-    items: [
+    answerTranslation: 'Our family starts traveling from Saturday.',    items: [
       { id: '1', content: '우리', combineWithNext: true },
       { id: '2', content: '가족', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1401,8 +1328,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 남동생 start 식당에서 일해?',
     answer: '제 남동생은 목요일부터 식당에서 일해요.',
     alternativeAnswers: ['제 남동생은 식당에서 목요일부터 일해요.'],
-    answerTranslation: 'My younger brother works at a restaurant from Thursday.',
-    items: [
+    answerTranslation: 'My younger brother works at a restaurant from Thursday.',    items: [
       { id: '1', content: '제', combineWithNext: true },
       { id: '2', content: '남동생', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1423,8 +1349,7 @@ export const durationQuestions: DialogueQuestion[] = [
       '금요일부터 휴가를 가요.',
       '휴가를 금요일부터 가요.',
     ],
-    answerTranslation: 'I go on vacation from Friday.',
-    items: [
+    answerTranslation: 'I go on vacation from Friday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '금요일', combineWithNext: true },
@@ -1440,8 +1365,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 아빠 start 운동을 해?',
     answer: '아빠는 일요일부터 운동을 해요.',
     alternativeAnswers: ['아빠는 운동을 일요일부터 해요.'],
-    answerTranslation: 'Dad exercises from Sunday.',
-    items: [
+    answerTranslation: 'Dad exercises from Sunday.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일요일', combineWithNext: true },
@@ -1457,8 +1381,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 민수 start 를 공부해?',
     answer: '민수는 월요일부터 독일어를 공부해요.',
     alternativeAnswers: ['민수는 독일어를 월요일부터 공부해요.'],
-    answerTranslation: 'Minsu studies German from Monday.',
-    items: [
+    answerTranslation: 'Minsu studies German from Monday.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '월요일', combineWithNext: true },
@@ -1474,8 +1397,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 영화관 start 문을 열어?',
     answer: '이 영화관은 다음 주 수요일부터 문을 열어요.',
     alternativeAnswers: ['이 영화관은 다음 주 수요일부터 문을 열어요.'],
-    answerTranslation: 'This movie theater opens from next Wednesday.',
-    items: [
+    answerTranslation: 'This movie theater opens from next Wednesday.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '영화관', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1493,8 +1415,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 유나 start 회사에 출근해?',
     answer: '유나는 수요일부터 회사에 출근해요.',
     alternativeAnswers: ['유나는 회사에 수요일부터 출근해요.'],
-    answerTranslation: 'Yuna goes to work from Wednesday.',
-    items: [
+    answerTranslation: 'Yuna goes to work from Wednesday.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '수요일', combineWithNext: true },
@@ -1510,8 +1431,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 시작됐어?',
     answer: '지난 주말부터 공연이 시작됐어요.',
     alternativeAnswers: ['공연이 지난 주말부터 시작됐어요.'],
-    answerTranslation: 'The performance started from last weekend.',
-    items: [
+    answerTranslation: 'The performance started from last weekend.',    items: [
       { id: '1', content: '지난', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '부터', combineWithNext: false },
@@ -1526,8 +1446,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 저 start 학교에 가?',
     answer: '저는 월요일부터 학교에 가요.',
     alternativeAnswers: ['월요일부터 학교에 가요.'],
-    answerTranslation: 'I go to school from Monday.',
-    items: [
+    answerTranslation: 'I go to school from Monday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '월요일', combineWithNext: true },
@@ -1543,8 +1462,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 엄마 start 사무실에서 일해?',
     answer: '엄마는 화요일부터 사무실에서 일해요.',
     alternativeAnswers: ['엄마는 사무실에서 화요일부터 일해요.'],
-    answerTranslation: 'Mom works at the office from Tuesday.',
-    items: [
+    answerTranslation: 'Mom works at the office from Tuesday.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화요일', combineWithNext: true },
@@ -1560,8 +1478,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 식당 start 문을 열어?',
     answer: '이 식당은 수요일부터 문을 열어요.',
     alternativeAnswers: ['수요일부터 문을 열어요.'],
-    answerTranslation: 'This restaurant opens from Wednesday.',
-    items: [
+    answerTranslation: 'This restaurant opens from Wednesday.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1579,8 +1496,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you 를 끝내세?',
     answer: '화요일까지 숙제를 끝내세요.',
     alternativeAnswers: ['숙제를 화요일까지 끝내세요.'],
-    answerTranslation: 'Please finish your homework by Tuesday.',
-    items: [
+    answerTranslation: 'Please finish your homework by Tuesday.',    items: [
       { id: '1', content: '화요일', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '숙제', combineWithNext: true },
@@ -1594,8 +1510,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 한국에 있어?',
     answer: '저는 이번 주 목요일까지 한국에 있어요.',
     alternativeAnswers: ['이번 주 목요일까지 한국에 있어요.'],
-    answerTranslation: 'I am in Korea until this Thursday.',
-    items: [
+    answerTranslation: 'I am in Korea until this Thursday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '이번 주', combineWithNext: false },
@@ -1612,8 +1527,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you 와?',
     answer: '다음 주 월요일까지 비가 와요.',
     alternativeAnswers: ['비가 다음 주 월요일까지 와요.'],
-    answerTranslation: 'It will rain until next Monday.',
-    items: [
+    answerTranslation: 'It will rain until next Monday.',    items: [
       { id: '1', content: '다음 주', combineWithNext: false },
       { id: '2', content: '월요일', combineWithNext: true },
       { id: '3', content: '까지', combineWithNext: false },
@@ -1628,8 +1542,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 를 만났어?',
     answer: '저는 토요일까지 친구를 만났어요.',
     alternativeAnswers: ['토요일까지 친구를 만났어요.'],
-    answerTranslation: 'I met my friend until Saturday.',
-    items: [
+    answerTranslation: 'I met my friend until Saturday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '토요일', combineWithNext: true },
@@ -1645,8 +1558,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 민수 를 봐?',
     answer: '민수는 월요일까지 영화를 봐요.',
     alternativeAnswers: ['민수는 월요일까지 영화를 봐요.'],
-    answerTranslation: 'Minsu watches movies until Monday.',
-    items: [
+    answerTranslation: 'Minsu watches movies until Monday.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '월요일', combineWithNext: true },
@@ -1662,8 +1574,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 공연 해?',
     answer: '이 공연은 목요일까지만 해요.',
     alternativeAnswers: ['이 공연은 목요일까지만 해요.'],
-    answerTranslation: 'This performance is only until Thursday.',
-    items: [
+    answerTranslation: 'This performance is only until Thursday.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '공연', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1679,8 +1590,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you 방학이에?',
     answer: '다음 주 화요일까지 방학이에요.',
     alternativeAnswers: ['방학이 다음 주 화요일까지예요.'],
-    answerTranslation: 'The vacation is until next Tuesday.',
-    items: [
+    answerTranslation: 'The vacation is until next Tuesday.',    items: [
       { id: '1', content: '다음 주', combineWithNext: false },
       { id: '2', content: '화요일', combineWithNext: true },
       { id: '3', content: '까지', combineWithNext: false },
@@ -1697,8 +1607,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 엄마 를 했어?',
     answer: '엄마는 지난주 수요일까지 아르바이트를 했어요.',
     alternativeAnswers: ['엄마는 지난주 수요일까지 아르바이트를 했어요.'],
-    answerTranslation: 'Mom worked part-time until last Wednesday.',
-    items: [
+    answerTranslation: 'Mom worked part-time until last Wednesday.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '지난주', combineWithNext: false },
@@ -1715,8 +1624,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 유나 책을 읽었어?',
     answer: '유나는 금요일까지 책을 읽었어요.',
     alternativeAnswers: ['유나는 금요일까지 책을 읽었어요.'],
-    answerTranslation: 'Yuna read books until Friday.',
-    items: [
+    answerTranslation: 'Yuna read books until Friday.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '금요일', combineWithNext: true },
@@ -1732,8 +1640,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you 와?',
     answer: '이번 주 일요일까지 눈이 와요.',
     alternativeAnswers: ['눈이 이번 주 일요일까지 와요.'],
-    answerTranslation: 'It will snow until this Sunday.',
-    items: [
+    answerTranslation: 'It will snow until this Sunday.',    items: [
       { id: '1', content: '이번 주', combineWithNext: false },
       { id: '2', content: '일요일', combineWithNext: true },
       { id: '3', content: '까지', combineWithNext: false },
@@ -1748,8 +1655,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 학교에 가?',
     answer: '저는 금요일까지 학교에 가요.',
     alternativeAnswers: ['금요일까지 학교에 가요.'],
-    answerTranslation: 'I go to school until Friday.',
-    items: [
+    answerTranslation: 'I go to school until Friday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '금요일', combineWithNext: true },
@@ -1765,8 +1671,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 아빠 사무실에서 일해?',
     answer: '아빠는 목요일까지 사무실에서 일해요.',
     alternativeAnswers: ['아빠는 사무실에서 목요일까지 일해요.'],
-    answerTranslation: 'Dad works at the office until Thursday.',
-    items: [
+    answerTranslation: 'Dad works at the office until Thursday.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '목요일', combineWithNext: true },
@@ -1782,8 +1687,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 식당 문을 열어?',
     answer: '이 식당은 일요일까지 문을 열어요.',
     alternativeAnswers: ['이 식당은 일요일까지 문을 열어요.'],
-    answerTranslation: 'This restaurant is open until Sunday.',
-    items: [
+    answerTranslation: 'This restaurant is open until Sunday.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1805,8 +1709,7 @@ export const durationQuestions: DialogueQuestion[] = [
       '일본에서 5월부터 살아요.',
       '저는 일본에서 5월부터 살아요.',
     ],
-    answerTranslation: 'I live in Japan from May.',
-    items: [
+    answerTranslation: 'I live in Japan from May.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '5월', combineWithNext: true },
@@ -1822,8 +1725,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 민수 start 여행을 시작해?',
     answer: '민수는 7월부터 여행을 시작해요.',
     alternativeAnswers: ['민수는 여행을 7월부터 시작해요.'],
-    answerTranslation: 'Minsu starts traveling from July.',
-    items: [
+    answerTranslation: 'Minsu starts traveling from July.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '7월', combineWithNext: true },
@@ -1839,8 +1741,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 여동생 start 학교에 다녀?',
     answer: '제 여동생은 9월부터 학교에 다녀요.',
     alternativeAnswers: ['제 여동생은 학교에 9월부터 다녀요.'],
-    answerTranslation: 'My sister goes to school from September.',
-    items: [
+    answerTranslation: 'My sister goes to school from September.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '여동생', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1857,8 +1758,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 유나 start 를 배웠어?',
     answer: '유나는 2월부터 프랑스어를 배웠어요.',
     alternativeAnswers: ['유나는 프랑스어를 2월부터 배웠어요.'],
-    answerTranslation: 'Yuna learned French from February.',
-    items: [
+    answerTranslation: 'Yuna learned French from February.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '2월', combineWithNext: true },
@@ -1874,8 +1774,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 아빠 start 회사에서 일해?',
     answer: '아빠는 10월부터 회사에서 일해요.',
     alternativeAnswers: ['아빠는 회사에서 10월부터 일해요.'],
-    answerTranslation: 'Dad works at the company from October.',
-    items: [
+    answerTranslation: 'Dad works at the company from October.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '10월', combineWithNext: true },
@@ -1891,8 +1790,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 오빠 start 호주에 있었어?',
     answer: '제 오빠는 3월부터 호주에 있었어요.',
     alternativeAnswers: ['제 오빠는 3월부터 호주에 있었어요.'],
-    answerTranslation: 'My brother was in Australia from March.',
-    items: [
+    answerTranslation: 'My brother was in Australia from March.',    items: [
       { id: '1', content: '제', combineWithNext: true },
       { id: '2', content: '오빠', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1913,8 +1811,7 @@ export const durationQuestions: DialogueQuestion[] = [
       '휴가를 6월부터 가요.',
       '저는 휴가를 6월부터 가요.',
     ],
-    answerTranslation: 'I go on vacation from June.',
-    items: [
+    answerTranslation: 'I go on vacation from June.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '6월', combineWithNext: true },
@@ -1930,8 +1827,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 엄마 start 를 공부해?',
     answer: '엄마는 8월부터 중국어를 공부해요.',
     alternativeAnswers: ['엄마는 중국어를 8월부터 공부해요.'],
-    answerTranslation: 'Mom studies Chinese from August.',
-    items: [
+    answerTranslation: 'Mom studies Chinese from August.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '8월', combineWithNext: true },
@@ -1947,8 +1843,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 와?',
     answer: '4월부터 비가 많이 와요.',
     alternativeAnswers: ['비가 4월부터 많이 와요.'],
-    answerTranslation: 'It rains a lot from April.',
-    items: [
+    answerTranslation: 'It rains a lot from April.',    items: [
       { id: '1', content: '4월', combineWithNext: true },
       { id: '2', content: '부터', combineWithNext: false },
       { id: '3', content: '비', combineWithNext: true },
@@ -1963,8 +1858,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When do you start 와?',
     answer: '11월부터 눈이 와요.',
     alternativeAnswers: ['눈이 11월부터 와요.'],
-    answerTranslation: 'It snows from November.',
-    items: [
+    answerTranslation: 'It snows from November.',    items: [
       { id: '1', content: '11월', combineWithNext: true },
       { id: '2', content: '부터', combineWithNext: false },
       { id: '3', content: '눈', combineWithNext: true },
@@ -1978,8 +1872,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 저 start 한국에 있었어?',
     answer: '저는 1월부터 한국에 있었어요.',
     alternativeAnswers: ['1월부터 한국에 있었어요.', '한국에 1월부터 있었어요.'],
-    answerTranslation: 'I was in Korea from January.',
-    items: [
+    answerTranslation: 'I was in Korea from January.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '1월', combineWithNext: true },
@@ -1999,8 +1892,7 @@ export const durationQuestions: DialogueQuestion[] = [
       '저는 미국에서 8월부터 영어를 공부했어요.',
       '미국에서 8월부터 영어를 공부했어요.',
     ],
-    answerTranslation: 'I studied English in America from August.',
-    items: [
+    answerTranslation: 'I studied English in America from August.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '8월', combineWithNext: true },
@@ -2018,8 +1910,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 저 start 운동을 시작했어?',
     answer: '저는 올해부터 운동을 시작했어요.',
     alternativeAnswers: ['올해부터 운동을 시작했어요.'],
-    answerTranslation: 'I started exercising this year.',
-    items: [
+    answerTranslation: 'I started exercising this year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '올해', combineWithNext: true },
@@ -2035,8 +1926,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 저 start 를 공부했어?',
     answer: '저는 작년부터 한국어를 공부했어요.',
     alternativeAnswers: ['작년부터 한국어를 공부했어요.'],
-    answerTranslation: 'I studied Korean from last year.',
-    items: [
+    answerTranslation: 'I studied Korean from last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '올해', combineWithNext: true },
@@ -2052,8 +1942,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'When does 저 start 학교에 다녀?',
     answer: '저는 내년부터 학교에 다녀요.',
     alternativeAnswers: ['내년부터 학교에 다녀요.'],
-    answerTranslation: 'I go to school from next year.',
-    items: [
+    answerTranslation: 'I go to school from next year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '내년', combineWithNext: true },
@@ -2070,8 +1959,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 오빠 일본에 있었어?',
     answer: '제 오빠는 작년 12월까지 일본에 있었어요.',
     alternativeAnswers: ['제 오빠는 작년 12월까지 일본에 있었어요.'],
-    answerTranslation: 'My brother was in Japan until last December.',
-    items: [
+    answerTranslation: 'My brother was in Japan until last December.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '오빠', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -2089,8 +1977,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you 방학이었어?',
     answer: '7월까지 방학이었어요.',
     alternativeAnswers: ['방학이 7월까지였어요.'],
-    answerTranslation: 'It was vacation until July.',
-    items: [
+    answerTranslation: 'It was vacation until July.',    items: [
       { id: '1', content: '7월', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '방학', combineWithNext: true },
@@ -2107,8 +1994,7 @@ export const durationQuestions: DialogueQuestion[] = [
       '10월까지 영국에서 영어를 공부했어요.',
       '영국에서 10월까지 영어를 공부했어요.',
     ],
-    answerTranslation: 'I studied English in England until October.',
-    items: [
+    answerTranslation: 'I studied English in England until October.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '10월', combineWithNext: true },
@@ -2126,8 +2012,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 수업을 들었어?',
     answer: '저는 2월까지 한국어 수업을 들었어요.',
     alternativeAnswers: ['2월까지 한국어 수업을 들었어요.'],
-    answerTranslation: 'I took Korean classes until February.',
-    items: [
+    answerTranslation: 'I took Korean classes until February.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '2월', combineWithNext: true },
@@ -2144,8 +2029,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 민수 여행을 해?',
     answer: '민수는 8월까지 여행을 해요.',
     alternativeAnswers: ['민수는 8월까지 여행을 해요.', '민수는 8월까지 여행해요.'],
-    answerTranslation: 'Minsu travels until August.',
-    items: [
+    answerTranslation: 'Minsu travels until August.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '8월', combineWithNext: true },
@@ -2161,8 +2045,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 유나 프랑스에 있어?',
     answer: '유나는 6월까지 프랑스에 있어요.',
     alternativeAnswers: ['6월까지 프랑스에 있어요.'],
-    answerTranslation: 'Yuna is in France until June.',
-    items: [
+    answerTranslation: 'Yuna is in France until June.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '6월', combineWithNext: true },
@@ -2178,8 +2061,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 언니 를 해?',
     answer: '언니는 9월까지 아르바이트를 해요.',
     alternativeAnswers: ['언니는 9월까지 아르바이트해요.'],
-    answerTranslation: 'My sister works part-time until September.',
-    items: [
+    answerTranslation: 'My sister works part-time until September.',    items: [
       { id: '1', content: '언니', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '9월', combineWithNext: true },
@@ -2195,8 +2077,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does 저 를 가?',
     answer: '저는 내년 1월까지 휴가를 가요.',
     alternativeAnswers: ['내년 1월까지 휴가를 가요.'],
-    answerTranslation: 'I go on vacation until next January.',
-    items: [
+    answerTranslation: 'I go on vacation until next January.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '내년', combineWithNext: false },
@@ -2213,8 +2094,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when does dad work at home?',
     answer: '아빠는 4월까지 집에서 일해요.',
     alternativeAnswers: ['아빠는 집에서 4월까지 일해요.'],
-    answerTranslation: 'Dad works at home until April.',
-    items: [
+    answerTranslation: 'Dad works at home until April.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '4월', combineWithNext: true },
@@ -2230,8 +2110,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when did your sister learn German?',
     answer: '언니는 12월까지 독일어를 배웠어요.',
     alternativeAnswers: ['언니는 독일어를 12월까지 배웠어요.'],
-    answerTranslation: 'My sister learned German until December.',
-    items: [
+    answerTranslation: 'My sister learned German until December.',    items: [
       { id: '1', content: '언니', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '12월', combineWithNext: true },
@@ -2247,8 +2126,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when was mom in Korea?',
     answer: '엄마는 3월까지 한국에 있었어요.',
     alternativeAnswers: ['엄마는 한국에 3월까지 있었어요.'],
-    answerTranslation: 'Mom was in Korea until March.',
-    items: [
+    answerTranslation: 'Mom was in Korea until March.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '3월', combineWithNext: true },
@@ -2264,8 +2142,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when did Min-su go to school in America?',
     answer: '민수는 5월까지 미국에서 학교에 다녔어요.',
     alternativeAnswers: ['민수는 미국에서 5월까지 학교에 다녔어요.'],
-    answerTranslation: 'Minsu went to school in America until May.',
-    items: [
+    answerTranslation: 'Minsu went to school in America until May.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '5월', combineWithNext: true },
@@ -2283,8 +2160,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when was Yuna in China?',
     answer: '유나는 작년까지 중국에 있었어요.',
     alternativeAnswers: ['유나는 중국에 작년까지 있었어요.'],
-    answerTranslation: 'Yuna was in China until last year.',
-    items: [
+    answerTranslation: 'Yuna was in China until last year.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -2300,8 +2176,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you work?',
     answer: '저는 올해까지만 일을 해요.',
     alternativeAnswers: ['올해까지만 일해요.'],
-    answerTranslation: 'I work only until this year.',
-    items: [
+    answerTranslation: 'I work only until this year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '올해', combineWithNext: true },
@@ -2318,8 +2193,7 @@ export const durationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Until when do you go to school?',
     answer: '저는 내년까지 학교에 다녀요.',
     alternativeAnswers: ['학교에 내년까지 다녀요.'],
-    answerTranslation: 'I go to school until next year.',
-    items: [
+    answerTranslation: 'I go to school until next year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '내년', combineWithNext: true },
@@ -2339,8 +2213,7 @@ export const durationQuestions: DialogueQuestion[] = [
       '한국어를 작년까지 공부했어요.',
       '저는 한국어를 작년까지 공부했어요.',
     ],
-    answerTranslation: 'I studied Korean until last year.',
-    items: [
+    answerTranslation: 'I studied Korean until last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -2351,3 +2224,5 @@ export const durationQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const durationQuestions = addGrammarName(questions, 'duration');

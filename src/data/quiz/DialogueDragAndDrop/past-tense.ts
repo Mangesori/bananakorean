@@ -1,15 +1,15 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 어제, 지난주, 이번 주, 지난달, 이번 달, 작년, 올해
 
-export const pastTenseQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '어제 어디에 갔어요?',
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 학교에 갔어요.',
     alternativeAnswers: ['어제 학교에 갔어요.', '어제 저는 학교에 갔어요.'],
-    answerTranslation: 'I went to school yesterday.',
-    items: [
+    answerTranslation: 'I went to school yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -24,8 +24,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 집에 갔어요.',
     alternativeAnswers: ['어제 집에 갔어요.', '어제 저는 집에 갔어요.'],
-    answerTranslation: 'I went home yesterday.',
-    items: [
+    answerTranslation: 'I went home yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -40,8 +39,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 도서관에 갔어요.',
     alternativeAnswers: ['어제 도서관에 갔어요.', '어제 저는 도서관에 갔어요.'],
-    answerTranslation: 'I went to the library yesterday.',
-    items: [
+    answerTranslation: 'I went to the library yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -56,8 +54,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 영화관에 갔어요.',
     alternativeAnswers: ['어제 영화관에 갔어요.', '어제 저는 영화관에 갔어요.'],
-    answerTranslation: 'I went to the movie theater yesterday.',
-    items: [
+    answerTranslation: 'I went to the movie theater yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -72,8 +69,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last week?',
     answer: '저는 지난주에 한국에 갔어요.',
     alternativeAnswers: ['지난주에 한국에 갔어요.', '지난주에 저는 한국에 갔어요.'],
-    answerTranslation: 'I went to Korea last week.',
-    items: [
+    answerTranslation: 'I went to Korea last week.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '지난주', combineWithNext: true },
@@ -89,8 +85,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 식당에 갔어요.',
     alternativeAnswers: ['어제 식당에 갔어요.', '어제 저는 식당에 갔어요.'],
-    answerTranslation: 'I went to a restaurant yesterday.',
-    items: [
+    answerTranslation: 'I went to a restaurant yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -105,8 +100,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 화장실에 갔어요.',
     alternativeAnswers: ['화장실에 갔어요.'],
-    answerTranslation: 'I went to the bathroom.',
-    items: [
+    answerTranslation: 'I went to the bathroom.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -120,8 +114,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 회사에 갔어요.',
     alternativeAnswers: ['어제 회사에 갔어요.', '어제 저는 회사에 갔어요.'],
-    answerTranslation: 'I went to the office yesterday.',
-    items: [
+    answerTranslation: 'I went to the office yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -136,8 +129,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 은행에 갔어요.',
     alternativeAnswers: ['어제 은행에 갔어요.', '어제 저는 은행에 갔어요.'],
-    answerTranslation: 'I went to the bank yesterday.',
-    items: [
+    answerTranslation: 'I went to the bank yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -152,8 +144,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go yesterday?',
     answer: '저는 어제 쇼핑몰에 갔어요.',
     alternativeAnswers: ['어제 쇼핑몰에 갔어요.', '어제 저는 쇼핑몰에 갔어요.'],
-    answerTranslation: 'I went to the shopping mall yesterday.',
-    items: [
+    answerTranslation: 'I went to the shopping mall yesterday.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -185,8 +176,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Yuna go yesterday?',
     answer: '어제 유나는 제 집에 왔어요.',
     alternativeAnswers: ['어제 제 집에 왔어요.', '어제 유나는 제 집에 왔어요.'],
-    answerTranslation: 'Yuna came to my house.',
-    items: [
+    answerTranslation: 'Yuna came to my house.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -202,8 +192,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did my mother go last week?',
     answer: '엄마는 지난주에 제 집에 왔어요.',
     alternativeAnswers: ['지난주에 제 집에 왔어요.', '지난주에 엄마는 제 집에 왔어요.'],
-    answerTranslation: 'My mother came to my house last week.',
-    items: [
+    answerTranslation: 'My mother came to my house last week.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '지난주', combineWithNext: true },
@@ -220,8 +209,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did my father go yesterday?',
     answer: '어제 아빠가 병원에 갔어요.',
     alternativeAnswers: ['어제 병원에 갔어요.', '어제 아빠가 병원에 갔어요.'],
-    answerTranslation: 'My father went to the hospital yesterday.',
-    items: [
+    answerTranslation: 'My father went to the hospital yesterday.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -236,8 +224,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did my son go?',
     answer: '아들이 회사에 갔어요.',
     alternativeAnswers: ['회사에 갔어요.', '아들이 회사에 갔어요.'],
-    answerTranslation: 'My son went to the office.',
-    items: [
+    answerTranslation: 'My son went to the office.',    items: [
       { id: '1', content: '아들', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -251,8 +238,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did my daughter go yesterday?',
     answer: '딸이 어제 제 식당에 왔어요.',
     alternativeAnswers: ['어제 제 식당에 왔어요.', '어제 딸이 제 식당에 왔어요.'],
-    answerTranslation: 'My daughter came to my restaurant yesterday.',
-    items: [
+    answerTranslation: 'My daughter came to my restaurant yesterday.',    items: [
       { id: '1', content: '딸', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -268,8 +254,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did my friend go yesterday?',
     answer: '어제 친구가 제 학교에 왔어요.',
     alternativeAnswers: ['어제 제 학교에 왔어요.', '어제 친구가 제 학교에 왔어요.'],
-    answerTranslation: 'My friend came to my school yesterday.',
-    items: [
+    answerTranslation: 'My friend came to my school yesterday.',    items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -285,8 +270,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who came home?',
     answer: '언니가 집에 왔어요.',
     alternativeAnswers: ['언니가 왔어요.'],
-    answerTranslation: 'My sister came home.',
-    items: [
+    answerTranslation: 'My sister came home.',    items: [
       { id: '1', content: '언니', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -300,8 +284,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who came to school?',
     answer: '오빠가 학교에 왔어요.',
     alternativeAnswers: ['학교에 왔어요.'],
-    answerTranslation: 'My brother came to school.',
-    items: [
+    answerTranslation: 'My brother came to school.',    items: [
       { id: '1', content: '오빠', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -320,8 +303,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '민수가 갔어요.',
       '민수가 도서관에 갔어요.',
     ],
-    answerTranslation: 'Min-su went to the library yesterday.',
-    items: [
+    answerTranslation: 'Min-su went to the library yesterday.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -341,8 +323,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '유나가 갔어요.',
       '유나가 영화관에 갔어요.',
     ],
-    answerTranslation: 'Yuna went to the movie theater yesterday.',
-    items: [
+    answerTranslation: 'Yuna went to the movie theater yesterday.',    items: [
       { id: '1', content: '유나', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -362,8 +343,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '선생님이 갔어요.',
       '선생님이 한국에 갔어요.',
     ],
-    answerTranslation: 'The teacher went to Korea yesterday.',
-    items: [
+    answerTranslation: 'The teacher went to Korea yesterday.',    items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '어제', combineWithNext: false },
@@ -789,8 +769,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who did you go to the shopping mall with?',
     answer: '저는 엄마하고 쇼핑몰에 갔어요.',
     alternativeAnswers: ['엄마하고 쇼핑몰에 갔어요.'],
-    answerTranslation: 'I went to the shopping mall with my mother.',
-    items: [
+    answerTranslation: 'I went to the shopping mall with my mother.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '엄마', combineWithNext: true },
@@ -806,8 +785,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who did my son go home with?',
     answer: '아들은 아빠하고 집에 갔어요.',
     alternativeAnswers: ['아들은 아빠하고 집에 갔어요.'],
-    answerTranslation: 'My son went home with his father.',
-    items: [
+    answerTranslation: 'My son went home with his father.',    items: [
       { id: '1', content: '아들', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '아빠', combineWithNext: true },
@@ -823,8 +801,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who did my daughter go to the bank with?',
     answer: '딸은 엄마하고 은행에 갔어요.',
     alternativeAnswers: ['딸은 엄마하고 은행에 갔어요.'],
-    answerTranslation: 'My daughter went to the bank with her mother.',
-    items: [
+    answerTranslation: 'My daughter went to the bank with her mother.',    items: [
       { id: '1', content: '딸', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '엄마', combineWithNext: true },
@@ -840,8 +817,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 중국에 갔어요.',
     alternativeAnswers: ['작년에 중국에 갔어요.', '작년에 저는 중국에 갔어요.'],
-    answerTranslation: 'I went to China last year.',
-    items: [
+    answerTranslation: 'I went to China last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -857,8 +833,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 일본에 갔어요.',
     alternativeAnswers: ['작년에 일본에 갔어요.', '작년에 저는 일본에 갔어요.'],
-    answerTranslation: 'I went to Japan last year.',
-    items: [
+    answerTranslation: 'I went to Japan last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -874,8 +849,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 미국에 갔어요.',
     alternativeAnswers: ['작년에 미국에 갔어요.', '작년에 저는 미국에 갔어요.'],
-    answerTranslation: 'I went to the United States last year.',
-    items: [
+    answerTranslation: 'I went to the United States last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -891,8 +865,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 영국에 갔어요.',
     alternativeAnswers: ['작년에 영국에 갔어요.', '작년에 저는 영국에 갔어요.'],
-    answerTranslation: 'I went to the United Kingdom last year.',
-    items: [
+    answerTranslation: 'I went to the United Kingdom last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -908,8 +881,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 프랑스에 갔어요.',
     alternativeAnswers: ['작년에 프랑스에 갔어요.', '작년에 저는 프랑스에 갔어요.'],
-    answerTranslation: 'I went to France last year.',
-    items: [
+    answerTranslation: 'I went to France last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -925,8 +897,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 독일에 갔어요.',
     alternativeAnswers: ['작년에 독일에 갔어요.', '작년에 저는 독일에 갔어요.'],
-    answerTranslation: 'I went to Germany last year.',
-    items: [
+    answerTranslation: 'I went to Germany last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -942,8 +913,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 호주에 갔어요.',
     alternativeAnswers: ['작년에 호주에 갔어요.', '작년에 저는 호주에 갔어요.'],
-    answerTranslation: 'I went to Australia last year.',
-    items: [
+    answerTranslation: 'I went to Australia last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -959,8 +929,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 베트남에 갔어요.',
     alternativeAnswers: ['작년에 베트남에 갔어요.', '작년에 저는 베트남에 갔어요.'],
-    answerTranslation: 'I went to Vietnam last year.',
-    items: [
+    answerTranslation: 'I went to Vietnam last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -976,8 +945,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you go last year?',
     answer: '저는 작년에 인도에 갔어요.',
     alternativeAnswers: ['작년에 인도에 갔어요.', '작년에 저는 인도에 갔어요.'],
-    answerTranslation: 'I went to India last year.',
-    items: [
+    answerTranslation: 'I went to India last year.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -993,8 +961,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 중국에 갔어요.',
     alternativeAnswers: ['작년에 중국에 갔어요.', '작년에 민수는 중국에 갔어요.'],
-    answerTranslation: 'Min-su went to China last year.',
-    items: [
+    answerTranslation: 'Min-su went to China last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1010,8 +977,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 일본에 갔어요.',
     alternativeAnswers: ['작년에 일본에 갔어요.', '작년에 민수는 일본에 갔어요.'],
-    answerTranslation: 'Min-su went to Japan last year.',
-    items: [
+    answerTranslation: 'Min-su went to Japan last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1027,8 +993,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 미국에 갔어요.',
     alternativeAnswers: ['작년에 미국에 갔어요.', '작년에 민수는 미국에 갔어요.'],
-    answerTranslation: 'Min-su went to the United States last year.',
-    items: [
+    answerTranslation: 'Min-su went to the United States last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1044,8 +1009,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 영국에 갔어요.',
     alternativeAnswers: ['작년에 영국에 갔어요.', '작년에 민수는 영국에 갔어요.'],
-    answerTranslation: 'Min-su went to the United Kingdom last year.',
-    items: [
+    answerTranslation: 'Min-su went to the United Kingdom last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1061,8 +1025,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 프랑스에 갔어요.',
     alternativeAnswers: ['작년에 프랑스에 갔어요.', '작년에 민수는 프랑스에 갔어요.'],
-    answerTranslation: 'Min-su went to France last year.',
-    items: [
+    answerTranslation: 'Min-su went to France last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1078,8 +1041,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 독일에 갔어요.',
     alternativeAnswers: ['작년에 독일에 갔어요.', '작년에 민수는 독일에 갔어요.'],
-    answerTranslation: 'Min-su went to Germany last year.',
-    items: [
+    answerTranslation: 'Min-su went to Germany last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1095,8 +1057,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 호주에 갔어요.',
     alternativeAnswers: ['작년에 호주에 갔어요.', '작년에 민수는 호주에 갔어요.'],
-    answerTranslation: 'Min-su went to Australia last year.',
-    items: [
+    answerTranslation: 'Min-su went to Australia last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1112,8 +1073,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 베트남에 갔어요.',
     alternativeAnswers: ['작년에 베트남에 갔어요.', '작년에 민수는 베트남에 갔어요.'],
-    answerTranslation: 'Min-su went to Vietnam last year.',
-    items: [
+    answerTranslation: 'Min-su went to Vietnam last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1129,8 +1089,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did Min-su go last year?',
     answer: '민수는 작년에 인도에 갔어요.',
     alternativeAnswers: ['작년에 인도에 갔어요.', '작년에 민수는 인도에 갔어요.'],
-    answerTranslation: 'Min-su went to India last year.',
-    items: [
+    answerTranslation: 'Min-su went to India last year.',    items: [
       { id: '1', content: '민수', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '작년', combineWithNext: true },
@@ -1376,8 +1335,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you take a class?',
     answer: '저는 교실에서 수업을 들었어요.',
     alternativeAnswers: ['교실에서 수업을 들었어요.'],
-    answerTranslation: 'I took a class at the classroom.',
-    items: [
+    answerTranslation: 'I took a class at the classroom.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -1393,8 +1351,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study Korean?',
     answer: '저는 학교에서 한국어를 배웠어요.',
     alternativeAnswers: ['학교에서 한국어를 배웠어요.'],
-    answerTranslation: 'I studied Korean at the school.',
-    items: [
+    answerTranslation: 'I studied Korean at the school.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -1410,8 +1367,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you borrow a book?',
     answer: '저는 도서관에서 책을 빌렸어요.',
     alternativeAnswers: ['도서관에서 책을 빌렸어요.'],
-    answerTranslation: 'I borrowed a book at the library.',
-    items: [
+    answerTranslation: 'I borrowed a book at the library.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -1427,8 +1383,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you watch TV?',
     answer: '저는 집에서 텔레비전을 봤어요.',
     alternativeAnswers: ['집에서 텔레비전을 봤어요.'],
-    answerTranslation: 'I watched TV at home.',
-    items: [
+    answerTranslation: 'I watched TV at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1444,8 +1399,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you work?',
     answer: '저는 회사에서 일을 했어요.',
     alternativeAnswers: ['회사에서 일을 했어요.', '회사에서 일했어요.'],
-    answerTranslation: 'I worked at the company.',
-    items: [
+    answerTranslation: 'I worked at the company.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -1461,8 +1415,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you eat?',
     answer: '저는 식당에서 밥을 먹었어요.',
     alternativeAnswers: ['식당에서 밥을 먹었어요.'],
-    answerTranslation: 'I ate at the restaurant.',
-    items: [
+    answerTranslation: 'I ate at the restaurant.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -1478,8 +1431,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you drink coffee?',
     answer: '저는 카페에서 커피를 마셨어요.',
     alternativeAnswers: ['카페에서 커피를 마셨어요.'],
-    answerTranslation: 'I drank coffee at the cafe.',
-    items: [
+    answerTranslation: 'I drank coffee at the cafe.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -1495,8 +1447,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you meet a doctor?',
     answer: '저는 병원에서 의사를 만났어요.',
     alternativeAnswers: ['병원에서 의사를 만났어요.'],
-    answerTranslation: 'I met a doctor at the hospital.',
-    items: [
+    answerTranslation: 'I met a doctor at the hospital.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -1512,8 +1463,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you watch a movie?',
     answer: '저는 영화관에서 영화를 봤어요.',
     alternativeAnswers: ['영화관에서 영화를 봤어요.'],
-    answerTranslation: 'I watched a movie at the movie theater.',
-    items: [
+    answerTranslation: 'I watched a movie at the movie theater.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -1529,8 +1479,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you buy clothes?',
     answer: '저는 쇼핑몰에서 옷을 샀어요.',
     alternativeAnswers: ['쇼핑몰에서 옷을 샀어요.'],
-    answerTranslation: 'I bought clothes at the shopping mall.',
-    items: [
+    answerTranslation: 'I bought clothes at the shopping mall.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '쇼핑몰', combineWithNext: true },
@@ -1546,8 +1495,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you buy a hat?',
     answer: '저는 백화점에서 모자를 샀어요.',
     alternativeAnswers: ['백화점에서 모자를 샀어요.'],
-    answerTranslation: 'I bought a hat at the department store.',
-    items: [
+    answerTranslation: 'I bought a hat at the department store.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '백화점', combineWithNext: true },
@@ -1563,8 +1511,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you walk?',
     answer: '저는 공원에서 산책했어요.',
     alternativeAnswers: ['공원에서 산책했어요.', '공원에서 산책을 했어요.'],
-    answerTranslation: 'I walked in the park.',
-    items: [
+    answerTranslation: 'I walked in the park.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '공원', combineWithNext: true },
@@ -1580,8 +1527,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you exercise?',
     answer: '저는 헬스장에서 운동했어요.',
     alternativeAnswers: ['헬스장에서 운동했어요.', '헬스장에서 운동을 했어요.'],
-    answerTranslation: 'I exercised at the gym.',
-    items: [
+    answerTranslation: 'I exercised at the gym.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '헬스장', combineWithNext: true },
@@ -1597,8 +1543,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you meet a friend?',
     answer: '저는 카페에서 친구를 만났어요.',
     alternativeAnswers: ['카페에서 친구를 만났어요.'],
-    answerTranslation: 'I met a friend at the cafe.',
-    items: [
+    answerTranslation: 'I met a friend at the cafe.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -1614,8 +1559,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you talk to a friend?',
     answer: '저는 카페에서 친구하고 이야기했어요.',
     alternativeAnswers: ['카페에서 친구하고 이야기했어요.', '카페에서 친구하고 이야기를 했어요.'],
-    answerTranslation: 'I talked to a friend at the cafe.',
-    items: [
+    answerTranslation: 'I talked to a friend at the cafe.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -1633,8 +1577,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you sleep?',
     answer: '저는 집에서 잠을 잤어요.',
     alternativeAnswers: ['집에서 잠을 잤어요.', '집에서 잤어요.'],
-    answerTranslation: 'I slept at home.',
-    items: [
+    answerTranslation: 'I slept at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1650,8 +1593,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you work?',
     answer: '저는 집에서 일했어요.',
     alternativeAnswers: ['집에서 일했어요.', '집에서 일을 했어요.'],
-    answerTranslation: 'I worked at home.',
-    items: [
+    answerTranslation: 'I worked at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1667,8 +1609,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you talk to your father?',
     answer: '저는 집에서 아빠하고 이야기했어요.',
     alternativeAnswers: ['집에서 아빠하고 이야기했어요.', '집에서 아빠하고 이야기를 했어요.'],
-    answerTranslation: 'I talked to my father at home.',
-    items: [
+    answerTranslation: 'I talked to my father at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1686,8 +1627,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you make food?',
     answer: '저는 집에서 음식을 만들었어요.',
     alternativeAnswers: ['집에서 음식을 만들었어요.'],
-    answerTranslation: 'I made food at home.',
-    items: [
+    answerTranslation: 'I made food at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1703,8 +1643,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you listen to music?',
     answer: '저는 집에서 노래를 들었어요.',
     alternativeAnswers: ['집에서 노래를 들었어요.'],
-    answerTranslation: 'I listened to music at home.',
-    items: [
+    answerTranslation: 'I listened to music at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1720,8 +1659,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you withdraw money?',
     answer: '저는 은행에서 돈을 찾았어요.',
     alternativeAnswers: ['은행에서 돈을 찾았어요.'],
-    answerTranslation: 'I withdrew money at the bank.',
-    items: [
+    answerTranslation: 'I withdrew money at the bank.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '은행', combineWithNext: true },
@@ -1737,8 +1675,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you eat dessert?',
     answer: '저는 카페에서 디저트를 먹었어요.',
     alternativeAnswers: ['카페에서 디저트를 먹었어요.'],
-    answerTranslation: 'I ate dessert at the cafe.',
-    items: [
+    answerTranslation: 'I ate dessert at the cafe.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -1754,8 +1691,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you call a friend?',
     answer: '저는 집에서 친구한테 전화했어요.',
     alternativeAnswers: ['집에서 친구한테 전화했어요.', '집에서 친구한테 전화를 했어요.'],
-    answerTranslation: 'I called a friend at home.',
-    items: [
+    answerTranslation: 'I called a friend at home.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -1773,8 +1709,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you shop?',
     answer: '저는 백화점에서 쇼핑했어요.',
     alternativeAnswers: ['백화점에서 쇼핑했어요.', '백화점에서 쇼핑을 했어요.'],
-    answerTranslation: 'I shopped at the department store.',
-    items: [
+    answerTranslation: 'I shopped at the department store.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '백화점', combineWithNext: true },
@@ -1790,8 +1725,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you cook?',
     answer: '저는 식당에서 요리했어요.',
     alternativeAnswers: ['식당에서 요리했어요.', '식당에서 요리를 했어요.'],
-    answerTranslation: 'I cooked at the restaurant.',
-    items: [
+    answerTranslation: 'I cooked at the restaurant.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -1807,8 +1741,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study English?',
     answer: '저는 도서관에서 영어를 공부했어요.',
     alternativeAnswers: ['도서관에서 영어를 공부했어요.'],
-    answerTranslation: 'I studied English at the library.',
-    items: [
+    answerTranslation: 'I studied English at the library.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -1824,8 +1757,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you call your mother?',
     answer: '저는 학교에서 엄마한테 전화했어요.',
     alternativeAnswers: ['학교에서 엄마한테 전화했어요.', '학교에서 엄마한테 전화를 했어요.'],
-    answerTranslation: 'I called my mother at school.',
-    items: [
+    answerTranslation: 'I called my mother at school.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -1843,8 +1775,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study English?',
     answer: '저는 미국에서 영어를 공부했어요.',
     alternativeAnswers: ['미국에서 영어를 공부했어요.'],
-    answerTranslation: 'I studied English in the United States.',
-    items: [
+    answerTranslation: 'I studied English in the United States.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -1860,8 +1791,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study Chinese?',
     answer: '저는 중국에서 중국어를 공부했어요.',
     alternativeAnswers: ['중국에서 중국어를 공부했어요.'],
-    answerTranslation: 'I studied Chinese in China.',
-    items: [
+    answerTranslation: 'I studied Chinese in China.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '중국', combineWithNext: true },
@@ -1877,8 +1807,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study Japanese?',
     answer: '저는 일본에서 일본어를 공부했어요.',
     alternativeAnswers: ['일본에서 일본어를 공부했어요.'],
-    answerTranslation: 'I studied Japanese in Japan.',
-    items: [
+    answerTranslation: 'I studied Japanese in Japan.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일본', combineWithNext: true },
@@ -1894,8 +1823,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study French?',
     answer: '저는 프랑스에서 프랑스어를 공부했어요.',
     alternativeAnswers: ['프랑스에서 프랑스어를 공부했어요.'],
-    answerTranslation: 'I studied French in France.',
-    items: [
+    answerTranslation: 'I studied French in France.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '프랑스', combineWithNext: true },
@@ -1911,8 +1839,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study German?',
     answer: '저는 독일에서 독일어를 공부했어요.',
     alternativeAnswers: ['독일에서 독일어를 공부했어요.'],
-    answerTranslation: 'I studied German in Germany.',
-    items: [
+    answerTranslation: 'I studied German in Germany.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '독일', combineWithNext: true },
@@ -1928,8 +1855,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you study Vietnamese?',
     answer: '저는 베트남에서 베트남어를 공부했어요.',
     alternativeAnswers: ['베트남에서 베트남어를 공부했어요.'],
-    answerTranslation: 'I studied Vietnamese in Vietnam.',
-    items: [
+    answerTranslation: 'I studied Vietnamese in Vietnam.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '베트남', combineWithNext: true },
@@ -1945,8 +1871,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the classroom?',
     answer: '교실에 책상이 있었어요.',
     alternativeAnswers: ['책상이 교실에 있었어요.'],
-    answerTranslation: 'There were desks in the classroom.',
-    items: [
+    answerTranslation: 'There were desks in the classroom.',    items: [
       { id: '1', content: '교실', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -1960,8 +1885,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the school?',
     answer: '학교에 의자가 있었어요.',
     alternativeAnswers: ['의자가 학교에 있었어요.'],
-    answerTranslation: 'There were chairs in the school.',
-    items: [
+    answerTranslation: 'There were chairs in the school.',    items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -1975,8 +1899,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the library?',
     answer: '도서관에 책이 있었어요.',
     alternativeAnswers: ['책이 도서관에 있었어요.'],
-    answerTranslation: 'There were books in the library.',
-    items: [
+    answerTranslation: 'There were books in the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -1990,8 +1913,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the bathroom?',
     answer: '화장실에 휴지가 있었어요.',
     alternativeAnswers: ['휴지가 화장실에 있었어요.'],
-    answerTranslation: 'There was tissue in the bathroom.',
-    items: [
+    answerTranslation: 'There was tissue in the bathroom.',    items: [
       { id: '1', content: '화장실', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '휴지', combineWithNext: true },
@@ -2005,8 +1927,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the house?',
     answer: '집에 안경이 있었어요.',
     alternativeAnswers: ['안경이 집에 있었어요.'],
-    answerTranslation: 'There were glasses in the house.',
-    items: [
+    answerTranslation: 'There were glasses in the house.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '안경', combineWithNext: true },
@@ -2020,8 +1941,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the company?',
     answer: '회사에 노트북이 있었어요.',
     alternativeAnswers: ['노트북이 회사에 있었어요.'],
-    answerTranslation: 'There was a laptop in the company.',
-    items: [
+    answerTranslation: 'There was a laptop in the company.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '노트북', combineWithNext: true },
@@ -2035,8 +1955,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the restaurant?',
     answer: '식당에 물이 있었어요.',
     alternativeAnswers: ['물이 식당에 있었어요.'],
-    answerTranslation: 'There was water in the restaurant.',
-    items: [
+    answerTranslation: 'There was water in the restaurant.',    items: [
       { id: '1', content: '식당', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -2050,8 +1969,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the cafe?',
     answer: '카페에 커피가 있었어요.',
     alternativeAnswers: ['커피가 카페에 있었어요.'],
-    answerTranslation: 'There was coffee in the cafe.',
-    items: [
+    answerTranslation: 'There was coffee in the cafe.',    items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -2065,8 +1983,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the hospital?',
     answer: '병원에 침대가 있었어요.',
     alternativeAnswers: ['침대가 병원에 있었어요.'],
-    answerTranslation: 'There were beds in the hospital.',
-    items: [
+    answerTranslation: 'There were beds in the hospital.',    items: [
       { id: '1', content: '병원', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: true },
@@ -2080,8 +1997,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'What was in the movie theater?',
     answer: '영화관에 제 핸드폰이 있었어요.',
     alternativeAnswers: ['제 핸드폰이 영화관에 있었어요.'],
-    answerTranslation: 'My phone was in the movie theater.',
-    items: [
+    answerTranslation: 'My phone was in the movie theater.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '제', combineWithNext: false },
@@ -2100,8 +2016,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '교실에 책상이 없었어요.',
       '책상이 교실에 없었어요.',
     ],
-    answerTranslation: 'No. There were no desks in the classroom.',
-    items: [
+    answerTranslation: 'No. There were no desks in the classroom.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '교실', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2120,8 +2035,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '학교에 의자가 없었어요.',
       '의자가 학교에 없었어요.',
     ],
-    answerTranslation: 'No. There were no chairs in the school.',
-    items: [
+    answerTranslation: 'No. There were no chairs in the school.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '학교', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2140,8 +2054,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '도서관에 책이 없었어요.',
       '책이 도서관에 없었어요.',
     ],
-    answerTranslation: 'No. There were no books in the library.',
-    items: [
+    answerTranslation: 'No. There were no books in the library.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '도서관', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2160,8 +2073,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '화장실에 휴지가 없었어요.',
       '휴지가 화장실에 없었어요.',
     ],
-    answerTranslation: 'No. There was no tissue in the bathroom.',
-    items: [
+    answerTranslation: 'No. There was no tissue in the bathroom.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '화장실', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2180,8 +2092,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '집에 안경이 없었어요.',
       '안경이 집에 없었어요.',
     ],
-    answerTranslation: 'No. There were no glasses in the house.',
-    items: [
+    answerTranslation: 'No. There were no glasses in the house.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '집', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2200,8 +2111,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '회사에 노트북이 없었어요.',
       '노트북이 회사에 없었어요.',
     ],
-    answerTranslation: 'No. There was no laptop in the company.',
-    items: [
+    answerTranslation: 'No. There was no laptop in the company.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '회사', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2220,8 +2130,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '식당에 물이 없었어요.',
       '물이 식당에 없었어요.',
     ],
-    answerTranslation: 'No. There was no water in the restaurant.',
-    items: [
+    answerTranslation: 'No. There was no water in the restaurant.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2240,8 +2149,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '카페에 커피가 없었어요.',
       '커피가 카페에 없었어요.',
     ],
-    answerTranslation: 'No. There was no coffee in the cafe.',
-    items: [
+    answerTranslation: 'No. There was no coffee in the cafe.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '카페', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2260,8 +2168,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '병원에 침대가 없었어요.',
       '침대가 병원에 없었어요.',
     ],
-    answerTranslation: 'No. There were no beds in the hospital.',
-    items: [
+    answerTranslation: 'No. There were no beds in the hospital.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '병원', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2280,8 +2187,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
       '영화관에 제 핸드폰이 없었어요.',
       '제 핸드폰이 영화관에 없었어요.',
     ],
-    answerTranslation: 'No. My phone was not in the movie theater.',
-    items: [
+    answerTranslation: 'No. My phone was not in the movie theater.',    items: [
       { id: '1', content: '아니요.', combineWithNext: false },
       { id: '2', content: '영화관', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -2297,8 +2203,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the classroom?',
     answer: '교실에 선생님이 있었어요.',
     alternativeAnswers: ['선생님이 교실에 있었어요.'],
-    answerTranslation: 'A teacher was in the classroom.',
-    items: [
+    answerTranslation: 'A teacher was in the classroom.',    items: [
       { id: '1', content: '교실', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '선생님', combineWithNext: true },
@@ -2312,8 +2217,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in school?',
     answer: '학교에 학생이 있었어요.',
     alternativeAnswers: ['학생이 학교에 있었어요.'],
-    answerTranslation: 'Students were in school.',
-    items: [
+    answerTranslation: 'Students were in school.',    items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '학생', combineWithNext: true },
@@ -2327,8 +2231,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the library?',
     answer: '도서관에 언니가 있었어요.',
     alternativeAnswers: ['언니가 도서관에 있었어요.'],
-    answerTranslation: 'My sister was in the library.',
-    items: [
+    answerTranslation: 'My sister was in the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '언니', combineWithNext: true },
@@ -2342,8 +2245,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the bathroom?',
     answer: '화장실에 친구가 있었어요.',
     alternativeAnswers: ['친구가 화장실에 있었어요.'],
-    answerTranslation: 'My friend was in the bathroom.',
-    items: [
+    answerTranslation: 'My friend was in the bathroom.',    items: [
       { id: '1', content: '화장실', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '친구', combineWithNext: true },
@@ -2357,8 +2259,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the house?',
     answer: '집에 엄마가 있었어요.',
     alternativeAnswers: ['엄마가 집에 있었어요.'],
-    answerTranslation: 'My mother was in the house.',
-    items: [
+    answerTranslation: 'My mother was in the house.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '엄마', combineWithNext: true },
@@ -2372,8 +2273,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was at work?',
     answer: '회사에 아빠가 있었어요.',
     alternativeAnswers: ['아빠가 회사에 있었어요.'],
-    answerTranslation: 'My father was at work.',
-    items: [
+    answerTranslation: 'My father was at work.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '아빠', combineWithNext: true },
@@ -2387,8 +2287,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the restaurant?',
     answer: '식당에 요리사가 있었어요.',
     alternativeAnswers: ['요리사가 식당에 있었어요.'],
-    answerTranslation: 'A chef was in the restaurant.',
-    items: [
+    answerTranslation: 'A chef was in the restaurant.',    items: [
       { id: '1', content: '식당', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '요리사', combineWithNext: true },
@@ -2402,8 +2301,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the cafe?',
     answer: '카페에 오빠가 있었어요.',
     alternativeAnswers: ['오빠가 카페에 있었어요.'],
-    answerTranslation: 'My brother was in the cafe.',
-    items: [
+    answerTranslation: 'My brother was in the cafe.',    items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '오빠', combineWithNext: true },
@@ -2417,8 +2315,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the hospital?',
     answer: '병원에 가수가 있었어요.',
     alternativeAnswers: ['가수가 병원에 있었어요.'],
-    answerTranslation: 'A singer was in the hospital.',
-    items: [
+    answerTranslation: 'A singer was in the hospital.',    items: [
       { id: '1', content: '병원', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가수', combineWithNext: true },
@@ -2432,8 +2329,7 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who was in the movie theater?',
     answer: '영화관에 배우가 있었어요.',
     alternativeAnswers: ['배우가 영화관에 있었어요.'],
-    answerTranslation: 'An actor was in the movie theater.',
-    items: [
+    answerTranslation: 'An actor was in the movie theater.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '배우', combineWithNext: true },
@@ -2442,3 +2338,5 @@ export const pastTenseQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const pastTenseQuestions = addGrammarName(questions, 'past-tense');

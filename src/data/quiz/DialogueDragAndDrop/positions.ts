@@ -1,9 +1,10 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 위, 아래, 앞, 뒤, 옆, 왼쪽, 오른쪽, 안, 밖
 // 책, 책상, 의자, 펜, 가방, 노트북, 핸드폰, 모자, 우산, 컵, 쓰레기통, 침대, 베개, 고양이, 강아지
 // 학교, 교실, 도서관, 카페, 편의점, 식당, 회사, 사무실, 영화관, 서점, 은행, 화장실, 백화점, 쇼핑몰, 공원
 
-export const positionQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '책이 어디에 있어요?',
@@ -11,7 +12,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '책이 책상 위에 있어요.',
     alternativeAnswers: ['책상 위에 책이 있어요.'],
     answerTranslation: 'The book is on the desk.',
-    items: [
+items: [
       { id: '1', content: '책', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -27,7 +28,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '책상이 침대 옆에 있어요.',
     alternativeAnswers: ['침대 옆에 책상이 있어요.'],
     answerTranslation: 'The desk is next to the bed.',
-    items: [
+items: [
       { id: '1', content: '책상', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -43,7 +44,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '의자가 책상 앞에 있어요.',
     alternativeAnswers: ['책상 앞에 의자가 있어요.'],
     answerTranslation: 'The chair is in front of the desk.',
-    items: [
+items: [
       { id: '1', content: '의자', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -59,7 +60,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '펜이 가방 안에 있어요.',
     alternativeAnswers: ['가방 안에 펜이 있어요.'],
     answerTranslation: 'The pen is in the bag.',
-    items: [
+items: [
       { id: '1', content: '펜', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: false },
@@ -75,7 +76,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '노트북이 책상 위에 있어요.',
     alternativeAnswers: ['책상 위에 노트북이 있어요.'],
     answerTranslation: 'The laptop is on the desk.',
-    items: [
+items: [
       { id: '1', content: '노트북', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -91,7 +92,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '핸드폰이 침대 위에 있어요.',
     alternativeAnswers: ['침대 위에 핸드폰이 있어요.'],
     answerTranslation: 'The phone is on the bed.',
-    items: [
+items: [
       { id: '1', content: '핸드폰', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -107,7 +108,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '모자가 노트북 뒤에 있어요.',
     alternativeAnswers: ['노트북 뒤에 모자가 있어요.'],
     answerTranslation: 'The hat is behind the laptop.',
-    items: [
+items: [
       { id: '1', content: '모자', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '노트북', combineWithNext: false },
@@ -123,7 +124,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '우산이 침대 왼쪽에 있어요.',
     alternativeAnswers: ['침대 왼쪽에 우산이 있어요.'],
     answerTranslation: 'The umbrella is on the desk.',
-    items: [
+items: [
       { id: '1', content: '우산', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -139,7 +140,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '컵이 노트북 오른쪽에 있어요.',
     alternativeAnswers: ['노트북 오른쪽에 컵이 있어요.'],
     answerTranslation: 'The cup is on the desk.',
-    items: [
+items: [
       { id: '1', content: '컵', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '노트북', combineWithNext: false },
@@ -155,7 +156,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '쓰레기통이 책상 오른쪽에 있어요.',
     alternativeAnswers: ['책상 오른쪽에 쓰레기통이 있어요.'],
     answerTranslation: 'The trash can is on the desk.',
-    items: [
+items: [
       { id: '1', content: '쓰레기통', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -171,7 +172,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '침대가 책상 왼쪽에 있어요.',
     alternativeAnswers: ['책상 왼쪽에 침대가 있어요.'],
     answerTranslation: 'The bed is on the desk.',
-    items: [
+items: [
       { id: '1', content: '침대', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -187,7 +188,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '베개가 침대 위에 있어요.',
     alternativeAnswers: ['침대 위에 베개가 있어요.'],
     answerTranslation: 'The pillow is on the bed.',
-    items: [
+items: [
       { id: '1', content: '베개', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -203,7 +204,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '가방이 의자 아래에 있어요.',
     alternativeAnswers: ['의자 아래에 가방이 있어요.'],
     answerTranslation: 'The bag is under the chair.',
-    items: [
+items: [
       { id: '1', content: '가방', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: false },
@@ -219,7 +220,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '고양이가 침대 아래에 있어요.',
     alternativeAnswers: ['침대 아래에 고양이가 있어요.'],
     answerTranslation: 'The cat is under the bed.',
-    items: [
+items: [
       { id: '1', content: '고양이', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -235,7 +236,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '강아지가 집 밖에 있어요.',
     alternativeAnswers: ['집 밖에 강아지가 있어요.'],
     answerTranslation: 'The dog is outside the house.',
-    items: [
+items: [
       { id: '1', content: '강아지', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: false },
@@ -251,7 +252,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '학교가 백화점 뒤에 있어요.',
     alternativeAnswers: ['백화점 뒤에 학교가 있어요.'],
     answerTranslation: 'The school is behind the department store.',
-    items: [
+items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '백화점', combineWithNext: false },
@@ -267,7 +268,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '화장실이 쇼핑몰 안에 있어요.',
     alternativeAnswers: ['쇼핑몰 안에 화장실이 있어요.'],
     answerTranslation: 'The bathroom is in the shopping mall.',
-    items: [
+items: [
       { id: '1', content: '화장실', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '쇼핑몰', combineWithNext: false },
@@ -283,7 +284,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '교실이 화장실 옆에 있어요.',
     alternativeAnswers: ['화장실 옆에 교실이 있어요.'],
     answerTranslation: 'The classroom is next to the bathroom.',
-    items: [
+items: [
       { id: '1', content: '교실', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: false },
@@ -300,7 +301,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '도서관이 학교 앞에 있어요.',
     alternativeAnswers: ['학교 앞에 도서관이 있어요.'],
     answerTranslation: 'The library is in front of the school.',
-    items: [
+items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: false },
@@ -316,7 +317,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '카페가 도서관 안에 있어요.',
     alternativeAnswers: ['도서관 안에 카페가 있어요.'],
     answerTranslation: 'The cafe is in the library.',
-    items: [
+items: [
       { id: '1', content: '카페', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: false },
@@ -332,7 +333,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '편의점이 카페 오른쪽에 있어요.',
     alternativeAnswers: ['카페 오른쪽에 편의점이 있어요.'],
     answerTranslation: 'The convenience store is to the right of the cafe.',
-    items: [
+items: [
       { id: '1', content: '편의점', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: false },
@@ -348,7 +349,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '식당이 편의점 왼쪽에 있어요.',
     alternativeAnswers: ['편의점 왼쪽에 식당이 있어요.'],
     answerTranslation: 'The restaurant is to the left of the convenience store.',
-    items: [
+items: [
       { id: '1', content: '식당', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '편의점', combineWithNext: false },
@@ -364,7 +365,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '회사가 은행 뒤에 있어요.',
     alternativeAnswers: ['은행 뒤에 회사가 있어요.'],
     answerTranslation: 'The company is behind the bank.',
-    items: [
+items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '은행', combineWithNext: false },
@@ -380,7 +381,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '사무실이 빌딩에 있어요.',
     alternativeAnswers: ['빌딩에 사무실이 있어요.'],
     answerTranslation: 'The office is in the building.',
-    items: [
+items: [
       { id: '1', content: '사무실', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '빌딩', combineWithNext: true },
@@ -395,7 +396,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '영화관이 백화점에 있어요.',
     alternativeAnswers: ['백화점에 영화관이 있어요.'],
     answerTranslation: 'The movie theater is in the department store.',
-    items: [
+items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '백화점', combineWithNext: true },
@@ -410,7 +411,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '서점이 영화관 앞에 있어요.',
     alternativeAnswers: ['영화관 앞에 서점이 있어요.'],
     answerTranslation: 'The bookstore is in front of the movie theater.',
-    items: [
+items: [
       { id: '1', content: '서점', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: false },
@@ -426,7 +427,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '은행이 식당 앞에 있어요.',
     alternativeAnswers: ['식당 앞에 은행이 있어요.'],
     answerTranslation: 'The bank is in front of the restaurant.',
-    items: [
+items: [
       { id: '1', content: '은행', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: false },
@@ -442,7 +443,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '백화점이 쇼핑몰 옆에 있어요.',
     alternativeAnswers: ['쇼핑몰 옆에 백화점이 있어요.'],
     answerTranslation: 'The department store is next to the shopping mall.',
-    items: [
+items: [
       { id: '1', content: '백화점', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '쇼핑몰', combineWithNext: false },
@@ -458,7 +459,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '고양이가 침대 아래에서 자요.',
     alternativeAnswers: ['침대 아래에서 고양이가 자요.'],
     answerTranslation: 'The cat sleeps under the bed.',
-    items: [
+items: [
       { id: '1', content: '고양이', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -474,7 +475,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '남자친구가 화장실 앞에서 여자친구를 기다려요.',
     alternativeAnswers: ['화장실 앞에서 남자친구가 여자친구를 기다려요.'],
     answerTranslation: 'The boyfriend waits for the girlfriend in front of the bathroom.',
-    items: [
+items: [
       { id: '1', content: '남자친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: false },
@@ -492,7 +493,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '친구가 카페 앞에서 기다려요.',
     alternativeAnswers: ['카페 앞에서 친구가 기다려요.'],
     answerTranslation: 'The friend waits in front of the cafe.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: false },
@@ -508,7 +509,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '학생이 선생님 뒤에서 춤을 춰요.',
     alternativeAnswers: ['선생님 뒤에서 학생이 춤을 춰요.'],
     answerTranslation: 'The student dances behind the teacher.',
-    items: [
+items: [
       { id: '1', content: '학생', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '선생님', combineWithNext: false },
@@ -526,7 +527,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '할아버지가 침대 위에서 신문을 읽어요.',
     alternativeAnswers: ['침대 위에서 할아버지가 신문을 읽어요.'],
     answerTranslation: 'Grandfather reads the newspaper on the bed.',
-    items: [
+items: [
       { id: '1', content: '할아버지', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -544,7 +545,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '친구가 책상 옆에서 전화를 받아요.',
     alternativeAnswers: ['책상 옆에서 친구가 전화를 받아요.'],
     answerTranslation: 'The friend answers the phone to the side of the desk.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -562,7 +563,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '강아지가 침대 위에서 잠을 자요.',
     alternativeAnswers: ['침대 위에서 강아지가 잠을 자요.'],
     answerTranslation: 'The dog sleeps on the bed.',
-    items: [
+items: [
       { id: '1', content: '강아지', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -580,7 +581,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '아이들이 학교 밖에서 놀아요.',
     alternativeAnswers: ['학교 밖에서 아이들이 놀아요.'],
     answerTranslation: 'Children play outside the school.',
-    items: [
+items: [
       { id: '1', content: '아이들', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: false },
@@ -596,7 +597,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '아이가 의자 위에서 텔레비전을 봐요.',
     alternativeAnswers: ['의자 위에서 아이가 텔레비전을 봐요.'],
     answerTranslation: 'The child watches TV on the chair.',
-    items: [
+items: [
       { id: '1', content: '아이', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: false },
@@ -614,7 +615,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '여자친구가 카페 앞에서 남자친구를 기다려요.',
     alternativeAnswers: ['카페 앞에서 여자친구가 남자친구를 기다려요.'],
     answerTranslation: 'The girlfriend waits for the boyfriend in front of the cafe.',
-    items: [
+items: [
       { id: '1', content: '여자친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: false },
@@ -632,7 +633,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '선생님이 책상 앞에서 수업을 해요.',
     alternativeAnswers: ['책상 앞에서 선생님이 수업을 해요.'],
     answerTranslation: 'The teacher teaches in front of the desk.',
-    items: [
+items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -654,7 +655,7 @@ export const positionQuestions: DialogueQuestion[] = [
       '학생이 사람들 앞에서 발표를 해요.',
     ],
     answerTranslation: 'The student gives a presentation in front of the people.',
-    items: [
+items: [
       { id: '1', content: '학생', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '사람들', combineWithNext: false },
@@ -672,7 +673,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '누나가 거울 앞에서 화장을 해요.',
     alternativeAnswers: ['거울 앞에서 누나가 화장을 해요.'],
     answerTranslation: 'The older sister puts on makeup in front of the mirror.',
-    items: [
+items: [
       { id: '1', content: '누나', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '거울', combineWithNext: false },
@@ -690,7 +691,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '동생이 책상 앞에서 음악을 들어요.',
     alternativeAnswers: ['책상 앞에서 동생이 음악을 들어요.'],
     answerTranslation: 'The younger sibling listens to music in front of the desk.',
-    items: [
+items: [
       { id: '1', content: '동생', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -712,7 +713,7 @@ export const positionQuestions: DialogueQuestion[] = [
       '학생들이 도서관 안에서 공부를 해요.',
     ],
     answerTranslation: 'Students study inside the library.',
-    items: [
+items: [
       { id: '1', content: '학생들', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: false },
@@ -730,7 +731,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '가족이 식당 안에서 저녁을 먹어요.',
     alternativeAnswers: ['식당 안에서 가족이 저녁을 먹어요.'],
     answerTranslation: 'The family eats dinner inside the restaurant.',
-    items: [
+items: [
       { id: '1', content: '가족', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: false },
@@ -748,7 +749,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '저는 소파 앞에서 텔레비전을 봐요.',
     alternativeAnswers: ['소파 앞에서 저는 텔레비전을 봐요.'],
     answerTranslation: 'I watch TV in front of the sofa.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '소파', combineWithNext: false },
@@ -766,7 +767,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '저는 책상 위를 정리했어요.',
     alternativeAnswers: ['책상 위를 저는 정리했어요.'],
     answerTranslation: 'I cleaned the top of the desk.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -782,7 +783,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '엄마가 침대 아래를 청소해요.',
     alternativeAnswers: ['침대 아래를 엄마가 청소해요.'],
     answerTranslation: 'Mom cleans under the bed.',
-    items: [
+items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '침대', combineWithNext: false },
@@ -798,7 +799,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '고양이가 박스 안을 좋아해요.',
     alternativeAnswers: ['박스 안을 고양이가 좋아해요.'],
     answerTranslation: 'The cat likes inside the box.',
-    items: [
+items: [
       { id: '1', content: '고양이', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '박스', combineWithNext: false },
@@ -814,7 +815,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '배가 다리 아래를 지나가요.',
     alternativeAnswers: ['다리 아래를 배가 지나가요.'],
     answerTranslation: 'The ship passes under the bridge.',
-    items: [
+items: [
       { id: '1', content: '배', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '다리', combineWithNext: false },
@@ -830,7 +831,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '비행기가 구름 위를 지나가요.',
     alternativeAnswers: ['구름 위를 비행기가 지나가요.'],
     answerTranslation: 'The airplane passes over the clouds.',
-    items: [
+items: [
       { id: '1', content: '비행기', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '구름', combineWithNext: false },
@@ -846,7 +847,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '친구가 선생님 옆을 지나가요.',
     alternativeAnswers: ['선생님 옆을 친구가 지나가요.'],
     answerTranslation: 'The friend passes by the teacher.',
-    items: [
+items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '선생님', combineWithNext: false },
@@ -862,7 +863,7 @@ export const positionQuestions: DialogueQuestion[] = [
     answer: '엄마가 책상 뒤를 봐요.',
     alternativeAnswers: ['책상 뒤를 엄마가 봐요.'],
     answerTranslation: 'Mom looks behind the desk.',
-    items: [
+items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: false },
@@ -877,7 +878,7 @@ export const positionQuestions: DialogueQuestion[] = [
     questionTranslation: 'where is cold?',
     answer: '집 밖이 추워요.',
     answerTranslation: 'Outside the house is cold.',
-    items: [
+items: [
       { id: '1', content: '집', combineWithNext: false },
       { id: '2', content: '밖', combineWithNext: true },
       { id: '3', content: '이', combineWithNext: false },
@@ -890,7 +891,7 @@ export const positionQuestions: DialogueQuestion[] = [
     questionTranslation: 'where is dirty?',
     answer: '책상 위가 더러워요.',
     answerTranslation: 'The top of the desk is dirty.',
-    items: [
+items: [
       { id: '1', content: '책상', combineWithNext: false },
       { id: '2', content: '위', combineWithNext: true },
       { id: '3', content: '가', combineWithNext: false },
@@ -903,7 +904,7 @@ export const positionQuestions: DialogueQuestion[] = [
     questionTranslation: 'where is dirty?',
     answer: '침대 아래가 더러워요.',
     answerTranslation: 'Under the bed is dirty.',
-    items: [
+items: [
       { id: '1', content: '침대', combineWithNext: false },
       { id: '2', content: '아래', combineWithNext: true },
       { id: '3', content: '가', combineWithNext: false },
@@ -916,7 +917,7 @@ export const positionQuestions: DialogueQuestion[] = [
     questionTranslation: 'where is cool?',
     answer: '나무 아래가 시원해요.',
     answerTranslation: 'Under the tree is cool.',
-    items: [
+items: [
       { id: '1', content: '나무', combineWithNext: false },
       { id: '2', content: '아래', combineWithNext: true },
       { id: '3', content: '가', combineWithNext: false },
@@ -929,7 +930,7 @@ export const positionQuestions: DialogueQuestion[] = [
     questionTranslation: 'where is quiet?',
     answer: '도서관 안이 조용해요.',
     answerTranslation: 'Inside the library is quiet.',
-    items: [
+items: [
       { id: '1', content: '도서관', combineWithNext: false },
       { id: '2', content: '안', combineWithNext: true },
       { id: '3', content: '이', combineWithNext: false },
@@ -942,7 +943,7 @@ export const positionQuestions: DialogueQuestion[] = [
     questionTranslation: 'where is noisy?',
     answer: '학교 옆이 시끄러워요.',
     answerTranslation: 'Next to the school is noisy.',
-    items: [
+items: [
       { id: '1', content: '학교', combineWithNext: false },
       { id: '2', content: '옆', combineWithNext: true },
       { id: '3', content: '이', combineWithNext: false },
@@ -950,3 +951,5 @@ export const positionQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const positionQuestions = addGrammarName(questions, 'positions');

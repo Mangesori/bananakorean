@@ -1,14 +1,15 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 교실, 학교, 도서관, 화장실, 집, 회사, 식당, 카페, 병원, 영화관
 
-export const locationQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '여기는 어디예요?',
     questionTranslation: 'Where is this?',
     answer: '여기는 교실이에요.',
     answerTranslation: 'This is a classroom.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -21,7 +22,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 학교예요.',
     answerTranslation: 'This is a school.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -34,7 +35,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 도서관이에요.',
     answerTranslation: 'This is a library.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -47,7 +48,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 화장실이에요.',
     answerTranslation: 'This is a restroom.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -60,7 +61,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 집이에요.',
     answerTranslation: 'This is a house.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -73,7 +74,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 회사예요.',
     answerTranslation: 'This is a company.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -86,7 +87,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 식당이에요.',
     answerTranslation: 'This is a restaurant.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -99,7 +100,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 카페예요.',
     answerTranslation: 'This is a cafe.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -112,7 +113,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 병원이에요.',
     answerTranslation: 'This is a hospital.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -125,7 +126,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is this?',
     answer: '여기는 영화관이에요.',
     answerTranslation: 'This is a movie theater.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -138,7 +139,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 교실이에요.',
     answerTranslation: 'That over there is a classroom.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -151,7 +152,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 학교예요.',
     answerTranslation: 'That over there is a school.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -164,7 +165,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 도서관이에요.',
     answerTranslation: 'That over there is a library.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -177,7 +178,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 화장실이에요.',
     answerTranslation: 'That over there is a restroom.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -190,7 +191,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 집이에요.',
     answerTranslation: 'That over there is a house.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -203,7 +204,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 회사예요.',
     answerTranslation: 'That over there is a company.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -216,7 +217,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 식당이에요.',
     answerTranslation: 'That over there is a restaurant.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -229,7 +230,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 카페예요.',
     answerTranslation: 'That over there is a cafe.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -242,7 +243,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 병원이에요.',
     answerTranslation: 'That over there is a hospital.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -255,7 +256,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where is that over there?',
     answer: '저기는 영화관이에요.',
     answerTranslation: 'That over there is a movie theater.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -268,7 +269,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a classroom?',
     answer: '여기는 교실이 아니에요.',
     answerTranslation: 'This is not a classroom.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -282,7 +283,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a school?',
     answer: '여기는 학교가 아니에요.',
     answerTranslation: 'This is not a school.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -296,7 +297,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a library?',
     answer: '여기는 도서관이 아니에요.',
     answerTranslation: 'This is not a library.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -310,7 +311,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a restroom?',
     answer: '여기는 화장실이 아니에요.',
     answerTranslation: 'This is not a restroom.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -324,7 +325,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a house?',
     answer: '여기는 집이 아니에요.',
     answerTranslation: 'This is not a house.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -338,7 +339,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a company?',
     answer: '여기는 회사가 아니에요.',
     answerTranslation: 'This is not a company.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -352,7 +353,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a restaurant?',
     answer: '여기는 식당이 아니에요.',
     answerTranslation: 'This is not a restaurant.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -366,7 +367,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a cafe?',
     answer: '여기는 카페가 아니에요.',
     answerTranslation: 'This is not a cafe.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -380,7 +381,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a hospital?',
     answer: '여기는 병원이 아니에요.',
     answerTranslation: 'This is not a hospital.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -394,7 +395,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is this a movie theater?',
     answer: '여기는 영화관이 아니에요.',
     answerTranslation: 'This is not a movie theater.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -408,7 +409,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this building?',
     answer: '이 건물은 학교예요.',
     answerTranslation: 'This building is a school.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -422,7 +423,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this building?',
     answer: '이 건물은 도서관이에요.',
     answerTranslation: 'This building is a library.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -436,7 +437,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this building?',
     answer: '이 건물은 식당이에요.',
     answerTranslation: 'This building is a restaurant.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -450,7 +451,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this building?',
     answer: '이 건물은 카페예요.',
     answerTranslation: 'This building is a cafe.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -464,7 +465,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this building?',
     answer: '이 건물은 병원이에요.',
     answerTranslation: 'This building is a hospital.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -478,7 +479,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is this building?',
     answer: '이 건물은 영화관이에요.',
     answerTranslation: 'This building is a movie theater.',
-    items: [
+items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -492,7 +493,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that building over there?',
     answer: '저 건물은 학교예요.',
     answerTranslation: 'That building over there is a school.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -506,7 +507,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that building over there?',
     answer: '저 건물은 도서관이에요.',
     answerTranslation: 'That building over there is a library.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -520,7 +521,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that building over there?',
     answer: '저 건물은 식당이에요.',
     answerTranslation: 'That building over there is a restaurant.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -534,7 +535,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that building over there?',
     answer: '저 건물은 카페예요.',
     answerTranslation: 'That building over there is a cafe.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -548,7 +549,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that building over there?',
     answer: '저 건물은 병원이에요.',
     answerTranslation: 'That building over there is a hospital.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -562,7 +563,7 @@ export const locationQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is that building over there?',
     answer: '저 건물은 영화관이에요.',
     answerTranslation: 'That building over there is a movie theater.',
-    items: [
+items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '건물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -571,3 +572,5 @@ export const locationQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const locationQuestions = addGrammarName(questions, 'locations');

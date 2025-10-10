@@ -95,6 +95,7 @@ export const makeMcqFromDialogue = (questions: DialogueQuestion[]): MultipleChoi
       answerItemsTranslation: q.answerItemsTranslation,
       answerSuffix: q.answerSuffix,
       mode: q.mode,
+      grammarName: q.grammarName, // 문법 이름 전달
     } as MultipleChoiceQuestion;
   });
 };

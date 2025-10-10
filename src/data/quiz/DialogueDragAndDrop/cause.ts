@@ -1,13 +1,13 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const causeQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '비가 오니까 우산을 가져가세요.',
     questionTranslation: "Because it's raining, take an umbrella.",
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Okay, I got it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Okay, I got it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '비', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
@@ -23,8 +23,7 @@ export const causeQuestions: DialogueQuestion[] = [
     question: '늦었으니까 택시를 탈까요?',
     questionTranslation: "Because we're late, shall we take a taxi?",
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Okay, I got it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Okay, I got it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '늦었', combineWithNext: true },
       { id: '2', content: '으니까', combineWithNext: false },
@@ -38,8 +37,7 @@ export const causeQuestions: DialogueQuestion[] = [
     question: '배가 아프니까 약을 드세요.',
     questionTranslation: 'Because your stomach hurts, take medicine.',
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Okay, I got it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Okay, I got it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '배', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
@@ -55,8 +53,7 @@ export const causeQuestions: DialogueQuestion[] = [
     question: '추우니까 창문을 닫아 주세요.',
     questionTranslation: "Because it's cold, please close the window.",
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Okay, I got it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Okay, I got it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '추우', combineWithNext: true },
       { id: '2', content: '니까', combineWithNext: false },
@@ -71,8 +68,7 @@ export const causeQuestions: DialogueQuestion[] = [
     question: '피곤하니까 일찍 자세요.',
     questionTranslation: "Because you're tired, go to bed early.",
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Okay, I got it.',
-    mode: 'answer-to-question',
+    answerTranslation: 'Okay, I got it.',    mode: 'answer-to-question',
     items: [
       { id: '1', content: '피곤하', combineWithNext: true },
       { id: '2', content: '니까', combineWithNext: false },
@@ -82,3 +78,5 @@ export const causeQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const causeQuestions = addGrammarName(questions, 'cause');

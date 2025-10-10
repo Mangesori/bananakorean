@@ -1,16 +1,17 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 다리가 아프다, 머리가 아프다, 목이 마르다, 배가 고프다, 춥다, 덥다, 따뜻하다, 어둡다, 더럽다, 깨끗하다
 // 길을 읽어버리다, 잠이 오다, 잠을 못 자다,
 // 앉다, 쓰레기를 버리다, 담배를 피우다, 에어컨을 켜다, 에어컨을 끄다, 불을 켜다, 불을 끄다,
 
-export const commandQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '다리가 아파요.',
     questionTranslation: 'My legs hurt.',
     answer: '여기에 앉으세요.',
     answerTranslation: 'Please sit here.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '앉', combineWithNext: true },
@@ -23,7 +24,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I want to speak Korean well.',
     answer: '한국어 책을 읽으세요.',
     answerTranslation: 'Then read a Korean book.',
-    items: [
+items: [
       { id: '1', content: '한국어', combineWithNext: false },
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -37,7 +38,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is there anyone here?',
     answer: '아니요, 없어요. 앉으세요.',
     answerTranslation: 'No, there is no one here. Please sit here.',
-    answerPrefix: '아니요, 없어요. ',
+answerPrefix: '아니요, 없어요. ',
     answerItems: [
       { id: '1', content: '앉', combineWithNext: true },
       { id: '2', content: '으세요.', combineWithNext: false },
@@ -52,7 +53,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'My head hurts.',
     answer: '집에서 쉬세요.',
     answerTranslation: 'Please rest at home.',
-    items: [
+items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '쉬', combineWithNext: true },
@@ -65,7 +66,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do I get to Myeongdong?',
     answer: '저기에서 604번 버스를 타세요.',
     answerTranslation: 'Take the 604 bus over there.',
-    items: [
+items: [
       { id: '1', content: '저기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '604번', combineWithNext: false },
@@ -80,7 +81,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do I get to Hongdae?',
     answer: '여기에서 지하철 2호선을 타세요.',
     answerTranslation: 'Take the subway line 2 over here.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '지하철', combineWithNext: false },
@@ -95,7 +96,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do I get to Busan?',
     answer: '여기에서 기차를 타세요.',
     answerTranslation: 'Take a train here.',
-    items: [
+items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '기차', combineWithNext: true },
@@ -109,7 +110,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I am thirsty.',
     answer: '물을 마시세요.',
     answerTranslation: 'Please drink water.',
-    items: [
+items: [
       { id: '1', content: '물', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '마시', combineWithNext: true },
@@ -122,7 +123,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I am hungry.',
     answer: '밥을 먹으세요.',
     answerTranslation: 'Please eat rice.',
-    items: [
+items: [
       { id: '1', content: '밥', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '먹', combineWithNext: true },
@@ -135,7 +136,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I want to watch a movie.',
     answer: '영화관에 가세요.',
     answerTranslation: 'Please go to the movie theater.',
-    items: [
+items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -148,7 +149,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I want to listen to music in the classroom.',
     answer: '이어폰을 사용하세요.',
     answerTranslation: 'Please use earphones.',
-    items: [
+items: [
       { id: '1', content: '이어폰', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '사용하', combineWithNext: true },
@@ -161,7 +162,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "It's cold.",
     answer: '따뜻한 옷을 입으세요.',
     answerTranslation: 'Please wear warm clothes.',
-    items: [
+items: [
       { id: '1', content: '따뜻한', combineWithNext: false },
       { id: '2', content: '옷', combineWithNext: true },
       { id: '3', content: '을', combineWithNext: false },
@@ -175,7 +176,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "It's hot.",
     answer: '에어컨을 켜세요.',
     answerTranslation: 'Please turn on the air conditioner.',
-    items: [
+items: [
       { id: '1', content: '에어컨', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '켜', combineWithNext: true },
@@ -188,7 +189,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "It's dark.",
     answer: '불을 켜세요.',
     answerTranslation: 'Please turn on the light.',
-    items: [
+items: [
       { id: '1', content: '불', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '켜', combineWithNext: true },
@@ -201,7 +202,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I lost my way.',
     answer: '지도를 보세요.',
     answerTranslation: 'Please look at the map.',
-    items: [
+items: [
       { id: '1', content: '지도', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '보', combineWithNext: true },
@@ -214,7 +215,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'My hands are dirty.',
     answer: '손을 씻으세요.',
     answerTranslation: 'Please wash your hands.',
-    items: [
+items: [
       { id: '1', content: '손', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '씻', combineWithNext: true },
@@ -227,7 +228,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'The door is open.',
     answer: '문을 닫으세요.',
     answerTranslation: 'Please close the door.',
-    items: [
+items: [
       { id: '1', content: '문', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '닫', combineWithNext: true },
@@ -240,7 +241,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'The phone is ringing.',
     answer: '전화를 받으세요.',
     answerTranslation: 'Please answer the phone.',
-    items: [
+items: [
       { id: '1', content: '전화', combineWithNext: true },
       { id: '2', content: '를', combineWithNext: false },
       { id: '3', content: '받', combineWithNext: true },
@@ -253,7 +254,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'My friend is waiting.',
     answer: '빨리 가세요.',
     answerTranslation: 'Please go quickly.',
-    items: [
+items: [
       { id: '1', content: '빨리', combineWithNext: false },
       { id: '2', content: '가', combineWithNext: true },
       { id: '3', content: '세요.', combineWithNext: false },
@@ -265,7 +266,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "It's appointment time.",
     answer: '지금 출발하세요.',
     answerTranslation: 'Please leave now.',
-    items: [
+items: [
       { id: '1', content: '지금', combineWithNext: false },
       { id: '2', content: '출발하', combineWithNext: true },
       { id: '3', content: '세요.', combineWithNext: false },
@@ -277,7 +278,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I want to sing a song.',
     answer: '노래방에 가세요.',
     answerTranslation: 'Please go to the karaoke.',
-    items: [
+items: [
       { id: '1', content: '노래방', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -290,7 +291,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I want to exercise.',
     answer: '공원에서 운동하세요.',
     answerTranslation: 'Please exercise at the park.',
-    items: [
+items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '운동하', combineWithNext: true },
@@ -303,7 +304,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I want to read a book.',
     answer: '도서관에 가세요.',
     answerTranslation: 'Please go to the library.',
-    items: [
+items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -316,7 +317,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'I am sleepy.',
     answer: '일찍 주무세요.',
     answerTranslation: 'Please go to bed early.',
-    items: [
+items: [
       { id: '1', content: '일찍', combineWithNext: false },
       { id: '2', content: '주무', combineWithNext: true },
       { id: '3', content: '세요.', combineWithNext: false },
@@ -328,7 +329,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: 'Happy birthday. Please receive the gift.',
     answer: '와, 고맙습니다.',
     answerTranslation: 'Wow, thank you.',
-    questionPrefix: '생일 축하해요. ',
+questionPrefix: '생일 축하해요. ',
     questionItems: [
       { id: '1', content: '선물', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -361,7 +362,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't eat food during class.",
     answer: '네, 선생님.',
     answerTranslation: 'Yes, teacher.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '수업', combineWithNext: false },
       { id: '2', content: '시간', combineWithNext: true },
@@ -379,7 +380,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't smoke here.",
     answer: '네, 죄송합니다.',
     answerTranslation: 'Yes, I am sorry.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -396,7 +397,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't play games on the computer at school.",
     answer: '네, 선생님. 알겠습니다.',
     answerTranslation: 'Yes, teacher. I understand.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -415,7 +416,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't get up late tomorrow.",
     answer: '네, 알겠습니다.',
     answerTranslation: 'Yes, I understand.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '내일', combineWithNext: false },
       { id: '2', content: '늦게', combineWithNext: false },
@@ -430,7 +431,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't take photos here.",
     answer: '네, 죄송합니다.',
     answerTranslation: 'Yes, I am sorry.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -447,7 +448,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't swim here.",
     answer: '네, 죄송합니다.',
     answerTranslation: 'Yes, I am sorry.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -464,7 +465,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't throw garbage here.",
     answer: '네, 죄송합니다.',
     answerTranslation: 'Yes, I am sorry.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '여기', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -481,7 +482,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't use your phone at the movie theater.",
     answer: '네, 죄송합니다.',
     answerTranslation: 'Yes, I am sorry.',
-    mode: 'answer-to-question',
+mode: 'answer-to-question',
     items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -498,7 +499,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "We are starting the exam. Don't use your phone.",
     answer: '네, 알겠습니다.',
     answerTranslation: 'Yes, I understand.',
-    questionPrefix: '시험을 시작합니다. ',
+questionPrefix: '시험을 시작합니다. ',
     questionItems: [
       { id: '1', content: '핸드폰', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
@@ -517,7 +518,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "We are meeting tomorrow at 1 o'clock. Don't be late.",
     answer: '그럼요. 알겠어요.',
     answerTranslation: 'Okay, I understand.',
-    questionPrefix: '내일 한 시에 만나요. ',
+questionPrefix: '내일 한 시에 만나요. ',
     questionItems: [
       { id: '1', content: '늦', combineWithNext: true },
       { id: '2', content: '지', combineWithNext: false },
@@ -534,7 +535,7 @@ export const commandQuestions: DialogueQuestion[] = [
     questionTranslation: "Don't sit on that chair. It is dirty.",
     answer: '네, 알겠습니다.',
     answerTranslation: 'Yes, I understand.',
-    questionPrefix: '저 의자에',
+questionPrefix: '저 의자에',
     questionItems: [
       { id: '1', content: '앉', combineWithNext: true },
       { id: '2', content: '지', combineWithNext: false },
@@ -603,3 +604,5 @@ export const commandQuestions: DialogueQuestion[] = [
     items: [],
   },
 ];
+
+export const commandQuestions = addGrammarName(questions, 'commands');

@@ -1,4 +1,5 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 제주도, 서울, 부산, 중국, 일본, 프랑스, 미국, 스페인, 이탈리아, 태국, 베트남, 싱가포르,
 // 왼쪽, 오른쪽
 // 올라가다, 올라오다, 내려가다, 내려오다
@@ -6,14 +7,13 @@ import { DialogueQuestion } from '@/types/quiz';
 // 밀가루, 쌀, 과자, 카드, 현금,
 // 자르다, 시험을 보다, 그림을 그리다, 수업을 듣다, 대화하다, 결제하다,
 
-export const directionMethodQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip?',
     answer: '제주도로 여행을 가요.',
-    answerTranslation: 'I go on a trip to Jeju Island.',
-    items: [
+    answerTranslation: 'I go on a trip to Jeju Island.',    items: [
       { id: '1', content: '제주도', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '여행', combineWithNext: true },
@@ -26,8 +26,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip?',
     answer: '중국으로 여행을 가요.',
-    answerTranslation: 'I go on a trip to China.',
-    items: [
+    answerTranslation: 'I go on a trip to China.',    items: [
       { id: '1', content: '중국', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '여행', combineWithNext: true },
@@ -40,8 +39,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip?',
     answer: '프랑스로 여행을 가요.',
-    answerTranslation: 'I go on a trip to France.',
-    items: [
+    answerTranslation: 'I go on a trip to France.',    items: [
       { id: '1', content: '프랑스', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '여행', combineWithNext: true },
@@ -54,8 +52,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '방학에 어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip during the vacation?',
     answer: '방학에 미국으로 여행을 가요.',
-    answerTranslation: 'I go on a trip to the United States during the vacation.',
-    items: [
+    answerTranslation: 'I go on a trip to the United States during the vacation.',    items: [
       { id: '1', content: '방학', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -70,8 +67,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '방학에 어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip during the vacation?',
     answer: '방학에 스페인으로 여행을 가요.',
-    answerTranslation: 'I go on a trip to Spain during the vacation.',
-    items: [
+    answerTranslation: 'I go on a trip to Spain during the vacation.',    items: [
       { id: '1', content: '방학', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '스페인', combineWithNext: true },
@@ -86,8 +82,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '방학에 어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip during the vacation?',
     answer: '방학에 이탈리아로 여행을 가요.',
-    answerTranslation: 'I go on a trip to Italy during the vacation.',
-    items: [
+    answerTranslation: 'I go on a trip to Italy during the vacation.',    items: [
       { id: '1', content: '방학', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '이탈리아', combineWithNext: true },
@@ -102,8 +97,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '휴가 때 어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip during the vacation?',
     answer: '휴가 때 태국으로 여행을 가요.',
-    answerTranslation: 'I go on a trip to Thailand during the vacation.',
-    items: [
+    answerTranslation: 'I go on a trip to Thailand during the vacation.',    items: [
       { id: '1', content: '휴가', combineWithNext: false },
       { id: '2', content: '때', combineWithNext: false },
       { id: '3', content: '태국', combineWithNext: true },
@@ -118,8 +112,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '휴가 때 어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip during the vacation?',
     answer: '휴가 때 베트남으로 여행을 가요.',
-    answerTranslation: 'I go on a trip to Vietnam during the vacation.',
-    items: [
+    answerTranslation: 'I go on a trip to Vietnam during the vacation.',    items: [
       { id: '1', content: '휴가', combineWithNext: false },
       { id: '2', content: '때', combineWithNext: false },
       { id: '3', content: '베트남', combineWithNext: true },
@@ -134,8 +127,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '휴가 때 어디로 여행을 가요?',
     questionTranslation: 'Where do you go on a trip during the vacation?',
     answer: '휴가 때 싱가포르로 여행을 가요.',
-    answerTranslation: 'I go on a trip to Singapore during the vacation.',
-    items: [
+    answerTranslation: 'I go on a trip to Singapore during the vacation.',    items: [
       { id: '1', content: '휴가', combineWithNext: false },
       { id: '2', content: '때', combineWithNext: false },
       { id: '3', content: '싱가포르', combineWithNext: true },
@@ -150,8 +142,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '수업이 끝나고 어디로 가요?',
     questionTranslation: 'Where do you go after class?',
     answer: '수업이 끝나고 집으로 가요.',
-    answerTranslation: 'I go home after class.',
-    items: [
+    answerTranslation: 'I go home after class.',    items: [
       { id: '1', content: '수업', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '끝나고', combineWithNext: false },
@@ -165,8 +156,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '수업이 끝나고 어디로 가요?',
     questionTranslation: 'Where do you go after class?',
     answer: '수업이 끝나고 도서관으로 가요.',
-    answerTranslation: 'I go to the library after class.',
-    items: [
+    answerTranslation: 'I go to the library after class.',    items: [
       { id: '1', content: '수업', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '끝나고', combineWithNext: false },
@@ -180,8 +170,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '수업이 끝나고 어디로 가요?',
     questionTranslation: 'Where do you go after class?',
     answer: '수업이 끝나고 카페로 가요.',
-    answerTranslation: 'I go to the cafe after class.',
-    items: [
+    answerTranslation: 'I go to the cafe after class.',    items: [
       { id: '1', content: '수업', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '끝나고', combineWithNext: false },
@@ -195,8 +184,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '수업이 끝나고 어디로 가요?',
     questionTranslation: 'Where do you go after class?',
     answer: '수업이 끝나고 수영장으로 가요.',
-    answerTranslation: 'I go to the swimming pool after class.',
-    items: [
+    answerTranslation: 'I go to the swimming pool after class.',    items: [
       { id: '1', content: '수업', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '끝나고', combineWithNext: false },
@@ -210,8 +198,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '수업이 끝나고 어디로 가요?',
     questionTranslation: 'Where do you go after class?',
     answer: '수업이 끝나고 헬스장으로 가요.',
-    answerTranslation: 'I go to the gym after class.',
-    items: [
+    answerTranslation: 'I go to the gym after class.',    items: [
       { id: '1', content: '수업', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '끝나고', combineWithNext: false },
@@ -225,8 +212,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디로 가요?',
     questionTranslation: 'Where do you go next week?',
     answer: '다음 주에 인도로 가요.',
-    answerTranslation: 'I go to India next week.',
-    items: [
+    answerTranslation: 'I go to India next week.',    items: [
       { id: '1', content: '다음', combineWithNext: false },
       { id: '2', content: '주', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -240,8 +226,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '다음 주에 어디로 가요?',
     questionTranslation: 'Where do you go next week?',
     answer: '다음 주에 캐나다로 가요.',
-    answerTranslation: 'I go to Canada next week.',
-    items: [
+    answerTranslation: 'I go to Canada next week.',    items: [
       { id: '1', content: '다음', combineWithNext: false },
       { id: '2', content: '주', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -255,8 +240,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디로 가요?',
     questionTranslation: 'Where do you go next month?',
     answer: '다음 달에 미국으로 가요.',
-    answerTranslation: 'I go to the United States next month.',
-    items: [
+    answerTranslation: 'I go to the United States next month.',    items: [
       { id: '1', content: '다음', combineWithNext: false },
       { id: '2', content: '달', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -270,8 +254,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '다음 달에 어디로 가요?',
     questionTranslation: 'Where do you go next month?',
     answer: '다음 달에 멕시코로 가요.',
-    answerTranslation: 'I go to Mexico next month.',
-    items: [
+    answerTranslation: 'I go to Mexico next month.',    items: [
       { id: '1', content: '다음', combineWithNext: false },
       { id: '2', content: '달', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -285,8 +268,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '내년에 어디로 가요?',
     questionTranslation: 'Where do you go next year?',
     answer: '내년에 일본으로 가요.',
-    answerTranslation: 'I go to Japan next year.',
-    items: [
+    answerTranslation: 'I go to Japan next year.',    items: [
       { id: '1', content: '내년', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '일본', combineWithNext: true },
@@ -299,8 +281,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '내년에 어디로 가요?',
     questionTranslation: 'Where do you go next year?',
     answer: '내년에 포르투갈로 가요.',
-    answerTranslation: 'I go to Portugal next year.',
-    items: [
+    answerTranslation: 'I go to Portugal next year.',    items: [
       { id: '1', content: '내년', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '포르투갈', combineWithNext: true },
@@ -313,8 +294,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '주말에 어디로 놀러 가요?',
     questionTranslation: 'Where do you go on weekend?',
     answer: '주말에 부산으로 놀러 가요.',
-    answerTranslation: 'I go to Busan on weekends.',
-    items: [
+    answerTranslation: 'I go to Busan on weekends.',    items: [
       { id: '1', content: '주말', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '부산', combineWithNext: true },
@@ -328,8 +308,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '주말에 어디로 놀러 가요?',
     questionTranslation: 'Where do you go on weekend?',
     answer: '주말에 서울로 놀러 가요.',
-    answerTranslation: 'I go to Seoul on weekends.',
-    items: [
+    answerTranslation: 'I go to Seoul on weekends.',    items: [
       { id: '1', content: '주말', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '서울', combineWithNext: true },
@@ -343,8 +322,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '지난 주말에 어디로 놀러 갔어요?',
     questionTranslation: 'Where did you go on last weekend?',
     answer: '지난 주말에 부산으로 놀러 갔어요.',
-    answerTranslation: 'I went to Busan on last weekend.',
-    items: [
+    answerTranslation: 'I went to Busan on last weekend.',    items: [
       { id: '1', content: '지난', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -359,8 +337,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '지난 주말에 어디로 놀러 갔어요?',
     questionTranslation: 'Where did you go on last weekend?',
     answer: '지난 주말에 서울로 놀러 갔어요.',
-    answerTranslation: 'I went to Seoul on last weekend.',
-    items: [
+    answerTranslation: 'I went to Seoul on last weekend.',    items: [
       { id: '1', content: '지난', combineWithNext: false },
       { id: '2', content: '주말', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -375,8 +352,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '지난주에 어디로 놀러 갔어요?',
     questionTranslation: 'Where did you go on last week?',
     answer: '지난주에 제주도로 놀러 갔어요.',
-    answerTranslation: 'I went to Jeju Island on last week.',
-    items: [
+    answerTranslation: 'I went to Jeju Island on last week.',    items: [
       { id: '1', content: '지난', combineWithNext: false },
       { id: '2', content: '주', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -391,8 +367,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '지난주에 어디로 놀러 갔어요?',
     questionTranslation: 'Where did you go on last week?',
     answer: '지난주에 대구로 놀러 갔어요.',
-    answerTranslation: 'I went to Daegu on last week.',
-    items: [
+    answerTranslation: 'I went to Daegu on last week.',    items: [
       { id: '1', content: '지난', combineWithNext: false },
       { id: '2', content: '주', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -407,8 +382,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '영화관이 어디에 있어요?',
     questionTranslation: 'Where is the movie theater?',
     answer: '7층으로 올라가세요.',
-    answerTranslation: 'Please go up to the 7th floor.',
-    items: [
+    answerTranslation: 'Please go up to the 7th floor.',    items: [
       { id: '1', content: '7층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '올라가세요.' },
@@ -419,8 +393,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '식당이 어디에 있어요?',
     questionTranslation: 'Where is the restaurant?',
     answer: '5층으로 올라가세요.',
-    answerTranslation: 'Please go up to the 5th floor.',
-    items: [
+    answerTranslation: 'Please go up to the 5th floor.',    items: [
       { id: '1', content: '5층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '올라가세요.' },
@@ -431,8 +404,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '은행이 어디에 있어요?',
     questionTranslation: 'Where is the bank?',
     answer: '2층으로 올라가세요.',
-    answerTranslation: 'Please go up to the 2nd floor.',
-    items: [
+    answerTranslation: 'Please go up to the 2nd floor.',    items: [
       { id: '1', content: '2층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '올라가세요.' },
@@ -443,8 +415,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '화장실이 어디에 있어요?',
     questionTranslation: 'Where is the bathroom?',
     answer: '3층으로 올라가세요.',
-    answerTranslation: 'Please go up to the 3rd floor.',
-    items: [
+    answerTranslation: 'Please go up to the 3rd floor.',    items: [
       { id: '1', content: '3층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '올라가세요.' },
@@ -455,8 +426,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '주차장이 어디에 있어요?',
     questionTranslation: 'Where is the parking lot?',
     answer: '지하 2층으로 내려가세요.',
-    answerTranslation: 'Please go down to the B2 level.',
-    items: [
+    answerTranslation: 'Please go down to the B2 level.',    items: [
       { id: '1', content: '지하', combineWithNext: false },
       { id: '2', content: '2층', combineWithNext: true },
       { id: '3', content: '으로', combineWithNext: false },
@@ -468,8 +438,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '빵가게가 어디에 있어요?',
     questionTranslation: 'Where is the bakery?',
     answer: '지하 1층으로 내려가세요.',
-    answerTranslation: 'Please go down to the B1 level.',
-    items: [
+    answerTranslation: 'Please go down to the B1 level.',    items: [
       { id: '1', content: '지하', combineWithNext: false },
       { id: '2', content: '1층', combineWithNext: true },
       { id: '3', content: '으로', combineWithNext: false },
@@ -481,8 +450,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 6층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 3rd floor. Which floor are you on now?',
     answer: '저는 3층에 있어요. 3층으로 내려오세요.',
-    answerTranslation: 'I am on the 3rd floor. Please come down to the 3rd floor.',
-    answerPrefix: '저는 3층에 있어요.',
+    answerTranslation: 'I am on the 3rd floor. Please come down to the 3rd floor.',    answerPrefix: '저는 3층에 있어요.',
     answerItems: [
       { id: '1', content: '3층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -497,8 +465,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 9층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 9th floor. Which floor are you on now?',
     answer: '저는 4층에 있어요. 4층으로 내려오세요.',
-    answerTranslation: 'I am on the 4th floor. Please come down to the 4th floor.',
-    answerPrefix: '저는 4층에 있어요.',
+    answerTranslation: 'I am on the 4th floor. Please come down to the 4th floor.',    answerPrefix: '저는 4층에 있어요.',
     answerItems: [
       { id: '1', content: '4층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -513,8 +480,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 10층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 10th floor. Which floor are you on now?',
     answer: '저는 6층에 있어요. 6층으로 내려오세요.',
-    answerTranslation: 'I am on the 6th floor. Please come down to the 6th floor.',
-    answerPrefix: '저는 6층에 있어요.',
+    answerTranslation: 'I am on the 6th floor. Please come down to the 6th floor.',    answerPrefix: '저는 6층에 있어요.',
     answerItems: [
       { id: '1', content: '6층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -529,8 +495,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 11층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 11th floor. Which floor are you on now?',
     answer: '저는 8층에 있어요. 8층으로 내려오세요.',
-    answerTranslation: 'I am on the 8th floor. Please come down to the 8th floor.',
-    answerPrefix: '저는 8층에 있어요.',
+    answerTranslation: 'I am on the 8th floor. Please come down to the 8th floor.',    answerPrefix: '저는 8층에 있어요.',
     answerItems: [
       { id: '1', content: '8층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -545,8 +510,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 2층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 2nd floor. Which floor are you on now?',
     answer: '저는 5층에 있어요. 5층으로 올라오세요.',
-    answerTranslation: 'I am on the 5th floor. Please come up to the 5th floor.',
-    answerPrefix: '저는 5층에 있어요.',
+    answerTranslation: 'I am on the 5th floor. Please come up to the 5th floor.',    answerPrefix: '저는 5층에 있어요.',
     answerItems: [
       { id: '1', content: '5층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -561,8 +525,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 3층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 3rd floor. Which floor are you on now?',
     answer: '저는 6층에 있어요. 6층으로 올라오세요.',
-    answerTranslation: 'I am on the 6th floor. Please come up to the 6th floor.',
-    answerPrefix: '저는 6층에 있어요.',
+    answerTranslation: 'I am on the 6th floor. Please come up to the 6th floor.',    answerPrefix: '저는 6층에 있어요.',
     answerItems: [
       { id: '1', content: '6층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -577,8 +540,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '안나 씨, 저는 4층이에요. 지금 몇 층에 있어요?',
     questionTranslation: 'Anna, I am on the 4th floor. Which floor are you on now?',
     answer: '저는 7층에 있어요. 7층으로 올라오세요.',
-    answerTranslation: 'I am on the 7th floor. Please come up to the 7th floor.',
-    answerPrefix: '저는 7층에 있어요.',
+    answerTranslation: 'I am on the 7th floor. Please come up to the 7th floor.',    answerPrefix: '저는 7층에 있어요.',
     answerItems: [
       { id: '1', content: '7층', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
@@ -593,8 +555,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '화장실이 어디에 있어요?',
     questionTranslation: 'Where is the bathroom?',
     answer: '저기 앞에서 오른쪽으로 가세요.',
-    answerTranslation: 'Go straight ahead and turn right.',
-    items: [
+    answerTranslation: 'Go straight ahead and turn right.',    items: [
       { id: '1', content: '저기', combineWithNext: false },
       { id: '2', content: '앞', combineWithNext: true },
       { id: '3', content: '에서', combineWithNext: false },
@@ -608,8 +569,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '엘리베이터가 어디에 있어요?',
     questionTranslation: 'Where is the elevator?',
     answer: '앞으로 가세요.',
-    answerTranslation: 'Please go straight ahead.',
-    items: [
+    answerTranslation: 'Please go straight ahead.',    items: [
       { id: '1', content: '앞', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '가세요.' },
@@ -620,8 +580,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '편의점이 어디에 있어요?',
     questionTranslation: 'Where is the convenience store?',
     answer: '저기 앞에서 왼쪽으로 가세요.',
-    answerTranslation: 'Go straight ahead and turn left.',
-    items: [
+    answerTranslation: 'Go straight ahead and turn left.',    items: [
       { id: '1', content: '저기', combineWithNext: false },
       { id: '2', content: '앞', combineWithNext: true },
       { id: '3', content: '에서', combineWithNext: false },
@@ -635,8 +594,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '편의점이 어디에 있어요?',
     questionTranslation: 'Where is the convenience store?',
     answer: '저기 은행에서 왼쪽으로 가세요.',
-    answerTranslation: 'Go left at the bank over there.',
-    items: [
+    answerTranslation: 'Go left at the bank over there.',    items: [
       { id: '1', content: '저기', combineWithNext: false },
       { id: '2', content: '은행', combineWithNext: true },
       { id: '3', content: '에서', combineWithNext: false },
@@ -650,8 +608,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '편의점이 어디에 있어요?',
     questionTranslation: 'Where is the convenience store?',
     answer: '저기 식당에서 오른쪽으로 가세요.',
-    answerTranslation: 'Go right at the restaurant over there.',
-    items: [
+    answerTranslation: 'Go right at the restaurant over there.',    items: [
       { id: '1', content: '저기', combineWithNext: false },
       { id: '2', content: '식당', combineWithNext: true },
       { id: '3', content: '에서', combineWithNext: false },
@@ -666,8 +623,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'This snack is delicious. What is it made of?',
     answer: '이 과자는 쌀으로 만들었어요.',
     alternativeAnswers: ['쌀로 이 과자를 만들었어요.'],
-    answerTranslation: 'This snack is made of rice.',
-    items: [
+    answerTranslation: 'This snack is made of rice.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '과자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -682,8 +638,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'This bread is delicious. What is it made of?',
     answer: '이 빵은 밀가루로 만들었어요.',
     alternativeAnswers: ['밀가루로 이 빵을 만들었어요.'],
-    answerTranslation: 'This bread is made of flour.',
-    items: [
+    answerTranslation: 'This bread is made of flour.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -697,8 +652,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '요즘 어떻게 일해요?',
     questionTranslation: 'How do you work these days?',
     answer: '요즘 집에서 컴퓨터로 일해요.',
-    answerTranslation: 'I work at home on my computer these days.',
-    items: [
+    answerTranslation: 'I work at home on my computer these days.',    items: [
       { id: '1', content: '요즘', combineWithNext: false },
       { id: '2', content: '집', combineWithNext: true },
       { id: '3', content: '에서', combineWithNext: false },
@@ -713,8 +667,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do Korean people eat rice?',
     answer: '한국 사람은 숟가락으로 밥을 먹어요.',
     alternativeAnswers: ['한국 사람은 밥을 숟가락으로 먹어요.'],
-    answerTranslation: 'Korean people eat rice with a spoon.',
-    items: [
+    answerTranslation: 'Korean people eat rice with a spoon.',    items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '사람', combineWithNext: false },
       { id: '3', content: '은', combineWithNext: false },
@@ -731,8 +684,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do Japanese people eat rice?',
     answer: '일본 사람은 젓가락으로 밥을 먹어요.',
     alternativeAnswers: ['일본 사람은 밥을 젓가락으로 먹어요.'],
-    answerTranslation: 'Japanese people eat rice with chopsticks.',
-    items: [
+    answerTranslation: 'Japanese people eat rice with chopsticks.',    items: [
       { id: '1', content: '일본', combineWithNext: true },
       { id: '2', content: '사람', combineWithNext: false },
       { id: '3', content: '은', combineWithNext: false },
@@ -749,8 +701,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do you eat this steak?',
     answer: '이 스테이크를 포크와 나이프로 드세요.',
     alternativeAnswers: ['포크와 나이프로 이 스테이크를 드세요.'],
-    answerTranslation: 'Please eat this steak with a fork and a knife.',
-    items: [
+    answerTranslation: 'Please eat this steak with a fork and a knife.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '스테이크', combineWithNext: true },
       { id: '3', content: '를', combineWithNext: false },
@@ -767,8 +718,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you cut this apple?',
     answer: '이 사과를 칼로 잘랐어요.',
     alternativeAnswers: ['칼로 이 사과를 잘랐어요.'],
-    answerTranslation: 'I cut this apple with a knife.',
-    items: [
+    answerTranslation: 'I cut this apple with a knife.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사과', combineWithNext: true },
       { id: '3', content: '를', combineWithNext: false },
@@ -783,8 +733,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'Where did you send the file?',
     answer: '이메일로 파일을 보냈어요.',
     alternativeAnswers: ['파일을 이메일로 보냈어요.'],
-    answerTranslation: 'I sent the file by email.',
-    items: [
+    answerTranslation: 'I sent the file by email.',    items: [
       { id: '1', content: '이메일', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '파일', combineWithNext: true },
@@ -798,8 +747,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you send the file?',
     answer: '핸드폰으로 파일을 보냈어요.',
     alternativeAnswers: ['파일을 핸드폰으로 보냈어요.'],
-    answerTranslation: 'I sent the file by phone.',
-    items: [
+    answerTranslation: 'I sent the file by phone.',    items: [
       { id: '1', content: '핸드폰', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '파일', combineWithNext: true },
@@ -813,8 +761,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you send the file?',
     answer: '컴퓨터로 파일을 보냈어요.',
     alternativeAnswers: ['파일을 컴퓨터로 보냈어요.'],
-    answerTranslation: 'I sent the file by computer.',
-    items: [
+    answerTranslation: 'I sent the file by computer.',    items: [
       { id: '1', content: '컴퓨터', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '파일', combineWithNext: true },
@@ -828,8 +775,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'What did you take the picture with?',
     answer: '카메라로 사진을 찍었어요.',
     alternativeAnswers: ['사진을 카메라로 찍었어요.'],
-    answerTranslation: 'I took the picture with a camera.',
-    items: [
+    answerTranslation: 'I took the picture with a camera.',    items: [
       { id: '1', content: '카메라', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '사진', combineWithNext: true },
@@ -843,8 +789,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'What did you take the picture with?',
     answer: '핸드폰으로 사진을 찍었어요.',
     alternativeAnswers: ['사진을 핸드폰으로 찍었어요.'],
-    answerTranslation: 'I took the picture with a phone.',
-    items: [
+    answerTranslation: 'I took the picture with a phone.',    items: [
       { id: '1', content: '핸드폰', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '사진', combineWithNext: true },
@@ -858,8 +803,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'Teacher, what do I write my name with?',
     answer: '펜으로 이름을 쓰세요.',
     alternativeAnswers: ['이름을 펜으로 쓰세요.'],
-    answerTranslation: 'Please write your name with a pen.',
-    items: [
+    answerTranslation: 'Please write your name with a pen.',    items: [
       { id: '1', content: '펜', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '이름', combineWithNext: true },
@@ -873,8 +817,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'Teacher, what do I write my name with?',
     answer: '연필로 이름을 쓰세요.',
     alternativeAnswers: ['이름을 연필로 쓰세요.'],
-    answerTranslation: 'Please write your name with a pencil.',
-    items: [
+    answerTranslation: 'Please write your name with a pencil.',    items: [
       { id: '1', content: '연필', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '이름', combineWithNext: true },
@@ -888,8 +831,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you take the test last week?',
     answer: '지난주에 컴퓨터로 시험을 봤어요.',
     alternativeAnswers: ['지난주에 시험을 컴퓨터로 봤어요.'],
-    answerTranslation: 'I took the test with a computer last week.',
-    items: [
+    answerTranslation: 'I took the test with a computer last week.',    items: [
       { id: '1', content: '지난주', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '컴퓨터', combineWithNext: true },
@@ -905,8 +847,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you draw this picture?',
     answer: '이 그림은 연필로 그렸어요.',
     alternativeAnswers: ['연필로 이 그림을 그렸어요.'],
-    answerTranslation: 'I drew this picture with a pencil.',
-    items: [
+    answerTranslation: 'I drew this picture with a pencil.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '그림', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -921,8 +862,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you draw this picture?',
     answer: '이 그림은 펜으로 그렸어요.',
     alternativeAnswers: ['펜으로 이 그림을 그렸어요.'],
-    answerTranslation: 'I drew this picture with a pen.',
-    items: [
+    answerTranslation: 'I drew this picture with a pen.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '그림', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -937,8 +877,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How did you draw this picture?',
     answer: '이 그림은 아이패드로 그렸어요.',
     alternativeAnswers: ['아이패드로 이 그림을 그렸어요.'],
-    answerTranslation: 'I drew this picture with an iPad.',
-    items: [
+    answerTranslation: 'I drew this picture with an iPad.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '그림', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -953,8 +892,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do people watch the news these days?',
     answer: '요즘은 사람들이 핸드폰으로 뉴스를 봐요.',
     alternativeAnswers: ['요즘은 사람들이 뉴스를 핸드폰으로 봐요.'],
-    answerTranslation: 'People watch the news on their phones these days.',
-    items: [
+    answerTranslation: 'People watch the news on their phones these days.',    items: [
       { id: '1', content: '요즘', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '사람들', combineWithNext: true },
@@ -972,8 +910,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do people watch movies these days?',
     answer: '요즘은 사람들이 핸드폰으로 영화를 봐요.',
     alternativeAnswers: ['요즘은 사람들이 영화를 핸드폰으로 봐요.'],
-    answerTranslation: 'People watch movies on their phones these days.',
-    items: [
+    answerTranslation: 'People watch movies on their phones these days.',    items: [
       { id: '1', content: '요즘', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '사람들', combineWithNext: true },
@@ -991,8 +928,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do people listen to music these days?',
     answer: '요즘은 사람들이 핸드폰으로 노래를 들어요.',
     alternativeAnswers: ['요즘은 사람들이 노래를 핸드폰으로 들어요.'],
-    answerTranslation: 'People listen to music on their phones these days.',
-    items: [
+    answerTranslation: 'People listen to music on their phones these days.',    items: [
       { id: '1', content: '요즘', combineWithNext: true },
       { id: '2', content: '은', combineWithNext: false },
       { id: '3', content: '사람들', combineWithNext: true },
@@ -1031,8 +967,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do Japanese people watch American movies?',
     answer: '일본 사람들은 미국 영화를 일본어로 봐요.',
     alternativeAnswers: ['일본 사람들은 일본어로 미국 영화를 봐요.'],
-    answerTranslation: 'Japanese people watch American movies well in Japanese.',
-    items: [
+    answerTranslation: 'Japanese people watch American movies well in Japanese.',    items: [
       { id: '1', content: '일본', combineWithNext: false },
       { id: '2', content: '사람들', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1050,8 +985,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do students take classes?',
     answer: '학생들이 교실에서 한국어로 수업을 들어요.',
     alternativeAnswers: ['학생들이 교실에서 수업을 한국어로 들어요.'],
-    answerTranslation: 'Students are taking classes in Korean in the classroom.',
-    items: [
+    answerTranslation: 'Students are taking classes in Korean in the classroom.',    items: [
       { id: '1', content: '학생들', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -1069,8 +1003,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     questionTranslation: 'How do students take classes?',
     answer: '학생들이 교실에서 영어로 수업을 들어요.',
     alternativeAnswers: ['학생들이 교실에서 수업을 영어로 들어요.'],
-    answerTranslation: 'Students are taking classes in English in the classroom.',
-    items: [
+    answerTranslation: 'Students are taking classes in English in the classroom.',    items: [
       { id: '1', content: '학생들', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -1087,8 +1020,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '여러분, 교실에서 영어로 말하지 마세요.',
     questionTranslation: "Don't speak English in the classroom, please.",
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Yes, I understand.',
-    questionPrefix: '여러분, ',
+    answerTranslation: 'Yes, I understand.',    questionPrefix: '여러분, ',
     questionItems: [
       { id: '1', content: '교실', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -1108,8 +1040,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '여러분, 교실에서 한국어로 말하세요.',
     questionTranslation: 'Speak Korean in the classroom, please.',
     answer: '네, 알겠습니다.',
-    answerTranslation: 'Yes, I understand.',
-    questionPrefix: '여러분, ',
+    answerTranslation: 'Yes, I understand.',    questionPrefix: '여러분, ',
     questionItems: [
       { id: '1', content: '교실', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
@@ -1128,8 +1059,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '요즘 어떻게 중국어를 공부해요?',
     questionTranslation: 'How do people study Chinese these days?',
     answer: '요즘 중국인 친구하고 중국어로 대화해요.',
-    answerTranslation: 'I talk in Chinese with Chinese friends these days.',
-    items: [
+    answerTranslation: 'I talk in Chinese with Chinese friends these days.',    items: [
       { id: '1', content: '요즘', combineWithNext: false },
       { id: '2', content: '중국인', combineWithNext: false },
       { id: '3', content: '친구', combineWithNext: true },
@@ -1144,8 +1074,7 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '어떻게 결제했어요?',
     questionTranslation: 'How did you pay?',
     answer: '카드로 결제했어요.',
-    answerTranslation: 'I paid with a card.',
-    items: [
+    answerTranslation: 'I paid with a card.',    items: [
       { id: '1', content: '카드', combineWithNext: true },
       { id: '2', content: '로', combineWithNext: false },
       { id: '3', content: '결제했어요.' },
@@ -1156,11 +1085,12 @@ export const directionMethodQuestions: DialogueQuestion[] = [
     question: '어떻게 결제했어요?',
     questionTranslation: 'How did you pay?',
     answer: '현금으로 결제했어요.',
-    answerTranslation: 'I paid with cash.',
-    items: [
+    answerTranslation: 'I paid with cash.',    items: [
       { id: '1', content: '현금', combineWithNext: true },
       { id: '2', content: '으로', combineWithNext: false },
       { id: '3', content: '결제했어요.' },
     ],
   },
 ];
+
+export const directionMethodQuestions = addGrammarName(questions, 'direction-method');

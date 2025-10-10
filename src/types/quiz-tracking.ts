@@ -11,12 +11,13 @@ export interface QuizAttempt {
   id: string;
   user_id: string;
   quiz_type: QuizType;
-  grammar_id: string;
+  grammar_name: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   question_id: string;
   question_text: string;
   user_answer?: string;
   correct_answer: string;
   is_correct: boolean;
+  is_retry: boolean; // 다시 시도 여부 (같은 문제 재시도는 통계에서 제외)
   time_spent?: number;
   hints_used: number;
   created_at: string;
@@ -27,7 +28,7 @@ export interface QuizAttempt {
 export interface UserProgress {
   id: string;
   user_id: string;
-  grammar_id: string;
+  grammar_name: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   quiz_type: QuizType;
   total_attempts: number;
   correct_attempts: number;
@@ -70,7 +71,7 @@ export interface UserLearningGoal {
 export interface UserWeakArea {
   id: string;
   user_id: string;
-  grammar_id: string;
+  grammar_name: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   quiz_type: QuizType;
   error_count: number;
   total_attempts: number;
@@ -83,21 +84,23 @@ export interface UserWeakArea {
 // 퀴즈 시도 생성 데이터
 export interface CreateQuizAttemptData {
   quiz_type: QuizType;
-  grammar_id: string;
+  grammar_name: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   question_id: string;
   question_text: string;
   user_answer?: string;
   correct_answer: string;
   is_correct: boolean;
+  is_retry?: boolean; // 다시 시도 여부 (기본값: false)
   time_spent?: number;
   hints_used?: number;
 }
 
 // 진도 업데이트 데이터
 export interface UpdateProgressData {
-  grammar_id: string;
+  grammar_name: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   quiz_type: QuizType;
   is_correct: boolean;
+  is_retry?: boolean; // 다시 시도 여부 (기본값: false)
   time_spent?: number;
 }
 
@@ -123,7 +126,7 @@ export interface UserStats {
 
 // 문법별 진도
 export interface GrammarProgress {
-  grammar_id: string;
+  grammar_name: string; // 문법 이름 (예: '은/는', '이에요/예요', '이거/그거/저거')
   quiz_type: QuizType;
   total_attempts: number;
   correct_attempts: number;

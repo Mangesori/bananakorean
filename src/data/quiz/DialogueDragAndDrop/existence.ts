@@ -1,18 +1,18 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 책상, 의자, 책, 휴지, 안경, 노트북, 물, 커피, 침대, 핸드폰,
 // 언니, 친구, 엄마, 아빠, 오빠,
 // 라면, 우유, 맥주, 사과, 바나나, 포도
 // 교실, 학교, 도서관, 화장실, 집, 회사, 식당, 카페, 병원, 영화관
 
-export const existenceQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '교실에 뭐가 있어요?',
     questionTranslation: 'What is there in the classroom?',
     answer: '교실에 책상이 있어요.',
     alternativeAnswers: ['책상이 교실에 있어요.'],
-    answerTranslation: 'There are desks in the classroom.',
-    items: [
+    answerTranslation: 'There are desks in the classroom.',    items: [
       { id: '1', content: '책상', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -26,8 +26,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the school?',
     answer: '의자가 학교에 있어요.',
     alternativeAnswers: ['학교에 의자가 있어요.'],
-    answerTranslation: 'There are chairs in the school.',
-    items: [
+    answerTranslation: 'There are chairs in the school.',    items: [
       { id: '1', content: '의자', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -41,8 +40,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the library?',
     answer: '책이 도서관에 있어요.',
     alternativeAnswers: ['도서관에 책이 있어요.'],
-    answerTranslation: 'There are books in the library.',
-    items: [
+    answerTranslation: 'There are books in the library.',    items: [
       { id: '1', content: '책', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -56,8 +54,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the bathroom?',
     answer: '휴지가 화장실에 있어요.',
     alternativeAnswers: ['화장실에 휴지가 있어요.'],
-    answerTranslation: 'There is tissue in the bathroom.',
-    items: [
+    answerTranslation: 'There is tissue in the bathroom.',    items: [
       { id: '1', content: '휴지', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -71,8 +68,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the house?',
     answer: '안경이 집에 있어요.',
     alternativeAnswers: ['집에 안경이 있어요.'],
-    answerTranslation: 'There are glasses in the house.',
-    items: [
+    answerTranslation: 'There are glasses in the house.',    items: [
       { id: '1', content: '안경', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -86,8 +82,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the company?',
     answer: '노트북이 회사에 있어요.',
     alternativeAnswers: ['회사에 노트북이 있어요.'],
-    answerTranslation: 'There is a laptop in the company.',
-    items: [
+    answerTranslation: 'There is a laptop in the company.',    items: [
       { id: '1', content: '노트북', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -101,8 +96,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the restaurant?',
     answer: '물이 식당에 있어요.',
     alternativeAnswers: ['식당에 물이 있어요.'],
-    answerTranslation: 'There is water in the restaurant.',
-    items: [
+    answerTranslation: 'There is water in the restaurant.',    items: [
       { id: '1', content: '물', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -116,8 +110,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the cafe?',
     answer: '커피가 카페에 있어요.',
     alternativeAnswers: ['카페에 커피가 있어요.'],
-    answerTranslation: 'There is coffee in the cafe.',
-    items: [
+    answerTranslation: 'There is coffee in the cafe.',    items: [
       { id: '1', content: '커피', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -131,8 +124,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the hospital?',
     answer: '침대가 병원에 있어요.',
     alternativeAnswers: ['병원에 침대가 있어요.'],
-    answerTranslation: 'There are beds in the hospital.',
-    items: [
+    answerTranslation: 'There are beds in the hospital.',    items: [
       { id: '1', content: '침대', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -146,8 +138,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the movie theater?',
     answer: '제 핸드폰이 영화관에 있어요.',
     alternativeAnswers: ['영화관에 제 핸드폰이 있어요.'],
-    answerTranslation: 'My phone is in the movie theater.',
-    items: [
+    answerTranslation: 'My phone is in the movie theater.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '이', combineWithNext: false },
@@ -162,8 +153,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Are there desks in the classroom?',
     answer: '책상이 교실에 없어요.',
     alternativeAnswers: ['교실에 책상이 없어요.'],
-    answerTranslation: 'There are no desks in the classroom.',
-    items: [
+    answerTranslation: 'There are no desks in the classroom.',    items: [
       { id: '1', content: '책상', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -177,8 +167,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Are there chairs in the school?',
     answer: '의자가 학교에 없어요.',
     alternativeAnswers: ['학교에 의자가 없어요.'],
-    answerTranslation: 'There are no chairs in the school.',
-    items: [
+    answerTranslation: 'There are no chairs in the school.',    items: [
       { id: '1', content: '의자', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -192,8 +181,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Are there books in the library?',
     answer: '책이 도서관에 없어요.',
     alternativeAnswers: ['도서관에 책이 없어요.'],
-    answerTranslation: 'There are no books in the library.',
-    items: [
+    answerTranslation: 'There are no books in the library.',    items: [
       { id: '1', content: '책', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -207,8 +195,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is there tissue in the bathroom?',
     answer: '휴지가 화장실에 없어요.',
     alternativeAnswers: ['화장실에 휴지가 없어요.'],
-    answerTranslation: 'There is no tissue in the bathroom.',
-    items: [
+    answerTranslation: 'There is no tissue in the bathroom.',    items: [
       { id: '1', content: '휴지', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -222,8 +209,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Are there glasses in the house?',
     answer: '안경이 집에 없어요.',
     alternativeAnswers: ['집에 안경이 없어요.'],
-    answerTranslation: 'There are no glasses in the house.',
-    items: [
+    answerTranslation: 'There are no glasses in the house.',    items: [
       { id: '1', content: '안경', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -237,8 +223,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is there a laptop in the company?',
     answer: '노트북이 회사에 없어요.',
     alternativeAnswers: ['회사에 노트북이 없어요.'],
-    answerTranslation: 'There is no laptop in the company.',
-    items: [
+    answerTranslation: 'There is no laptop in the company.',    items: [
       { id: '1', content: '노트북', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -252,8 +237,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is there water in the restaurant?',
     answer: '물이 식당에 없어요.',
     alternativeAnswers: ['식당에 물이 없어요.'],
-    answerTranslation: 'There is no water in the restaurant.',
-    items: [
+    answerTranslation: 'There is no water in the restaurant.',    items: [
       { id: '1', content: '물', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -267,8 +251,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is there coffee in the cafe?',
     answer: '커피가 카페에 없어요.',
     alternativeAnswers: ['카페에 커피가 없어요.'],
-    answerTranslation: 'There is no coffee in the cafe.',
-    items: [
+    answerTranslation: 'There is no coffee in the cafe.',    items: [
       { id: '1', content: '커피', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -282,8 +265,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Are there beds in the hospital?',
     answer: '침대가 병원에 없어요.',
     alternativeAnswers: ['병원에 침대가 없어요.'],
-    answerTranslation: 'There are no beds in the hospital.',
-    items: [
+    answerTranslation: 'There are no beds in the hospital.',    items: [
       { id: '1', content: '침대', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -297,8 +279,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is my phone in the movie theater?',
     answer: '제 핸드폰이 영화관에 없어요.',
     alternativeAnswers: ['영화관에 제 핸드폰이 없어요.'],
-    answerTranslation: 'My phone is not in the movie theater.',
-    items: [
+    answerTranslation: 'My phone is not in the movie theater.',    items: [
       { id: '1', content: '제', combineWithNext: false },
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '이', combineWithNext: false },
@@ -313,8 +294,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the classroom?',
     answer: '선생님이 교실에 있어요.',
     alternativeAnswers: ['교실에 선생님이 있어요.'],
-    answerTranslation: 'A teacher is in the classroom.',
-    items: [
+    answerTranslation: 'A teacher is in the classroom.',    items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -328,8 +308,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in school?',
     answer: '학생이 학교에 있어요.',
     alternativeAnswers: ['학교에 학생이 있어요.'],
-    answerTranslation: 'Students are in school.',
-    items: [
+    answerTranslation: 'Students are in school.',    items: [
       { id: '1', content: '학생', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -343,8 +322,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the library?',
     answer: '언니가 도서관에 있어요.',
     alternativeAnswers: ['도서관에 언니가 있어요.'],
-    answerTranslation: 'My sister is in the library.',
-    items: [
+    answerTranslation: 'My sister is in the library.',    items: [
       { id: '1', content: '언니', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -358,8 +336,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the bathroom?',
     answer: '친구가 화장실에 있어요.',
     alternativeAnswers: ['화장실에 친구가 있어요.'],
-    answerTranslation: 'My friend is in the bathroom.',
-    items: [
+    answerTranslation: 'My friend is in the bathroom.',    items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -373,8 +350,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the house?',
     answer: '엄마가 집에 있어요.',
     alternativeAnswers: ['집에 엄마가 있어요.'],
-    answerTranslation: 'My mother is in the house.',
-    items: [
+    answerTranslation: 'My mother is in the house.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -388,8 +364,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is at work?',
     answer: '아빠가 회사에 있어요.',
     alternativeAnswers: ['회사에 아빠가 있어요.'],
-    answerTranslation: 'My father is at work.',
-    items: [
+    answerTranslation: 'My father is at work.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -403,8 +378,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the restaurant?',
     answer: '요리사가 식당에 있어요.',
     alternativeAnswers: ['식당에 요리사가 있어요.'],
-    answerTranslation: 'A chef is in the restaurant.',
-    items: [
+    answerTranslation: 'A chef is in the restaurant.',    items: [
       { id: '1', content: '요리사', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -418,8 +392,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the cafe?',
     answer: '오빠가 카페에 있어요.',
     alternativeAnswers: ['카페에 오빠가 있어요.'],
-    answerTranslation: 'My brother is in the cafe.',
-    items: [
+    answerTranslation: 'My brother is in the cafe.',    items: [
       { id: '1', content: '오빠', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -433,8 +406,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the hospital?',
     answer: '가수가 병원에 있어요.',
     alternativeAnswers: ['병원에 가수가 있어요.'],
-    answerTranslation: 'A singer is in the hospital.',
-    items: [
+    answerTranslation: 'A singer is in the hospital.',    items: [
       { id: '1', content: '가수', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -448,8 +420,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Who is in the movie theater?',
     answer: '배우가 영화관에 있어요.',
     alternativeAnswers: ['영화관에 배우가 있어요.'],
-    answerTranslation: 'An actor is in the movie theater.',
-    items: [
+    answerTranslation: 'An actor is in the movie theater.',    items: [
       { id: '1', content: '배우', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -463,8 +434,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is a teacher in the classroom?',
     answer: '선생님이 교실에 없어요.',
     alternativeAnswers: ['교실에 선생님이 없어요.'],
-    answerTranslation: 'A teacher is not in the classroom.',
-    items: [
+    answerTranslation: 'A teacher is not in the classroom.',    items: [
       { id: '1', content: '선생님', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '교실', combineWithNext: true },
@@ -478,8 +448,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Are students in school?',
     answer: '학생이 학교에 없어요.',
     alternativeAnswers: ['학교에 학생이 없어요.'],
-    answerTranslation: 'A student is not in school.',
-    items: [
+    answerTranslation: 'A student is not in school.',    items: [
       { id: '1', content: '학생', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -493,8 +462,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is my sister in the library?',
     answer: '언니가 도서관에 없어요.',
     alternativeAnswers: ['도서관에 언니가 없어요.'],
-    answerTranslation: 'My sister is not in the library.',
-    items: [
+    answerTranslation: 'My sister is not in the library.',    items: [
       { id: '1', content: '언니', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -508,8 +476,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is my friend in the bathroom?',
     answer: '친구가 화장실에 없어요.',
     alternativeAnswers: ['화장실에 친구가 없어요.'],
-    answerTranslation: 'My friend is not in the bathroom.',
-    items: [
+    answerTranslation: 'My friend is not in the bathroom.',    items: [
       { id: '1', content: '친구', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '화장실', combineWithNext: true },
@@ -523,8 +490,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is my mother in the house?',
     answer: '엄마가 집에 없어요.',
     alternativeAnswers: ['집에 엄마가 없어요.'],
-    answerTranslation: 'My mother is not in the house.',
-    items: [
+    answerTranslation: 'My mother is not in the house.',    items: [
       { id: '1', content: '엄마', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -538,8 +504,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is my father at work?',
     answer: '아빠가 회사에 없어요.',
     alternativeAnswers: ['회사에 아빠가 없어요.'],
-    answerTranslation: 'My father is not at work.',
-    items: [
+    answerTranslation: 'My father is not at work.',    items: [
       { id: '1', content: '아빠', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -553,8 +518,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is a chef in the restaurant?',
     answer: '요리사가 식당에 없어요.',
     alternativeAnswers: ['식당에 요리사가 없어요.'],
-    answerTranslation: 'A chef is not in the restaurant.',
-    items: [
+    answerTranslation: 'A chef is not in the restaurant.',    items: [
       { id: '1', content: '요리사', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -568,8 +532,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is my brother in the cafe?',
     answer: '오빠가 카페에 없어요.',
     alternativeAnswers: ['카페에 오빠가 없어요.'],
-    answerTranslation: 'My brother is not in the cafe.',
-    items: [
+    answerTranslation: 'My brother is not in the cafe.',    items: [
       { id: '1', content: '오빠', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '카페', combineWithNext: true },
@@ -583,8 +546,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is a singer in the hospital?',
     answer: '가수가 병원에 없어요.',
     alternativeAnswers: ['병원에 가수가 없어요.'],
-    answerTranslation: 'A singer is not in the hospital.',
-    items: [
+    answerTranslation: 'A singer is not in the hospital.',    items: [
       { id: '1', content: '가수', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -598,8 +560,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is an actor in the movie theater?',
     answer: '배우가 영화관에 없어요.',
     alternativeAnswers: ['영화관에 배우가 없어요.'],
-    answerTranslation: 'An actor is not in the movie theater.',
-    items: [
+    answerTranslation: 'An actor is not in the movie theater.',    items: [
       { id: '1', content: '배우', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -613,8 +574,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the house?',
     answer: '집에 라면이 있어요.',
     alternativeAnswers: ['라면이 집에 있어요.'],
-    answerTranslation: 'There is ramyeon in the house.',
-    items: [
+    answerTranslation: 'There is ramyeon in the house.',    items: [
       { id: '1', content: '라면', combineWithNext: true },
       { id: '2', content: '이', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -628,8 +588,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the house?',
     answer: '집에 우유가 있어요.',
     alternativeAnswers: ['우유가 집에 있어요.'],
-    answerTranslation: 'There is milk in the house.',
-    items: [
+    answerTranslation: 'There is milk in the house.',    items: [
       { id: '1', content: '우유', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -643,8 +602,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the restaurant?',
     answer: '식당에 맥주가 있어요.',
     alternativeAnswers: ['맥주가 식당에 있어요.'],
-    answerTranslation: 'There is beer in the restaurant.',
-    items: [
+    answerTranslation: 'There is beer in the restaurant.',    items: [
       { id: '1', content: '맥주', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '식당', combineWithNext: true },
@@ -658,8 +616,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the house?',
     answer: '집에 사과가 있어요.',
     alternativeAnswers: ['사과가 집에 있어요.'],
-    answerTranslation: 'There is apple in the house.',
-    items: [
+    answerTranslation: 'There is apple in the house.',    items: [
       { id: '1', content: '사과', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -673,8 +630,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the house?',
     answer: '집에 바나나가 있어요.',
     alternativeAnswers: ['바나나가 집에 있어요.'],
-    answerTranslation: 'There is banana in the house.',
-    items: [
+    answerTranslation: 'There is banana in the house.',    items: [
       { id: '1', content: '바나나', combineWithNext: true },
       { id: '2', content: '가가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -688,8 +644,7 @@ export const existenceQuestions: DialogueQuestion[] = [
     questionTranslation: 'What is there in the house?',
     answer: '집에 포도가 있어요.',
     alternativeAnswers: ['포도가 집에 있어요.'],
-    answerTranslation: 'There is grape in the house.',
-    items: [
+    answerTranslation: 'There is grape in the house.',    items: [
       { id: '1', content: '포도', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '집', combineWithNext: true },
@@ -698,3 +653,5 @@ export const existenceQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const existenceQuestions = addGrammarName(questions, 'existence');

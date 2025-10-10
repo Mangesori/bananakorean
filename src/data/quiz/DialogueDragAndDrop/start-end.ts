@@ -1,15 +1,15 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 버스, 지하철, 자동차, 택시, 자전거, 오토바이, 기차, 비행기, 트램, 걸어서
 // 걸리다
 
-export const startEndQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '서울에서 부산까지 어떻게 가요?',
     questionTranslation: 'How do you go from Seoul to Busan?',
     answer: '서울에서 부산까지 기차로 가요.',
-    answerTranslation: 'I go from Seoul to Busan by train.',
-    items: [
+    answerTranslation: 'I go from Seoul to Busan by train.',    items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '부산', combineWithNext: true },
@@ -24,8 +24,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '서울에서 부산까지 어떻게 가요?',
     questionTranslation: 'How do you go from Seoul to Busan?',
     answer: '서울에서 부산까지 기차를 타고 가요.',
-    answerTranslation: 'I go from Seoul to Busan by train.',
-    items: [
+    answerTranslation: 'I go from Seoul to Busan by train.',    items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '부산', combineWithNext: true },
@@ -41,8 +40,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 학교까지 어떻게 가요?',
     questionTranslation: 'How do you go from home to school?',
     answer: '집에서 학교까지 걸어서 가요.',
-    answerTranslation: 'I walk from home to school.',
-    items: [
+    answerTranslation: 'I walk from home to school.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -56,8 +54,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 회사까지 어떻게 가요?',
     questionTranslation: 'How do you go from home to the company?',
     answer: '집에서 회사까지 버스로 가요.',
-    answerTranslation: 'I take the bus from the subway station to the company.',
-    items: [
+    answerTranslation: 'I take the bus from the subway station to the company.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -72,8 +69,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 회사까지 어떻게 가요?',
     questionTranslation: 'How do you go from home to the company?',
     answer: '집에서 회사까지 버스를 타고 가요.',
-    answerTranslation: 'I take the bus from the subway station to the company.',
-    items: [
+    answerTranslation: 'I take the bus from the subway station to the company.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -89,8 +85,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '공원에서 도서관까지 어떻게 가요?',
     questionTranslation: 'How do you go from the park to the library?',
     answer: '공원에서 도서관까지 자전거로 가요.',
-    answerTranslation: 'I ride a bicycle from the park to the library.',
-    items: [
+    answerTranslation: 'I ride a bicycle from the park to the library.',    items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -105,8 +100,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '공원에서 도서관까지 어떻게 가요?',
     questionTranslation: 'How do you go from the park to the library?',
     answer: '공원에서 도서관까지 자전거를 타고 가요.',
-    answerTranslation: 'I ride a bicycle from the park to the library.',
-    items: [
+    answerTranslation: 'I ride a bicycle from the park to the library.',    items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -122,8 +116,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '한국에서 미국까지 어떻게 가요?',
     questionTranslation: 'How do you go from Korea to the United States?',
     answer: '한국에서 미국까지 비행기로 가요.',
-    answerTranslation: 'I go from Korea to the United States by plane.',
-    items: [
+    answerTranslation: 'I go from Korea to the United States by plane.',    items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -138,8 +131,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '한국에서 미국까지 어떻게 가요?',
     questionTranslation: 'How do you go from Korea to the United States?',
     answer: '한국에서 미국까지 비행기를 타고 가요.',
-    answerTranslation: 'I go from Korea to the United States by plane.',
-    items: [
+    answerTranslation: 'I go from Korea to the United States by plane.',    items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -155,8 +147,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '사무실에서 영화관까지 어떻게 가요?',
     questionTranslation: 'How do you go from the office to the movie theater?',
     answer: '사무실에서 영화관까지 지하철로 가요.',
-    answerTranslation: 'I go from the office to the movie theater by subway.',
-    items: [
+    answerTranslation: 'I go from the office to the movie theater by subway.',    items: [
       { id: '1', content: '사무실', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -171,8 +162,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '사무실에서 영화관까지 어떻게 가요?',
     questionTranslation: 'How do you go from the office to the movie theater?',
     answer: '사무실에서 영화관까지 지하철을 타고 가요.',
-    answerTranslation: 'I go from the office to the movie theater by subway.',
-    items: [
+    answerTranslation: 'I go from the office to the movie theater by subway.',    items: [
       { id: '1', content: '사무실', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -188,8 +178,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 병원까지 어떻게 가요?',
     questionTranslation: 'How do you go from home to the hospital?',
     answer: '집에서 병원까지 택시로 가요.',
-    answerTranslation: 'I take a taxi from the subway station to the company.',
-    items: [
+    answerTranslation: 'I take a taxi from the subway station to the company.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -204,8 +193,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 병원까지 어떻게 가요?',
     questionTranslation: 'How do you go from home to the hospital?',
     answer: '집에서 병원까지 택시를 타고 가요.',
-    answerTranslation: 'I take a taxi from the subway station to the company.',
-    items: [
+    answerTranslation: 'I take a taxi from the subway station to the company.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -221,8 +209,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '학교에서 박물관까지 어떻게 가요?',
     questionTranslation: 'How do you go from school to the museum?',
     answer: '학교에서 박물관까지 트램으로 가요.',
-    answerTranslation: 'I take a tram from the school to the museum.',
-    items: [
+    answerTranslation: 'I take a tram from the school to the museum.',    items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '박물관', combineWithNext: true },
@@ -237,8 +224,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '학교에서 박물관까지 어떻게 가요?',
     questionTranslation: 'How do you go from school to the museum?',
     answer: '학교에서 박물관까지 트램을 타고 가요.',
-    answerTranslation: 'I take a tram from the school to the museum.',
-    items: [
+    answerTranslation: 'I take a tram from the school to the museum.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '박물관', combineWithNext: true },
@@ -254,8 +240,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '부산까지 어떻게 가요?',
     questionTranslation: 'How do you go to Busan?',
     answer: '부산까지 기차로 가요.',
-    answerTranslation: 'I go to Busan by train.',
-    items: [
+    answerTranslation: 'I go to Busan by train.',    items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '기차', combineWithNext: true },
@@ -268,8 +253,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '부산까지 어떻게 가요?',
     questionTranslation: 'How do you go to Busan?',
     answer: '부산까지 기차를 타고 가요.',
-    answerTranslation: 'I go to Busan by train.',
-    items: [
+    answerTranslation: 'I go to Busan by train.',    items: [
       { id: '1', content: '부산', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '5', content: '기차', combineWithNext: true },
@@ -283,8 +267,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '학교까지 어떻게 가요?',
     questionTranslation: 'How do you go to school?',
     answer: '학교까지 걸어서 가요.',
-    answerTranslation: 'I walk to school.',
-    items: [
+    answerTranslation: 'I walk to school.',    items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '걸어서', combineWithNext: false },
@@ -296,8 +279,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '회사까지 어떻게 가요?',
     questionTranslation: 'How do you go to the company?',
     answer: '회사까지 버스로 가요.',
-    answerTranslation: 'I take the bus to the company.',
-    items: [
+    answerTranslation: 'I take the bus to the company.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '버스', combineWithNext: true },
@@ -310,8 +292,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '회사까지 어떻게 가요?',
     questionTranslation: 'How do you go to the company?',
     answer: '회사까지 버스를 타고 가요.',
-    answerTranslation: 'I take the bus to the company.',
-    items: [
+    answerTranslation: 'I take the bus to the company.',    items: [
       { id: '1', content: '회사', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '버스', combineWithNext: true },
@@ -325,8 +306,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '도서관까지 어떻게 가요?',
     questionTranslation: 'How do you go to the library?',
     answer: '도서관까지 자전거로 가요.',
-    answerTranslation: 'I ride a bicycle to the library.',
-    items: [
+    answerTranslation: 'I ride a bicycle to the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '자전거', combineWithNext: true },
@@ -339,8 +319,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '도서관까지 어떻게 가요?',
     questionTranslation: 'How do you go to the library?',
     answer: '도서관까지 자전거를 타고 가요.',
-    answerTranslation: 'I ride a bicycle to the library.',
-    items: [
+    answerTranslation: 'I ride a bicycle to the library.',    items: [
       { id: '1', content: '도서관', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '자전거', combineWithNext: true },
@@ -354,8 +333,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '미국까지 어떻게 가요?',
     questionTranslation: 'How do you go to the United States?',
     answer: '미국까지 비행기로 가요.',
-    answerTranslation: 'I go to the United States by plane.',
-    items: [
+    answerTranslation: 'I go to the United States by plane.',    items: [
       { id: '1', content: '미국', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '비행기', combineWithNext: true },
@@ -368,8 +346,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '미국까지 어떻게 가요?',
     questionTranslation: 'How do you go to the United States?',
     answer: '미국까지 비행기를 타고 가요.',
-    answerTranslation: 'I go to the United States by plane.',
-    items: [
+    answerTranslation: 'I go to the United States by plane.',    items: [
       { id: '1', content: '미국', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '비행기', combineWithNext: true },
@@ -383,8 +360,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '영화관까지 어떻게 가요?',
     questionTranslation: 'How do you go to the movie theater?',
     answer: '영화관까지 지하철로 가요.',
-    answerTranslation: 'I go to the movie theater by subway.',
-    items: [
+    answerTranslation: 'I go to the movie theater by subway.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '지하철', combineWithNext: true },
@@ -397,8 +373,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '영화관까지 어떻게 가요?',
     questionTranslation: 'How do you go to the movie theater?',
     answer: '영화관까지 지하철을 타고 가요.',
-    answerTranslation: 'I go to the movie theater by subway.',
-    items: [
+    answerTranslation: 'I go to the movie theater by subway.',    items: [
       { id: '1', content: '영화관', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '지하철', combineWithNext: true },
@@ -412,8 +387,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '병원까지 어떻게 가요?',
     questionTranslation: 'How do you go to the hospital?',
     answer: '병원까지 택시로 가요.',
-    answerTranslation: 'I take a taxi to the hospital.',
-    items: [
+    answerTranslation: 'I take a taxi to the hospital.',    items: [
       { id: '1', content: '병원', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '택시', combineWithNext: true },
@@ -426,8 +400,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '병원까지 어떻게 가요?',
     questionTranslation: 'How do you go to the hospital?',
     answer: '병원까지 택시를 타고 가요.',
-    answerTranslation: 'I take a taxi to the hospital.',
-    items: [
+    answerTranslation: 'I take a taxi to the hospital.',    items: [
       { id: '1', content: '병원', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '택시', combineWithNext: true },
@@ -441,8 +414,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '박물관까지 어떻게 가요?',
     questionTranslation: 'How do you go to the museum?',
     answer: '박물관까지 트램으로 가요.',
-    answerTranslation: 'I take a tram to the museum.',
-    items: [
+    answerTranslation: 'I take a tram to the museum.',    items: [
       { id: '1', content: '박물관', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '트램', combineWithNext: true },
@@ -455,8 +427,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '박물관까지 어떻게 가요?',
     questionTranslation: 'How do you go to the museum?',
     answer: '박물관까지 트램을 타고 가요.',
-    answerTranslation: 'I take a tram to the museum.',
-    items: [
+    answerTranslation: 'I take a tram to the museum.',    items: [
       { id: '1', content: '박물관', combineWithNext: true },
       { id: '2', content: '까지', combineWithNext: false },
       { id: '3', content: '트램', combineWithNext: true },
@@ -470,8 +441,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '서울에서 부산까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from Seoul to Busan?',
     answer: '서울에서 부산까지 기차로 2시간 30분 걸려요.',
-    answerTranslation: 'It takes 2 hours and 30 minutes to go from Seoul to Busan by train.',
-    items: [
+    answerTranslation: 'It takes 2 hours and 30 minutes to go from Seoul to Busan by train.',    items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '부산', combineWithNext: true },
@@ -488,8 +458,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '서울에서 부산까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from Seoul to Busan?',
     answer: '서울에서 부산까지 자동차로 5시간 걸려요.',
-    answerTranslation: 'It takes 5 hours to go from Seoul to Busan by car.',
-    items: [
+    answerTranslation: 'It takes 5 hours to go from Seoul to Busan by car.',    items: [
       { id: '1', content: '서울', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '부산', combineWithNext: true },
@@ -505,8 +474,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 학교까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from home to school?',
     answer: '집에서 학교까지 걸어서 10분 걸려요.',
-    answerTranslation: 'It takes 10 minutes to walk from home to school.',
-    items: [
+    answerTranslation: 'It takes 10 minutes to walk from home to school.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '학교', combineWithNext: true },
@@ -521,8 +489,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 회사까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from home to the company?',
     answer: '집에서 회사까지 버스로 1시간 걸려요.',
-    answerTranslation: 'It takes 1 hour to go from home to the company by bus.',
-    items: [
+    answerTranslation: 'It takes 1 hour to go from home to the company by bus.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -538,8 +505,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 회사까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from home to the company?',
     answer: '집에서 회사까지 지하철로 40분 걸려요.',
-    answerTranslation: 'It takes 40 minutes to go from home to the company by subway.',
-    items: [
+    answerTranslation: 'It takes 40 minutes to go from home to the company by subway.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '회사', combineWithNext: true },
@@ -555,8 +521,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '공원에서 도서관까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from the park to the library?',
     answer: '공원에서 도서관까지 자전거로 5분 걸려요.',
-    answerTranslation: 'It takes 5 minutes to go from the park to the library by bicycle.',
-    items: [
+    answerTranslation: 'It takes 5 minutes to go from the park to the library by bicycle.',    items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -572,8 +537,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '공원에서 도서관까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from the park to the library?',
     answer: '공원에서 도서관까지 걸어서 15분 걸려요.',
-    answerTranslation: 'It takes 15 minutes to walk from the park to the library.',
-    items: [
+    answerTranslation: 'It takes 15 minutes to walk from the park to the library.',    items: [
       { id: '1', content: '공원', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '도서관', combineWithNext: true },
@@ -588,8 +552,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '한국에서 미국까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from Korea to the United States?',
     answer: '한국에서 미국까지 비행기로 11시간 걸려요.',
-    answerTranslation: 'It takes 11 hours to go from Korea to the United States by plane.',
-    items: [
+    answerTranslation: 'It takes 11 hours to go from Korea to the United States by plane.',    items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -605,8 +568,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '한국에서 미국까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from Korea to the United States?',
     answer: '한국에서 미국까지 배로 15일 걸려요.',
-    answerTranslation: 'It takes 15 days to go from Korea to the United States by ship.',
-    items: [
+    answerTranslation: 'It takes 15 days to go from Korea to the United States by ship.',    items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: true },
@@ -622,8 +584,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '사무실에서 영화관까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from the office to the movie theater?',
     answer: '사무실에서 영화관까지 지하철로 10분 걸려요.',
-    answerTranslation: 'It takes 10 minutes to go from the office to the movie theater by subway.',
-    items: [
+    answerTranslation: 'It takes 10 minutes to go from the office to the movie theater by subway.',    items: [
       { id: '1', content: '사무실', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -639,8 +600,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '사무실에서 영화관까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from the office to the movie theater?',
     answer: '사무실에서 영화관까지 걸어서 20분 걸려요.',
-    answerTranslation: 'It takes 20 minutes to walk from the office to the movie theater.',
-    items: [
+    answerTranslation: 'It takes 20 minutes to walk from the office to the movie theater.',    items: [
       { id: '1', content: '사무실', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '영화관', combineWithNext: true },
@@ -655,8 +615,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 병원까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from home to the hospital?',
     answer: '집에서 병원까지 택시로 30분 걸려요.',
-    answerTranslation: 'It takes 30 minutes to go from home to the hospital by taxi.',
-    items: [
+    answerTranslation: 'It takes 30 minutes to go from home to the hospital by taxi.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -672,8 +631,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '집에서 병원까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from home to the hospital?',
     answer: '집에서 병원까지 버스로 1시간 걸려요.',
-    answerTranslation: 'It takes 1 hour to go from home to the hospital by bus.',
-    items: [
+    answerTranslation: 'It takes 1 hour to go from home to the hospital by bus.',    items: [
       { id: '1', content: '집', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '병원', combineWithNext: true },
@@ -689,8 +647,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '학교에서 박물관까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from the school to the museum?',
     answer: '학교에서 박물관까지 트램으로 40분 걸려요.',
-    answerTranslation: 'It takes 40 minutes to go from the school to the museum by tram.',
-    items: [
+    answerTranslation: 'It takes 40 minutes to go from the school to the museum by tram.',    items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '박물관', combineWithNext: true },
@@ -706,8 +663,7 @@ export const startEndQuestions: DialogueQuestion[] = [
     question: '학교에서 박물관까지 얼마나 걸려요?',
     questionTranslation: 'How long does it take to go from the school to the museum?',
     answer: '학교에서 박물관까지 버스로 1시간 반 걸려요.',
-    answerTranslation: 'It takes 1 hour and 30 minutes to go from the school to the museum by bus.',
-    items: [
+    answerTranslation: 'It takes 1 hour and 30 minutes to go from the school to the museum by bus.',    items: [
       { id: '1', content: '학교', combineWithNext: true },
       { id: '2', content: '에서', combineWithNext: false },
       { id: '3', content: '박물관', combineWithNext: true },
@@ -720,3 +676,5 @@ export const startEndQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const startEndQuestions = addGrammarName(questions, 'start-end');

@@ -1,13 +1,14 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const reasonQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '어제 어디에 갔어요?',
     questionTranslation: 'Where did you go yesterday?',
     answer: '배가 아파서 병원에 갔어요.',
     answerTranslation: 'Because my stomach hurt, I went to the hospital.',
-    items: [
+items: [
       { id: '1', content: '배', combineWithNext: true },
       { id: '2', content: '가', combineWithNext: false },
       { id: '3', content: '아파', combineWithNext: true },
@@ -39,7 +40,7 @@ export const reasonQuestions: DialogueQuestion[] = [
     questionTranslation: 'What time did you go to bed yesterday?',
     answer: '피곤해서 일찍 잤어요.',
     answerTranslation: 'Because I was tired, I went to bed early.',
-    items: [
+items: [
       { id: '1', content: '피곤해', combineWithNext: true },
       { id: '2', content: '서', combineWithNext: false },
       { id: '2', content: '일찍', combineWithNext: false },
@@ -65,7 +66,7 @@ export const reasonQuestions: DialogueQuestion[] = [
     questionTranslation: 'Did you watch that movie again?',
     answer: '네, 재미있어서 또 봤어요.',
     answerTranslation: 'Yes, because it was fun, I watched it again.',
-    items: [
+items: [
       { id: '1', content: '재미있', combineWithNext: true },
       { id: '2', content: '어서', combineWithNext: false },
       { id: '3', content: '또', combineWithNext: false },
@@ -73,3 +74,5 @@ export const reasonQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const reasonQuestions = addGrammarName(questions, 'reasons');

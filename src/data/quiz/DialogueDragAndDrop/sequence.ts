@@ -1,13 +1,13 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 
-export const sequenceQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '밥을 먹기 전에 무엇을 해야 해요?',
     questionTranslation: 'Before eating, what do you have to do?',
     answer: '밥을 먹기 전에 손을 씻어야 해요.',
-    answerTranslation: 'Before eating, I wash my hands.',
-    items: [
+    answerTranslation: 'Before eating, I wash my hands.',    items: [
       { id: '1', content: '밥', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '먹', combineWithNext: true },
@@ -25,8 +25,7 @@ export const sequenceQuestions: DialogueQuestion[] = [
     question: '공부한 후에 뭐 할 거예요?',
     questionTranslation: 'After studying, what will you do?',
     answer: '공부한 후에 놀 거예요.',
-    answerTranslation: 'After studying, I will play.',
-    items: [
+    answerTranslation: 'After studying, I will play.',    items: [
       { id: '1', content: '공부한', combineWithNext: false },
       { id: '2', content: '후', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -39,8 +38,7 @@ export const sequenceQuestions: DialogueQuestion[] = [
     question: '잠을 자기 전에 뭐 했어요?',
     questionTranslation: 'Before going to sleep, what did you do?',
     answer: '잠을 자기 전에 이를 닦았어요.',
-    answerTranslation: 'Before going to sleep, I brushed my teeth.',
-    items: [
+    answerTranslation: 'Before going to sleep, I brushed my teeth.',    items: [
       { id: '1', content: '잠', combineWithNext: true },
       { id: '2', content: '을', combineWithNext: false },
       { id: '3', content: '자', combineWithNext: true },
@@ -57,8 +55,7 @@ export const sequenceQuestions: DialogueQuestion[] = [
     question: '운동한 후에 뭐 했어요?',
     questionTranslation: 'After exercising, what did you do?',
     answer: '운동한 후에 샤워했어요.',
-    answerTranslation: 'After exercising, I took a shower.',
-    items: [
+    answerTranslation: 'After exercising, I took a shower.',    items: [
       { id: '1', content: '운동한', combineWithNext: false },
       { id: '2', content: '후', combineWithNext: true },
       { id: '3', content: '에', combineWithNext: false },
@@ -70,8 +67,7 @@ export const sequenceQuestions: DialogueQuestion[] = [
     question: '한국에 가기 전에 뭐 했어요?',
     questionTranslation: 'Before going to Korea, what did you do?',
     answer: '한국에 가기 전에 한국어를 공부했어요.',
-    answerTranslation: 'Before going to Korea, I studied Korean.',
-    items: [
+    answerTranslation: 'Before going to Korea, I studied Korean.',    items: [
       { id: '1', content: '한국', combineWithNext: true },
       { id: '2', content: '에', combineWithNext: false },
       { id: '3', content: '가', combineWithNext: true },
@@ -84,3 +80,5 @@ export const sequenceQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const sequenceQuestions = addGrammarName(questions, 'sequence');

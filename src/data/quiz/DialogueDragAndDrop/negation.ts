@@ -1,17 +1,17 @@
 import { DialogueQuestion } from '@/types/quiz';
+import { addGrammarName } from '@/lib/quiz/helpers';
 // 학생, 선생님, 의사, 가수, 요리사, 경찰, 회사원, 배우, 운동 선수, 기자,
 // 한국 사람, 중국 사람, 일본 사람, 미국 사람, 영국 사람, 프랑스 사람, 독일 사람, 호주 사람, 베트남 사람, 인도 사람
 // 사람, 책, 펜, 가방, 커피, 물, 책상, 의자, 빵, 우유, 핸드폰,
 // 공책, 연필, 우산, 노트북, 시계, 에어컨,
 
-export const negationQuestions: DialogueQuestion[] = [
+const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
   {
     id: 1,
     question: '이 사람은 학생이에요?',
     questionTranslation: 'Is this person a student?',
     answer: '이 사람은 학생이 아니에요.',
-    answerTranslation: 'This person is not a student.',
-    items: [
+    answerTranslation: 'This person is not a student.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -25,8 +25,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 선생님이에요?',
     questionTranslation: 'Is this person a teacher?',
     answer: '이 사람은 선생님이 아니에요.',
-    answerTranslation: 'This person is not a teacher.',
-    items: [
+    answerTranslation: 'This person is not a teacher.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -40,8 +39,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 의사예요?',
     questionTranslation: 'Is this person a doctor?',
     answer: '이 사람은 의사가 아니에요.',
-    answerTranslation: 'This person is not a doctor.',
-    items: [
+    answerTranslation: 'This person is not a doctor.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -55,8 +53,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 가수예요?',
     questionTranslation: 'Is this person a singer?',
     answer: '이 사람은 가수가 아니에요.',
-    answerTranslation: 'This person is not a singer.',
-    items: [
+    answerTranslation: 'This person is not a singer.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -70,8 +67,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 요리사예요?',
     questionTranslation: 'Is this person a cook?',
     answer: '이 사람은 요리사가 아니에요.',
-    answerTranslation: 'This person is not a cook.',
-    items: [
+    answerTranslation: 'This person is not a cook.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -85,8 +81,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 경찰이에요?',
     questionTranslation: 'Is this person a police officer?',
     answer: '이 사람은 경찰이 아니에요.',
-    answerTranslation: 'This person is not a police officer.',
-    items: [
+    answerTranslation: 'This person is not a police officer.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -100,8 +95,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 회사원이에요?',
     questionTranslation: 'Is this person an office worker?',
     answer: '이 사람은 회사원이 아니에요.',
-    answerTranslation: 'This person is not an office worker.',
-    items: [
+    answerTranslation: 'This person is not an office worker.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -115,8 +109,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 배우예요?',
     questionTranslation: 'Is this person an actor?',
     answer: '이 사람은 배우가 아니에요.',
-    answerTranslation: 'This person is not an actor.',
-    items: [
+    answerTranslation: 'This person is not an actor.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -130,8 +123,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 운동 선수예요?',
     questionTranslation: 'Is this person an athlete?',
     answer: '이 사람은 운동 선수가 아니에요.',
-    answerTranslation: 'This person is not an athlete.',
-    items: [
+    answerTranslation: 'This person is not an athlete.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -145,8 +137,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 기자예요?',
     questionTranslation: 'Is this person a journalist?',
     answer: '이 사람은 기자가 아니에요.',
-    answerTranslation: 'This person is not a journalist.',
-    items: [
+    answerTranslation: 'This person is not a journalist.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -160,8 +151,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 한국 사람이에요?',
     questionTranslation: 'Is this person a Korean?',
     answer: '이 사람은 한국 사람이 아니에요.',
-    answerTranslation: 'This person is not a Korean.',
-    items: [
+    answerTranslation: 'This person is not a Korean.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -176,8 +166,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 중국 사람이에요?',
     questionTranslation: 'Is this person a Chinese?',
     answer: '이 사람은 중국 사람이 아니에요.',
-    answerTranslation: 'This person is not a Chinese.',
-    items: [
+    answerTranslation: 'This person is not a Chinese.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -192,8 +181,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 일본 사람이에요?',
     questionTranslation: 'Is this person a Japanese?',
     answer: '이 사람은 일본 사람이 아니에요.',
-    answerTranslation: 'This person is not a Japanese.',
-    items: [
+    answerTranslation: 'This person is not a Japanese.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -208,8 +196,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 미국 사람이에요?',
     questionTranslation: 'Is this person an American?',
     answer: '이 사람은 미국 사람이 아니에요.',
-    answerTranslation: 'This person is not an American.',
-    items: [
+    answerTranslation: 'This person is not an American.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -224,8 +211,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 영국 사람이에요?',
     questionTranslation: 'Is this person a British?',
     answer: '이 사람은 영국 사람이 아니에요.',
-    answerTranslation: 'This person is not a British.',
-    items: [
+    answerTranslation: 'This person is not a British.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -240,8 +226,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 프랑스 사람이에요?',
     questionTranslation: 'Is this person a French?',
     answer: '이 사람은 프랑스 사람이 아니에요.',
-    answerTranslation: 'This person is not a French.',
-    items: [
+    answerTranslation: 'This person is not a French.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -256,8 +241,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 독일 사람이에요?',
     questionTranslation: 'Is this person a German?',
     answer: '이 사람은 독일 사람이 아니에요.',
-    answerTranslation: 'This person is not a German.',
-    items: [
+    answerTranslation: 'This person is not a German.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -272,8 +256,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 호주 사람이에요?',
     questionTranslation: 'Is this person an Australian?',
     answer: '이 사람은 호주 사람이 아니에요.',
-    answerTranslation: 'This person is not an Australian.',
-    items: [
+    answerTranslation: 'This person is not an Australian.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -288,8 +271,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 베트남 사람이에요?',
     questionTranslation: 'Is this person a Vietnamese?',
     answer: '이 사람은 베트남 사람이 아니에요.',
-    answerTranslation: 'This person is not a Vietnamese.',
-    items: [
+    answerTranslation: 'This person is not a Vietnamese.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -304,8 +286,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이 사람은 인도 사람이에요?',
     questionTranslation: 'Is this person an Indian?',
     answer: '이 사람은 인도 사람이 아니에요.',
-    answerTranslation: 'This person is not an Indian.',
-    items: [
+    answerTranslation: 'This person is not an Indian.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -320,8 +301,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 책이에요?',
     questionTranslation: 'Is this a book?',
     answer: '이거는 책이 아니에요.',
-    answerTranslation: 'This is not a book.',
-    items: [
+    answerTranslation: 'This is not a book.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -334,8 +314,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 펜이에요?',
     questionTranslation: 'Is this a pen?',
     answer: '이거는 펜이 아니에요.',
-    answerTranslation: 'This is not a pen.',
-    items: [
+    answerTranslation: 'This is not a pen.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '펜', combineWithNext: true },
@@ -348,8 +327,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 가방이에요?',
     questionTranslation: 'Is this a bag?',
     answer: '이거는 가방이 아니에요.',
-    answerTranslation: 'This is not a bag.',
-    items: [
+    answerTranslation: 'This is not a bag.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: true },
@@ -362,8 +340,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 커피예요?',
     questionTranslation: 'Is this coffee?',
     answer: '이거는 커피가 아니에요.',
-    answerTranslation: 'This is not coffee.',
-    items: [
+    answerTranslation: 'This is not coffee.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -376,8 +353,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 물이에요?',
     questionTranslation: 'Is this water?',
     answer: '이거는 물이 아니에요.',
-    answerTranslation: 'This is not water.',
-    items: [
+    answerTranslation: 'This is not water.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -390,8 +366,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 책상이에요?',
     questionTranslation: 'Is this a desk?',
     answer: '이거는 책상이 아니에요.',
-    answerTranslation: 'This is not a desk.',
-    items: [
+    answerTranslation: 'This is not a desk.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -404,8 +379,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 의자예요?',
     questionTranslation: 'Is this a chair?',
     answer: '이거는 의자가 아니에요.',
-    answerTranslation: 'This is not a chair.',
-    items: [
+    answerTranslation: 'This is not a chair.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -418,8 +392,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 빵이에요?',
     questionTranslation: 'Is this bread?',
     answer: '이거는 빵이 아니에요.',
-    answerTranslation: 'This is not a bread.',
-    items: [
+    answerTranslation: 'This is not a bread.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -432,8 +405,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 우유예요?',
     questionTranslation: 'Is this milk?',
     answer: '이거는 우유가 아니에요.',
-    answerTranslation: 'This is not milk.',
-    items: [
+    answerTranslation: 'This is not milk.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우유', combineWithNext: true },
@@ -446,8 +418,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 핸드폰이에요?',
     questionTranslation: 'Is this a phone?',
     answer: '이거는 핸드폰이 아니에요.',
-    answerTranslation: 'This is not a phone.',
-    items: [
+    answerTranslation: 'This is not a phone.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '핸드폰', combineWithNext: true },
@@ -460,8 +431,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 책이에요?',
     questionTranslation: 'Is this a book?',
     answer: '그거는 책이 아니에요.',
-    answerTranslation: 'That is not a book.',
-    items: [
+    answerTranslation: 'That is not a book.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -474,8 +444,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 펜이에요?',
     questionTranslation: 'Is this a pen?',
     answer: '그거는 펜이 아니에요.',
-    answerTranslation: 'That is not a pen.',
-    items: [
+    answerTranslation: 'That is not a pen.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '펜', combineWithNext: true },
@@ -488,8 +457,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 가방이에요?',
     questionTranslation: 'Is this a bag?',
     answer: '그거는 가방이 아니에요.',
-    answerTranslation: 'That is not a bag.',
-    items: [
+    answerTranslation: 'That is not a bag.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: true },
@@ -502,8 +470,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 커피예요?',
     questionTranslation: 'Is this coffee?',
     answer: '그거는 커피가 아니에요.',
-    answerTranslation: 'That is not coffee.',
-    items: [
+    answerTranslation: 'That is not coffee.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -516,8 +483,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 물이에요?',
     questionTranslation: 'Is this water?',
     answer: '그거는 물이 아니에요.',
-    answerTranslation: 'That is not water.',
-    items: [
+    answerTranslation: 'That is not water.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -530,8 +496,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 책상이에요?',
     questionTranslation: 'Is this a desk?',
     answer: '그거는 책상이 아니에요.',
-    answerTranslation: 'That is not a desk.',
-    items: [
+    answerTranslation: 'That is not a desk.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -544,8 +509,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 의자예요?',
     questionTranslation: 'Is this a chair?',
     answer: '그거는 의자가 아니에요.',
-    answerTranslation: 'That is not a chair.',
-    items: [
+    answerTranslation: 'That is not a chair.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -558,8 +522,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 빵이에요?',
     questionTranslation: 'Is this bread?',
     answer: '그거는 빵이 아니에요.',
-    answerTranslation: 'That is not a bread.',
-    items: [
+    answerTranslation: 'That is not a bread.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -572,8 +535,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 우유예요?',
     questionTranslation: 'Is this milk?',
     answer: '그거는 우유가 아니에요.',
-    answerTranslation: 'That is not milk.',
-    items: [
+    answerTranslation: 'That is not milk.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우유', combineWithNext: true },
@@ -586,8 +548,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 핸드폰이에요?',
     questionTranslation: 'Is this a phone?',
     answer: '그거는 핸드폰이 아니에요.',
-    answerTranslation: 'That is not a phone.',
-    items: [
+    answerTranslation: 'That is not a phone.',    items: [
       { id: '1', content: '그거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '핸드폰', combineWithNext: true },
@@ -600,8 +561,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 책이에요?',
     questionTranslation: 'Is that a book?',
     answer: '저거는 책이 아니에요.',
-    answerTranslation: 'That is not a book.',
-    items: [
+    answerTranslation: 'That is not a book.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책', combineWithNext: true },
@@ -614,8 +574,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 펜이에요?',
     questionTranslation: 'Is that a pen?',
     answer: '저거는 펜이 아니에요.',
-    answerTranslation: 'That is not a pen.',
-    items: [
+    answerTranslation: 'That is not a pen.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '펜', combineWithNext: true },
@@ -628,8 +587,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 가방이에요?',
     questionTranslation: 'Is that a bag?',
     answer: '저거는 가방이 아니에요.',
-    answerTranslation: 'That is not a bag.',
-    items: [
+    answerTranslation: 'That is not a bag.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '가방', combineWithNext: true },
@@ -642,8 +600,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 커피가 아니에요.',
     questionTranslation: 'Is that coffee?',
     answer: '저거는 커피가 아니에요.',
-    answerTranslation: 'That is not coffee.',
-    items: [
+    answerTranslation: 'That is not coffee.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '커피', combineWithNext: true },
@@ -656,8 +613,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 물이에요?',
     questionTranslation: 'Is that water?',
     answer: '저거는 물이 아니에요.',
-    answerTranslation: 'That is not water.',
-    items: [
+    answerTranslation: 'That is not water.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '물', combineWithNext: true },
@@ -670,8 +626,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 책상이에요?',
     questionTranslation: 'Is that a desk?',
     answer: '저거는 책상이 아니에요.',
-    answerTranslation: 'That is not a desk.',
-    items: [
+    answerTranslation: 'That is not a desk.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '책상', combineWithNext: true },
@@ -684,8 +639,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 의자예요?',
     questionTranslation: 'Is that a chair?',
     answer: '저거는 의자가 아니에요.',
-    answerTranslation: 'That is not a chair.',
-    items: [
+    answerTranslation: 'That is not a chair.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '의자', combineWithNext: true },
@@ -698,8 +652,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 빵이에요?',
     questionTranslation: 'Is that bread?',
     answer: '저거는 빵이 아니에요.',
-    answerTranslation: 'That is not a bread.',
-    items: [
+    answerTranslation: 'That is not a bread.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '빵', combineWithNext: true },
@@ -712,8 +665,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 우유예요?',
     questionTranslation: 'Is that milk?',
     answer: '저거는 우유가 아니에요.',
-    answerTranslation: 'That is not milk.',
-    items: [
+    answerTranslation: 'That is not milk.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우유', combineWithNext: true },
@@ -726,8 +678,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 핸드폰이에요?',
     questionTranslation: 'Is that a phone?',
     answer: '저거는 핸드폰이 아니에요.',
-    answerTranslation: 'That is not a phone.',
-    items: [
+    answerTranslation: 'That is not a phone.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '핸드폰', combineWithNext: true },
@@ -741,8 +692,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this book yours?',
     answer: '이 책은 제 거가 아니에요.',
     alternativeAnswers: ['이 책은 제 거 아니에요.'],
-    answerTranslation: 'This book is not mine.',
-    items: [
+    answerTranslation: 'This book is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -758,8 +708,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this pen yours?',
     answer: '이 펜은 제 거가 아니에요.',
     alternativeAnswers: ['이 펜은 제 거 아니에요.'],
-    answerTranslation: 'This pen is not mine.',
-    items: [
+    answerTranslation: 'This pen is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '펜', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -775,8 +724,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this bag yours?',
     answer: '이 가방은 제 거가 아니에요.',
     alternativeAnswers: ['이 가방은 제 거 아니에요.'],
-    answerTranslation: 'This bag is not mine.',
-    items: [
+    answerTranslation: 'This bag is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '가방', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -792,8 +740,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this coffee yours?',
     answer: '이 커피는 제 거가 아니에요.',
     alternativeAnswers: ['이 커피는 제 거 아니에요.'],
-    answerTranslation: 'This coffee is not mine.',
-    items: [
+    answerTranslation: 'This coffee is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '커피', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -809,8 +756,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this water yours?',
     answer: '이 물은 제 거가 아니에요.',
     alternativeAnswers: ['이 물은 제 거 아니에요.'],
-    answerTranslation: 'This water is not mine.',
-    items: [
+    answerTranslation: 'This water is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -826,8 +772,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this desk yours?',
     answer: '이 책상은 제 거가 아니에요.',
     alternativeAnswers: ['이 책상은 제 거 아니에요.'],
-    answerTranslation: 'This desk is not mine.',
-    items: [
+    answerTranslation: 'This desk is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '책상', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -843,8 +788,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this chair yours?',
     answer: '이 의자는 제 거가 아니에요.',
     alternativeAnswers: ['이 의자는 제 거 아니에요.'],
-    answerTranslation: 'This chair is not mine.',
-    items: [
+    answerTranslation: 'This chair is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '의자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -860,8 +804,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this bread yours?',
     answer: '이 빵은 제 거가 아니에요.',
     alternativeAnswers: ['이 빵은 제 거 아니에요.'],
-    answerTranslation: 'This bread is not mine.',
-    items: [
+    answerTranslation: 'This bread is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -877,8 +820,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this milk yours?',
     answer: '이 우유는 제 거가 아니에요.',
     alternativeAnswers: ['이 우유는 제 거 아니에요.'],
-    answerTranslation: 'This milk is not mine.',
-    items: [
+    answerTranslation: 'This milk is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '우유', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -894,8 +836,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this phone yours?',
     answer: '이 핸드폰은 제 거가 아니에요.',
     alternativeAnswers: ['이 핸드폰은 제 거 아니에요.'],
-    answerTranslation: 'This phone is not mine.',
-    items: [
+    answerTranslation: 'This phone is not mine.',    items: [
       { id: '1', content: '이', combineWithNext: false },
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -911,8 +852,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this book yours?',
     answer: '저 책은 제 거가 아니에요.',
     alternativeAnswers: ['저 책은 제 거 아니에요.'],
-    answerTranslation: 'That book is not mine.',
-    items: [
+    answerTranslation: 'That book is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '책', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -928,8 +868,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this pen yours?',
     answer: '저 펜은 제 거가 아니에요.',
     alternativeAnswers: ['저 펜은 제 거 아니에요.'],
-    answerTranslation: 'That pen is not mine.',
-    items: [
+    answerTranslation: 'That pen is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '펜', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -945,8 +884,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this bag yours?',
     answer: '저 가방은 제 거가 아니에요.',
     alternativeAnswers: ['저 가방은 제 거 아니에요.'],
-    answerTranslation: 'That bag is not mine.',
-    items: [
+    answerTranslation: 'That bag is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '가방', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -962,8 +900,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this coffee yours?',
     answer: '저 커피는 제 거가 아니에요.',
     alternativeAnswers: ['저 커피는 제 거 아니에요.'],
-    answerTranslation: 'That coffee is not mine.',
-    items: [
+    answerTranslation: 'That coffee is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '커피', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -979,8 +916,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this water yours?',
     answer: '저 물은 제 거가 아니에요.',
     alternativeAnswers: ['저 물은 제 거 아니에요.'],
-    answerTranslation: 'That water is not mine.',
-    items: [
+    answerTranslation: 'That water is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '물', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -996,8 +932,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this desk yours?',
     answer: '저 책상은 제 거가 아니에요.',
     alternativeAnswers: ['저 책상은 제 거 아니에요.'],
-    answerTranslation: 'That desk is not mine.',
-    items: [
+    answerTranslation: 'That desk is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '책상', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1013,8 +948,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this chair yours?',
     answer: '저 의자는 제 거가 아니에요.',
     alternativeAnswers: ['저 의자는 제 거 아니에요.'],
-    answerTranslation: 'That chair is not mine.',
-    items: [
+    answerTranslation: 'That chair is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '의자', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1030,8 +964,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this bread yours?',
     answer: '저 빵은 제 거가 아니에요.',
     alternativeAnswers: ['저 빵은 제 거 아니에요.'],
-    answerTranslation: 'That bread is not mine.',
-    items: [
+    answerTranslation: 'That bread is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '빵', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1047,8 +980,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this milk yours?',
     answer: '저 우유는 제 거가 아니에요.',
     alternativeAnswers: ['저 우유는 제 거 아니에요.'],
-    answerTranslation: 'That milk is not mine.',
-    items: [
+    answerTranslation: 'That milk is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '우유', combineWithNext: true },
       { id: '3', content: '는', combineWithNext: false },
@@ -1064,8 +996,7 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Anna, Is this phone yours?',
     answer: '저 핸드폰은 제 거가 아니에요.',
     alternativeAnswers: ['저 핸드폰은 제 거 아니에요.'],
-    answerTranslation: 'That phone is not mine.',
-    items: [
+    answerTranslation: 'That phone is not mine.',    items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '핸드폰', combineWithNext: true },
       { id: '3', content: '은', combineWithNext: false },
@@ -1081,7 +1012,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a student?',
     answer: '저 사람은 학생이 아니에요.',
     answerTranslation: 'That person is not a student.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1097,7 +1027,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a teacher?',
     answer: '저 사람은 선생님이 아니에요.',
     answerTranslation: 'That person is not a teacher.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1113,7 +1042,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a doctor?',
     answer: '저 사람은 의사가 아니에요.',
     answerTranslation: 'That person is not a doctor.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1129,7 +1057,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a singer?',
     answer: '저 사람은 가수가 아니에요.',
     answerTranslation: 'That person is not a singer.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1145,7 +1072,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a cook?',
     answer: '저 사람은 요리사가 아니에요.',
     answerTranslation: 'That person is not a cook.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1161,7 +1087,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a police officer?',
     answer: '저 사람은 경찰이 아니에요.',
     answerTranslation: 'That person is not a police officer.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1177,7 +1102,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person an office worker?',
     answer: '저 사람은 회사원이 아니에요.',
     answerTranslation: 'That person is not an office worker.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1193,7 +1117,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person an actor?',
     answer: '저 사람은 배우가 아니에요.',
     answerTranslation: 'That person is not an actor.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1209,7 +1132,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person an athlete?',
     answer: '저 사람은 운동 선수가 아니에요.',
     answerTranslation: 'That person is not an athlete.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1225,7 +1147,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person a journalist?',
     answer: '저 사람은 기자가 아니에요.',
     answerTranslation: 'That person is not a journalist.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1241,7 +1162,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person Korean?',
     answer: '저 사람은 한국 사람이 아니에요.',
     answerTranslation: 'That person is not Korean.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1257,7 +1177,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person Chinese?',
     answer: '저 사람은 중국 사람이 아니에요.',
     answerTranslation: 'That person is not Chinese.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1273,7 +1192,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person Japanese?',
     answer: '저 사람은 일본 사람이 아니에요.',
     answerTranslation: 'That person is not Japanese.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1289,7 +1207,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person American?',
     answer: '저 사람은 미국 사람이 아니에요.',
     answerTranslation: 'That person is not American.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1305,7 +1222,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person British?',
     answer: '저 사람은 영국 사람이 아니에요.',
     answerTranslation: 'That person is not British.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1321,7 +1237,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person French?',
     answer: '저 사람은 프랑스 사람이 아니에요.',
     answerTranslation: 'That person is not French.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1337,7 +1252,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person German?',
     answer: '저 사람은 독일 사람이 아니에요.',
     answerTranslation: 'That person is not German.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1353,7 +1267,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person Australian?',
     answer: '저 사람은 호주 사람이 아니에요.',
     answerTranslation: 'That person is not Australian.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1369,7 +1282,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person Vietnamese?',
     answer: '저 사람은 베트남 사람이 아니에요.',
     answerTranslation: 'That person is not Vietnamese.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1385,7 +1297,6 @@ export const negationQuestions: DialogueQuestion[] = [
     questionTranslation: 'Is that person Indian?',
     answer: '저 사람은 인도 사람이 아니에요.',
     answerTranslation: 'That person is not Indian.',
-
     items: [
       { id: '1', content: '저', combineWithNext: false },
       { id: '2', content: '사람', combineWithNext: true },
@@ -1400,8 +1311,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 공책이에요?',
     questionTranslation: 'Is this a notebook?',
     answer: '이거는 공책이 아니에요.',
-    answerTranslation: 'This is not a notebook.',
-    items: [
+    answerTranslation: 'This is not a notebook.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '공책', combineWithNext: true },
@@ -1414,8 +1324,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 연필이에요?',
     questionTranslation: 'Is this a pencil?',
     answer: '이거는 연필이 아니에요.',
-    answerTranslation: 'This is not a pencil.',
-    items: [
+    answerTranslation: 'This is not a pencil.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '연필', combineWithNext: true },
@@ -1428,8 +1337,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 우산이에요?',
     questionTranslation: 'Is this an umbrella?',
     answer: '이거는 우산이 아니에요.',
-    answerTranslation: 'This is not an umbrella.',
-    items: [
+    answerTranslation: 'This is not an umbrella.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우산', combineWithNext: true },
@@ -1442,8 +1350,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 노트북이에요?',
     questionTranslation: 'Is this a notebook?',
     answer: '이거는 노트북이 아니에요.',
-    answerTranslation: 'This is not a notebook.',
-    items: [
+    answerTranslation: 'This is not a notebook.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '노트북', combineWithNext: true },
@@ -1456,8 +1363,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 시계예요?',
     questionTranslation: 'Is this a clock?',
     answer: '이거는 시계가 아니에요.',
-    answerTranslation: 'This is not a clock.',
-    items: [
+    answerTranslation: 'This is not a clock.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '시계', combineWithNext: true },
@@ -1470,8 +1376,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '이거는 에어컨이에요?',
     questionTranslation: 'Is this an air conditioner?',
     answer: '이거는 에어컨이 아니에요.',
-    answerTranslation: 'This is not an air conditioner.',
-    items: [
+    answerTranslation: 'This is not an air conditioner.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '에어컨', combineWithNext: true },
@@ -1484,8 +1389,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 공책이에요?',
     questionTranslation: 'Is that a notebook?',
     answer: '저거는 공책이 아니에요.',
-    answerTranslation: 'That is not a notebook.',
-    items: [
+    answerTranslation: 'That is not a notebook.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '공책', combineWithNext: true },
@@ -1498,8 +1402,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 연필이에요?',
     questionTranslation: 'Is that a pencil?',
     answer: '저거는 연필이 아니에요.',
-    answerTranslation: 'That is not a pencil.',
-    items: [
+    answerTranslation: 'That is not a pencil.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '연필', combineWithNext: true },
@@ -1512,8 +1415,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 우산이에요?',
     questionTranslation: 'Is that an umbrella?',
     answer: '저거는 우산이 아니에요.',
-    answerTranslation: 'That is not an umbrella.',
-    items: [
+    answerTranslation: 'That is not an umbrella.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '우산', combineWithNext: true },
@@ -1526,8 +1428,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 노트북이에요?',
     questionTranslation: 'Is that a notebook?',
     answer: '저거는 노트북이 아니에요.',
-    answerTranslation: 'That is not a notebook.',
-    items: [
+    answerTranslation: 'That is not a notebook.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '노트북', combineWithNext: true },
@@ -1540,8 +1441,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 시계예요?',
     questionTranslation: 'Is that a clock?',
     answer: '저거는 시계가 아니에요.',
-    answerTranslation: 'That is not a clock.',
-    items: [
+    answerTranslation: 'That is not a clock.',    items: [
       { id: '1', content: '저거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '시계', combineWithNext: true },
@@ -1554,8 +1454,7 @@ export const negationQuestions: DialogueQuestion[] = [
     question: '저거는 에어컨이에요?',
     questionTranslation: 'Is that an air conditioner?',
     answer: '저거는 에어컨이 아니에요.',
-    answerTranslation: 'That is not an air conditioner.',
-    items: [
+    answerTranslation: 'That is not an air conditioner.',    items: [
       { id: '1', content: '이거', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '에어컨', combineWithNext: true },
@@ -1564,3 +1463,5 @@ export const negationQuestions: DialogueQuestion[] = [
     ],
   },
 ];
+
+export const negationQuestions = addGrammarName(questions, 'negation');
