@@ -18,6 +18,7 @@ export interface QuizAttempt {
   correct_answer: string;
   is_correct: boolean;
   is_retry: boolean; // 다시 시도 여부 (같은 문제 재시도는 통계에서 제외)
+  is_review?: boolean; // 복습 모드 여부 (오답 복습 시 true, 진도 통계에서 제외)
   time_spent?: number;
   hints_used: number;
   created_at: string;
@@ -91,6 +92,7 @@ export interface CreateQuizAttemptData {
   correct_answer: string;
   is_correct: boolean;
   is_retry?: boolean; // 다시 시도 여부 (기본값: false)
+  is_review?: boolean; // 복습 모드 여부 (기본값: false, 진도 통계에서 제외)
   time_spent?: number;
   hints_used?: number;
 }
@@ -101,6 +103,7 @@ export interface UpdateProgressData {
   quiz_type: QuizType;
   is_correct: boolean;
   is_retry?: boolean; // 다시 시도 여부 (기본값: false)
+  is_review?: boolean; // 복습 모드 여부 (기본값: false, 진도 통계에서 제외)
   time_spent?: number;
 }
 

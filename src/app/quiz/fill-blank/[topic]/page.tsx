@@ -1,4 +1,5 @@
 import FillInTheBlank from '@/components/quiz/FillInTheBlank/FillInTheBlank';
+import FillInTheBlankReview from '@/components/quiz/FillInTheBlank/FillInTheBlankReview';
 import { topicMeta, TopicId, topicIds } from '@/data/quiz/topics/meta';
 import { getLastSessionWrongAttempts } from '@/lib/supabase/quiz-tracking';
 
@@ -148,13 +149,24 @@ export default async function FillBlankTopicPage({
     }
   }
 
+  // 복습 모드일 때는 FillInTheBlankReview 컴포넌트 사용
+  if (reviewMode) {
+    return (
+      <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
+        <FillInTheBlankReview
+          questions={questionsToShow}
+          title={fillBlankSet.title}
+          grammarName={fillBlankSet.title}
+          topic={key}
+        />
+      </div>
+    );
+  }
+
+  // 일반 모드
   return (
     <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
-      <FillInTheBlank
-        questions={questionsToShow}
-        title={fillBlankSet.title}
-        reviewMode={reviewMode}
-      />
+      <FillInTheBlank questions={questionsToShow} title={fillBlankSet.title} />
     </div>
   );
 }

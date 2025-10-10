@@ -1,4 +1,5 @@
 import MultipleChoice from '@/components/quiz/MultipleChoice/MultipleChoice';
+import MultipleChoiceReview from '@/components/quiz/MultipleChoice/MultipleChoiceReview';
 import { topicMeta, TopicId, topicIds } from '@/data/quiz/topics/meta';
 import { getLastSessionWrongAttempts } from '@/lib/supabase/quiz-tracking';
 
@@ -154,9 +155,24 @@ export default async function MultipleTopicPage({
     }
   }
 
+  // 복습 모드일 때는 MultipleChoiceReview 컴포넌트 사용
+  if (reviewMode) {
+    return (
+      <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
+        <MultipleChoiceReview
+          questions={questionsToShow}
+          title={mcqSet.title}
+          grammarName={mcqSet.title}
+          topic={key}
+        />
+      </div>
+    );
+  }
+
+  // 일반 모드
   return (
     <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
-      <MultipleChoice questions={questionsToShow} title={mcqSet.title} reviewMode={reviewMode} />
+      <MultipleChoice questions={questionsToShow} title={mcqSet.title} />
     </div>
   );
 }

@@ -24,6 +24,7 @@ export async function saveQuizAttempt(data: CreateQuizAttemptData) {
           user_id: user.id,
           ...data,
           is_retry: data.is_retry || false,
+          is_review: data.is_review || false,
           hints_used: data.hints_used || 0,
         },
       ])
@@ -57,8 +58,8 @@ export async function updateUserProgress(data: UpdateProgressData) {
       return { error: '로그인이 필요합니다.' };
     }
 
-    // 다시 시도인 경우 진도 업데이트 하지 않음
-    if (data.is_retry) {
+    // 다시 시도이거나 복습 모드인 경우 진도 업데이트 하지 않음
+    if (data.is_retry || data.is_review) {
       return { success: true };
     }
 

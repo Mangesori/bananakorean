@@ -652,29 +652,6 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
 
   // 로딩 상태 및 빈 문제 처리
   if (shuffledQuestions.length === 0) {
-    if (reviewMode) {
-      return (
-        <main className="bg-bodyBg max-w-4xl mx-auto md:max-w-3xl lg:max-w-4xl px-4 md:px-8 py-6 md:py-10 rounded-xl h-[85vh] overflow-y-auto relative select-none">
-          <div className="wrapper bg-gray-150 rounded-xl p-8">
-            <div className="text-center py-20">
-              <div className="text-6xl mb-4">🎉</div>
-              <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark mb-2">
-                복습할 문제가 없습니다
-              </h2>
-              <p className="text-contentColor dark:text-contentColor-dark mb-6">
-                최근 세션에서 틀린 문제가 없습니다. 모든 문제를 정확하게 풀었습니다!
-              </p>
-              <a
-                href="/dashboards/student-dashboard"
-                className="inline-block px-6 py-3 bg-primaryColor text-white rounded-lg hover:bg-primaryColor/90 transition-colors"
-              >
-                대시보드로 돌아가기
-              </a>
-            </div>
-          </div>
-        </main>
-      );
-    }
     return <div className="text-center py-10">문제를 불러오는 중...</div>;
   }
 
