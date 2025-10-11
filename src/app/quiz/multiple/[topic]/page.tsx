@@ -1,7 +1,7 @@
 import MultipleChoice from '@/components/quiz/MultipleChoice/MultipleChoice';
 import MultipleChoiceReview from '@/components/quiz/MultipleChoice/MultipleChoiceReview';
 import { topicMeta, TopicId, topicIds } from '@/data/quiz/topics/meta';
-import { getLastSessionWrongAttempts } from '@/lib/supabase/quiz-tracking';
+import { getLastSessionWrongAttempts, getRetakeQuestions } from '@/lib/supabase/quiz-tracking';
 
 const isTopicId = (value: string): value is TopicId => {
   return (topicIds as string[]).includes(value);
@@ -117,7 +117,7 @@ export default async function MultipleTopicPage({
   searchParams,
 }: {
   params: { topic: string };
-  searchParams: { reviewMode?: string };
+  searchParams: { reviewMode?: string; mode?: string };
 }) {
   const key = params.topic;
   if (!isTopicId(key) || !(key in mcqSets)) {
@@ -152,6 +152,21 @@ export default async function MultipleTopicPage({
       // 오답이 없으면 빈 배열
       questionsToShow = [];
       console.log('[Multiple Choice Review] No wrong attempts found');
+    }
+  }
+  // 다시 풀기 모드 (mode=retake)
+  else if (searchParams.mode === 'retake') {
+    const grammarName = mcqSet.title;
+    const { data: questionIds } = await getRetakeQuestions(grammarName, 'multiple_choice');
+
+    if (questionIds && questionIds.length > 0) {
+      // 최근 세션의 question_id로 원본 문제 필터링
+      questionsToShow = mcqSet.questions.filter(q =>
+        questionIds.includes(q.id.toString())
+      );
+    } else {
+      // 이전 세션이 없으면 모든 문제 표시
+      questionsToShow = mcqSet.questions;
     }
   }
 

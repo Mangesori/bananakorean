@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { DialogueQuestion } from '@/types/quiz';
 import { useQuizMutation } from '@/hooks/useQuizMutation';
 
@@ -16,6 +17,9 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
   title,
   reviewMode = false,
 }) => {
+  const searchParams = useSearchParams();
+  const isRetakeMode = searchParams?.get('mode') === 'retake'; // 다시 풀기 모드
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [userAnswer, setUserAnswer] = useState<string>('');
   const [score, setScore] = useState<number>(0);
@@ -57,7 +61,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
   const [totalQuestionsAnswered, setTotalQuestionsAnswered] = useState<number>(0);
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
   const [sessionAttempts, setSessionAttempts] = useState<
-    { is_correct: boolean; time_spent?: number; is_retry: boolean }[]
+    { is_correct: boolean; time_spent?: number; is_retry: boolean; is_retake?: boolean }[]
   >([]); // 세션 동안의 시도 내역
 
   const QUESTIONS_PER_SESSION = 10;
@@ -145,7 +149,8 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
       // iOS 디바이스 감지 (iPad의 최신 User Agent도 고려)
       const isIOS =
         /iPad|iPhone|iPod/.test(userAgent) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        ((navigator as any).userAgentData?.platform === 'macOS' && navigator.maxTouchPoints > 1) ||
+        (navigator.maxTouchPoints > 1 && /Mac/.test(userAgent));
 
       // 화면 크기 기준 (1536px 미만은 모바일/태블릿, 1536px 이상은 데스크톱)
       const isMobileByWidth = width < 1536;
@@ -465,7 +470,8 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
     setIsAnswered(true);
     setShowFeedback(true);
 
-    if (correct) {
+    // 재시도가 아닐 때만 점수 증가
+    if (correct && !isRetrying) {
       setScore(prev => prev + 1);
       setSessionScore(prev => prev + 1);
     }
@@ -474,13 +480,14 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
     const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000); // 초 단위
     quizMutation.mutate({
       grammar_name: current.grammarName || '일반',
-      quiz_type: 'fill_blank',
+      quiz_type: 'fill_in_blank',
       question_id: current.id?.toString() || `q-${currentIndex}`,
       question_text: current.question || '',
       user_answer: userAnswer.trim(),
       correct_answer: current.answer || '',
       is_correct: correct,
       is_retry: isRetrying, // 다시 시도 여부 전달
+      is_retake: isRetakeMode, // 다시 풀기 모드 여부 전달
       time_spent: timeSpent,
       hints_used:
         (showQuestionHint ? 1 : 0) + (showAnswerHint ? 1 : 0) + (showTranslationHint ? 1 : 0),
@@ -493,6 +500,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
         is_correct: correct,
         time_spent: timeSpent,
         is_retry: isRetrying,
+        is_retake: isRetakeMode,
       },
     ]);
 
@@ -1011,7 +1019,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
                       onChange={e => setUserAnswer(e.target.value)}
                       onFocus={handleInputFocus}
                       onBlur={handleInputBlur}
-                      onKeyPress={e => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter') {
                           if (isAnswered) {
                             handleNext();
@@ -1047,7 +1055,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
                       onChange={e => setUserAnswer(e.target.value)}
                       onFocus={handleInputFocus}
                       onBlur={handleInputBlur}
-                      onKeyPress={e => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter') {
                           if (isAnswered) {
                             handleNext();
@@ -1311,7 +1319,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
                       onChange={e => setUserAnswer(e.target.value)}
                       onFocus={handleInputFocus}
                       onBlur={handleInputBlur}
-                      onKeyPress={e => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter') {
                           if (isAnswered) {
                             handleNext();
@@ -1346,7 +1354,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
                       onChange={e => setUserAnswer(e.target.value)}
                       onFocus={handleInputFocus}
                       onBlur={handleInputBlur}
-                      onKeyPress={e => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter') {
                           if (isAnswered) {
                             handleNext();
@@ -1633,7 +1641,7 @@ const FillInTheBlank: React.FC<FillInTheBlankProps> = ({
                 onChange={e => setUserAnswer(e.target.value)}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                onKeyPress={e => {
+                onKeyDown={e => {
                   if (e.key === 'Enter') {
                     if (isAnswered) {
                       handleNext();

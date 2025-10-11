@@ -431,3 +431,43 @@ export async function getLastSessionWrongAttempts(grammarName: string, quizType:
     return { error: '최근 세션 오답 조회 중 오류가 발생했습니다.' };
   }
 }
+
+// 다시 풀기용 문제 목록 조회 (서버 컴포넌트용 - 최근 세션의 문제 ID들만)
+export async function getRetakeQuestions(grammarName: string, quizType: string) {
+  try {
+    const supabase = await createServerComponentClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { error: '로그인이 필요합니다.' };
+    }
+
+    // 해당 문법+퀴즈타입의 최근 10개 시도 조회 (재시도, 복습, 다시 풀기가 아닌 것만)
+    const { data: attempts, error } = await supabase
+      .from('quiz_attempts')
+      .select('question_id')
+      .eq('user_id', user.id)
+      .eq('grammar_name', grammarName)
+      .eq('quiz_type', quizType)
+      .eq('is_retry', false)
+      .eq('is_review', false)
+      .eq('is_retake', false)
+      .order('created_at', { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error('다시 풀기 문제 조회 오류:', error);
+      return { error: '다시 풀기 문제 조회에 실패했습니다.' };
+    }
+
+    // question_id만 추출하여 배열로 반환
+    const questionIds = attempts?.map(attempt => attempt.question_id) || [];
+
+    return { data: questionIds };
+  } catch (err) {
+    console.error('다시 풀기 문제 조회 중 오류:', err);
+    return { error: '다시 풀기 문제 조회 중 오류가 발생했습니다.' };
+  }
+}

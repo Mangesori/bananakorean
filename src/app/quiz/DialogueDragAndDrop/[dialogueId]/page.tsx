@@ -29,9 +29,10 @@ import { conditionQuestions } from '@/data/quiz/DialogueDragAndDrop/conditions';
 import { timeRelationQuestions } from '@/data/quiz/DialogueDragAndDrop/time-relations';
 import { sequenceQuestions } from '@/data/quiz/DialogueDragAndDrop/sequence';
 import DialogueDragAndDrop from '@/components/quiz/DialogueDragAndDrop/DialogueDragAndDrop';
+import DialogueDragAndDropReview from '@/components/quiz/DialogueDragAndDrop/DialogueDragAndDropReview';
 import { DialogueQuestion } from '@/types/quiz';
 import { topicMeta, TopicId, topicIds } from '@/data/quiz/topics/meta';
-import { getLastSessionWrongAttempts } from '@/lib/supabase/quiz-tracking';
+import { getLastSessionWrongAttempts, getRetakeQuestions } from '@/lib/supabase/quiz-tracking';
 
 const isTopicId = (value: string): value is TopicId => {
   return (topicIds as string[]).includes(value);
@@ -165,7 +166,7 @@ export default async function DialogueQuizPage({
   searchParams,
 }: {
   params: { dialogueId: string };
-  searchParams: { reviewMode?: string };
+  searchParams: { reviewMode?: string; mode?: string };
 }) {
   const key = params.dialogueId;
 
@@ -199,13 +200,42 @@ export default async function DialogueQuizPage({
       questionsToShow = [];
     }
   }
+  // 다시 풀기 모드 (mode=retake)
+  else if (searchParams.mode === 'retake') {
+    const grammarName = dialogueSet.title;
+    const { data: questionIds } = await getRetakeQuestions(grammarName, 'dialogue_drag_drop');
 
+    if (questionIds && questionIds.length > 0) {
+      // 최근 세션의 question_id로 원본 문제 필터링
+      questionsToShow = dialogueSet.questions.filter(q =>
+        questionIds.includes(q.id.toString())
+      );
+    } else {
+      // 이전 세션이 없으면 모든 문제 표시
+      questionsToShow = dialogueSet.questions;
+    }
+  }
+
+  // 복습 모드일 때는 DialogueDragAndDropReview 컴포넌트 사용
+  if (reviewMode) {
+    return (
+      <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
+        <DialogueDragAndDropReview
+          questions={questionsToShow}
+          title={dialogueSet.title}
+          grammarName={dialogueSet.title}
+          topic={key}
+        />
+      </div>
+    );
+  }
+
+  // 일반 모드
   return (
     <div className="container mx-auto px-2 md:px-4 py-4 md:py-6 2xl:py-8 relative">
       <DialogueDragAndDrop
         questions={questionsToShow}
         title={dialogueSet.title}
-        reviewMode={reviewMode}
       />
     </div>
   );

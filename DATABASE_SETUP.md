@@ -61,7 +61,7 @@ npm run db:types
 |------|------|------|
 | id | UUID | 기본키 |
 | user_id | UUID | 사용자 ID (auth.users 참조) |
-| quiz_type | VARCHAR(50) | 퀴즈 타입 ('dialogue', 'sentence', 'multiple', 'fill_blank') |
+| quiz_type | VARCHAR(50) | 퀴즈 타입 ('dialogue_drag_drop', 'sentence', 'fill_in_blank', 'multiple_choice') |
 | grammar_id | VARCHAR(100) | 문법 ID |
 | question_id | VARCHAR(100) | 문제 ID |
 | question_text | TEXT | 문제 텍스트 |
@@ -166,7 +166,7 @@ npm run db:types
 import { saveQuizAttempt } from '@/lib/supabase/quiz-tracking';
 
 const result = await saveQuizAttempt({
-  quiz_type: 'dialogue',
+  quiz_type: 'dialogue_drag_drop',
   grammar_id: 'eseo-kkaji',
   question_id: 'q1',
   question_text: '서울에서 부산까지 어떻게 가요?',

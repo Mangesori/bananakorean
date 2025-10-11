@@ -31,6 +31,9 @@ const TableRowSkeleton = () => (
     <td className="px-6 py-4">
       <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-20 animate-pulse"></div>
     </td>
+    <td className="px-6 py-4">
+      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-20 animate-pulse"></div>
+    </td>
   </tr>
 );
 
@@ -225,6 +228,9 @@ const StudentDashboardPrimary = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
                   오답 복습
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
+                  다시 풀기
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-borderColor dark:divide-borderColor-dark">
@@ -246,24 +252,41 @@ const StudentDashboardPrimary = () => {
                     return entry ? entry[0] : null;
                   };
 
+                  // 퀴즈 타입을 읽기 쉬운 형태로 변환
+                  const getQuizTypeLabel = quizType => {
+                    switch (quizType) {
+                      case 'dialogue_drag_drop':
+                        return 'Drag and Drop';
+                      case 'fill_in_blank':
+                        return 'Fill in the Blank';
+                      case 'multiple_choice':
+                        return 'Multiple Choice';
+                      default:
+                        return quizType;
+                    }
+                  };
+
                   // 퀴즈 타입에 따른 URL 경로 결정
-                  const getQuizPath = (quizType, grammarName) => {
+                  const getQuizPath = (quizType, grammarName, mode = 'review') => {
                     const topicId = getTopicIdFromGrammarName(grammarName);
                     if (!topicId) return null;
 
+                    const queryParam = mode === 'retake' ? '?mode=retake' : '?reviewMode=last-session';
+
                     switch (quizType) {
                       case 'dialogue_drag_drop':
-                        return `/quiz/DialogueDragAndDrop/${topicId}?reviewMode=last-session`;
+                        return `/quiz/DialogueDragAndDrop/${topicId}${queryParam}`;
                       case 'fill_in_blank':
-                        return `/quiz/fill-blank/${topicId}?reviewMode=last-session`;
+                        return `/quiz/fill-blank/${topicId}${queryParam}`;
                       case 'multiple_choice':
-                        return `/quiz/multiple/${topicId}?reviewMode=last-session`;
+                        return `/quiz/multiple/${topicId}${queryParam}`;
                       default:
                         return null;
                     }
                   };
 
-                  const reviewPath = getQuizPath(item.quiz_type, item.grammar_name);
+                  const reviewPath = getQuizPath(item.quiz_type, item.grammar_name, 'review');
+                  const retakePath = getQuizPath(item.quiz_type, item.grammar_name, 'retake');
 
                   return (
                     <tr key={item.id}>
@@ -271,7 +294,7 @@ const StudentDashboardPrimary = () => {
                         {item.grammar_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                        {item.quiz_type}
+                        {getQuizTypeLabel(item.quiz_type)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
                         {item.total_attempts}
@@ -293,13 +316,27 @@ const StudentDashboardPrimary = () => {
                           </span>
                         )}
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        {retakePath ? (
+                          <a
+                            href={retakePath}
+                            className="text-secondaryColor hover:text-secondaryColor/80 hover:underline font-medium"
+                          >
+                            다시 풀기
+                          </a>
+                        ) : (
+                          <span className="text-contentColor dark:text-contentColor-dark opacity-50">
+                            -
+                          </span>
+                        )}
+                      </td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="6"
                     className="px-6 py-4 text-center text-sm text-contentColor dark:text-contentColor-dark"
                   >
                     아직 학습 진도가 없습니다. 퀴즈를 풀어보세요!

@@ -25,6 +25,7 @@ export async function saveQuizAttempt(data: CreateQuizAttemptData) {
           ...data,
           is_retry: data.is_retry || false,
           is_review: data.is_review || false,
+          is_retake: data.is_retake || false,
           hints_used: data.hints_used || 0,
         },
       ])
@@ -58,8 +59,27 @@ export async function updateUserProgress(data: UpdateProgressData) {
       return { error: '로그인이 필요합니다.' };
     }
 
-    // 다시 시도이거나 복습 모드인 경우 진도 업데이트 하지 않음
+    // 다시 시도, 복습 모드, 다시 풀기 모드 처리
     if (data.is_retry || data.is_review) {
+      return { success: true }; // 통계 업데이트 안 함
+    }
+
+    // 다시 풀기 모드인 경우 last_attempted_at만 업데이트
+    if (data.is_retake) {
+      const { data: existingProgress } = await supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('grammar_name', data.grammar_name)
+        .eq('quiz_type', data.quiz_type)
+        .single();
+
+      if (existingProgress) {
+        await supabase
+          .from('user_progress')
+          .update({ last_attempted_at: new Date().toISOString() })
+          .eq('id', existingProgress.id);
+      }
       return { success: true };
     }
 
@@ -83,27 +103,18 @@ export async function updateUserProgress(data: UpdateProgressData) {
 
       const newBestStreak = Math.max(existingProgress.best_streak, newCurrentStreak);
 
-      // 숙련도 계산 (정답률 기반)
-      const accuracyRate = newCorrectAttempts / newTotalAttempts;
-      let newMasteryLevel = 0;
-      if (accuracyRate >= 0.9 && newTotalAttempts >= 10) newMasteryLevel = 5;
-      else if (accuracyRate >= 0.8 && newTotalAttempts >= 8) newMasteryLevel = 4;
-      else if (accuracyRate >= 0.7 && newTotalAttempts >= 6) newMasteryLevel = 3;
-      else if (accuracyRate >= 0.6 && newTotalAttempts >= 4) newMasteryLevel = 2;
-      else if (accuracyRate >= 0.5 && newTotalAttempts >= 2) newMasteryLevel = 1;
-
       const updateData: any = {
         total_attempts: newTotalAttempts,
         correct_attempts: newCorrectAttempts,
         total_time_spent: existingProgress.total_time_spent + (data.time_spent || 0),
         current_streak: newCurrentStreak,
         best_streak: newBestStreak,
-        mastery_level: newMasteryLevel,
+        last_attempted_at: new Date().toISOString(), // 마지막 시도 시간 업데이트
       };
 
-      // completed_at은 처음 mastery_level 3 달성 시에만 설정
-      if (newMasteryLevel >= 3 && !existingProgress.completed_at) {
-        updateData.completed_at = new Date().toISOString();
+      // first_completed_at은 처음 완료 시에만 설정
+      if (!existingProgress.first_completed_at) {
+        updateData.first_completed_at = new Date().toISOString();
       }
 
       const { error } = await supabase
@@ -127,7 +138,8 @@ export async function updateUserProgress(data: UpdateProgressData) {
           total_time_spent: data.time_spent || 0,
           current_streak: data.is_correct ? 1 : 0,
           best_streak: data.is_correct ? 1 : 0,
-          mastery_level: 0,
+          first_completed_at: new Date().toISOString(), // 처음 완료 시간
+          last_attempted_at: new Date().toISOString(), // 마지막 시도 시간
         },
       ]);
 
@@ -156,24 +168,22 @@ export async function getUserStats() {
       return { error: '로그인이 필요합니다.' };
     }
 
-    // 총 시도 횟수
-    const { count: totalAttempts } = await supabase
-      .from('quiz_attempts')
-      .select('*', { count: 'exact', head: true })
+    // user_progress 테이블에서 총 시도 횟수와 정답 횟수 합산
+    const { data: progressData } = await supabase
+      .from('user_progress')
+      .select('total_attempts, correct_attempts, grammar_name')
       .eq('user_id', user.id);
 
-    // 정답 횟수
-    const { count: totalCorrect } = await supabase
-      .from('quiz_attempts')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-      .eq('is_correct', true);
+    const totalAttempts = progressData?.reduce((sum, p) => sum + p.total_attempts, 0) || 0;
+    const totalCorrect = progressData?.reduce((sum, p) => sum + p.correct_attempts, 0) || 0;
 
-    // 현재 연속 학습 일수 계산
+    // 현재 연속 학습 일수 계산 (재시도와 복습 모드 제외)
     const { data: recentAttempts } = await supabase
       .from('quiz_attempts')
       .select('created_at')
       .eq('user_id', user.id)
+      .eq('is_retry', false)
+      .eq('is_review', false)
       .order('created_at', { ascending: false })
       .limit(100);
 
@@ -202,13 +212,6 @@ export async function getUserStats() {
         }
       }
     }
-
-    // 학습한 문법 수 (1회 이상 시도한 고유 문법 수 - 중복 제거)
-    const { data: progressData } = await supabase
-      .from('user_progress')
-      .select('grammar_name')
-      .eq('user_id', user.id)
-      .gte('total_attempts', 1);
 
     // 고유한 문법 이름만 카운트 (퀴즈 타입과 관계없이)
     const uniqueGrammars = new Set(progressData?.map(p => p.grammar_name) || []);
@@ -251,7 +254,7 @@ export async function getUserProgress() {
       .from('user_progress')
       .select('*')
       .eq('user_id', user.id)
-      .order('updated_at', { ascending: false });
+      .order('last_attempted_at', { ascending: false });
 
     if (error) {
       console.error('진도 조회 오류:', error);
@@ -333,11 +336,51 @@ export async function getLastSessionWrongAttempts(grammarName: string, quizType:
   }
 }
 
+// 다시 풀기용 문제 목록 조회 (최근 세션의 문제 ID들만)
+export async function getRetakeQuestions(grammarName: string, quizType: string) {
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { error: '로그인이 필요합니다.' };
+    }
+
+    // 해당 문법+퀴즈타입의 최근 10개 시도 조회 (재시도, 복습, 다시 풀기가 아닌 것만)
+    const { data: attempts, error } = await supabase
+      .from('quiz_attempts')
+      .select('question_id')
+      .eq('user_id', user.id)
+      .eq('grammar_name', grammarName)
+      .eq('quiz_type', quizType)
+      .eq('is_retry', false)
+      .eq('is_review', false)
+      .eq('is_retake', false)
+      .order('created_at', { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error('다시 풀기 문제 조회 오류:', error);
+      return { error: '다시 풀기 문제 조회에 실패했습니다.' };
+    }
+
+    // question_id만 추출하여 배열로 반환
+    const questionIds = attempts?.map(attempt => attempt.question_id) || [];
+
+    return { data: questionIds };
+  } catch (err) {
+    console.error('다시 풀기 문제 조회 중 오류:', err);
+    return { error: '다시 풀기 문제 조회 중 오류가 발생했습니다.' };
+  }
+}
+
 // 세션 완료 시 진도 업데이트 (10문제 완료 시)
 export async function updateSessionProgress(
   grammarName: string,
   quizType: string,
-  sessionAttempts: { is_correct: boolean; time_spent?: number; is_retry: boolean }[]
+  sessionAttempts: { is_correct: boolean; time_spent?: number; is_retry: boolean; is_retake?: boolean }[]
 ) {
   try {
     const supabase = createClient();
@@ -354,6 +397,28 @@ export async function updateSessionProgress(
 
     if (validAttempts.length === 0) {
       return { success: true }; // 유효한 시도가 없으면 업데이트 안 함
+    }
+
+    // 다시 풀기 모드인지 확인 (모든 시도가 is_retake인 경우)
+    const isRetakeMode = validAttempts.every(attempt => attempt.is_retake);
+
+    if (isRetakeMode) {
+      // 다시 풀기 모드: last_attempted_at만 업데이트
+      const { data: existingProgress } = await supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('grammar_name', grammarName)
+        .eq('quiz_type', quizType)
+        .single();
+
+      if (existingProgress) {
+        await supabase
+          .from('user_progress')
+          .update({ last_attempted_at: new Date().toISOString() })
+          .eq('id', existingProgress.id);
+      }
+      return { success: true };
     }
 
     // 기존 진도 조회
@@ -386,27 +451,18 @@ export async function updateSessionProgress(
       const newCurrentStreak = currentSessionStreak;
       const newBestStreak = Math.max(existingProgress.best_streak, newCurrentStreak);
 
-      // 숙련도 계산 (정답률 기반)
-      const accuracyRate = newCorrectAttempts / newTotalAttempts;
-      let newMasteryLevel = 0;
-      if (accuracyRate >= 0.9 && newTotalAttempts >= 10) newMasteryLevel = 5;
-      else if (accuracyRate >= 0.8 && newTotalAttempts >= 8) newMasteryLevel = 4;
-      else if (accuracyRate >= 0.7 && newTotalAttempts >= 6) newMasteryLevel = 3;
-      else if (accuracyRate >= 0.6 && newTotalAttempts >= 4) newMasteryLevel = 2;
-      else if (accuracyRate >= 0.5 && newTotalAttempts >= 2) newMasteryLevel = 1;
-
       const updateData: any = {
         total_attempts: newTotalAttempts,
         correct_attempts: newCorrectAttempts,
         total_time_spent: existingProgress.total_time_spent + totalTimeSpent,
         current_streak: newCurrentStreak,
         best_streak: newBestStreak,
-        mastery_level: newMasteryLevel,
+        last_attempted_at: new Date().toISOString(), // 마지막 시도 시간
       };
 
-      // completed_at은 처음 mastery_level 3 달성 시에만 설정
-      if (newMasteryLevel >= 3 && !existingProgress.completed_at) {
-        updateData.completed_at = new Date().toISOString();
+      // first_completed_at은 처음 완료 시에만 설정
+      if (!existingProgress.first_completed_at) {
+        updateData.first_completed_at = new Date().toISOString();
       }
 
       const { error } = await supabase
@@ -420,15 +476,6 @@ export async function updateSessionProgress(
       }
     } else {
       // 새 진도 생성
-      // 숙련도 계산 (정답률 기반)
-      const accuracyRate = correctCount / validAttempts.length;
-      let newMasteryLevel = 0;
-      if (accuracyRate >= 0.9 && validAttempts.length >= 10) newMasteryLevel = 5;
-      else if (accuracyRate >= 0.8 && validAttempts.length >= 8) newMasteryLevel = 4;
-      else if (accuracyRate >= 0.7 && validAttempts.length >= 6) newMasteryLevel = 3;
-      else if (accuracyRate >= 0.6 && validAttempts.length >= 4) newMasteryLevel = 2;
-      else if (accuracyRate >= 0.5 && validAttempts.length >= 2) newMasteryLevel = 1;
-
       const { error } = await supabase.from('user_progress').insert([
         {
           user_id: user.id,
@@ -439,7 +486,8 @@ export async function updateSessionProgress(
           total_time_spent: totalTimeSpent,
           current_streak: correctCount === validAttempts.length ? validAttempts.length : 0,
           best_streak: correctCount === validAttempts.length ? validAttempts.length : 0,
-          mastery_level: newMasteryLevel,
+          first_completed_at: new Date().toISOString(), // 처음 완료 시간
+          last_attempted_at: new Date().toISOString(), // 마지막 시도 시간
         },
       ]);
 

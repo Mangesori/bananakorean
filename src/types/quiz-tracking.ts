@@ -1,6 +1,6 @@
 // 퀴즈 진도 추적 관련 타입 정의
 
-export type QuizType = 'dialogue' | 'sentence' | 'multiple' | 'fill_blank';
+export type QuizType = 'sentence' | 'fill_in_blank' | 'dialogue_drag_drop' | 'multiple_choice';
 
 export type AchievementType = 'streak' | 'accuracy' | 'speed' | 'completion';
 
@@ -19,6 +19,7 @@ export interface QuizAttempt {
   is_correct: boolean;
   is_retry: boolean; // 다시 시도 여부 (같은 문제 재시도는 통계에서 제외)
   is_review?: boolean; // 복습 모드 여부 (오답 복습 시 true, 진도 통계에서 제외)
+  is_retake?: boolean; // 전체 다시 풀기 여부 (통계 제외, last_attempted_at만 업데이트)
   time_spent?: number;
   hints_used: number;
   created_at: string;
@@ -36,11 +37,9 @@ export interface UserProgress {
   total_time_spent: number;
   current_streak: number;
   best_streak: number;
-  mastery_level: number; // 0-5 레벨
-  last_attempted_at?: string;
-  completed_at?: string;
+  last_attempted_at?: string; // 마지막으로 퀴즈를 시도한 시간 (is_retake 포함, is_review 제외)
+  first_completed_at?: string; // 처음으로 퀴즈를 완료한 시간
   created_at: string;
-  updated_at: string;
 }
 
 // 사용자 성취/배지
@@ -93,6 +92,7 @@ export interface CreateQuizAttemptData {
   is_correct: boolean;
   is_retry?: boolean; // 다시 시도 여부 (기본값: false)
   is_review?: boolean; // 복습 모드 여부 (기본값: false, 진도 통계에서 제외)
+  is_retake?: boolean; // 전체 다시 풀기 여부 (기본값: false, 통계 제외, last_attempted_at만 업데이트)
   time_spent?: number;
   hints_used?: number;
 }
@@ -104,6 +104,7 @@ export interface UpdateProgressData {
   is_correct: boolean;
   is_retry?: boolean; // 다시 시도 여부 (기본값: false)
   is_review?: boolean; // 복습 모드 여부 (기본값: false, 진도 통계에서 제외)
+  is_retake?: boolean; // 전체 다시 풀기 여부 (기본값: false, 통계 제외, last_attempted_at만 업데이트)
   time_spent?: number;
 }
 
@@ -134,7 +135,6 @@ export interface GrammarProgress {
   total_attempts: number;
   correct_attempts: number;
   accuracy_rate: number;
-  mastery_level: number;
   is_completed: boolean;
   last_attempted_at?: string;
 }

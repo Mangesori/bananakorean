@@ -1,7 +1,7 @@
 import FillInTheBlank from '@/components/quiz/FillInTheBlank/FillInTheBlank';
 import FillInTheBlankReview from '@/components/quiz/FillInTheBlank/FillInTheBlankReview';
 import { topicMeta, TopicId, topicIds } from '@/data/quiz/topics/meta';
-import { getLastSessionWrongAttempts } from '@/lib/supabase/quiz-tracking';
+import { getLastSessionWrongAttempts, getRetakeQuestions } from '@/lib/supabase/quiz-tracking';
 
 const isTopicId = (value: string): value is TopicId => {
   return (topicIds as string[]).includes(value);
@@ -119,7 +119,7 @@ export default async function FillBlankTopicPage({
   searchParams,
 }: {
   params: { topic: string };
-  searchParams: { reviewMode?: string };
+  searchParams: { reviewMode?: string; mode?: string };
 }) {
   const key = params.topic;
   if (!isTopicId(key) || !(key in fillBlankSets)) {
@@ -146,6 +146,21 @@ export default async function FillBlankTopicPage({
     } else {
       // 오답이 없으면 빈 배열
       questionsToShow = [];
+    }
+  }
+  // 다시 풀기 모드 (mode=retake)
+  else if (searchParams.mode === 'retake') {
+    const grammarName = fillBlankSet.title;
+    const { data: questionIds } = await getRetakeQuestions(grammarName, 'fill_in_blank');
+
+    if (questionIds && questionIds.length > 0) {
+      // 최근 세션의 question_id로 원본 문제 필터링
+      questionsToShow = fillBlankSet.questions.filter(q =>
+        questionIds.includes(q.id.toString())
+      );
+    } else {
+      // 이전 세션이 없으면 모든 문제 표시
+      questionsToShow = fillBlankSet.questions;
     }
   }
 

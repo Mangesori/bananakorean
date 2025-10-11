@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS quiz_attempts (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    quiz_type VARCHAR(50) NOT NULL, -- 'dialogue', 'sentence', 'multiple', 'fill_blank'
+    quiz_type VARCHAR(50) NOT NULL, -- 'dialogue_drag_drop', 'sentence', 'fill_in_blank', 'multiple_choice'
     grammar_id VARCHAR(100) NOT NULL, -- 문법 ID (예: 'eseo-kkaji', 'euro')
     question_id VARCHAR(100) NOT NULL, -- 문제 ID
     question_text TEXT NOT NULL, -- 문제 텍스트

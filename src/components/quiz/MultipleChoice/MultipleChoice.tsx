@@ -1,6 +1,7 @@
 'use client';
 import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { MultipleChoiceQuestion } from '@/types/quiz';
 import { useQuizMutation } from '@/hooks/useQuizMutation';
 
@@ -13,6 +14,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   questions,
   title,
 }) => {
+  const searchParams = useSearchParams();
+  const isRetakeMode = searchParams?.get('mode') === 'retake'; // 다시 풀기 모드
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
@@ -37,7 +41,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   const [totalQuestionsAnswered, setTotalQuestionsAnswered] = useState<number>(0);
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
   const [sessionAttempts, setSessionAttempts] = useState<
-    { is_correct: boolean; time_spent?: number; is_retry: boolean }[]
+    { is_correct: boolean; time_spent?: number; is_retry: boolean; is_retake?: boolean }[]
   >([]); // 세션 동안의 시도 내역
 
   const QUESTIONS_PER_SESSION = 10;
@@ -155,8 +159,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     if (isAnswered || !selectedOption) return;
     const correctNow = selectedOption === current.correctAnswer;
 
-    // 점수 업데이트
-    if (correctNow) {
+    // 점수 업데이트 (재시도가 아닐 때만)
+    if (correctNow && !isRetrying) {
       setScore(prev => prev + 1);
       setSessionScore(prev => prev + 1);
     }
@@ -165,13 +169,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000); // 초 단위
     quizMutation.mutate({
       grammar_name: current.grammarName || '일반',
-      quiz_type: 'multiple',
+      quiz_type: 'multiple_choice',
       question_id: current.id?.toString() || `q-${currentIndex}`,
       question_text: current.question || '',
       user_answer: selectedOption || '',
       correct_answer: current.correctAnswer || '',
       is_correct: correctNow,
       is_retry: isRetrying, // 다시 시도 여부 전달
+      is_retake: isRetakeMode, // 다시 풀기 모드 여부 전달
       time_spent: timeSpent,
       hints_used:
         (showQuestionHint ? 1 : 0) + (showAnswerHint ? 1 : 0) + (showTranslationHint ? 1 : 0),
@@ -184,6 +189,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         is_correct: correctNow,
         time_spent: timeSpent,
         is_retry: isRetrying,
+        is_retake: isRetakeMode,
       },
     ]);
 
