@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
 import { supabase } from '@/utils/supabaseClient';
 import { getUserStats, getUserProgress, getUserAchievements } from '@/lib/supabase/quiz-mutations';
@@ -14,27 +14,31 @@ const StatCardSkeleton = () => (
   </div>
 );
 
-const TableRowSkeleton = () => (
-  <tr>
-    <td className="px-6 py-4">
-      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-16 animate-pulse"></div>
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-24 animate-pulse"></div>
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-12 animate-pulse"></div>
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-12 animate-pulse"></div>
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-20 animate-pulse"></div>
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-4 bg-borderColor dark:bg-borderColor-dark rounded w-20 animate-pulse"></div>
-    </td>
-  </tr>
+const ProgressCardSkeleton = () => (
+  <div className="bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark rounded-lg p-5 animate-pulse">
+    <div className="mb-4">
+      <div className="h-6 bg-borderColor dark:bg-borderColor-dark rounded w-32 mb-2"></div>
+      <div className="h-6 bg-borderColor dark:bg-borderColor-dark rounded w-24"></div>
+    </div>
+    <div className="flex items-center gap-4 mb-4 pb-4 border-b border-borderColor dark:border-borderColor-dark">
+      <div className="flex-1">
+        <div className="h-3 bg-borderColor dark:bg-borderColor-dark rounded w-16 mb-1"></div>
+        <div className="h-8 bg-borderColor dark:bg-borderColor-dark rounded w-8"></div>
+      </div>
+      <div className="flex-1">
+        <div className="h-3 bg-borderColor dark:bg-borderColor-dark rounded w-16 mb-1"></div>
+        <div className="h-8 bg-borderColor dark:bg-borderColor-dark rounded w-8"></div>
+      </div>
+      <div className="flex-1">
+        <div className="h-3 bg-borderColor dark:bg-borderColor-dark rounded w-16 mb-1"></div>
+        <div className="h-8 bg-borderColor dark:bg-borderColor-dark rounded w-12"></div>
+      </div>
+    </div>
+    <div className="flex gap-2">
+      <div className="flex-1 h-10 bg-borderColor dark:bg-borderColor-dark rounded-lg"></div>
+      <div className="flex-1 h-10 bg-borderColor dark:bg-borderColor-dark rounded-lg"></div>
+    </div>
+  </div>
 );
 
 const AchievementCardSkeleton = () => (
@@ -49,6 +53,7 @@ const StudentDashboardPrimary = () => {
   const { user, refreshSession } = useAuth();
   const profileChecked = useRef(false);
   const sessionRefreshed = useRef(false);
+  const [showAllProgress, setShowAllProgress] = useState(false);
 
   // 페이지 로드 시 세션 갱신 (Server Action redirect 후)
   useEffect(() => {
@@ -209,143 +214,151 @@ const StudentDashboardPrimary = () => {
             학습 진도
           </h2>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead className="bg-lightGrey7 dark:bg-lightGrey7-dark">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  문법
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  퀴즈 타입
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  시도 횟수
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  정답 횟수
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  오답 복습
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-contentColor dark:text-contentColor-dark uppercase tracking-wider">
-                  다시 풀기
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-borderColor dark:divide-borderColor-dark">
-              {loadingProgress ? (
-                <>
-                  <TableRowSkeleton />
-                  <TableRowSkeleton />
-                  <TableRowSkeleton />
-                  <TableRowSkeleton />
-                  <TableRowSkeleton />
-                </>
-              ) : progress && progress.length > 0 ? (
-                progress.slice(0, 10).map(item => {
-                  // 한글 grammar_name을 topic ID로 변환
-                  const getTopicIdFromGrammarName = grammarName => {
-                    const entry = Object.entries(topicMeta).find(
-                      ([_, meta]) => meta.title === grammarName
-                    );
-                    return entry ? entry[0] : null;
-                  };
-
-                  // 퀴즈 타입을 읽기 쉬운 형태로 변환
-                  const getQuizTypeLabel = quizType => {
-                    switch (quizType) {
-                      case 'dialogue_drag_drop':
-                        return 'Drag and Drop';
-                      case 'fill_in_blank':
-                        return 'Fill in the Blank';
-                      case 'multiple_choice':
-                        return 'Multiple Choice';
-                      default:
-                        return quizType;
-                    }
-                  };
-
-                  // 퀴즈 타입에 따른 URL 경로 결정
-                  const getQuizPath = (quizType, grammarName, mode = 'review') => {
-                    const topicId = getTopicIdFromGrammarName(grammarName);
-                    if (!topicId) return null;
-
-                    const queryParam = mode === 'retake' ? '?mode=retake' : '?reviewMode=last-session';
-
-                    switch (quizType) {
-                      case 'dialogue_drag_drop':
-                        return `/quiz/DialogueDragAndDrop/${topicId}${queryParam}`;
-                      case 'fill_in_blank':
-                        return `/quiz/fill-blank/${topicId}${queryParam}`;
-                      case 'multiple_choice':
-                        return `/quiz/multiple/${topicId}${queryParam}`;
-                      default:
-                        return null;
-                    }
-                  };
-
-                  const reviewPath = getQuizPath(item.quiz_type, item.grammar_name, 'review');
-                  const retakePath = getQuizPath(item.quiz_type, item.grammar_name, 'retake');
-
-                  return (
-                    <tr key={item.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blackColor dark:text-blackColor-dark">
-                        {item.grammar_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                        {getQuizTypeLabel(item.quiz_type)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                        {item.total_attempts}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-contentColor dark:text-contentColor-dark">
-                        {item.correct_attempts}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {reviewPath && item.correct_attempts < item.total_attempts ? (
-                          <a
-                            href={reviewPath}
-                            className="text-primaryColor hover:text-primaryColor/80 hover:underline font-medium"
-                          >
-                            오답 확인
-                          </a>
-                        ) : (
-                          <span className="text-contentColor dark:text-contentColor-dark opacity-50">
-                            -
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {retakePath ? (
-                          <a
-                            href={retakePath}
-                            className="text-secondaryColor hover:text-secondaryColor/80 hover:underline font-medium"
-                          >
-                            다시 풀기
-                          </a>
-                        ) : (
-                          <span className="text-contentColor dark:text-contentColor-dark opacity-50">
-                            -
-                          </span>
-                        )}
-                      </td>
-                    </tr>
+        
+        {loadingProgress ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <ProgressCardSkeleton />
+            <ProgressCardSkeleton />
+            <ProgressCardSkeleton />
+            <ProgressCardSkeleton />
+            <ProgressCardSkeleton />
+            <ProgressCardSkeleton />
+          </div>
+        ) : progress && progress.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {(showAllProgress ? progress : progress.slice(0, 6)).map(item => {
+                // 한글 grammar_name을 topic ID로 변환
+                const getTopicIdFromGrammarName = grammarName => {
+                  const entry = Object.entries(topicMeta).find(
+                    ([_, meta]) => meta.title === grammarName
                   );
-                })
-              ) : (
-                <tr>
-                  <td
-                    colSpan="6"
-                    className="px-6 py-4 text-center text-sm text-contentColor dark:text-contentColor-dark"
-                  >
-                    아직 학습 진도가 없습니다. 퀴즈를 풀어보세요!
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                  return entry ? entry[0] : null;
+                };
+
+                // 퀴즈 타입을 읽기 쉬운 형태로 변환
+                const getQuizTypeLabel = quizType => {
+                  switch (quizType) {
+                    case 'dialogue_drag_drop':
+                      return 'Drag and Drop';
+                    case 'fill_in_blank':
+                      return 'Fill in the Blank';
+                    case 'multiple_choice':
+                      return 'Multiple Choice';
+                    default:
+                      return quizType;
+                  }
+                };
+
+                // 퀴즈 타입에 따른 URL 경로 결정
+                const getQuizPath = (quizType, grammarName, mode = 'review') => {
+                  const topicId = getTopicIdFromGrammarName(grammarName);
+                  if (!topicId) return null;
+
+                  const queryParam = mode === 'retake' ? '?mode=retake' : '?reviewMode=last-session';
+
+                  switch (quizType) {
+                    case 'dialogue_drag_drop':
+                      return `/quiz/DialogueDragAndDrop/${topicId}${queryParam}`;
+                    case 'fill_in_blank':
+                      return `/quiz/fill-blank/${topicId}${queryParam}`;
+                    case 'multiple_choice':
+                      return `/quiz/multiple/${topicId}${queryParam}`;
+                    default:
+                      return null;
+                  }
+                };
+
+                const reviewPath = getQuizPath(item.quiz_type, item.grammar_name, 'review');
+                const retakePath = getQuizPath(item.quiz_type, item.grammar_name, 'retake');
+                const accuracyRate = ((item.correct_attempts / item.total_attempts) * 100).toFixed(0);
+                const hasWrongAnswers = item.correct_attempts < item.total_attempts;
+
+                return (
+                  <div key={item.id} className="bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark rounded-lg p-5 hover:shadow-md transition-shadow">
+                    {/* 상단: 문법명과 퀴즈 타입 */}
+                    <div className="mb-4">
+                      <h3 className="text-lg font-bold text-blackColor dark:text-blackColor-dark mb-1">
+                        {item.grammar_name}
+                      </h3>
+                      <span className="inline-block bg-lightGrey7 dark:bg-lightGrey7-dark text-contentColor dark:text-contentColor-dark text-xs px-3 py-1 rounded-full">
+                        {getQuizTypeLabel(item.quiz_type)}
+                      </span>
+                    </div>
+
+                    {/* 통계 정보 */}
+                    <div className="flex items-center gap-4 mb-4 pb-4 border-b border-borderColor dark:border-borderColor-dark">
+                      <div className="flex-1">
+                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">시도 횟수</p>
+                        <p className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">{item.total_attempts}</p>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">정답 횟수</p>
+                        <p className="text-2xl font-bold text-primaryColor dark:text-primaryColor-dark">{item.correct_attempts}</p>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">정답률</p>
+                        <p className={`text-2xl font-bold ${
+                          accuracyRate >= 80 
+                            ? 'text-primaryColor dark:text-primaryColor-dark' 
+                            : accuracyRate >= 60 
+                            ? 'text-secondaryColor3 dark:text-secondaryColor3-dark' 
+                            : 'text-secondaryColor2 dark:text-secondaryColor2-dark'
+                        }`}>
+                          {accuracyRate}%
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 버튼 영역 */}
+                    <div className="flex gap-2">
+                      {hasWrongAnswers && reviewPath ? (
+                        <a
+                          href={reviewPath}
+                          className="flex-1 bg-primaryColor hover:bg-primaryColor/80 text-whiteColor dark:text-whiteColor-dark text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"
+                        >
+                          오답 확인
+                        </a>
+                      ) : (
+                        <button className="flex-1 bg-borderColor dark:bg-borderColor-dark text-contentColor dark:text-contentColor-dark text-sm font-medium py-2 px-4 rounded-lg cursor-not-allowed opacity-50">
+                          오답 없음
+                        </button>
+                      )}
+                      {retakePath ? (
+                        <a
+                          href={retakePath}
+                          className="flex-1 bg-secondaryColor hover:bg-secondaryColor/80 text-whiteColor dark:text-whiteColor-dark text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"
+                        >
+                          다시 풀기
+                        </a>
+                      ) : (
+                        <button className="flex-1 bg-borderColor dark:bg-borderColor-dark text-contentColor dark:text-contentColor-dark text-sm font-medium py-2 px-4 rounded-lg cursor-not-allowed opacity-50">
+                          -
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* 더 보기/접기 버튼 */}
+            {progress.length > 6 && (
+              <div className="mt-6 text-center">
+                <button
+                  onClick={() => setShowAllProgress(!showAllProgress)}
+                  className="bg-primaryColor hover:bg-primaryColor/80 text-whiteColor dark:text-whiteColor-dark px-6 py-2 rounded-lg transition-colors font-medium"
+                >
+                  {showAllProgress ? '접기' : `더 보기 (${progress.length - 6}개)`}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center text-contentColor dark:text-contentColor-dark py-8">
+            아직 학습 진도가 없습니다. 퀴즈를 풀어보세요!
+          </div>
+        )}
       </section>
 
       {/* 성취 배지 섹션 */}

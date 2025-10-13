@@ -6,9 +6,5 @@ export const metadata = {
 };
 
 export default function LoginPage() {
-  return (
-    <div className="container max-w-2xl mx-auto py-16 px-4">
-      <LoginForm />
-    </div>
-  );
+  return <LoginForm />;
 }

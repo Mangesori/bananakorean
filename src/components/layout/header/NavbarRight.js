@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/supabase/hooks';
 import MessageDropdown from './MessageDropdown';
 import { useRouter } from 'next/navigation';
 import { useUserProfile } from '@/contexts/UserProfileContext';
+import { useAuthModal } from '@/contexts/AuthModalContext';
 import UserAvatar from '@/components/shared/UserAvatar';
 
 const NavbarRight = () => {
@@ -15,6 +16,7 @@ const NavbarRight = () => {
 
   const { user, isLoading, signOut, refreshSession } = useAuth();
   const { userName } = useUserProfile();
+  const { openLoginModal, openSignUpModal } = useAuthModal();
   const router = useRouter();
   const dropdownRef = useRef(null);
   const refreshedRef = useRef(false);
@@ -195,20 +197,20 @@ const NavbarRight = () => {
           <>
             {/* 로그인/회원가입 버튼 */}
             <li className="hidden lg:block">
-              <Link
-                href="/auth/login"
+              <button
+                onClick={openLoginModal}
                 className="whitespace-nowrap text-size-12 2xl:text-size-15 text-primaryColor bg-transparent border-2 border-primaryColor block px-15px py-2 rounded-xl hover:bg-primaryColor hover:text-whiteColor transition-colors -mt-2"
               >
                 Log In
-              </Link>
+              </button>
             </li>
             <li className="hidden lg:block relative">
-              <Link
-                href="/auth/signup"
+              <button
+                onClick={openSignUpModal}
                 className="whitespace-nowrap text-size-12 2xl:text-size-15 text-whiteColor bg-primaryColor border-2 border-primaryColor block px-15px py-2 rounded-xl hover:bg-transparent hover:text-primaryColor transition-colors -mt-2"
               >
                 Sign Up
-              </Link>
+              </button>
             </li>
           </>
         )}

@@ -7,6 +7,7 @@ import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { AuthProvider } from '@/lib/supabase/hooks';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { UserProfileProvider } from '@/contexts/UserProfileContext';
+import { AuthModalProvider } from '@/contexts/AuthModalContext';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -52,12 +53,14 @@ export default function ClientLayout({ children }) {
       <ThemeProvider>
         <AuthProvider>
           <UserProfileProvider>
-            <PreloaderPrimary />
-            <FixedShadow />
-            <Suspense fallback={null}>
-              <PathTracker />
-            </Suspense>
-            {children}
+            <AuthModalProvider>
+              <PreloaderPrimary />
+              <FixedShadow />
+              <Suspense fallback={null}>
+                <PathTracker />
+              </Suspense>
+              {children}
+            </AuthModalProvider>
           </UserProfileProvider>
         </AuthProvider>
       </ThemeProvider>
