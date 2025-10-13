@@ -217,7 +217,7 @@ export default function LoginForm() {
 
         {/* 하단 링크 */}
         <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             href="/auth/signup"
             className="font-medium text-primaryColor hover:text-primaryColor/80"
