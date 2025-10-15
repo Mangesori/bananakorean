@@ -47,7 +47,7 @@ export default function ForgotPasswordForm() {
             Reset Your Password
           </h2>
           <p className="text-base text-gray-500 dark:text-gray-400">
-            Enter your email address and we'll send you a link to reset your password
+            Enter your email address and we&apos;ll send you a link to reset your password
           </p>
         </div>
 
@@ -99,7 +99,7 @@ export default function ForgotPasswordForm() {
             </Link>
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               href="/auth/signup"
               className="font-medium text-primaryColor hover:text-primaryColor/80"
