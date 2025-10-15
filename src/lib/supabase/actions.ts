@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { type Provider } from '@supabase/supabase-js';
 import { validatedAction } from '@/lib/auth/middleware';
-import { signInSchema, signUpSchema } from '@/lib/auth/schemas';
+import { signInSchema, signUpSchema, resetPasswordRequestSchema, resetPasswordSchema, updatePasswordSchema, setPasswordSchema } from '@/lib/auth/schemas';
 import { createClient } from '@/lib/auth/middleware';
 
 /**
@@ -158,6 +158,177 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect('/auth/login');
 }
+
+/**
+ * 비밀번호 재설정 관련 액션
+ */
+// 비밀번호 재설정 요청 액션 (이메일 전송)
+export const requestPasswordResetAction = validatedAction(
+  resetPasswordRequestSchema,
+  async (data, formData) => {
+    try {
+      const { email } = data;
+      const supabase = await createClient();
+
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${siteUrl}/auth/reset-password`,
+      });
+
+      if (error) {
+        return { error: error.message };
+      }
+
+      return {
+        success: true,
+        message: 'Password reset email sent! Please check your inbox.',
+      };
+    } catch (err) {
+      console.error('비밀번호 재설정 요청 중 오류:', err);
+      return {
+        error: err instanceof Error ? err.message : '비밀번호 재설정 요청 중 오류가 발생했습니다.',
+      };
+    }
+  }
+);
+
+// 비밀번호 재설정 액션 (새 비밀번호 설정)
+export const resetPasswordAction = validatedAction(
+  resetPasswordSchema,
+  async (data, formData) => {
+    try {
+      const { password } = data;
+      const supabase = await createClient();
+
+      const { error } = await supabase.auth.updateUser({
+        password: password,
+      });
+
+      if (error) {
+        return { error: error.message };
+      }
+
+      return {
+        success: true,
+        message: 'Password reset successful!',
+      };
+    } catch (err) {
+      console.error('비밀번호 재설정 중 오류:', err);
+      return {
+        error: err instanceof Error ? err.message : '비밀번호 재설정 중 오류가 발생했습니다.',
+      };
+    }
+  }
+);
+
+/**
+ * 비밀번호 변경 관련 액션
+ */
+// 사용자 인증 방법 확인 액션
+export async function checkUserAuthMethodAction() {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      return { error: '사용자 정보를 가져올 수 없습니다.' };
+    }
+
+    // 사용자의 identities 확인
+    const hasPasswordAuth = user.identities?.some(identity => identity.provider === 'email');
+    const socialProviders = user.identities
+      ?.filter(identity => identity.provider !== 'email')
+      .map(identity => identity.provider) || [];
+
+    return {
+      hasPasswordAuth,
+      socialProviders,
+      email: user.email,
+    };
+  } catch (err) {
+    console.error('인증 방법 확인 중 오류:', err);
+    return {
+      error: err instanceof Error ? err.message : '인증 방법을 확인하는 중 오류가 발생했습니다.',
+    };
+  }
+}
+
+// 비밀번호 변경 액션 (이메일 사용자용)
+export const updatePasswordAction = validatedAction(
+  updatePasswordSchema,
+  async (data, formData) => {
+    try {
+      const { currentPassword, newPassword } = data;
+      const supabase = await createClient();
+
+      // 현재 사용자 정보 가져오기
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+      if (userError || !user || !user.email) {
+        return { error: '사용자 정보를 가져올 수 없습니다.' };
+      }
+
+      // 현재 비밀번호로 재인증
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: currentPassword,
+      });
+
+      if (signInError) {
+        return { error: '현재 비밀번호가 올바르지 않습니다.' };
+      }
+
+      // 새 비밀번호로 업데이트
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (updateError) {
+        return { error: updateError.message };
+      }
+
+      return {
+        success: true,
+        message: '비밀번호가 성공적으로 변경되었습니다.',
+      };
+    } catch (err) {
+      console.error('비밀번호 변경 중 오류:', err);
+      return {
+        error: err instanceof Error ? err.message : '비밀번호 변경 중 오류가 발생했습니다.',
+      };
+    }
+  }
+);
+
+// 비밀번호 설정 액션 (소셜 로그인 사용자용)
+export const setPasswordAction = validatedAction(
+  setPasswordSchema,
+  async (data, formData) => {
+    try {
+      const { password } = data;
+      const supabase = await createClient();
+
+      // 비밀번호 설정 (현재 세션이 유효하므로 바로 설정 가능)
+      const { error } = await supabase.auth.updateUser({
+        password: password,
+      });
+
+      if (error) {
+        return { error: error.message };
+      }
+
+      return {
+        success: true,
+        message: '비밀번호가 성공적으로 설정되었습니다. 이제 이메일/비밀번호로도 로그인할 수 있습니다.',
+      };
+    } catch (err) {
+      console.error('비밀번호 설정 중 오류:', err);
+      return {
+        error: err instanceof Error ? err.message : '비밀번호 설정 중 오류가 발생했습니다.',
+      };
+    }
+  }
+);
 
 /**
  * 사용자 프로필 관련 함수

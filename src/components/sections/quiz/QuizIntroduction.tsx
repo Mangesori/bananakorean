@@ -125,7 +125,7 @@ const QuizIntroduction = () => {
                     </h4>
                   </div>
                   <p className="text-contentColor dark:text-gray-300 ml-13">
-                    Engaging drag-and-drop exercises that make practice enjoyable
+                    Multiple interactive quiz formats that make practice enjoyable
                   </p>
                 </div>
 
@@ -152,7 +152,7 @@ const QuizIntroduction = () => {
                     </h4>
                   </div>
                   <p className="text-contentColor dark:text-gray-300 ml-13">
-                    Over 500+ carefully crafted practice sentences
+                    Hundreds of carefully crafted practice sentences across various topics
                   </p>
                 </div>
 
@@ -177,7 +177,7 @@ const QuizIntroduction = () => {
                     <h4 className="font-medium text-darkBlue dark:text-white">Progress Tracking</h4>
                   </div>
                   <p className="text-contentColor dark:text-gray-300 ml-13">
-                    Track your progress and see your improvement over time
+                    Track your quiz performance and identify areas for improvement
                   </p>
                 </div>
 
@@ -232,7 +232,7 @@ const QuizIntroduction = () => {
                   Created By An Expert
                 </h4>
                 <p className="text-contentColor mb-4">
-                  Effective Korean learning designed by an 6+ years experienced teacher
+                  Effective Korean learning designed by an experienced teacher with 6+ years in Korean education
                 </p>
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-start">

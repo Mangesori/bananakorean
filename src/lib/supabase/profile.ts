@@ -39,18 +39,8 @@ export async function uploadProfileImage(userId: string, file: File) {
   return { publicUrl, error: updateError };
 }
 
-// 대화 생성하기
-export async function createConversation(conversation: {
-  user1_id: string;
-  user2_id: string;
-  title?: string;
-}) {
+// 역할별 사용자 목록 가져오기
+export async function getUsersByRole(role: 'admin' | 'student') {
   const supabase = createClient();
-  return await supabase.from('conversations').insert([
-    {
-      ...conversation,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-  ]);
+  return await supabase.from('profiles').select('*').eq('role', role).order('name');
 }

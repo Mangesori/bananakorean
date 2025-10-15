@@ -9,7 +9,7 @@ import { createClient } from './client';
  * 인증 컨텍스트 타입 정의
  */
 type AuthContextType = {
-  user: User | null;
+  user: (User & { role?: string; name?: string }) | null;
   session: Session | null;
   isLoading: boolean;
   error: string | null;
@@ -49,10 +49,34 @@ const logAuth = (message: string, data?: any) => {
 const isBrowser = () => typeof window !== 'undefined';
 
 /**
+ * 프로필 정보 가져오기 헬퍼 함수
+ */
+const fetchProfileData = async (userId: string) => {
+  try {
+    const supabase = createClient();
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('role, name')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      console.error('프로필 정보 가져오기 실패:', error);
+      return null;
+    }
+
+    return profile;
+  } catch (err) {
+    console.error('프로필 조회 중 오류:', err);
+    return null;
+  }
+};
+
+/**
  * 인증 제공자 컴포넌트
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<(User & { role?: string; name?: string }) | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -144,7 +168,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (data?.session) {
         await tryRefreshExpiringSession(supabase, data.session);
         setSession(data.session);
-        setUser(data.session.user);
+
+        // 프로필 정보 가져와서 병합
+        const profile = await fetchProfileData(data.session.user.id);
+        console.log('✅ Profile loaded:', profile);
+        const enrichedUser = {
+          ...data.session.user,
+          role: profile?.role,
+          name: profile?.name,
+        };
+        console.log('✅ Enriched user:', { id: enrichedUser.id, email: enrichedUser.email, role: enrichedUser.role, name: enrichedUser.name });
+        setUser(enrichedUser);
+
         setRetryCount(0);
         updateAuthReadyIndicator(true);
       } else {
@@ -175,7 +210,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (!refreshError && refreshData.session) {
         setSession(refreshData.session);
-        setUser(refreshData.session.user);
+
+        // 프로필 정보 가져와서 병합
+        const profile = await fetchProfileData(refreshData.session.user.id);
+        setUser({
+          ...refreshData.session.user,
+          role: profile?.role,
+          name: profile?.name,
+        });
+
         updateAuthReadyIndicator(true);
         setRetryCount(0);
         return true;
@@ -195,7 +238,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       handleMissingSession();
     } else {
       setSession(refreshData.session);
-      setUser(refreshData.session.user);
+
+      // 프로필 정보 가져와서 병합
+      const profile = await fetchProfileData(refreshData.session.user.id);
+      setUser({
+        ...refreshData.session.user,
+        role: profile?.role,
+        name: profile?.name,
+      });
+
       updateAuthReadyIndicator(true);
       setRetryCount(0);
     }
@@ -296,7 +347,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if (currentSession) {
       setSession(currentSession);
-      setUser(currentSession.user);
+
+      // 프로필 정보 가져와서 병합
+      fetchProfileData(currentSession.user.id).then(profile => {
+        setUser({
+          ...currentSession.user,
+          role: profile?.role,
+          name: profile?.name,
+        });
+      });
+
       storeDebugInfo(currentSession);
     } else {
       setSession(null);

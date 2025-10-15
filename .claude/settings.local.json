@@ -3,7 +3,13 @@
     "allow": [
       "Bash(npx:*)",
       "Bash(npm install:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(dir:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run dev)",
+      "Bash(del:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run clean)"
     ],
     "deny": [],
     "ask": []

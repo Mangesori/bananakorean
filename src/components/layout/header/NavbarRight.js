@@ -3,11 +3,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import MobileMenuOpen from '@/components/shared/buttons/MobileMenuOpen';
 import { useAuth } from '@/lib/supabase/hooks';
-import MessageDropdown from './MessageDropdown';
+import MessageDropdownStudent from './MessageDropdownStudent';
+import MessageDropdownAdmin from './MessageDropdownAdmin';
+import MessageDropdownMobile from './MessageDropdownMobile';
 import { useRouter } from 'next/navigation';
 import { useUserProfile } from '@/contexts/UserProfileContext';
 import { useAuthModal } from '@/contexts/AuthModalContext';
 import UserAvatar from '@/components/shared/UserAvatar';
+import { Mail, Bell, ChevronDown, ChevronUp } from 'lucide-react';
 
 const NavbarRight = () => {
   const [showMessages, setShowMessages] = useState(false);
@@ -20,6 +23,7 @@ const NavbarRight = () => {
   const router = useRouter();
   const dropdownRef = useRef(null);
   const refreshedRef = useRef(false);
+  const scrollPositionRef = useRef(0);
 
   // 페이지 로드 시 세션 갱신 (Server Action redirect 후)
   useEffect(() => {
@@ -41,6 +45,26 @@ const NavbarRight = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // 메시지 드롭다운 열릴 때 스크롤 위치 보존
+  useEffect(() => {
+    if (showMessages) {
+      // 현재 스크롤 위치 저장
+      scrollPositionRef.current = window.scrollY;
+
+      // 다음 프레임에서 스크롤 복원
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollPositionRef.current);
+      });
+
+      // 추가 보험: 100ms 후에도 복원
+      const timer = setTimeout(() => {
+        window.scrollTo(0, scrollPositionRef.current);
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showMessages]);
 
   // 로그아웃 처리
   const handleSignOut = async () => {
@@ -76,53 +100,39 @@ const NavbarRight = () => {
           </li>
         ) : user ? (
           <>
-            {/* 메시지 버튼 */}
-            <li className="hidden lg:block">
+            {/* 메시지 버튼 - 모바일과 데스크톱 모두 표시 */}
+            <li>
               <button
                 className="text-lg text-mainText hover:text-primary transition-colors"
-                onClick={() => setShowMessages(!showMessages)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowMessages(!showMessages);
+                }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="28"
-                  viewBox="0 -5 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-mail"
-                >
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
+                <Mail size={20} className="mt-1" />
               </button>
               {showMessages && (
-                <div className="absolute right-0 top-full mt-5 z-50">
-                  <MessageDropdown onClose={() => setShowMessages(false)} />
-                </div>
+                <>
+                  {/* 데스크톱: 드롭다운 */}
+                  <div className="hidden lg:block absolute right-0 top-full mt-5 z-50">
+                    {user?.role === 'admin' ? (
+                      <MessageDropdownAdmin onClose={() => setShowMessages(false)} />
+                    ) : (
+                      <MessageDropdownStudent onClose={() => setShowMessages(false)} />
+                    )}
+                  </div>
+                  {/* 모바일: 전체 화면 모달 */}
+                  <div className="lg:hidden">
+                    <MessageDropdownMobile onClose={() => setShowMessages(false)} />
+                  </div>
+                </>
               )}
             </li>
 
             {/* 알림 버튼 */}
             <li className="hidden lg:block ml-2 mr-2">
               <button className="text-lg text-mainText hover:text-primary transition-colors">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="28"
-                  viewBox="0 -5 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-bell"
-                >
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
+                <Bell size={20} className="mt-1" />
               </button>
             </li>
 
@@ -136,9 +146,11 @@ const NavbarRight = () => {
                 <span className="text-size-12 2xl:text-size-15">
                   {userName || user?.email}
                 </span>
-                <i
-                  className={`icofont icofont-rounded-${isDropdownOpen ? 'up' : 'down'} text-xs`}
-                ></i>
+                {isDropdownOpen ? (
+                  <ChevronUp size={14} />
+                ) : (
+                  <ChevronDown size={14} />
+                )}
               </button>
 
               {isDropdownOpen && (
@@ -214,7 +226,7 @@ const NavbarRight = () => {
             </li>
           </>
         )}
-        <li className="block lg:hidden">
+        <li className="block lg:hidden ml-3">
           <MobileMenuOpen />
         </li>
       </ul>

@@ -25,10 +25,10 @@ const SidebarDashboard = () => {
 
     const fetchUnreadCount = async () => {
       try {
-        // 내가 참여한 대화방 먼저 찾기
+        // conversations 테이블에서 unread_count 직접 합산
         const { data: conversations, error: convError } = await supabase
           .from('conversations')
-          .select('id')
+          .select('id, user1_id, user2_id, unread_count_user1, unread_count_user2')
           .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`);
 
         if (convError) {
@@ -41,19 +41,15 @@ const SidebarDashboard = () => {
           return;
         }
 
-        const conversationIds = conversations.map(c => c.id);
+        // 각 대화에서 내 unread_count를 합산
+        const totalUnread = conversations.reduce((sum, conv) => {
+          const myUnreadCount = conv.user1_id === user.id
+            ? conv.unread_count_user1
+            : conv.unread_count_user2;
+          return sum + (myUnreadCount || 0);
+        }, 0);
 
-        // 해당 대화방의 읽지 않은 메시지 중 내가 보낸 것이 아닌 것만
-        const { count, error } = await supabase
-          .from('messages')
-          .select('*', { count: 'exact', head: true })
-          .in('conversation_id', conversationIds)
-          .eq('read', false)
-          .neq('sender_id', user.id);
-
-        if (!error && count !== null) {
-          setUnreadCount(count);
-        }
+        setUnreadCount(totalUnread);
       } catch (error) {
         console.error('Error fetching unread count:', error);
       }
@@ -61,14 +57,15 @@ const SidebarDashboard = () => {
 
     fetchUnreadCount();
 
+    // conversations 테이블만 구독 (unread_count가 트리거로 자동 업데이트됨)
     const channel = supabase
-      .channel('messages')
+      .channel('sidebar-conversations')
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'UPDATE',
           schema: 'public',
-          table: 'messages',
+          table: 'conversations',
         },
         () => {
           fetchUnreadCount();
@@ -144,7 +141,7 @@ const SidebarDashboard = () => {
         {
           name: 'Message',
           path: '/dashboards/admin-message',
-          tag: unreadCount || null,
+          tag: unreadCount > 0 ? unreadCount : null,
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +278,7 @@ const SidebarDashboard = () => {
         {
           name: 'Message',
           path: '/dashboards/student-message',
-          tag: unreadCount || null,
+          tag: unreadCount > 0 ? unreadCount : null,
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"

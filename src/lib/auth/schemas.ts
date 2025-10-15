@@ -69,3 +69,19 @@ export const resetPasswordSchema = z
     message: '비밀번호가 일치하지 않습니다.',
     path: ['confirmPassword'],
   });
+
+/**
+ * 비밀번호 설정 스키마 (소셜 로그인 사용자용)
+ */
+export const setPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
+      .max(100, '비밀번호는 100자 이하여야 합니다.'),
+    confirmPassword: z.string(),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  });
