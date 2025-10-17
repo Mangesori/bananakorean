@@ -11,7 +11,6 @@ const Error_Dark = () => {
     <PageWrapper>
       <main className="is-dark">
         <ErrorMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

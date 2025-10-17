@@ -137,7 +137,7 @@ const StudentDashboardPrimary = () => {
   });
 
   return (
-    <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+    <div className="p-5 md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
       {/* 전체 통계 섹션 */}
       <section className="mb-30px">
         <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">

@@ -79,18 +79,30 @@ export async function getOrCreateConversation(userId1: string, userId2: string) 
   };
 }
 
-// 메시지 목록 가져오기
-export async function getMessages(conversationId: string) {
+// 메시지 목록 가져오기 (최신 50개 제한)
+export async function getMessages(conversationId: string, limit = 50) {
   const supabase = createClient();
-  return await supabase
+
+  // 최신 메시지부터 가져오기
+  const { data, error } = await supabase
     .from('messages')
     .select('*')
     .eq('conversation_id', conversationId)
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) return { data: null, error };
+
+  // UI 표시를 위해 오래된 순서로 재정렬
+  return {
+    data: data?.reverse() || [],
+    error: null
+  };
 }
 
 // 메시지 보내기
 export async function sendMessage(message: {
+  id?: string; // ✅ 클라이언트에서 생성한 ID (선택사항)
   conversation_id: string;
   sender_id: string;
   content: string;
@@ -155,10 +167,20 @@ export async function getUnreadCount(userId: string) {
 }
 
 // 대화에 실시간 구독하기
-export function subscribeToMessages(conversationId: string, callback: (payload: any) => void) {
+export function subscribeToMessages(
+  conversationId: string,
+  callback: (payload: any) => void,
+  componentId?: string
+) {
   const supabase = createClient();
-  return supabase
-    .channel(`messages:${conversationId}`)
+
+  // 고유한 channel 이름 생성 (componentId가 있으면 포함)
+  const channelName = componentId
+    ? `messages:${conversationId}:${componentId}`
+    : `messages:${conversationId}`;
+
+  const channel = supabase
+    .channel(channelName)
     .on(
       'postgres_changes',
       {
@@ -169,7 +191,18 @@ export function subscribeToMessages(conversationId: string, callback: (payload: 
       },
       callback
     )
-    .subscribe();
+    .subscribe((status) => {
+      console.log(`[Realtime] Subscription status for ${channelName}:`, status);
+      if (status === 'SUBSCRIBED') {
+        console.log(`[Realtime] Successfully subscribed to ${channelName}`);
+      } else if (status === 'CHANNEL_ERROR') {
+        console.error(`[Realtime] Channel error for ${channelName}`);
+      } else if (status === 'TIMED_OUT') {
+        console.error(`[Realtime] Subscription timed out for ${channelName}`);
+      }
+    });
+
+  return channel;
 }
 
 // 대화 목록에 실시간 구독하기

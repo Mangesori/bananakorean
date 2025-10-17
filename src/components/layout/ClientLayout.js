@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import Header from '@/components/layout/header/Header';
-import FixedShadow from '@/components/shared/others/FixedShadow';
 import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { AuthProvider } from '@/lib/supabase/hooks';
 import { ThemeProvider } from '@/contexts/ThemeContext';
@@ -55,7 +54,6 @@ export default function ClientLayout({ children }) {
           <UserProfileProvider>
             <AuthModalProvider>
               <PreloaderPrimary />
-              <FixedShadow />
               <Suspense fallback={null}>
                 <PathTracker />
               </Suspense>

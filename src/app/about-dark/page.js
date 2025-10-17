@@ -11,7 +11,6 @@ const About_Dark = () => {
     <PageWrapper>
       <main className="is-dark">
         <AboutMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

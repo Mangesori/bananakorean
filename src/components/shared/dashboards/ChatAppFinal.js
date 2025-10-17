@@ -5,7 +5,7 @@ import ConversationListNew from './ConversationListNew';
 import ConversationViewNew from './ConversationViewNew';
 import { getConversations } from '@/lib/supabase/messages';
 
-const ChatAppFinal = () => {
+const ChatAppFinal = ({ isMobile = false }) => {
   const { user } = useAuth();
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [showConversationOnMobile, setShowConversationOnMobile] = useState(false);
@@ -56,6 +56,45 @@ const ChatAppFinal = () => {
 
   const isStudent = user.role === 'student';
 
+  // 모바일 레이아웃
+  if (isMobile) {
+    return (
+      <div className="h-full w-full flex flex-col overflow-hidden">
+        {/* 학생: 대화창만 표시 */}
+        {isStudent ? (
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <ConversationViewNew
+              conversation={selectedConversation}
+              onBack={null}
+              isMobile={true}
+            />
+          </div>
+        ) : (
+          /* 어드민: 대화 목록 또는 대화창 표시 */
+          <>
+            {showConversationOnMobile ? (
+              <div className="flex-1 min-h-0 overflow-hidden">
+                <ConversationViewNew
+                  conversation={selectedConversation}
+                  onBack={handleBackToList}
+                  isMobile={true}
+                />
+              </div>
+            ) : (
+              <div className="flex-1 min-h-0 overflow-hidden">
+                <ConversationListNew
+                  onSelect={handleSelectConversation}
+                  selectedConversationId={selectedConversation?.id}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // 데스크톱 레이아웃
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       {/* 헤더 */}

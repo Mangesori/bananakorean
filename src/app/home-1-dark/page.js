@@ -9,7 +9,6 @@ const Home1Dark = () => {
   return (
     <PageWrapper>
       <main className="is-dark">
-        <ThemeController />
         <Home1 />
       </main>
     </PageWrapper>

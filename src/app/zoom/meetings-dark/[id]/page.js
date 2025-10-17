@@ -17,7 +17,6 @@ const Zoom_Meetings_Details_Dark = ({ params }) => {
     <PageWrapper>
       <main className="is-dark">
         <ZoomMeetingDetailsMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

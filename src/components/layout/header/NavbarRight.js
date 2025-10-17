@@ -5,7 +5,6 @@ import MobileMenuOpen from '@/components/shared/buttons/MobileMenuOpen';
 import { useAuth } from '@/lib/supabase/hooks';
 import MessageDropdownStudent from './MessageDropdownStudent';
 import MessageDropdownAdmin from './MessageDropdownAdmin';
-import MessageDropdownMobile from './MessageDropdownMobile';
 import { useRouter } from 'next/navigation';
 import { useUserProfile } from '@/contexts/UserProfileContext';
 import { useAuthModal } from '@/contexts/AuthModalContext';
@@ -16,6 +15,7 @@ const NavbarRight = () => {
   const [showMessages, setShowMessages] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const { user, isLoading, signOut, refreshSession } = useAuth();
   const { userName } = useUserProfile();
@@ -24,6 +24,16 @@ const NavbarRight = () => {
   const dropdownRef = useRef(null);
   const refreshedRef = useRef(false);
   const scrollPositionRef = useRef(0);
+
+  // 모바일 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // 페이지 로드 시 세션 갱신 (Server Action redirect 후)
   useEffect(() => {
@@ -106,26 +116,35 @@ const NavbarRight = () => {
                 className="text-lg text-mainText hover:text-primary transition-colors"
                 onClick={(e) => {
                   e.preventDefault();
-                  setShowMessages(!showMessages);
+                  // 모바일에서는 바로 메시지 페이지로 이동
+                  if (isMobile) {
+                    const messagePage = user?.role === 'admin'
+                      ? '/dashboards/admin-message'
+                      : '/dashboards/student-message';
+                    router.push(messagePage);
+                  } else {
+                    // 데스크톱에서는 드롭다운 표시
+                    setShowMessages(!showMessages);
+                  }
                 }}
               >
                 <Mail size={20} className="mt-1" />
               </button>
-              {showMessages && (
-                <>
-                  {/* 데스크톱: 드롭다운 */}
-                  <div className="hidden lg:block absolute right-0 top-full mt-5 z-50">
-                    {user?.role === 'admin' ? (
-                      <MessageDropdownAdmin onClose={() => setShowMessages(false)} />
-                    ) : (
-                      <MessageDropdownStudent onClose={() => setShowMessages(false)} />
-                    )}
-                  </div>
-                  {/* 모바일: 전체 화면 모달 */}
-                  <div className="lg:hidden">
-                    <MessageDropdownMobile onClose={() => setShowMessages(false)} />
-                  </div>
-                </>
+              {/* 데스크톱에서만 드롭다운 표시 */}
+              {showMessages && !isMobile && (
+                <div className="absolute right-0 top-full mt-5 z-50">
+                  {user?.role === 'admin' ? (
+                    <MessageDropdownAdmin
+                      onClose={() => setShowMessages(false)}
+                      isMobile={false}
+                    />
+                  ) : (
+                    <MessageDropdownStudent
+                      onClose={() => setShowMessages(false)}
+                      isMobile={false}
+                    />
+                  )}
+                </div>
               )}
             </li>
 

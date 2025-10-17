@@ -47,10 +47,12 @@ export default function LoginForm() {
   const handleSocialAuth = async (provider: 'google' | 'facebook') => {
     try {
       const supabase = createClient();
+      // 현재 브라우저의 origin을 사용 (192.168.x.x:3000 등)
+      const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${currentOrigin}/auth/callback`,
         },
       });
 

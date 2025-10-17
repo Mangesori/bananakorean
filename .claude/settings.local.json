@@ -9,7 +9,10 @@
       "Bash(npm run dev)",
       "Bash(del:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run clean)"
+      "Bash(npm run clean)",
+      "Read(//c/Users/vapor/Downloads/next-chat-demo-master/components/**)",
+      "Read(//c/Users/vapor/Downloads/next-chat-demo-master/app/**)",
+      "Read(//c/Users/vapor/Downloads/next-chat-demo-master/lib/store/**)"
     ],
     "deny": [],
     "ask": []

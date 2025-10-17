@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Search, MessageSquare, X } from 'lucide-react';
 import UserAvatar from '@/components/shared/UserAvatar';
 
-const ConversationListNew = ({ onSelect, selectedConversationId }) => {
+const ConversationListNew = ({ onSelect, selectedConversationId, compact = false, maxItems = null }) => {
   const { user } = useAuth();
   const [conversations, setConversations] = useState([]);
   const [availableUsers, setAvailableUsers] = useState([]);
@@ -72,7 +72,12 @@ const ConversationListNew = ({ onSelect, selectedConversationId }) => {
             schema: 'public',
             table: 'conversations',
           },
-          callback
+          (payload) => {
+            // 클라이언트 측 필터링: 자신이 참여한 대화만 처리
+            if (payload.new.user1_id === userId || payload.new.user2_id === userId) {
+              callback(payload);
+            }
+          }
         )
         .subscribe();
     };
@@ -161,7 +166,7 @@ const ConversationListNew = ({ onSelect, selectedConversationId }) => {
       {/* 대화 목록 */}
       <div className="flex-1 overflow-y-auto">
         {filteredConversations.length > 0 ? (
-          filteredConversations.map(conversation => (
+          (maxItems ? filteredConversations.slice(0, maxItems) : filteredConversations).map(conversation => (
             <button
               key={conversation.id}
               onClick={() => handleSelectConversation(conversation)}
@@ -172,24 +177,24 @@ const ConversationListNew = ({ onSelect, selectedConversationId }) => {
               <div className="relative flex-shrink-0">
                 <UserAvatar
                   name={conversation.otherUser?.name || conversation.otherUser?.email || 'Unknown'}
-                  size={48}
+                  size={compact ? 40 : 48}
                 />
                 {conversation.unread_count > 0 && (
                   <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-semibold">
-                    {conversation.unread_count}
+                    {conversation.unread_count > 9 ? '9+' : conversation.unread_count}
                   </div>
                 )}
               </div>
               <div className="ml-3 flex-1 min-w-0 text-left">
                 <div className="flex items-baseline justify-between mb-0.5">
-                  <h4 className="text-sm font-semibold text-gray-900 truncate">
+                  <h4 className={`text-sm truncate ${conversation.unread_count > 0 ? 'font-bold text-gray-900' : 'font-medium text-gray-700'}`}>
                     {conversation.otherUser?.name || 'Unknown User'}
                   </h4>
                   <span className="text-xs text-gray-500 ml-2 flex-shrink-0">
                     {formatTime(conversation.updated_at)}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 truncate">
+                <p className={`text-xs truncate ${conversation.unread_count > 0 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                   {conversation.last_message || 'Start a conversation'}
                 </p>
               </div>

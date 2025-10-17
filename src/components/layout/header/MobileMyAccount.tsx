@@ -45,23 +45,33 @@ const MobileMyAccount = () => {
   }
 
   // 로그인된 상태 - My Account accordion 표시
+  const rolePrefix = user.role === 'admin' ? 'admin' : 'student';
+
+  const handleMyAccountClick = (e) => {
+    // Find the accordion controller button and click it
+    const accordionController = e.currentTarget.parentElement?.querySelector('.accordion-controller');
+    if (accordionController) {
+      accordionController.click();
+    }
+  };
+
   return (
     <div className="mt-9 mb-30px pb-9 border-b border-borderColor dark:border-borderColor-dark">
       <AccordionContainer>
         <Accordion>
           <AccordionController type={'primary'}>
-            <Link
-              className="leading-1 text-darkdeep1 font-medium group-hover:text-secondaryColor dark:text-whiteColor dark:hover:text-secondaryColor"
-              href="#"
+            <span
+              onClick={handleMyAccountClick}
+              className="leading-1 text-darkdeep1 font-medium group-hover:text-secondaryColor dark:text-whiteColor dark:hover:text-secondaryColor cursor-pointer"
             >
               My Account
-            </Link>
+            </span>
           </AccordionController>
           <AccordionContent>
             <ul>
               <li>
                 <Link
-                  href="/dashboards"
+                  href={`/dashboards/${rolePrefix}-dashboard`}
                   className="block leading-1 text-darkdeep1 text-sm pl-30px pt-7 pb-3 font-medium hover:text-secondaryColor dark:text-whiteColor dark:hover:text-secondaryColor"
                 >
                   Dashboard
@@ -69,7 +79,7 @@ const MobileMyAccount = () => {
               </li>
               <li>
                 <Link
-                  href="/dashboards/my-profile"
+                  href={`/dashboards/${rolePrefix}-profile`}
                   className="block leading-1 text-darkdeep1 text-sm pl-30px pt-3 pb-3 font-medium hover:text-secondaryColor dark:text-whiteColor dark:hover:text-secondaryColor"
                 >
                   My Profile
@@ -77,7 +87,7 @@ const MobileMyAccount = () => {
               </li>
               <li>
                 <Link
-                  href="/dashboards/settings"
+                  href={`/dashboards/${rolePrefix}-settings`}
                   className="block leading-1 text-darkdeep1 text-sm pl-30px pt-3 pb-3 font-medium hover:text-secondaryColor dark:text-whiteColor dark:hover:text-secondaryColor"
                 >
                   Settings

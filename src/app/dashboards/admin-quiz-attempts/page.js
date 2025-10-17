@@ -17,7 +17,6 @@ const Admin_Quiz_Attempts = () => {
             <AdminQuizAttemptsMain />
           </DashboardContainer>
         </DsahboardWrapper>
-        <ThemeController />
       </main>
     </PageWrapper>
   );

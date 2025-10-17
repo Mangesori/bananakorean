@@ -18,7 +18,6 @@ const Zoom_Meetings_Details = ({ params }) => {
     <PageWrapper>
       <main>
         <ZoomMeetingDetailsMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

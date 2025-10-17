@@ -38,10 +38,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, mode, onClose }) => {
 
   const handleSocialAuth = async (provider: 'google' | 'facebook') => {
     try {
+      // 현재 브라우저의 origin을 사용 (192.168.x.x:3000 등)
+      const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${currentOrigin}/auth/callback`,
         },
       });
 
@@ -52,7 +54,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, mode, onClose }) => {
 
       // 새 창으로 OAuth 진행
       window.open(data.url, 'oauth', 'width=500,height=600');
-      
+
       // 모달 닫기
       onClose();
     } catch (err) {

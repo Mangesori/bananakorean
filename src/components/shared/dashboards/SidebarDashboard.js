@@ -142,6 +142,7 @@ const SidebarDashboard = () => {
           name: 'Message',
           path: '/dashboards/admin-message',
           tag: unreadCount > 0 ? unreadCount : null,
+          hiddenOnMobile: true,
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -279,6 +280,7 @@ const SidebarDashboard = () => {
           name: 'Message',
           path: '/dashboards/student-message',
           tag: unreadCount > 0 ? unreadCount : null,
+          hiddenOnMobile: true,
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -344,9 +346,9 @@ const SidebarDashboard = () => {
       ],
     },
   ];
-  const items = isAdmin ? adminItems : isInstructor ? instructorItems : studentItems;
+  const items = isAdmin || isInstructor ? adminItems : studentItems;
   return (
-    <div className="lg:col-start-1 lg:col-span-3">
+    <div className="hidden lg:block lg:col-start-1 lg:col-span-3">
       {/* navigation menu */}
       <div className="p-30px pt-5 lg:p-5 2xl:p-30px 2xl:pt-5 rounded-lg2 shadow-accordion dark:shadow-accordion-dark bg-whiteColor dark:bg-whiteColor-dark">
         {items?.map((item, idx) => (

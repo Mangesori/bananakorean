@@ -17,7 +17,6 @@ const Admin_Reviews = () => {
             <AdminReviewsMain />
           </DashboardContainer>
         </DsahboardWrapper>
-        <ThemeController />
       </main>
     </PageWrapper>
   );

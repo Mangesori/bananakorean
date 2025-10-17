@@ -13,7 +13,6 @@ const Blogs = async () => {
     <PageWrapper>
       <main>
         <BlogsMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

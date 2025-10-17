@@ -9,7 +9,6 @@ const Maintenance_Dark = () => {
   return (
     <main className="is-dark">
       <MaintenanceMain />
-      <ThemeController />
     </main>
   );
 };

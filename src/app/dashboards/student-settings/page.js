@@ -1,5 +1,4 @@
 'use client';
-import AdminDashboardMain from '@/components/layout/main/dashboards/AdminDashboardMain';
 import StudentSettingsMain from '@/components/layout/main/dashboards/StudentSettingsMain';
 import DashboardContainer from '@/components/shared/containers/DashboardContainer';
 import ThemeController from '@/components/shared/others/ThemeController';
@@ -15,7 +14,6 @@ const Student_Settings = () => {
             <StudentSettingsMain />
           </DashboardContainer>
         </DsahboardWrapper>
-        <ThemeController />
       </main>
     </PageWrapper>
   );

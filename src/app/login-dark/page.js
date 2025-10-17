@@ -15,7 +15,6 @@ const Login_Dark = () => {
             <LoginForm />
           </div>
         </div>
-        <ThemeController />
       </main>
     </PageWrapper>
   );

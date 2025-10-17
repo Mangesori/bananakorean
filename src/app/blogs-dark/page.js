@@ -11,7 +11,6 @@ const Blog_Dark = () => {
     <PageWrapper>
       <main className="is-dark">
         <BlogsMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

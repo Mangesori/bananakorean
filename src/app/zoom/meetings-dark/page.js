@@ -10,7 +10,6 @@ const Zoom_Meetings_Dark = () => {
     <PageWrapper>
       <main className="is-dark">
         <ZoomMeetingsMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

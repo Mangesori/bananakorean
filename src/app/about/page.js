@@ -13,7 +13,6 @@ const About = async () => {
     <PageWrapper>
       <main>
         <AboutMain />
-        <ThemeController />
       </main>
     </PageWrapper>
   );

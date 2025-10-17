@@ -8,7 +8,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
 import './globals.css';
-import FixedShadow from '@/components/shared/others/FixedShadow';
 import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 import ClientLayout from '@/components/layout/ClientLayout';
@@ -30,6 +29,14 @@ const hind = Hind({
 export const metadata = {
   title: 'Banana Korean',
   description: 'Learn Korean with Banana Korean',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }) {

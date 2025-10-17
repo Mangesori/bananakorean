@@ -16,7 +16,6 @@ const Student_Reviews = () => {
             <StudentReviewsMain />
           </DashboardContainer>
         </DsahboardWrapper>
-        <ThemeController />
       </main>
     </PageWrapper>
   );
