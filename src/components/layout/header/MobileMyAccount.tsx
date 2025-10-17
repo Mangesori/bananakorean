@@ -47,7 +47,7 @@ const MobileMyAccount = () => {
   // 로그인된 상태 - My Account accordion 표시
   const rolePrefix = user.role === 'admin' ? 'admin' : 'student';
 
-  const handleMyAccountClick = (e) => {
+  const handleMyAccountClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     // Find the accordion controller button and click it
     const accordionController = e.currentTarget.parentElement?.querySelector('.accordion-controller');
     if (accordionController) {
