@@ -51,7 +51,7 @@ const MobileMyAccount = () => {
     // Find the accordion controller button and click it
     const accordionController = e.currentTarget.parentElement?.querySelector('.accordion-controller');
     if (accordionController) {
-      accordionController.click();
+      (accordionController as HTMLElement).click();
     }
   };
 
