@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Header from '@/components/layout/header/Header';
 import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { AuthProvider } from '@/lib/supabase/hooks';
+import { LocaleProvider } from '@/contexts/LocaleContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { UserProfileProvider } from '@/contexts/UserProfileContext';
 import { AuthModalProvider } from '@/contexts/AuthModalContext';
@@ -49,19 +50,21 @@ const queryClient = new QueryClient({
 export default function ClientLayout({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <AuthProvider>
-          <UserProfileProvider>
-            <AuthModalProvider>
-              <PreloaderPrimary />
-              <Suspense fallback={null}>
-                <PathTracker />
-              </Suspense>
-              {children}
-            </AuthModalProvider>
-          </UserProfileProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      <LocaleProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <UserProfileProvider>
+              <AuthModalProvider>
+                <PreloaderPrimary />
+                <Suspense fallback={null}>
+                  <PathTracker />
+                </Suspense>
+                {children}
+              </AuthModalProvider>
+            </UserProfileProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </LocaleProvider>
     </QueryClientProvider>
   );
 }

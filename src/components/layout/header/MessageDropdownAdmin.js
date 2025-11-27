@@ -4,8 +4,10 @@ import { useRouter } from 'next/navigation';
 import { X, Maximize2, ArrowLeft } from 'lucide-react';
 import ConversationListNew from '@/components/shared/dashboards/ConversationListNew';
 import ConversationViewNew from '@/components/shared/dashboards/ConversationViewNew';
+import { useTranslations } from 'next-intl';
 
 const MessageDropdownAdmin = ({ onClose, isMobile = false }) => {
+  const t = useTranslations();
   const router = useRouter();
   const [selectedConversation, setSelectedConversation] = useState(null);
 
@@ -52,14 +54,14 @@ const MessageDropdownAdmin = ({ onClose, isMobile = false }) => {
               <ArrowLeft size={18} className="text-gray-700" />
             </button>
             <h3 className="text-lg font-semibold text-blackColor dark:text-blackColor-dark">
-              {selectedConversation.otherUser?.name || 'Unknown Student'}
+              {selectedConversation.otherUser?.name || t('header.unknownStudent')}
             </h3>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={handleExpandToFullPage}
               className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
-              title="Expand to full page"
+              title={t('header.expandToFullPage')}
             >
               <Maximize2 size={18} className="text-gray-600" />
             </button>
@@ -104,13 +106,13 @@ const MessageDropdownAdmin = ({ onClose, isMobile = false }) => {
       {/* 헤더 */}
       <div className="flex justify-between items-center p-4 border-b border-borderColor dark:border-borderColor-dark">
         <h3 className="text-lg font-semibold text-blackColor dark:text-blackColor-dark">
-          Messages
+          {t('header.messages')}
         </h3>
         <div className="flex items-center gap-2">
           <button
             onClick={handleExpandToFullPage}
             className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
-            title="Expand to full page"
+            title={t('header.expandToFullPage')}
           >
             <Maximize2 size={18} className="text-gray-600" />
           </button>

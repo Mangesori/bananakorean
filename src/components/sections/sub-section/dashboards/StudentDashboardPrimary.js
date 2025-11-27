@@ -2,9 +2,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/lib/supabase/hooks';
 import { supabase } from '@/utils/supabaseClient';
-import { getUserStats, getUserProgress, getUserAchievements } from '@/lib/supabase/quiz-mutations';
+import { getUserStats, getUserProgress, getUserAchievements, getUserQuizAttempts } from '@/lib/supabase/quiz-mutations';
 import { useQuery } from '@tanstack/react-query';
 import { topicMeta } from '@/data/quiz/topics/meta';
+import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
+
+// 차트 컴포넌트들을 동적 import (클라이언트 전용)
+const GrammarAccuracyChart = dynamic(() => import('@/components/charts/GrammarAccuracyChart'), { ssr: false });
+const LearningActivityChart = dynamic(() => import('@/components/charts/LearningActivityChart'), { ssr: false });
+const WeakAreasCard = dynamic(() => import('@/components/dashboard/WeakAreasCard'), { ssr: false });
+const StreakCalendar = dynamic(() => import('@/components/dashboard/StreakCalendar'), { ssr: false });
 
 // 스켈레톤 로더 컴포넌트
 const StatCardSkeleton = () => (
@@ -51,6 +59,7 @@ const AchievementCardSkeleton = () => (
 
 const StudentDashboardPrimary = () => {
   const { user, refreshSession } = useAuth();
+  const t = useTranslations();
   const profileChecked = useRef(false);
   const sessionRefreshed = useRef(false);
   const [showAllProgress, setShowAllProgress] = useState(false);
@@ -136,13 +145,24 @@ const StudentDashboardPrimary = () => {
     staleTime: 5 * 60 * 1000, // 5분
   });
 
+  // 퀴즈 시도 기록 조회 (차트용)
+  const { data: quizAttempts, isLoading: loadingAttempts } = useQuery({
+    queryKey: ['userQuizAttempts', user?.id],
+    queryFn: async () => {
+      const result = await getUserQuizAttempts(200);
+      return result.data;
+    },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5분
+  });
+
   return (
     <div className="p-5 md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
       {/* 전체 통계 섹션 */}
       <section className="mb-30px">
         <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
           <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
-            학습 통계
+            {t('dashboard.learningStats')}
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -157,49 +177,49 @@ const StudentDashboardPrimary = () => {
             <>
               <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
                 <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  완료한 세션 수
+                  {t('dashboard.completedSessions')}
                 </h3>
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.total_attempts || 0}
                 </p>
                 <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
-                  10문제 = 1세션
+                  {t('dashboard.oneSessionDescription')}
                 </p>
               </div>
 
               <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
                 <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  정답률
+                  {t('dashboard.accuracyRate')}
                 </h3>
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.accuracy_rate?.toFixed(1) || 0}%
                 </p>
                 <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
-                  전체 문제 정답률
+                  {t('dashboard.overallAccuracy')}
                 </p>
               </div>
 
               <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
                 <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  연속 학습 일수
+                  {t('dashboard.currentStreak')}
                 </h3>
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.current_streak || 0}
                 </p>
                 <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
-                  매일 학습 연속 기록
+                  {t('dashboard.dailyLearningStreak')}
                 </p>
               </div>
 
               <div className="bg-lightGrey7 dark:bg-lightGrey7-dark p-6 rounded-lg">
                 <h3 className="text-contentColor dark:text-contentColor-dark text-sm font-medium">
-                  학습한 문법 수
+                  {t('dashboard.completedGrammars')}
                 </h3>
                 <p className="text-3xl font-bold text-blackColor dark:text-blackColor-dark mt-2">
                   {stats?.completed_grammars || 0}
                 </p>
                 <p className="text-xs text-contentColor dark:text-contentColor-dark mt-1">
-                  1세션 이상 완료한 문법
+                  {t('dashboard.oneSessionCompleted')}
                 </p>
               </div>
             </>
@@ -211,10 +231,10 @@ const StudentDashboardPrimary = () => {
       <section className="mb-30px">
         <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
           <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
-            학습 진도
+            {t('dashboard.learningProgress')}
           </h2>
         </div>
-        
+
         {loadingProgress ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <ProgressCardSkeleton />
@@ -289,20 +309,20 @@ const StudentDashboardPrimary = () => {
                     {/* 통계 정보 */}
                     <div className="flex items-center gap-4 mb-4 pb-4 border-b border-borderColor dark:border-borderColor-dark">
                       <div className="flex-1">
-                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">시도 횟수</p>
+                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">{t('stats.attempts')}</p>
                         <p className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">{item.total_attempts}</p>
                       </div>
                       <div className="flex-1">
-                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">정답 횟수</p>
+                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">{t('stats.correct')}</p>
                         <p className="text-2xl font-bold text-primaryColor dark:text-primaryColor-dark">{item.correct_attempts}</p>
                       </div>
                       <div className="flex-1">
-                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">정답률</p>
+                        <p className="text-xs text-contentColor dark:text-contentColor-dark mb-1">{t('dashboard.accuracyRate')}</p>
                         <p className={`text-2xl font-bold ${
-                          accuracyRate >= 80 
-                            ? 'text-primaryColor dark:text-primaryColor-dark' 
-                            : accuracyRate >= 60 
-                            ? 'text-secondaryColor3 dark:text-secondaryColor3-dark' 
+                          accuracyRate >= 80
+                            ? 'text-primaryColor dark:text-primaryColor-dark'
+                            : accuracyRate >= 60
+                            ? 'text-secondaryColor3 dark:text-secondaryColor3-dark'
                             : 'text-secondaryColor2 dark:text-secondaryColor2-dark'
                         }`}>
                           {accuracyRate}%
@@ -317,11 +337,11 @@ const StudentDashboardPrimary = () => {
                           href={reviewPath}
                           className="flex-1 bg-primaryColor hover:bg-primaryColor/80 text-whiteColor dark:text-whiteColor-dark text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"
                         >
-                          오답 확인
+                          {t('dashboard.reviewWrongAnswers')}
                         </a>
                       ) : (
                         <button className="flex-1 bg-borderColor dark:bg-borderColor-dark text-contentColor dark:text-contentColor-dark text-sm font-medium py-2 px-4 rounded-lg cursor-not-allowed opacity-50">
-                          오답 없음
+                          {t('dashboard.noWrongAnswers')}
                         </button>
                       )}
                       {retakePath ? (
@@ -329,7 +349,7 @@ const StudentDashboardPrimary = () => {
                           href={retakePath}
                           className="flex-1 bg-secondaryColor hover:bg-secondaryColor/80 text-whiteColor dark:text-whiteColor-dark text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"
                         >
-                          다시 풀기
+                          {t('dashboard.retake')}
                         </a>
                       ) : (
                         <button className="flex-1 bg-borderColor dark:bg-borderColor-dark text-contentColor dark:text-contentColor-dark text-sm font-medium py-2 px-4 rounded-lg cursor-not-allowed opacity-50">
@@ -341,7 +361,7 @@ const StudentDashboardPrimary = () => {
                 );
               })}
             </div>
-            
+
             {/* 더 보기/접기 버튼 */}
             {progress.length > 6 && (
               <div className="mt-6 text-center">
@@ -349,23 +369,81 @@ const StudentDashboardPrimary = () => {
                   onClick={() => setShowAllProgress(!showAllProgress)}
                   className="bg-primaryColor hover:bg-primaryColor/80 text-whiteColor dark:text-whiteColor-dark px-6 py-2 rounded-lg transition-colors font-medium"
                 >
-                  {showAllProgress ? '접기' : `더 보기 (${progress.length - 6}개)`}
+                  {showAllProgress ? t('dashboard.collapse') : t('dashboard.showMore', { count: progress.length - 6 })}
                 </button>
               </div>
             )}
           </>
         ) : (
           <div className="text-center text-contentColor dark:text-contentColor-dark py-8">
-            아직 학습 진도가 없습니다. 퀴즈를 풀어보세요!
+            {t('dashboard.noProgressYet')}
           </div>
         )}
+      </section>
+
+      {/* 학습 활동 시각화 섹션 */}
+      <section className="mb-30px">
+        <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
+          <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
+            {t('dashboard.activityAnalysis')}
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* 학습 활동 캘린더 */}
+          <div className="bg-whiteColor dark:bg-whiteColor-dark rounded-lg">
+            {loadingAttempts ? (
+              <div className="h-[400px] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor"></div>
+              </div>
+            ) : (
+              <StreakCalendar
+                attemptsData={quizAttempts || []}
+                currentStreak={stats?.current_streak || 0}
+              />
+            )}
+          </div>
+
+          {/* 약점 문법 TOP 3 */}
+          <div>
+            {loadingProgress ? (
+              <div className="h-[400px] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor"></div>
+              </div>
+            ) : (
+              <WeakAreasCard progressData={progress || []} />
+            )}
+          </div>
+        </div>
+
+        {/* 학습 활동 차트 */}
+        <div className="bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark rounded-lg p-6 mb-6">
+          {loadingAttempts ? (
+            <div className="h-[400px] flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor"></div>
+            </div>
+          ) : (
+            <LearningActivityChart attemptsData={quizAttempts || []} />
+          )}
+        </div>
+
+        {/* 문법별 정답률 차트 */}
+        <div className="bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark rounded-lg p-6">
+          {loadingProgress ? (
+            <div className="h-[400px] flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryColor"></div>
+            </div>
+          ) : (
+            <GrammarAccuracyChart progressData={progress || []} />
+          )}
+        </div>
       </section>
 
       {/* 성취 배지 섹션 */}
       <section>
         <div className="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
           <h2 className="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
-            성취 배지 {!loadingAchievements && achievements && `(${achievements.length})`}
+            {t('dashboard.achievements')} {!loadingAchievements && achievements && `(${achievements.length})`}
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -394,7 +472,7 @@ const StudentDashboardPrimary = () => {
             ))
           ) : (
             <div className="col-span-3 text-center text-contentColor dark:text-contentColor-dark py-8">
-              아직 획득한 배지가 없습니다. 열심히 학습해서 배지를 모아보세요!
+              {t('dashboard.noAchievementsYet')}
             </div>
           )}
         </div>

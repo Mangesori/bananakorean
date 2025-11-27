@@ -503,3 +503,34 @@ export async function updateSessionProgress(
     return { error: '세션 진도 업데이트 중 오류가 발생했습니다.' };
   }
 }
+
+// 사용자 퀴즈 시도 기록 조회 (클라이언트용)
+export async function getUserQuizAttempts(limit: number = 100) {
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { error: '로그인이 필요합니다.' };
+    }
+
+    const { data, error } = await supabase
+      .from('quiz_attempts')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      console.error('퀴즈 시도 조회 오류:', error);
+      return { error: '퀴즈 시도 조회에 실패했습니다.' };
+    }
+
+    return { data };
+  } catch (err) {
+    console.error('퀴즈 시도 조회 중 오류:', err);
+    return { error: '퀴즈 시도 조회 중 오류가 발생했습니다.' };
+  }
+}

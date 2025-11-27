@@ -11,8 +11,9 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
   const next = requestUrl.searchParams.get('next');
+  const roleParam = requestUrl.searchParams.get('role'); // 소셜 가입 시 전달된 역할
 
-  console.log('[AUTH-CALLBACK] Route handler called:', { code: !!code, next });
+  console.log('[AUTH-CALLBACK] Route handler called:', { code: !!code, next, role: roleParam });
 
   // 인증 코드가 없으면 로그인 페이지로
   if (!code) {
@@ -65,20 +66,39 @@ export async function GET(request: NextRequest) {
       .eq('id', data.user.id)
       .single();
 
-    if (profileError) {
+    // 프로필이 없는 경우 (신규 소셜 가입자) 생성
+    if (profileError && profileError.code === 'PGRST116') {
+      console.log('[AUTH-CALLBACK] Creating new profile for social signup');
+      const newRole = (roleParam && ['student', 'teacher'].includes(roleParam)) ? roleParam : 'student';
+
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          email: data.user.email!,
+          role: newRole,
+        });
+
+      if (insertError) {
+        console.error('[AUTH-CALLBACK] Failed to create profile:', insertError);
+      } else {
+        console.log('[AUTH-CALLBACK] Profile created with role:', newRole);
+      }
+    } else if (profileError) {
       console.error('[AUTH-CALLBACK] Profile error:', profileError);
-      // 프로필 조회 실패 시 기본값 사용
     }
 
     // next 파라미터 검증 - null, undefined, 또는 빈 문자열인 경우 무시
     const isValidNextParam = next && next !== 'null' && next.trim() !== '';
 
     // 역할에 따른 리디렉션 경로 결정
-    const role = profileData?.role || data.user?.user_metadata?.role || 'student';
+    const role = profileData?.role || data.user?.user_metadata?.role || roleParam || 'student';
     const redirectPath = isValidNextParam
       ? next
       : role === 'admin'
         ? '/dashboards/admin-dashboard'
+        : role === 'teacher'
+        ? '/dashboards/teacher-dashboard'
         : '/dashboards/student-dashboard';
 
     console.log('[AUTH-CALLBACK] Redirecting to:', redirectPath);

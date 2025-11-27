@@ -21,25 +21,33 @@ export const useUserProfile = () => {
 export const UserProfileProvider = ({ children }) => {
   const { user } = useAuth();
 
-  const [userName, setUserName] = useState(() => {
-    // 로컬스토리지에서 초기값 가져오기
-    if (typeof window !== 'undefined') {
-      const cached = localStorage.getItem('userName') || '';
-      return cached;
-    }
-    return '';
-  });
-  const [avatarUrl, setAvatarUrl] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('avatarUrl') || '';
-    }
-    return '';
-  });
-  const [isLoading, setIsLoading] = useState(!userName);
+  // 서버와 클라이언트에서 동일한 초기값을 보장하기 위해 항상 빈 문자열로 시작
+  const [userName, setUserName] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [refetchTrigger, setRefetchTrigger] = useState(0);
   const fetchedRef = React.useRef(false);
+  const hasInitializedRef = React.useRef(false);
 
   useEffect(() => {
+    // 클라이언트에서만 실행되도록 보장
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    // 초기화: 로컬스토리지에서 캐시된 값이 있으면 먼저 설정
+    if (!hasInitializedRef.current) {
+      hasInitializedRef.current = true;
+      const cachedName = localStorage.getItem('userName') || '';
+      const cachedAvatar = localStorage.getItem('avatarUrl') || '';
+      
+      if (cachedName) {
+        setUserName(cachedName);
+        setAvatarUrl(cachedAvatar);
+        setIsLoading(false);
+      }
+    }
+
     // Strict Mode에서 중복 호출 방지
     if (fetchedRef.current && user?.id) {
       return;

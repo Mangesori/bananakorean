@@ -58,7 +58,11 @@ export const signInAction = validatedAction(signInSchema, async (data, formData)
   // 사용자 역할에 따른 리디렉션 경로 설정
   const role = profileData?.role || authData.user?.user_metadata?.role || 'student';
   const redirectPath =
-    role === 'admin' ? '/dashboards/admin-dashboard' : '/dashboards/student-dashboard';
+    role === 'admin'
+      ? '/dashboards/admin-dashboard'
+      : role === 'teacher'
+      ? '/dashboards/teacher-dashboard'
+      : '/dashboards/student-dashboard';
 
   // 서버에서 리디렉션 (revalidatePath 추가하여 캐시 갱신)
   const { revalidatePath } = await import('next/cache');
@@ -70,7 +74,7 @@ export const signInAction = validatedAction(signInSchema, async (data, formData)
 // 회원가입 액션 (Zod 검증 적용)
 export const signUpAction = validatedAction(signUpSchema, async (data, formData) => {
   try {
-    const { name, email, password } = data;
+    const { name, email, password, role } = data;
     const supabase = await createClient();
 
     // 사용자 생성
@@ -81,7 +85,7 @@ export const signUpAction = validatedAction(signUpSchema, async (data, formData)
         emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
         data: {
           name: name,
-          role: 'student', // JWT에 role 포함
+          role: role || 'student', // JWT에 role 포함
         },
       },
     });
@@ -98,7 +102,7 @@ export const signUpAction = validatedAction(signUpSchema, async (data, formData)
     const profileResult = await createUserProfile(supabase, {
       id: authData.user.id,
       email: authData.user.email!,
-      role: 'student',
+      role: role || 'student',
     });
 
     if (profileResult.error) {

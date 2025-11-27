@@ -8,8 +8,10 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabaseClient';
 import { useUserProfile } from '@/contexts/UserProfileContext';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const SidebarDashboard = () => {
+  const t = useTranslations();
   const pathname = usePathname();
   const partOfPathNaem = pathname.split('/')[2].split('-')[0];
   const isAdmin = partOfPathNaem === 'admin' ? true : false;
@@ -94,10 +96,10 @@ const SidebarDashboard = () => {
 
   const adminItems = [
     {
-      title: loadingName ? 'WELCOME...' : `WELCOME, ${userName?.toUpperCase() || 'USER'}`,
+      title: loadingName ? `${t('sidebar.welcome').toUpperCase()}...` : `${t('sidebar.welcome').toUpperCase()}, ${userName?.toUpperCase() || 'USER'}`,
       items: [
         {
-          name: 'Dashboard',
+          name: t('sidebar.dashboard'),
           path: '/dashboards/admin-dashboard',
           icon: (
             <svg
@@ -118,7 +120,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'My Profile',
+          name: t('sidebar.myProfile'),
           path: '/dashboards/admin-profile',
           icon: (
             <svg
@@ -139,7 +141,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Message',
+          name: t('sidebar.message'),
           path: '/dashboards/admin-message',
           tag: unreadCount > 0 ? unreadCount : null,
           hiddenOnMobile: true,
@@ -162,7 +164,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Quiz',
+          name: t('sidebar.quiz'),
           path: '/dashboards/admin-quiz-attempts',
           icon: (
             <svg
@@ -184,7 +186,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Settings',
+          name: t('sidebar.settings'),
           path: '/dashboards/admin-settings',
           icon: (
             <svg
@@ -205,7 +207,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Sign out',
+          name: t('sidebar.signOut'),
           onClick: handleSignOut,
           icon: (
             <svg
@@ -232,10 +234,10 @@ const SidebarDashboard = () => {
 
   const studentItems = [
     {
-      title: loadingName ? 'WELCOME...' : `WELCOME, ${userName?.toUpperCase() || 'USER'}`,
+      title: loadingName ? `${t('sidebar.welcome').toUpperCase()}...` : `${t('sidebar.welcome').toUpperCase()}, ${userName?.toUpperCase() || 'USER'}`,
       items: [
         {
-          name: 'Dashboard',
+          name: t('sidebar.dashboard'),
           path: '/dashboards/student-dashboard',
           icon: (
             <svg
@@ -256,7 +258,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'My Profile',
+          name: t('sidebar.myProfile'),
           path: '/dashboards/student-profile',
           icon: (
             <svg
@@ -277,7 +279,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Message',
+          name: t('sidebar.message'),
           path: '/dashboards/student-message',
           tag: unreadCount > 0 ? unreadCount : null,
           hiddenOnMobile: true,
@@ -300,7 +302,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Settings',
+          name: t('sidebar.settings'),
           path: '/dashboards/student-settings',
           icon: (
             <svg
@@ -321,7 +323,7 @@ const SidebarDashboard = () => {
           ),
         },
         {
-          name: 'Sign out',
+          name: t('sidebar.signOut'),
           path: '#',
           onClick: handleSignOut,
           icon: (

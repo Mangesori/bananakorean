@@ -104,19 +104,29 @@ export async function middleware(request: NextRequest) {
     const redirectPath =
       userRole === 'admin'
         ? '/dashboards/admin-dashboard'
+        : userRole === 'teacher'
+        ? '/dashboards/teacher-dashboard'
         : '/dashboards/student-dashboard';
 
     return NextResponse.redirect(new URL(redirectPath, request.url));
   }
 
-  // 역할 검사: 관리자 전용 경로에 학생이 접근하는 경우 차단
+  // 역할 검사: 관리자 전용 경로에 다른 역할이 접근하는 경우 차단
   if (pathname.includes('/dashboards/admin-') && user && userRole !== 'admin') {
-    return NextResponse.redirect(new URL('/dashboards/student-dashboard', request.url));
+    const redirectPath = userRole === 'teacher' ? '/dashboards/teacher-dashboard' : '/dashboards/student-dashboard';
+    return NextResponse.redirect(new URL(redirectPath, request.url));
   }
 
-  // 역할 검사: 학생 전용 경로에 관리자가 접근하는 경우 관리자 대시보드로 리디렉션
-  if (pathname.includes('/dashboards/student-') && user && userRole === 'admin' && !pathname.includes('/dashboards/student-message')) {
-    return NextResponse.redirect(new URL('/dashboards/admin-dashboard', request.url));
+  // 역할 검사: 선생님 전용 경로에 다른 역할이 접근하는 경우 차단
+  if (pathname.includes('/dashboards/teacher-') && user && userRole !== 'teacher') {
+    const redirectPath = userRole === 'admin' ? '/dashboards/admin-dashboard' : '/dashboards/student-dashboard';
+    return NextResponse.redirect(new URL(redirectPath, request.url));
+  }
+
+  // 역할 검사: 학생 전용 경로에 다른 역할이 접근하는 경우 차단
+  if (pathname.includes('/dashboards/student-') && user && userRole !== 'student' && !pathname.includes('/dashboards/student-message')) {
+    const redirectPath = userRole === 'admin' ? '/dashboards/admin-dashboard' : '/dashboards/teacher-dashboard';
+    return NextResponse.redirect(new URL(redirectPath, request.url));
   }
 
   return response;

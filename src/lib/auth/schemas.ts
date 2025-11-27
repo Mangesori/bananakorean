@@ -15,6 +15,7 @@ export const signUpSchema = z
       .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
       .max(100, '비밀번호는 100자 이하여야 합니다.'),
     confirmPassword: z.string(),
+    role: z.enum(['student', 'teacher']).default('student'),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다.',

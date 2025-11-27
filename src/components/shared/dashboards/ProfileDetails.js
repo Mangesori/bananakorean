@@ -20,7 +20,9 @@ const ProfileDetails = () => {
               <span className="font-bold inline-block">Name</span>
             </div>
             <div className="md:col-start-5 md:col-span-8">
-              <span className="inline-block">{loading ? 'Loading...' : (userName || '-')}</span>
+              <span className="inline-block" suppressHydrationWarning>
+                {loading ? 'Loading...' : (userName || '-')}
+              </span>
             </div>
           </li>
 

@@ -11,6 +11,8 @@ import './globals.css';
 import PreloaderPrimary from '@/components/shared/others/PreloaderPrimary';
 import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 import ClientLayout from '@/components/layout/ClientLayout';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getLocale } from 'next-intl/server';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,6 +31,15 @@ const hind = Hind({
 export const metadata = {
   title: 'Banana Korean',
   description: 'Learn Korean with Banana Korean',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Banana Korean',
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport = {
@@ -39,13 +50,18 @@ export const viewport = {
   viewportFit: 'cover',
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={`${hind.variable}`}>
+    <html lang={locale} className={`${hind.variable}`}>
       <body
         className={`relative leading-[1.8] bg-bodyBg dark:bg-bodyBg-dark z-0  ${inter.className}`}
       >
-        <ClientLayout>{children}</ClientLayout>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <ClientLayout>{children}</ClientLayout>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -6,8 +6,10 @@ import { getUsersByRole } from '@/lib/supabase/profile';
 import { useRouter } from 'next/navigation';
 import { X, Maximize2 } from 'lucide-react';
 import ConversationViewNew from '@/components/shared/dashboards/ConversationViewNew';
+import { useTranslations } from 'next-intl';
 
 const MessageDropdownStudent = ({ onClose, isMobile = false }) => {
+  const t = useTranslations();
   const { user } = useAuth();
   const router = useRouter();
   const [conversation, setConversation] = useState(null);
@@ -33,7 +35,7 @@ const MessageDropdownStudent = ({ onClose, isMobile = false }) => {
         if (adminsError) throw adminsError;
 
         if (!admins || admins.length === 0) {
-          setError('No instructor available');
+          setError(t('header.noInstructorAvailable'));
           setLoading(false);
           return;
         }
@@ -45,7 +47,7 @@ const MessageDropdownStudent = ({ onClose, isMobile = false }) => {
         setConversation(conv);
       } catch (error) {
         console.error('Error loading conversation:', error);
-        setError('Failed to load messages');
+        setError(t('header.failedToLoadMessages'));
       } finally {
         setLoading(false);
       }
@@ -75,13 +77,13 @@ const MessageDropdownStudent = ({ onClose, isMobile = false }) => {
       {/* 헤더 */}
       <div className="flex justify-between items-center p-4 border-b border-borderColor dark:border-borderColor-dark">
         <h3 className="text-lg font-semibold text-blackColor dark:text-blackColor-dark">
-          {conversation?.otherUser?.name || 'Instructor'}
+          {conversation?.otherUser?.name || t('header.instructor')}
         </h3>
         <div className="flex items-center gap-2">
           <button
             onClick={handleExpandToFullPage}
             className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
-            title="Expand to full page"
+            title={t('header.expandToFullPage')}
           >
             <Maximize2 size={18} className="text-gray-600" />
           </button>

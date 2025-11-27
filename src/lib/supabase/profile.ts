@@ -40,7 +40,7 @@ export async function uploadProfileImage(userId: string, file: File) {
 }
 
 // 역할별 사용자 목록 가져오기
-export async function getUsersByRole(role: 'admin' | 'student') {
+export async function getUsersByRole(role: 'admin' | 'teacher' | 'student') {
   const supabase = createClient();
   return await supabase.from('profiles').select('*').eq('role', role).order('name');
 }

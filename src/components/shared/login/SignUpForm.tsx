@@ -6,21 +6,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type Provider } from '@supabase/supabase-js';
+import { ArrowLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { signUpAction, signInWithProviderAction } from '@/lib/supabase/actions';
 import type { ActionState } from '@/lib/auth/middleware';
 import svglogo from '@/assets/images/logo/svglogo.svg';
 
 // Submit 버튼 컴포넌트 (useFormStatus 사용)
-function SubmitButton({ step }: { step: 'email' | 'password' }) {
+function SubmitButton({ step, isLoading }: { step: 'email' | 'password'; isLoading?: boolean }) {
   const { pending } = useFormStatus();
+  const t = useTranslations('auth.signUp');
 
   return (
     <button
       type="submit"
-      disabled={pending}
+      disabled={pending || isLoading}
       className="w-full bg-primaryColor hover:bg-primaryColor/90 text-white py-3 px-4 rounded-lg font-medium transition-colors disabled:opacity-50"
     >
-      {pending ? 'Signing up...' : step === 'email' ? 'Continue' : 'Create your account'}
+      {pending ? t('creatingAccount') : step === 'email' ? t('continue') : t('createAccount')}
     </button>
   );
 }
@@ -28,9 +31,19 @@ function SubmitButton({ step }: { step: 'email' | 'password' }) {
 const SignUpForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('auth.signUp');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [step, setStep] = useState<'email' | 'password'>('email');
+  const [step, setStep] = useState<'role' | 'email' | 'password'>('role');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState<'student' | 'teacher'>('student');
+
+  // 유효성 검사 에러 state
+  const [errors, setErrors] = useState({
+    email: '',
+    name: '',
+    password: '',
+    confirmPassword: ''
+  });
 
   // useFormState로 Server Action 실행 (React 18)
   const [state, formAction] = useFormState<ActionState, FormData>(signUpAction, { error: '' });
@@ -50,26 +63,83 @@ const SignUpForm = () => {
     }
   }, [state, router]);
 
+  // 유효성 검사 함수들
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      return t('errors.emailRequired');
+    }
+    if (!emailRegex.test(email)) {
+      return t('errors.emailInvalid');
+    }
+    return '';
+  };
+
+  const validateName = (name: string) => {
+    if (name.length < 3 || name.length > 20) {
+      return t('errors.nameLength');
+    }
+    const numberCount = (name.match(/\d/g) || []).length;
+    if (numberCount > 5) {
+      return t('errors.nameNumbers');
+    }
+    return '';
+  };
+
+  const validatePassword = (password: string) => {
+    if (password.length < 8 || password.length > 20) {
+      return t('errors.passwordLength');
+    }
+    if (/\s/.test(password)) {
+      return t('errors.passwordSpaces');
+    }
+    const types = [
+      /[a-z]/.test(password),
+      /[A-Z]/.test(password),
+      /[0-9]/.test(password),
+      /[^a-zA-Z0-9]/.test(password)
+    ].filter(Boolean).length;
+    if (types < 2) {
+      return t('errors.passwordTypes');
+    }
+    return '';
+  };
+
   const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const emailValue = formData.get('email') as string;
+
+    const emailError = validateEmail(emailValue);
+    if (emailError) {
+      setErrors(prev => ({ ...prev, email: emailError }));
+      return;
+    }
+
     setEmail(emailValue);
+    setErrors(prev => ({ ...prev, email: '' }));
     setStep('password');
   };
 
-  const handleEditEmail = () => {
+  const handleRoleContinue = () => {
     setStep('email');
+  };
+
+  const handleEditRole = () => {
+    setStep('role');
   };
 
   const handleSocialSignUp = async (provider: Provider) => {
     try {
+      // 선택한 역할을 쿼리 파라미터로 전달
+      const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?role=${role}`;
+
       // 리다이렉트 URL 저장
       if (redirectUrl !== '/') {
         localStorage.setItem('redirectUrl', redirectUrl);
       }
 
-      const result = await signInWithProviderAction(provider, redirectUrl);
+      const result = await signInWithProviderAction(provider, callbackUrl);
 
       if (result?.error) {
         console.error('소셜 회원가입 오류:', result.error);
@@ -96,13 +166,13 @@ const SignUpForm = () => {
               </svg>
             </div>
             <h3 className="text-lg font-medium text-green-800 dark:text-green-200 mb-2">
-              Account Created Successfully!
+              {t('accountCreatedTitle')}
             </h3>
             <p className="text-sm text-green-600 dark:text-green-400 mb-4">
               {successMessage}
             </p>
             <p className="text-sm text-green-600 dark:text-green-400">
-              Redirecting to login page...
+              {t('redirecting')}
             </p>
           </div>
         </div>
@@ -129,16 +199,103 @@ const SignUpForm = () => {
         {/* 제목 */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Start Learning Korean!
+            {t('title')}
           </h2>
           <p className="text-base text-gray-500 dark:text-gray-400">
-            Create your free account
+            {t('subtitle')}
           </p>
         </div>
 
-        {/* 소셜 로그인 버튼들 - step === 'email'일 때만 표시 */}
+        {/* Step 1: 역할 선택 */}
+        {step === 'role' && (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 text-center">
+                {t('roleLabel')}
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setRole('student')}
+                  className={`px-4 py-3 rounded-lg border-2 transition-all ${
+                    role === 'student'
+                      ? 'border-primaryColor bg-primaryColor/10 dark:bg-primaryColor/20'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">🎓</div>
+                    <div className={`font-medium ${role === 'student' ? 'text-primaryColor' : 'text-gray-700 dark:text-gray-300'}`}>
+                      {t('student')}
+                    </div>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('teacher')}
+                  className={`px-4 py-3 rounded-lg border-2 transition-all ${
+                    role === 'teacher'
+                      ? 'border-primaryColor bg-primaryColor/10 dark:bg-primaryColor/20'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">👨‍🏫</div>
+                    <div className={`font-medium ${role === 'teacher' ? 'text-primaryColor' : 'text-gray-700 dark:text-gray-300'}`}>
+                      {t('teacher')}
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Continue 버튼 */}
+            <div>
+              <button
+                type="button"
+                onClick={handleRoleContinue}
+                className="w-full bg-primaryColor hover:bg-primaryColor/90 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+              >
+                {t('continue')}
+              </button>
+            </div>
+
+            {/* 하단 링크 */}
+            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+              {t('alreadyHaveAccount')}{' '}
+              <Link
+                href="/auth/login"
+                className="font-medium text-primaryColor hover:text-primaryColor/80"
+              >
+                {t('logIn')}
+              </Link>
+            </div>
+          </>
+        )}
+
+        {/* Step 2: 가입 방법 선택 - step === 'email'일 때만 표시 */}
         {step === 'email' && (
           <>
+            {/* 뒤로 가기 버튼 */}
+            <button
+              type="button"
+              onClick={() => setStep('role')}
+              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors mb-4"
+            >
+              <ArrowLeft size={20} className="text-gray-700 dark:text-gray-300" />
+            </button>
+
+            {/* 선택된 역할 표시 */}
+            <div className="flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{role === 'student' ? '🎓' : '👨‍🏫'}</span>
+                <span className="text-gray-900 dark:text-white font-medium">
+                  {role === 'student' ? t('student') : t('teacher')}
+                </span>
+              </div>
+            </div>
+
+            {/* 소셜 로그인 버튼들 */}
             <div className="space-y-3">
               {/* Google 버튼 */}
               <button
@@ -153,10 +310,10 @@ const SignUpForm = () => {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
                 <span className="text-gray-700 dark:text-gray-300 font-medium">
-                  Continue with Google
+                  {t('continueWithGoogle')}
                 </span>
                 <span className="absolute top-1 right-1 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                  Last used
+                  {t('lastUsed')}
                 </span>
               </button>
 
@@ -170,7 +327,7 @@ const SignUpForm = () => {
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
                 <span className="text-gray-700 dark:text-gray-300 font-medium">
-                  Continue with Facebook
+                  {t('continueWithFacebook')}
                 </span>
               </button>
             </div>
@@ -181,109 +338,169 @@ const SignUpForm = () => {
                 <div className="w-full border-t border-gray-300 dark:border-gray-600" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">OR</span>
+                <span className="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">{t('or')}</span>
               </div>
+            </div>
+
+            {/* 이메일 입력 폼 */}
+            <form className="space-y-6" onSubmit={handleEmailSubmit}>
+              <div>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder={t('emailPlaceholder')}
+                  onChange={(e) => {
+                    const error = validateEmail(e.target.value);
+                    setErrors(prev => ({ ...prev, email: error }));
+                  }}
+                  className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent ${
+                    errors.email
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                  }`}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                )}
+              </div>
+
+              {/* 약관 동의 */}
+              <div className="text-center text-xs text-gray-600 dark:text-gray-400">
+                {t('termsAgree')}{' '}
+                <Link href="/terms" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  {t('termsOfService')}
+                </Link>{' '}
+                {t('and')}{' '}
+                <Link href="/privacy" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  {t('privacyPolicy')}
+                </Link>
+              </div>
+
+              <div>
+                <SubmitButton step="email" isLoading={!!errors.email} />
+              </div>
+            </form>
+
+            {/* 하단 링크 */}
+            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+              {t('alreadyHaveAccount')}{' '}
+              <Link
+                href="/auth/login"
+                className="font-medium text-primaryColor hover:text-primaryColor/80"
+              >
+                {t('logIn')}
+              </Link>
             </div>
           </>
         )}
 
-        {/* 폼 */}
-        {step === 'email' ? (
-          <form className="space-y-6" onSubmit={handleEmailSubmit}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                placeholder="Email"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            {/* 약관 동의 */}
-            <div className="text-center text-xs text-gray-600 dark:text-gray-400">
-              By continuing, you agree to the{' '}
-              <Link href="/terms" className="text-blue-600 dark:text-blue-400 hover:underline">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="/privacy" className="text-blue-600 dark:text-blue-400 hover:underline">
-                Privacy Policy
-              </Link>
-              .
-            </div>
-
-            <div>
-              <SubmitButton step="email" />
-            </div>
-          </form>
-        ) : (
+        {/* Step 3: 비밀번호 입력 */}
+        {step === 'password' && (
           <form className="space-y-6" action={formAction}>
-            {/* 이메일 확인 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Email
-              </label>
-              <div className="flex items-center justify-between px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-blue-50 dark:bg-blue-900/20">
-                <span className="text-gray-900 dark:text-white">{email}</span>
-                <button
-                  type="button"
-                  onClick={handleEditEmail}
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 text-sm font-medium"
-                >
-                  Edit
-                </button>
+            {/* 뒤로 가기 버튼 */}
+            <button
+              type="button"
+              onClick={() => setStep('email')}
+              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors mb-4"
+            >
+              <ArrowLeft size={20} className="text-gray-700 dark:text-gray-300" />
+            </button>
+
+            {/* Role 컴팩트 표시 */}
+            <div className="flex items-center justify-between px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{role === 'student' ? '🎓' : '👨‍🏫'}</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  {role === 'student' ? t('student') : t('teacher')}
+                </span>
               </div>
-              <input type="hidden" name="email" value={email} />
+              <button
+                type="button"
+                onClick={handleEditRole}
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-500 text-sm font-medium"
+              >
+                {t('edit')}
+              </button>
             </div>
+
+            {/* 이메일 표시 (Edit 버튼 없음) */}
+            <div className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+              <span className="text-gray-900 dark:text-white text-sm">{email}</span>
+            </div>
+            <input type="hidden" name="email" value={email} />
+            <input type="hidden" name="role" value={role} />
 
             {/* 이름 입력 */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Name
-              </label>
               <input
                 id="name"
                 name="name"
                 type="text"
                 required
-                placeholder="Your Name"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={t('namePlaceholder')}
+                onChange={(e) => {
+                  const error = validateName(e.target.value);
+                  setErrors(prev => ({ ...prev, name: error }));
+                }}
+                className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent ${
+                  errors.name
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                }`}
               />
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+              )}
             </div>
 
             {/* 비밀번호 입력 */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Password
-              </label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 required
-                placeholder="Password"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={t('passwordPlaceholder')}
+                onChange={(e) => {
+                  const error = validatePassword(e.target.value);
+                  setErrors(prev => ({ ...prev, password: error }));
+                }}
+                className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent ${
+                  errors.password
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                }`}
               />
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
             </div>
 
             {/* 비밀번호 확인 */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Confirm Password
-              </label>
               <input
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
                 required
-                placeholder="Confirm Password"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={t('confirmPasswordPlaceholder')}
+                onChange={(e) => {
+                  const passwordField = document.querySelector<HTMLInputElement>('#password');
+                  const password = passwordField?.value || '';
+                  const error = e.target.value !== password ? t('errors.confirmPasswordMatch') : '';
+                  setErrors(prev => ({ ...prev, confirmPassword: error }));
+                }}
+                className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent ${
+                  errors.confirmPassword
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                }`}
               />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>
+              )}
             </div>
 
             {/* 에러 메시지 */}
@@ -294,21 +511,10 @@ const SignUpForm = () => {
             )}
 
             <div>
-              <SubmitButton step="password" />
+              <SubmitButton step="password" isLoading={!!(errors.name || errors.password || errors.confirmPassword)} />
             </div>
           </form>
         )}
-
-        {/* 하단 링크 */}
-        <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-          Already have an account?{' '}
-          <Link
-            href="/auth/login"
-            className="font-medium text-primaryColor hover:text-primaryColor/80"
-          >
-            Log in
-          </Link>
-        </div>
       </div>
     </div>
   );

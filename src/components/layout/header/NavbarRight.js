@@ -9,9 +9,12 @@ import { useRouter } from 'next/navigation';
 import { useUserProfile } from '@/contexts/UserProfileContext';
 import { useAuthModal } from '@/contexts/AuthModalContext';
 import UserAvatar from '@/components/shared/UserAvatar';
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
 import { Mail, Bell, ChevronDown, ChevronUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const NavbarRight = () => {
+  const t = useTranslations();
   const [showMessages, setShowMessages] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -110,6 +113,11 @@ const NavbarRight = () => {
           </li>
         ) : user ? (
           <>
+            {/* 언어 전환 버튼 */}
+            <li className="hidden lg:block">
+              <LanguageSwitcher />
+            </li>
+
             {/* 메시지 버튼 - 모바일과 데스크톱 모두 표시 */}
             <li>
               <button
@@ -192,7 +200,7 @@ const NavbarRight = () => {
                       className="block px-4 py-2 text-sm text-contentColor dark:text-contentColor-dark hover:bg-gray-100 dark:hover:bg-gray-800"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      Dashboard
+                      {t('header.dashboard')}
                     </Link>
                     <Link
                       href={
@@ -203,21 +211,21 @@ const NavbarRight = () => {
                       className="block px-4 py-2 text-sm text-contentColor dark:text-contentColor-dark hover:bg-gray-100 dark:hover:bg-gray-800"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      My Profile
+                      {t('header.myProfile')}
                     </Link>
                     <Link
                       href={getSettingsUrl()}
                       className="block px-4 py-2 text-sm text-contentColor dark:text-contentColor-dark hover:bg-gray-100 dark:hover:bg-gray-800"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      Settings
+                      {t('header.settings')}
                     </Link>
                     <button
                       onClick={handleSignOut}
                       disabled={isLoggingOut}
                       className="block w-full text-left px-4 py-2 text-sm text-contentColor dark:text-contentColor-dark hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
                     >
-                      {isLoggingOut ? 'Signing out...' : 'Sign out'}
+                      {isLoggingOut ? t('header.signingOut') : t('header.signOut')}
                     </button>
                   </div>
                 </div>
@@ -226,13 +234,18 @@ const NavbarRight = () => {
           </>
         ) : (
           <>
+            {/* 언어 전환 버튼 */}
+            <li className="hidden lg:block">
+              <LanguageSwitcher />
+            </li>
+
             {/* 로그인/회원가입 버튼 */}
             <li className="hidden lg:block">
               <button
                 onClick={openLoginModal}
                 className="whitespace-nowrap text-size-12 2xl:text-size-15 text-primaryColor bg-transparent border-2 border-primaryColor block px-15px py-2 rounded-xl hover:bg-primaryColor hover:text-whiteColor transition-colors -mt-2"
               >
-                Log In
+                {t('nav.login')}
               </button>
             </li>
             <li className="hidden lg:block relative">
@@ -240,7 +253,7 @@ const NavbarRight = () => {
                 onClick={openSignUpModal}
                 className="whitespace-nowrap text-size-12 2xl:text-size-15 text-whiteColor bg-primaryColor border-2 border-primaryColor block px-15px py-2 rounded-xl hover:bg-transparent hover:text-primaryColor transition-colors -mt-2"
               >
-                Sign Up
+                {t('nav.signup')}
               </button>
             </li>
           </>
