@@ -1,7 +1,7 @@
 import { chatCompletion } from './client';
 
 /**
- * Translates Korean text to natural English using OpenAI GPT-4o-mini
+ * Translates Korean text to natural English using OpenAI GPT-5.2
  */
 export async function translateKoreanToEnglish(text: string): Promise<string> {
   const prompt = `Translate the following Korean text to natural English.
@@ -15,7 +15,7 @@ English:`;
     {
       temperature: 0.3,
       maxTokens: 200,
-      model: 'gpt-4o-mini',
+      model: 'gpt-5.2',
     }
   );
 
@@ -38,7 +38,7 @@ Translations:`;
     {
       temperature: 0.3,
       maxTokens: 500,
-      model: 'gpt-4o-mini',
+      model: 'gpt-5.2',
     }
   );
 

@@ -43,7 +43,7 @@ export async function chatCompletion(
   const client = getOpenAIClient();
 
   const response = await client.chat.completions.create({
-    model: options?.model || 'gpt-4o-mini',
+    model: options?.model || 'gpt-5.2',
     messages,
     temperature: options?.temperature ?? 0.7,
     max_tokens: options?.maxTokens ?? 1000,
