@@ -94,6 +94,9 @@ const SidebarDashboard = () => {
     }
   };
 
+  // Role detection based on URL path
+  const isTeacher = partOfPathNaem === 'teacher' || partOfPathNaem === 'instructor';
+
   const adminItems = [
     {
       title: loadingName ? `${t('sidebar.welcome').toUpperCase()}...` : `${t('sidebar.welcome').toUpperCase()}, ${userName?.toUpperCase() || 'USER'}`,
@@ -101,132 +104,84 @@ const SidebarDashboard = () => {
         {
           name: t('sidebar.dashboard'),
           path: '/dashboards/admin-dashboard',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-home"
-            >
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-          ),
+          icon: <i className="icofont-dashboard-web text-xl"></i>,
         },
         {
-          name: t('sidebar.myProfile'),
-          path: '/dashboards/admin-profile',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-user"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          ),
+          name: t('sidebar.users'),
+          path: '/dashboards/admin-users',
+          icon: <i className="icofont-users-social text-xl"></i>,
+        },
+        // {
+        //   name: t('sidebar.courses'),
+        //   path: '/dashboards/admin-course',
+        //   icon: <i className="icofont-read-book text-xl"></i>,
+        // },
+        {
+          name: 'Quiz Management', // TODO: Add translation key sidebar.quizManagement
+          path: '/dashboards/admin-quiz-attempts',
+          icon: <i className="icofont-question-circle text-xl"></i>,
         },
         {
           name: t('sidebar.message'),
           path: '/dashboards/admin-message',
           tag: unreadCount > 0 ? unreadCount : null,
           hiddenOnMobile: true,
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-book-open"
-            >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-          ),
-        },
-        {
-          name: t('sidebar.quiz'),
-          path: '/dashboards/admin-quiz-attempts',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-help-circle"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-          ),
+          icon: <i className="icofont-ui-message text-xl"></i>,
         },
         {
           name: t('sidebar.settings'),
           path: '/dashboards/admin-settings',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-settings"
-            >
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          ),
+          icon: <i className="icofont-ui-settings text-xl"></i>,
         },
         {
           name: t('sidebar.signOut'),
           onClick: handleSignOut,
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-log-out"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-          ),
+          icon: <i className="icofont-logout text-xl"></i>,
+        },
+      ],
+    },
+  ];
+
+  const teacherItems = [
+    {
+      title: loadingName ? `${t('sidebar.welcome').toUpperCase()}...` : `${t('sidebar.welcome').toUpperCase()}, ${userName?.toUpperCase() || 'TEACHER'}`,
+      items: [
+        {
+          name: t('sidebar.dashboard'),
+          path: '/dashboards/teacher-dashboard',
+          icon: <i className="icofont-dashboard-web text-xl"></i>,
+        },
+        {
+          name: 'My Students', // TODO: Add translation key sidebar.myStudents
+          path: '/dashboards/teacher-my-students',
+          icon: <i className="icofont-student-alt text-xl"></i>,
+        },
+        {
+          name: 'Assignments', // TODO: Add translation key sidebar.assignments
+          path: '/dashboards/teacher-assignments',
+          icon: <i className="icofont-book-mark text-xl"></i>,
+        },
+        {
+          name: 'Grading', // TODO: Add translation key sidebar.grading
+          path: '/dashboards/teacher-grading', // Could reuse admin-quiz-attempts components later
+          icon: <i className="icofont-edit text-xl"></i>,
+        },
+        {
+          name: t('sidebar.message'),
+          path: '/dashboards/teacher-message',
+          tag: unreadCount > 0 ? unreadCount : null,
+          hiddenOnMobile: true,
+          icon: <i className="icofont-ui-message text-xl"></i>,
+        },
+        {
+          name: t('sidebar.myProfile'),
+          path: '/dashboards/teacher-profile',
+          icon: <i className="icofont-ui-user text-xl"></i>,
+        },
+        {
+          name: t('sidebar.signOut'),
+          onClick: handleSignOut,
+          icon: <i className="icofont-logout text-xl"></i>,
         },
       ],
     },
@@ -239,116 +194,48 @@ const SidebarDashboard = () => {
         {
           name: t('sidebar.dashboard'),
           path: '/dashboards/student-dashboard',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-home"
-            >
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-          ),
+          icon: <i className="icofont-dashboard-web text-xl"></i>,
+        },
+        // {
+        //   name: t('sidebar.enrolledCourses'),
+        //   path: '/dashboards/student-enrolled-courses',
+        //   icon: <i className="icofont-education text-xl"></i>,
+        // },
+        {
+          name: 'Quiz Results', // TODO: Add translation key sidebar.quizResults
+          path: '/dashboards/student-my-quiz-attempts',
+          icon: <i className="icofont-chart-bar-graph text-xl"></i>,
         },
         {
-          name: t('sidebar.myProfile'),
-          path: '/dashboards/student-profile',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-user"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          ),
+          name: t('sidebar.reviews'),
+          path: '/dashboards/student-reviews',
+          icon: <i className="icofont-star text-xl"></i>,
         },
         {
           name: t('sidebar.message'),
           path: '/dashboards/student-message',
           tag: unreadCount > 0 ? unreadCount : null,
           hiddenOnMobile: true,
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-book-open"
-            >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-          ),
+          icon: <i className="icofont-ui-message text-xl"></i>,
         },
         {
           name: t('sidebar.settings'),
           path: '/dashboards/student-settings',
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-settings"
-            >
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          ),
+          icon: <i className="icofont-ui-settings text-xl"></i>,
         },
         {
           name: t('sidebar.signOut'),
           path: '#',
           onClick: handleSignOut,
-          icon: (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-log-out"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-          ),
+          icon: <i className="icofont-logout text-xl"></i>,
         },
       ],
     },
   ];
-  const items = isAdmin || isInstructor ? adminItems : studentItems;
+
+  let items = studentItems;
+  if (isAdmin) items = adminItems;
+  if (isTeacher) items = teacherItems;
   return (
     <div className="hidden lg:block lg:col-start-1 lg:col-span-3">
       {/* navigation menu */}

@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Option from '../SentenceDragAndDrop/component/Option';
 import { useQuizMutation } from '@/hooks/useQuizMutation';
+import { PARTICLES } from '@/lib/korean/particles';
 
 interface DraggableOptionProps {
   item: Item;
@@ -766,11 +767,7 @@ const DialogueDragAndDropReview: React.FC<DialogueDragAndDropReviewProps> = ({
                   {answerItems.map((item, index) => {
                     const nextItem = index < answerItems.length - 1 ? answerItems[index + 1] : null;
                     const isParticleNext =
-                      nextItem &&
-                      (nextItem.content === '가' ||
-                        nextItem.content === '이' ||
-                        nextItem.content === '를' ||
-                        nextItem.content === '을');
+                      nextItem && PARTICLES.includes(nextItem.content);
                     return (
                       <div
                         key={item.id}

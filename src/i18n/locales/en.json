@@ -188,6 +188,10 @@
     "myProfile": "My Profile",
     "message": "Message",
     "quiz": "Quiz",
+    "users": "Users",
+    "reviews": "Reviews",
+    "courses": "Courses",
+    "comments": "Comments",
     "settings": "Settings",
     "signOut": "Sign out"
   },

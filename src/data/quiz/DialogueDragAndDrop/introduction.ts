@@ -182,7 +182,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 한국 사람이에요.',
-    answerTranslation: 'I am a Korean.',    items: [
+    answerTranslation: 'I am Korean.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '한국', combineWithNext: false },
@@ -195,7 +195,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 중국 사람이에요.',
-    answerTranslation: 'I am a Chinese.',    items: [
+    answerTranslation: 'I am Chinese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '중국', combineWithNext: false },
@@ -208,7 +208,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 일본 사람이에요.',
-    answerTranslation: 'I am a Japanese.',    items: [
+    answerTranslation: 'I am Japanese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '일본', combineWithNext: false },
@@ -221,7 +221,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 미국 사람이에요.',
-    answerTranslation: 'I am an American.',    items: [
+    answerTranslation: 'I am American.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '미국', combineWithNext: false },
@@ -234,7 +234,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 영국 사람이에요.',
-    answerTranslation: 'I am a British.',    items: [
+    answerTranslation: 'I am British.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '영국', combineWithNext: false },
@@ -247,7 +247,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 프랑스 사람이에요.',
-    answerTranslation: 'I am a French.',    items: [
+    answerTranslation: 'I am French.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '프랑스', combineWithNext: false },
@@ -260,7 +260,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 독일 사람이에요.',
-    answerTranslation: 'I am a German.',    items: [
+    answerTranslation: 'I am German.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '독일', combineWithNext: false },
@@ -273,7 +273,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 호주 사람이에요.',
-    answerTranslation: 'I am an Australian.',    items: [
+    answerTranslation: 'I am Australian.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '호주', combineWithNext: false },
@@ -286,7 +286,7 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 베트남 사람이에요.',
-    answerTranslation: 'I am a Vietnamese.',    items: [
+    answerTranslation: 'I am Vietnamese.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '베트남', combineWithNext: false },
@@ -299,12 +299,217 @@ const questions: Omit<DialogueQuestion, 'grammarName'>[] = [
     question: '어느 나라 사람이에요?',
     questionTranslation: 'Where are you from?',
     answer: '저는 인도 사람이에요.',
-    answerTranslation: 'I am an Indian.',    items: [
+    answerTranslation: 'I am Indian.',    items: [
       { id: '1', content: '저', combineWithNext: true },
       { id: '2', content: '는', combineWithNext: false },
       { id: '3', content: '인도', combineWithNext: false },
       { id: '4', content: '사람', combineWithNext: true },
       { id: '5', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 25,
+    question: '민수 씨는 어느 나라 사람이에요?',
+    questionTranslation: 'Where is Min-su from?',
+    answer: '민수 씨는 한국 사람이에요.',
+    answerTranslation: 'Min-su is Korean.',    items: [
+      { id: '1', content: '민수', combineWithNext: false },
+      { id: '2', content: '씨', combineWithNext: true },
+      { id: '3', content: '는', combineWithNext: false },
+      { id: '4', content: '한국', combineWithNext: false },
+      { id: '5', content: '사람', combineWithNext: true },
+      { id: '6', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 26,
+    question: '샤오린 씨는 어느 나라 사람이에요?',
+    questionTranslation: 'Where is Shaolin from?',
+    answer: '샤오린 씨는 중국 사람이에요.',
+    answerTranslation: 'Shaolin is Chinese.',    items: [
+      { id: '1', content: '샤오린', combineWithNext: false },
+      { id: '2', content: '씨', combineWithNext: true },
+      { id: '3', content: '는', combineWithNext: false },
+      { id: '4', content: '중국', combineWithNext: false },
+      { id: '5', content: '사람', combineWithNext: true },
+      { id: '6', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 27,
+    question: '하루카 씨는 어느 나라 사람이에요?',
+    questionTranslation: 'Where is Haruka from?',
+    answer: '하루카 씨는 일본 사람이에요.',
+    answerTranslation: 'Haruka is Japanese.',    items: [
+      { id: '1', content: '하루카', combineWithNext: false },
+      { id: '2', content: '씨', combineWithNext: true },
+      { id: '3', content: '는', combineWithNext: false },
+      { id: '4', content: '일본', combineWithNext: false },
+      { id: '5', content: '사람', combineWithNext: true },
+      { id: '6', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 28,
+    question: '케빈 씨는 어느 나라 사람이에요?',
+    questionTranslation: 'Where is Kevin from?',
+    answer: '케빈 씨는 미국 사람이에요.',
+    answerTranslation: 'Kevin is American.',    items: [
+      { id: '1', content: '케빈', combineWithNext: false },
+      { id: '2', content: '씨', combineWithNext: true },
+      { id: '3', content: '는', combineWithNext: false },
+      { id: '4', content: '미국', combineWithNext: false },
+      { id: '5', content: '사람', combineWithNext: true },
+      { id: '6', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 29,
+    question: '마이클 씨는 어느 나라 사람이에요?',
+    questionTranslation: 'Where is Michael from?',
+    answer: '마이클 씨는 영국 사람이에요.',
+    answerTranslation: 'Michael is British.',    items: [
+      { id: '1', content: '마이클', combineWithNext: false },
+      { id: '2', content: '씨', combineWithNext: true },
+      { id: '3', content: '는', combineWithNext: false },
+      { id: '4', content: '영국', combineWithNext: false },
+      { id: '5', content: '사람', combineWithNext: true },
+      { id: '6', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 30,
+    question: '수잔 씨는 어느 나라 사람이에요?',
+    questionTranslation: 'Where is Suzan from?',
+    answer: '수잔 씨는 프랑스 사람이에요.',
+    answerTranslation: 'Suzan is French.',    items: [
+      { id: '1', content: '수잔', combineWithNext: false },
+      { id: '2', content: '씨', combineWithNext: true },
+      { id: '3', content: '는', combineWithNext: false },
+      { id: '4', content: '프랑스', combineWithNext: false },
+      { id: '5', content: '사람', combineWithNext: true },
+      { id: '6', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 31,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 학생이에요.',
+    answerTranslation: 'I am a student.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '학생', combineWithNext: true },
+      { id: '4', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 32,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 선생님이에요.',
+    answerTranslation: 'I am a teacher.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '선생님', combineWithNext: true },
+      { id: '4', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 33,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 의사예요.',
+    answerTranslation: 'I am a doctor.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '의사', combineWithNext: true },
+      { id: '4', content: '예요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 34,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 가수예요.',
+    answerTranslation: 'I am a singer.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '가수', combineWithNext: true },
+      { id: '4', content: '예요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 35,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 요리사예요.',
+    answerTranslation: 'I am a chef.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '요리사', combineWithNext: true },
+      { id: '4', content: '예요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 36,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 경찰이에요.',
+    answerTranslation: 'I am a police officer.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '경찰', combineWithNext: true },
+      { id: '4', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 37,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 회사원이에요.',
+    answerTranslation: 'I am an office worker.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '회사원', combineWithNext: true },
+      { id: '4', content: '이에요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 38,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 배우예요.',
+    answerTranslation: 'I am an actor.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '배우', combineWithNext: true },
+      { id: '4', content: '예요.', combineWithNext: false },
+    ],
+  },
+  {
+      id: 39,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 운동 선수예요.',
+    answerTranslation: 'I am an athlete.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '운동', combineWithNext: false },
+      { id: '4', content: '선수', combineWithNext: true },
+      { id: '5', content: '예요.', combineWithNext: false },
+    ],
+  },
+  {
+    id: 40,
+    question: '무슨 일을 하세요?',
+    questionTranslation: 'What do you do for a living?',
+    answer: '저는 기자예요.',
+    answerTranslation: 'I am a reporter.',    items: [
+      { id: '1', content: '저', combineWithNext: true },
+      { id: '2', content: '는', combineWithNext: false },
+      { id: '3', content: '기자', combineWithNext: true },
+      { id: '4', content: '예요.', combineWithNext: false },
     ],
   },
 ];

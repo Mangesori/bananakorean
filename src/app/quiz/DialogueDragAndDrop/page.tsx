@@ -30,8 +30,8 @@ const dialogueSets = [
   {
     id: 'existence',
     title: 'Learn how to express existence',
-    description: '에 있어요/없어요 - Existence/Non-existence',
-    // 언니, 친구, 엄마, 아빠, 오빠, 휴지, 안경,
+    description: '있어요/없어요 - Existence/Non-existence',
+    // 언니, 친구, 엄마, 아빠, 오빠, 휴지, 안경, 충전기
     // 라면, 우유, 맥주, 사과, 바나나, 포도
   },
   {

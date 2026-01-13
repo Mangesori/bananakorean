@@ -15,7 +15,9 @@
       "Read(//c/Users/vapor/Downloads/next-chat-demo-master/lib/store/**)",
       "Bash(nul)",
       "Bash(timeout:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

@@ -84,6 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const initializingRef = useRef(false);
   const initializedRef = useRef(false);
+  const refreshPromiseRef = useRef<Promise<void> | null>(null);
 
   /**
    * DOM 인증 상태 업데이트 헬퍼 함수
@@ -148,109 +149,67 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [router, updateAuthReadyIndicator]);
 
   /**
-   * 세션 갱신 함수
+   * 세션 갱신 함수 (직렬화)
    */
   const refreshSession = useCallback(async () => {
-    try {
-      setIsLoading(true);
-
-      const supabase = createClient();
-      if (!supabase) {
-        throw new Error('Supabase 클라이언트를 초기화할 수 없습니다.');
-      }
-
-      const { data, error: sessionError } = await supabase.auth.getSession();
-
-      if (sessionError) {
-        throw sessionError;
-      }
-
-      if (data?.session) {
-        await tryRefreshExpiringSession(supabase, data.session);
-        setSession(data.session);
-
-        // 프로필 정보 가져와서 병합
-        const profile = await fetchProfileData(data.session.user.id);
-        console.log('✅ Profile loaded:', profile);
-        const enrichedUser = {
-          ...data.session.user,
-          role: profile?.role,
-          name: profile?.name,
-        };
-        console.log('✅ Enriched user:', { id: enrichedUser.id, email: enrichedUser.email, role: enrichedUser.role, name: enrichedUser.name });
-        setUser(enrichedUser);
-
-        setRetryCount(0);
-        updateAuthReadyIndicator(true);
-      } else {
-        await handleNoSession(supabase);
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : '세션 갱신 중 오류가 발생했습니다.';
-      logAuth('세션 갱신 실패', errorMessage);
-      setError(errorMessage);
-
-      if (isBrowser()) {
-        checkAuthStateCookie();
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router, updateAuthReadyIndicator, handleMissingSession, checkAuthStateCookie]);
-
-  /**
-   * 만료 임박한 세션 갱신 시도
-   */
-  const tryRefreshExpiringSession = async (supabase: any, session: Session) => {
-    const expiresAt = session.expires_at;
-    const now = Math.floor(Date.now() / 1000);
-
-    if (expiresAt && expiresAt - now < 600) {
-      const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
-
-      if (!refreshError && refreshData.session) {
-        setSession(refreshData.session);
-
-        // 프로필 정보 가져와서 병합
-        const profile = await fetchProfileData(refreshData.session.user.id);
-        setUser({
-          ...refreshData.session.user,
-          role: profile?.role,
-          name: profile?.name,
-        });
-
-        updateAuthReadyIndicator(true);
-        setRetryCount(0);
-        return true;
-      }
+    // 이미 refresh가 진행 중이면 기존 Promise 반환
+    if (refreshPromiseRef.current) {
+      return refreshPromiseRef.current;
     }
 
-    return false;
-  };
+    // 새로운 refresh Promise 생성
+    const refreshPromise = (async () => {
+      try {
+        setIsLoading(true);
 
-  /**
-   * 세션이 없는 경우 처리
-   */
-  const handleNoSession = async (supabase: any) => {
-    const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+        const supabase = createClient();
+        if (!supabase) {
+          throw new Error('Supabase 클라이언트를 초기화할 수 없습니다.');
+        }
 
-    if (refreshError || !refreshData.session) {
-      handleMissingSession();
-    } else {
-      setSession(refreshData.session);
+        const { data, error: sessionError } = await supabase.auth.getSession();
 
-      // 프로필 정보 가져와서 병합
-      const profile = await fetchProfileData(refreshData.session.user.id);
-      setUser({
-        ...refreshData.session.user,
-        role: profile?.role,
-        name: profile?.name,
-      });
+        if (sessionError) {
+          throw sessionError;
+        }
 
-      updateAuthReadyIndicator(true);
-      setRetryCount(0);
-    }
-  };
+        if (data?.session) {
+          setSession(data.session);
+
+          // 프로필 정보 가져와서 병합
+          const profile = await fetchProfileData(data.session.user.id);
+          console.log('✅ Profile loaded:', profile);
+          const enrichedUser = {
+            ...data.session.user,
+            role: profile?.role,
+            name: profile?.name,
+          };
+          console.log('✅ Enriched user:', { id: enrichedUser.id, email: enrichedUser.email, role: enrichedUser.role, name: enrichedUser.name });
+          setUser(enrichedUser);
+
+          setRetryCount(0);
+          updateAuthReadyIndicator(true);
+        } else {
+          handleMissingSession();
+        }
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : '세션 갱신 중 오류가 발생했습니다.';
+        logAuth('세션 갱신 실패', errorMessage);
+        setError(errorMessage);
+
+        if (isBrowser()) {
+          checkAuthStateCookie();
+        }
+      } finally {
+        setIsLoading(false);
+        refreshPromiseRef.current = null;
+      }
+    })();
+
+    refreshPromiseRef.current = refreshPromise;
+    return refreshPromise;
+  }, [updateAuthReadyIndicator, handleMissingSession, checkAuthStateCookie]);
+
 
   /**
    * 인증 재시도 함수
@@ -345,6 +304,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logAuth('사용자 로그아웃');
     }
 
+    // TOKEN_REFRESHED 이벤트는 무시 (자동으로 처리됨)
+    if (event === 'TOKEN_REFRESHED') {
+      return;
+    }
+
     if (currentSession) {
       setSession(currentSession);
 
@@ -358,7 +322,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       storeDebugInfo(currentSession);
-    } else {
+    } else if (event === 'SIGNED_OUT') {
       setSession(null);
       setUser(null);
     }

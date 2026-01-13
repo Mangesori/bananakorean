@@ -5,18 +5,18 @@
 
 /**************************************************************
 
-	Start Tailwind Custom Style Indexing
-	|
-	|___screens
+  Start Tailwind Custom Style Indexing
   |
-	|___colors
+  |___screens
   |
-	|___area
+  |___colors
+  |
+  |___area
   | |___width 
   | |___height
   | |___max width 
   | |___max height 
-	|
+  |
   |___spacing
   | |___gap 
   | |___padding
@@ -28,22 +28,22 @@
   | |___line-height 
   | |___letter spacing  
   |
-	|___background
-	|
-	|___shdow
+  |___background
   |
-	|___postion
+  |___shdow
   |
-	|___transform
+  |___postion
+  |
+  |___transform
   | |___tranlate 
-	|
-	|___ border
+  |
+  |___ border
   | |___width 
   | |___radius 
-	|
-	|___animation
   |
-	|___components
+  |___animation
+  |
+  |___components
   | |___containers 
   | |___shadow 
 
@@ -107,6 +107,7 @@ module.exports = {
         contentColor: '#5F6C76',
         contentColor2: '#5C727D',
         primaryColor: '#4DC591',
+        primary: '#4DC591',
         secondaryColor: '#9BA1FF',
         secondaryColor2: '#FF7648',
         secondaryColor3: '#FFC857',

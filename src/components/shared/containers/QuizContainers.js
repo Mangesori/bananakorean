@@ -3,7 +3,7 @@ import LessonQuizResults from '../lesson-quiz/LessonQuizResults';
 import QuizFilter from '../dashboards/QuizFilter';
 import HeadingDashboard from '../headings/HeadingDashboard';
 
-const QuizContainers = ({ allResults, title, table }) => {
+const QuizContainers = ({ allResults, title, table, onReview, onView }) => {
   return (
     <div className="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
       {/* heading */}
@@ -19,6 +19,8 @@ const QuizContainers = ({ allResults, title, table }) => {
         isHeading={false}
         title={'Quiz Attempts'}
         table={table}
+        onReview={onReview}
+        onView={onView}
       />
     </div>
   );

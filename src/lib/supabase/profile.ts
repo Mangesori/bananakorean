@@ -44,3 +44,9 @@ export async function getUsersByRole(role: 'admin' | 'teacher' | 'student') {
   const supabase = createClient();
   return await supabase.from('profiles').select('*').eq('role', role).order('name');
 }
+
+// 전체 사용자 목록 가져오기
+export async function getAllUsers() {
+  const supabase = createClient();
+  return await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const LessonQuizResults = ({ allResults, table, isHeading }) => {
+const LessonQuizResults = ({ allResults, table, isHeading, onReview, onView }) => {
   const [results, setResults] = useState(allResults);
   //   handle delete
   const handleDelete = id => {
@@ -56,14 +56,14 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                     isView,
                     isDownload,
                     isSubmit,
+                    isReview,
                   },
                   idx
                 ) => (
                   <tr
                     key={idx}
-                    className={`leading-1.8 md:leading-1.8 ${
-                      idx % 2 === 0 ? '' : 'bg-lightGrey5 dark:bg-whiteColor-dark'
-                    }`}
+                    className={`leading-1.8 md:leading-1.8 ${idx % 2 === 0 ? '' : 'bg-lightGrey5 dark:bg-whiteColor-dark'
+                      }`}
                   >
                     <th className="px-5px py-10px md:px-5 font-normal">
                       {date ? <p>{date}</p> : ''}
@@ -96,15 +96,14 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                       <td className="px-5px py-10px md:px-5">
                         <p className="text-xs">
                           <span
-                            className={` ${
-                              status === 'pass' || status === 'running'
-                                ? 'bg-greencolor2'
-                                : status === 'time over'
-                                  ? 'bg-primaryColor'
-                                  : status === 'coming' || status === 'processing'
-                                    ? 'bg-skycolor'
-                                    : 'bg-secondaryColor'
-                            } h-22px inline-block px-7px  leading-22px font-bold text-whiteColor rounded-md capitalize`}
+                            className={` ${status === 'pass' || status === 'running'
+                              ? 'bg-greencolor2'
+                              : status === 'time over'
+                                ? 'bg-primaryColor'
+                                : status === 'coming' || status === 'processing'
+                                  ? 'bg-skycolor'
+                                  : 'bg-secondaryColor'
+                              } h-22px inline-block px-7px  leading-22px font-bold text-whiteColor rounded-md capitalize`}
                           >
                             {status}
                           </span>
@@ -119,10 +118,42 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                         >
                           {' '}
                           {isView ? (
-                            <>
-                              <i className="icofont-eye"></i>
-                              View
-                            </>
+                            onView ? (
+                              <button
+                                onClick={() => onView(id)}
+                                className="flex items-center gap-1 justify-center w-full"
+                              >
+                                <i className="icofont-eye"></i>
+                                View
+                              </button>
+                            ) : (
+                              <a className="flex items-center gap-1 justify-center w-full" href="#">
+                                <i className="icofont-eye"></i>
+                                View
+                              </a>
+                            )
+                          ) : isReview ? (
+                            <button
+                              onClick={() => onReview && onReview(id)}
+                              className="flex items-center gap-1 justify-center w-full"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-check-square"
+                              >
+                                <polyline points="9 11 12 14 22 4"></polyline>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                              </svg>
+                              Review
+                            </button>
                           ) : (
                             <>
                               <svg
@@ -145,7 +176,7 @@ const LessonQuizResults = ({ allResults, table, isHeading }) => {
                           )}
                         </a>
                         <button
-                          onClick={() => (isSubmit ? () => {} : handleDelete(id))}
+                          onClick={() => (isSubmit ? () => { } : handleDelete(id))}
                           className="flex items-center gap-1 text-sm font-bold text-whiteColor hover:text-secondaryColor bg-secondaryColor hover:bg-whiteColor dark:hover:bg-whiteColor-dark border border-secondaryColor h-30px w-full px-14px leading-30px justify-center rounded-md my-5px"
                         >
                           {isSubmit ? (

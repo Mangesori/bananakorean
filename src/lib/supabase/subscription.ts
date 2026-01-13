@@ -68,6 +68,22 @@ export async function getUserSubscription(userId: string): Promise<Subscription 
 export async function checkAIGenerationLimit(userId: string) {
   const supabase = createClient();
 
+  // 0. Admin 계정 체크 - Admin은 제한 없음
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .single();
+
+  if (profile?.role === 'admin') {
+    return {
+      canGenerate: true,
+      remaining: Infinity,
+      limit: Infinity,
+      resetDate: null,
+    };
+  }
+
   // 1. 구독 정보 가져오기
   const subscription = await getUserSubscription(userId);
   if (!subscription || subscription.status !== 'active') {

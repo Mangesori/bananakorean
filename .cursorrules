@@ -1,0 +1,6 @@
+Always respond in Korean.
+Explain all technical concepts, plans, and code changes in Korean.
+한국어로 답변해주세요.
+설명은 비전공자도 이해할 수 있을 만큼 최대한 쉽고 풀어서 해주세요.
+명확하게 진행해달라는 말이 없으면 작업을 진행하지 마세요. (Do not proceed without explicit confirmation)
+코드의 모든 주석은 한국어로 작성해주세요. (Write all code comments in Korean)

@@ -67,17 +67,7 @@ export async function middleware(request: NextRequest) {
   // 현재 요청 경로
   const { pathname } = request.nextUrl;
 
-  // GET 요청시 세션 자동 갱신 (Sliding Window 방식)
-  if (request.method === 'GET') {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
 
-    if (session) {
-      // 세션 토큰 갱신 (Supabase가 자동으로 만료 임박 시 갱신)
-      await supabase.auth.refreshSession();
-    }
-  }
 
   // 세션 및 사용자 정보 가져오기 (보안을 위해 getUser 사용)
   const {
@@ -105,8 +95,8 @@ export async function middleware(request: NextRequest) {
       userRole === 'admin'
         ? '/dashboards/admin-dashboard'
         : userRole === 'teacher'
-        ? '/dashboards/teacher-dashboard'
-        : '/dashboards/student-dashboard';
+          ? '/dashboards/teacher-dashboard'
+          : '/dashboards/student-dashboard';
 
     return NextResponse.redirect(new URL(redirectPath, request.url));
   }

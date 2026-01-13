@@ -1,154 +1,150 @@
 /**
- * 어휘 분석기
- * AI가 자동으로 품사를 분석하고 활용형을 생성
+ * 어휘 품사 분석기
+ * OpenAI를 사용하여 한국어 어휘의 품사를 분석합니다.
  */
 
-import { generateJSON } from './client';
-import {
-  AnalyzedWord,
-  VocabularyAnalysisResponse,
-  WordType,
-  NounSubtype,
-} from '@/types/vocabulary';
+import { chatCompletionJSON } from './client';
 
 /**
- * 어휘 자동 분석
- * AI가 품사, 의미, 활용형 등을 자동으로 분석
+ * 분석된 어휘 정보
  */
-export async function analyzeVocabulary(words: string[]): Promise<VocabularyAnalysisResponse> {
-  const prompt = `
-다음 한국어 어휘를 분석해주세요.
-각 어휘에 대해 품사, 의미, 활용형, 사용 예시를 제공하세요.
-
-어휘 목록:
-${words.map((w) => `- ${w}`).join('\n')}
-
-각 어휘에 대해 다음 정보를 JSON으로 제공하세요:
-
-1. **품사**: 명사, 동사, 형용사, 부사 중 하나
-2. **영어 번역**: 정확한 영어 의미
-3. **명사인 경우**:
-   - 하위 유형: 장소, 물건, 사람, 시간, 추상 중 하나
-   - 적합한 조사: 예) ["에", "에서", "을/를"]
-   - 교체 가능한 유사 단어: 3-5개
-   - 사용 예시: 2-3개 문장
-
-4. **동사인 경우**:
-   - 어간: 동사의 기본형 (예: "시작하다" → "시작")
-   - 활용형:
-     - 현재: ~해요/어요
-     - 과거: ~했어요/었어요
-     - 미래: ~ㄹ 거예요
-     - 진행: ~고 있어요
-   - 교체 가능한 유사 동사: 3-5개
-   - 사용 예시: 2-3개 문장
-
-**중요**: 반드시 아래 JSON 형식을 정확히 따라주세요.
-
-JSON 형식:
-{
-  "words": [
-    {
-      "word": "헬스장",
-      "type": "명사",
-      "englishTranslation": "gym",
-      "subtype": "장소",
-      "particles": ["에", "에서", "을/를"],
-      "canReplace": ["학교", "도서관", "체육관"],
-      "usageExamples": [
-        "헬스장에 갔어요",
-        "헬스장에서 운동했어요"
-      ]
-    },
-    {
-      "word": "시작하다",
-      "type": "동사",
-      "englishTranslation": "to start",
-      "stem": "시작",
-      "conjugations": {
-        "present": "시작해요",
-        "past": "시작했어요",
-        "future": "시작할 거예요",
-        "progressive": "시작하고 있어요"
-      },
-      "canReplace": ["공부하다", "일하다", "준비하다"],
-      "usageExamples": [
-        "운동을 시작했어요",
-        "수업이 시작해요"
-      ]
-    }
-  ]
+export interface AnalyzedVocabulary {
+  word: string;
+  type: 'noun' | 'verb' | 'adjective' | 'occupation' | 'nationality' | 'name' | 'location' | 'thing' | 'food' | 'time' | 'person' | 'other';
+  subType?: string; // 예: 'occupation', 'place', 'thing' 등 추가 세부 정보
 }
-`;
+
+/**
+ * 어휘 분석 결과
+ */
+export interface VocabularyAnalysisResult {
+  analyzed: AnalyzedVocabulary[];
+  errors: string[];
+}
+
+/**
+ * 어휘 배열을 분석하여 품사 정보를 반환합니다.
+ *
+ * @param words 분석할 어휘 배열
+ * @returns 품사가 태깅된 어휘 배열
+ */
+export async function analyzeVocabulary(
+  words: string[]
+): Promise<VocabularyAnalysisResult> {
+  if (!words || words.length === 0) {
+    return { analyzed: [], errors: [] };
+  }
 
   try {
-    const response = await generateJSON<{ words: AnalyzedWord[] }>(prompt);
+    const prompt = `다음 한국어 단어들의 품사를 분석해주세요.
 
-    // 통계 계산
-    const nouns = response.words.filter((w) => w.type === '명사').length;
-    const verbs = response.words.filter((w) => w.type === '동사').length;
-    const adjectives = response.words.filter((w) => w.type === '형용사').length;
-    const adverbs = response.words.filter((w) => w.type === '부사').length;
+단어 목록:
+${words.map((w, i) => `${i + 1}. ${w}`).join('\n')}
 
-    return {
-      words: response.words,
-      totalAnalyzed: response.words.length,
-      nouns,
-      verbs,
-      adjectives,
-      adverbs,
-    };
+**중요**: 반드시 다음 JSON 형식으로만 응답하세요:
+{
+  "vocabulary": [
+    { "word": "단어1", "type": "품사타입", "subType": "세부타입" },
+    { "word": "단어2", "type": "품사타입", "subType": "세부타입" }
+  ]
+}
+
+품사 타입 (type) 선택:
+- noun: 일반 명사
+- verb: 동사 (끝내다, 먹다, 가다 등)
+- adjective: 형용사
+- location: 장소 명사 (학교, 도서관, 회사 등)
+- occupation: 직업 (의사, 선생님 등)
+- nationality: 국적 (한국, 미국 등)
+- name: 이름
+- thing: 물건 (책, 펜 등)
+- food: 음식
+- time: 시간 관련
+- person: 사람
+- other: 기타
+
+예시 응답:
+{
+  "vocabulary": [
+    { "word": "끝내다", "type": "verb" },
+    { "word": "학교", "type": "location" }
+  ]
+}`;
+
+    const response = await chatCompletionJSON<{ vocabulary: AnalyzedVocabulary[] }>(
+      [{ role: 'user', content: prompt }],
+      { temperature: 0.3 } // 낮은 temperature로 일관된 분류
+    );
+
+    console.log('AI 응답:', JSON.stringify(response, null, 2)); // 디버깅용
+
+    if (!response || !response.vocabulary) {
+      console.error('잘못된 AI 응답:', response);
+      return {
+        analyzed: [],
+        errors: ['AI 응답 형식이 올바르지 않습니다.'],
+      };
+    }
+
+    // 응답 검증
+    const analyzed: AnalyzedVocabulary[] = [];
+    const errors: string[] = [];
+
+    for (const item of response.vocabulary) {
+      if (!item.word || !item.type) {
+        errors.push(`잘못된 분석 결과: ${JSON.stringify(item)}`);
+        continue;
+      }
+
+      analyzed.push({
+        word: item.word,
+        type: item.type,
+        subType: item.subType,
+      });
+    }
+
+    // 입력 단어와 비교하여 누락된 단어 확인
+    const analyzedWords = new Set(analyzed.map((a) => a.word));
+    for (const word of words) {
+      if (!analyzedWords.has(word)) {
+        errors.push(`분석되지 않은 단어: ${word}`);
+        // 기본값으로 추가
+        analyzed.push({
+          word,
+          type: 'other',
+        });
+      }
+    }
+
+    return { analyzed, errors };
   } catch (error) {
-    console.error('어휘 분석 오류:', error);
-    throw new Error('어휘 분석에 실패했습니다.');
+    console.error('어휘 분석 중 오류:', error);
+    return {
+      analyzed: [],
+      errors: [
+        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
+      ],
+    };
   }
 }
 
 /**
- * 단어 타입 간단 추측 (AI 호출 전 사전 필터링용)
+ * 품사 타입을 한글로 변환 (디버깅/로깅용)
  */
-export function guessWordType(word: string): WordType {
-  // 동사 패턴
-  if (word.endsWith('하다') || word.endsWith('되다') || word.endsWith('나다')) {
-    return '동사';
-  }
-
-  // 부사 패턴
-  if (word.endsWith('이') || word.endsWith('히') || word.endsWith('게')) {
-    return '부사';
-  }
-
-  // 형용사 패턴 (일부)
-  if (word.endsWith('스럽다') || word.endsWith('롭다')) {
-    return '형용사';
-  }
-
-  // 기본값: 명사
-  return '명사';
-}
-
-/**
- * 명사의 하위 유형 추측
- */
-export function guessNounSubtype(word: string): NounSubtype {
-  // 장소 키워드
-  const placeKeywords = ['장', '원', '관', '실', '집', '점', '터', '소'];
-  if (placeKeywords.some((k) => word.includes(k))) {
-    return '장소';
-  }
-
-  // 사람 키워드
-  const personKeywords = ['사람', '선생', '학생', '친구', '가족', '님'];
-  if (personKeywords.some((k) => word.includes(k))) {
-    return '사람';
-  }
-
-  // 시간 키워드
-  const timeKeywords = ['시', '분', '일', '월', '년', '주'];
-  if (timeKeywords.some((k) => word.includes(k))) {
-    return '시간';
-  }
-
-  // 기본값: 물건
-  return '물건';
+export function getTypeLabel(type: AnalyzedVocabulary['type']): string {
+  const labels: Record<AnalyzedVocabulary['type'], string> = {
+    noun: '명사',
+    verb: '동사',
+    adjective: '형용사',
+    occupation: '직업',
+    nationality: '국적',
+    name: '이름',
+    location: '장소',
+    thing: '물건',
+    food: '음식',
+    time: '시간',
+    person: '사람',
+    other: '기타',
+  };
+  return labels[type] || '알 수 없음';
 }

@@ -16,8 +16,9 @@ import {
   DragStartEvent,
   UniqueIdentifier,
 } from '@dnd-kit/core';
-import { Item, DialogueQuestion } from '@/types/quiz';
+import { Item, KoreanQuestion } from '@/types/quiz';
 import Link from 'next/link';
+import { PARTICLES } from '@/lib/korean/particles';
 import Option from '../SentenceDragAndDrop/component/Option';
 import { useQuizMutation } from '@/hooks/useQuizMutation';
 
@@ -976,11 +977,7 @@ const DialogueDragAndDrop: React.FC<DialogueDragAndDropProps> = ({
                   {answerItems.map((item, index) => {
                     const nextItem = index < answerItems.length - 1 ? answerItems[index + 1] : null;
                     const isParticleNext =
-                      nextItem &&
-                      (nextItem.content === '가' ||
-                        nextItem.content === '이' ||
-                        nextItem.content === '를' ||
-                        nextItem.content === '을');
+                      nextItem && PARTICLES.includes(nextItem.content);
                     return (
                       <div
                         key={item.id}

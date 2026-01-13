@@ -96,10 +96,15 @@ export default async function TeacherDashboardPage() {
               <span className="text-3xl">📊</span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-              Track student performance and progress
+              Track student quizzes and provide feedback
             </p>
-            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-              Coming soon in Week 5
+            <div className="text-center py-4">
+              <a
+                href="/dashboards/teacher-grading"
+                className="inline-block px-6 py-2 bg-primaryColor text-white rounded-lg hover:bg-primaryColor/90 transition-colors"
+              >
+                Go to Grading
+              </a>
             </div>
           </div>
 

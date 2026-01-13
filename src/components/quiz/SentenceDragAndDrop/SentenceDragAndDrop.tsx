@@ -19,6 +19,7 @@ import Word from './component/Word';
 import Option from './component/Option';
 import { Item, KoreanQuestion } from '@/types/quiz';
 import Link from 'next/link';
+import { PARTICLES } from '@/lib/korean/particles';
 
 interface DraggableOptionProps {
   item: Item;
@@ -385,11 +386,7 @@ const SentenceDragAndDrop: React.FC<SentenceDragAndDropProps> = ({ questions, ti
                 {answerItems.map((item, index) => {
                   const nextItem = index < answerItems.length - 1 ? answerItems[index + 1] : null;
                   const isParticleNext =
-                    nextItem &&
-                    (nextItem.content === '가' ||
-                      nextItem.content === '이' ||
-                      nextItem.content === '를' ||
-                      nextItem.content === '을');
+                    nextItem && PARTICLES.includes(nextItem.content);
                   return (
                     <div
                       key={item.id}

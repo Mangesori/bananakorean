@@ -12,6 +12,9 @@ export interface Item {
   content: string;
   combineWithNext?: boolean;
   ignoreSpaceRule?: boolean;
+  // Metadata for editor merging rules
+  isParticle?: boolean;
+  originalWordIndex?: number;
 }
 
 export interface WordProps {
